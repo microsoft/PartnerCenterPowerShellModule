@@ -1,4 +1,4 @@
-# Partner Center PowerShell Module #
+# Partner Center PowerShell Module (preview) #
 
 ## Set-PartnerCenterSupportProfile ##
 
