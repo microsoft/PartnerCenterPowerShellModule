@@ -41,14 +41,14 @@ function Update-ModuleTelemetry
 
     $global:GlobalPCPSCSPDomain     = $cspDomain
     $global:GlobalPCPSExecutionId   = ([Guid]::NewGuid()).Guid
-    $global:GlobalPCPSModuleVersion = ((Get-Module -Name PartnerCenterModule).Version | Where-Object Major -GE 1).ToString()
+    $global:GlobalPCPSModuleVersion = ((Get-Module -Name PartnerCenterModule).Version | Where-Object {$_ -GT '0.0'}).ToString()
     $latestModuleVersion = Invoke-RestMethod -Method Get -Uri "https://api.migaz.tools/v1/version/PCPSModule"
 
     if ($global:GlobalPCPSModuleVersion -ne $latestModuleVersion)
     {
-        Write-Host "A new Partner Center PowerShell Module version ($latestPCPSModuleVersion) is available" -ForegroundColor Yellow
+        Write-Host "A new Partner Center PowerShell Module version ($latestModuleVersion) is available" -ForegroundColor Yellow
     }
-}
+}  
 
 function Set-ModuleTelemetry
 {

@@ -142,6 +142,7 @@ function Add-Authentication
     }
 
     Update-ModuleTelemetry -cspDomain $result.Domain
+    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
     return $result
 }
 
@@ -243,5 +244,6 @@ function New-SAToken
     }
 
     Update-ModuleTelemetry -cspDomain $result.Domain
+    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
     return $result
 }
