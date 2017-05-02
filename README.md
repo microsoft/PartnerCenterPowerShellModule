@@ -1,4 +1,4 @@
-# Partner Center PowerShell Module (preview)#
+# Partner Center PowerShell Module (preview) #
 
 ## What is ##
 Partner Center Powershell Module is the powershell implementation of the Partner Center API available scenarios. You can manage your customers, offers, subscriptions, usage, etc. Objective is to keep this module as close as possible to the Partner Center SDK functionalities. 
@@ -9,10 +9,10 @@ This module is published via [PowerShell Gallery](https://www.powershellgallery.
     Install-Module -Name PartnerCenterModule
 
 ## How to use ##
-###Step 1###
+### Step 1 ###
    Make sure your [App Management is already configured](https://msdn.microsoft.com/library/partnercenter/mt709136.aspx) to enable access to Partner Center API.
 
-###Step 2###
+### Step 2 ###
 Just like with AzureRM powershell module, the first step to start using it is to provide authentication. In Partner Center PowerShell Module you use [Add-PartnerCenterAuthentication](./CmdletHelp/Add-PartnerCenterAuthentication.md) cmdlet. This will set your CSP account authentication context.
 
 **Set user authentication**
@@ -26,7 +26,7 @@ or
 
     Add-PartnerCenterAuthentication -cspappID '<native app id GUID>' -cspDomain '<csp partner domain>' -cspClientSecret '<key code secret>'  
 
-###Ready###
+### Ready ###
 After this first steps you are ready to start using bellow cmdlet scenarios. (ex: create customers, create subscriptions, etc)
 
 ## Partner Center API scenario -> powershell module matrix ##
