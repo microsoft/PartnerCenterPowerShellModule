@@ -8,4 +8,7 @@
 
 **Create a customer user**
 
-    New-PartnerCenterCustomerUser -tenantid $customer.id -usageLocation '<country code>' -userPrincipalName '<upn>' -firstName '<first name>' -lastName '<last name>' -displayName '<display name>' -forceChangePassword $true -password '<password>'
+    $password = '<password>'
+	$passwordSecure = $password | ConvertTo-SecureString -AsPlainText -Force
+
+    New-PartnerCenterCustomerUser -tenantid $customer.id -usageLocation '<country code>' -userPrincipalName '<upn>' -firstName '<first name>' -lastName '<last name>' -displayName '<display name>' -forceChangePassword $true -password $passwordSecure
