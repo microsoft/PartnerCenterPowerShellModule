@@ -41,7 +41,8 @@ function Get-GraphAADTokenByApp
     $body = "grant_type=client_credentials&"
     $body = $body + "resource=$resource&"
     $body = $body + "client_id=$clientid&"
-    $body = $body + "client_secret=$clientsecret"
+    $tmp_clientsecret = _unsecureString -string $clientsecret
+    $body = $body + "client_secret=$tmp_clientsecret"
 
     $response = Invoke-RestMethod -Uri $url -ContentType "application/x-www-form-urlencoded" -Body $body -method "POST" #-Debug -Verbose -Headers $headers 
 	return $response.access_token
@@ -50,51 +51,11 @@ function Get-GraphAADTokenByApp
 function Add-Authentication
 {
     [CmdletBinding()]
-    param ([Parameter(ParameterSetName='AuthFile',Mandatory = $true)][string]$AuthenticationFileUrl,
-           #[Parameter(Mandatory=$True,ParameterSetName='app')][Parameter(Mandatory=$True,ParameterSetName='user')][ValidateSet("User","App")][switch] $AuthType,
-           [Parameter(Mandatory=$True,ParameterSetName='app')][Parameter(Mandatory=$True,ParameterSetName='user')][string] $cspAppID,
+    param ([Parameter(Mandatory=$True,ParameterSetName='app')][Parameter(Mandatory=$True,ParameterSetName='user')][string] $cspAppID,
            [Parameter(Mandatory=$True,ParameterSetName='app')][Parameter(Mandatory=$True,ParameterSetName='user')][string] $cspDomain,
-           [Parameter(Mandatory=$True,ParameterSetName='app' )][string]$cspClientSecret,
+           [Parameter(Mandatory=$True,ParameterSetName='app' )][SecureString]$cspClientSecret,
            [Parameter(Mandatory=$True,ParameterSetName='user')][PSCredential]$credential
     )
-
-    function Private:Add-AuthenticationByFile ($AuthenticationFileUrl)
-    {    
-        $pcAuth = Get-ChildItem $AuthenticationFileUrl | Get-Content | ConvertFrom-Json
-        $pcAuth.cspClientSecret = [System.Web.HttpUtility]::UrlEncode($pcAuth.cspClientSecret)
-
-        #Generate Tokens
-        switch ($pcAuth.authType)
-        {
-            'User'
-            {
-                # Get token by User
-                $pwd = $pcAuth.cspPassword | ConvertTo-SecureString -AsPlainText -Force
-                $username = $pcAuth.cspUsername 
-                $credential = New-Object System.Management.Automation.PsCredential($username,$pwd)
-                $resource = 'https://api.partnercenter.microsoft.com'
-                $AADToken = Get-GraphAADTokenByUser -resource $resource -domain $pcAuth.cspDomain -clientid $pcAuth.cspClientID -credential $credential
-            }
-            'App'
-            {
-                # Get token by App
-                $resource =  'https://graph.windows.net' 
-                $AADToken = Get-GraphAADTokenByApp -resource $resource -domain $pcAuth.cspDomain -clientid $pcAuth.cspClientID -clientsecret $pcAuth.cspClientSecret
-            }
-        }
-
-        # Get SA token
-        try {
-            $SAToken = Get-SAToken -aadtoken $AADToken -global $true
-            $token = @{"Resource" = $resource ; "Domain" = $pcAuth.cspDomain; "ClientId" =  $pcAuth.cspClientID; "Username" = $pcAuth.cspUsername}
-            return $token 
-        }
-        catch
-        {
-            $ErrorMessage = $_.Exception.Message
-            "Cannot retrieve the token: $ErrorMessage"
-        }
-    }
 
     function Private:Add-AuthenticationByUser ($cspAppID,$cspDomain,[PSCredential]$credential)
     {
@@ -136,7 +97,6 @@ function Add-Authentication
 
     switch ($PsCmdlet.ParameterSetName)
     {
-        "AuthFile" { $result = Add-AuthenticationByFile   -AuthenticationFileUrl $AuthenticationFileUrl }
         "user"     { $result = Add-AuthenticationByUser   -cspAppID $cspAppID -cspDomain $cspDomain -credential $credential }
         "app"      { $result = Add-AuthenticationBySecret -cspAppID $cspAppID -cspDomain $cspDomain -cspClientSecret $cspClientSecret } 
     }
@@ -149,52 +109,11 @@ function Add-Authentication
 function New-SAToken
 {
     [CmdletBinding()]
-    param ([Parameter(ParameterSetName='AuthFile',Mandatory = $true)][string]$AuthenticationFileUrl,
-           #[Parameter(Mandatory=$True,ParameterSetName='app')][Parameter(Mandatory=$True,ParameterSetName='user')][ValidateSet("User","App")][switch] $AuthType,
-           [Parameter(Mandatory=$True,ParameterSetName='app')][Parameter(Mandatory=$True,ParameterSetName='user')][string] $cspAppID,
+    param ([Parameter(Mandatory=$True,ParameterSetName='app')][Parameter(Mandatory=$True,ParameterSetName='user')][string] $cspAppID,
            [Parameter(Mandatory=$True,ParameterSetName='app')][Parameter(Mandatory=$True,ParameterSetName='user')][string] $cspDomain,
-           [Parameter(Mandatory=$True,ParameterSetName='app' )][string]$cspClientSecret,
+           [Parameter(Mandatory=$True,ParameterSetName='app' )][SecureString]$cspClientSecret,
            [Parameter(Mandatory=$True,ParameterSetName='user')][PSCredential]$credential
     )
-
-    function Private:Add-AuthenticationByFile ($AuthenticationFileUrl)
-    {    
-        $pcAuth = Get-ChildItem $AuthenticationFileUrl | Get-Content | ConvertFrom-Json
-        $pcAuth.cspClientSecret = [System.Web.HttpUtility]::UrlEncode($pcAuth.cspClientSecret)
-
-        #Generate Tokens
-        switch ($pcAuth.authType)
-        {
-            'User'
-            {
-                # Get token by User
-                $pwd = $pcAuth.cspPassword | ConvertTo-SecureString -AsPlainText -Force
-                $username = $pcAuth.cspUsername 
-                $credential = New-Object System.Management.Automation.PsCredential($username,$pwd)
-                $resource = 'https://api.partnercenter.microsoft.com'
-                $AADToken = Get-GraphAADTokenByUser -resource $resource -domain $pcAuth.cspDomain -clientid $pcAuth.cspClientID -credential $credential
-            }
-            'App'
-            {
-                # Get token by App
-                $resource =  'https://graph.windows.net' 
-                $AADToken = Get-GraphAADTokenByApp -resource $resource -domain $pcAuth.cspDomain -clientid $pcAuth.cspClientID -clientsecret $pcAuth.cspClientSecret
-            }
-        }
-
-        # Get SA token
-        try {
-            $SAToken = Get-SAToken -aadtoken $AADToken -global $false
-            $token = @{"Resource" = $resource ; "Domain" = $pcAuth.cspDomain; "ClientId" =  $pcAuth.cspClientID; "Username" = $pcAuth.cspUsername}
-            write-host $token
-            return $SAToken 
-        }
-        catch
-        {
-            $ErrorMessage = $_.Exception.Message
-            "Cannot retrieve the token: $ErrorMessage"
-        }
-    }
 
     function Private:Add-AuthenticationByUser ($cspAppID,$cspDomain,[PSCredential]$credential)
     {
@@ -213,7 +132,6 @@ function New-SAToken
             $ErrorMessage = $_.Exception.Message
             "Cannot retrieve the token: $ErrorMessage"
         }
-
     }
 
     function Private:Add-AuthenticationBySecret ($cspAppID,$cspDomain,$cspClientSecret)
@@ -238,7 +156,6 @@ function New-SAToken
 
     switch ($PsCmdlet.ParameterSetName)
     {
-        "AuthFile" { $result = Add-AuthenticationByFile   -AuthenticationFileUrl $AuthenticationFileUrl }
         "user"     { $result = Add-AuthenticationByUser   -cspAppID $cspAppID -cspDomain $cspDomain -credential $credential }
         "app"      { $result = Add-AuthenticationBySecret -cspAppID $cspAppID -cspDomain $cspDomain -cspClientSecret $cspClientSecret } 
     }
