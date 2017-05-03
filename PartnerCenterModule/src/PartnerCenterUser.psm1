@@ -113,9 +113,8 @@ function New-CustomerUser
            [Parameter(Mandatory = $true)][string]$firstName,
            [Parameter(Mandatory = $true)][string]$lastName,
            [Parameter(Mandatory = $true)][string]$displayName,
-           [Parameter(ParameterSetName='AllDetails',Mandatory = $true)][string]$password,
+           [Parameter(ParameterSetName='AllDetails',Mandatory = $true)][SecureString]$password,
            [Parameter(ParameterSetName='AllDetails',Mandatory = $true)][bool]$forceChangePassword,
-           [Parameter(ParameterSetName='ByProfile',Mandatory = $true)][CustomerUserPasswordProfile] $passwordProfile, 
            [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
     _testTokenContext($satoken)
     _testTenantContext ($tenantid)
@@ -127,12 +126,7 @@ function New-CustomerUser
     $headers += @{"MS-RequestId"=[Guid]::NewGuid()}
     $headers += @{"MS-CorrelationId"=[Guid]::NewGuid()}
 
-    switch ($PsCmdlet.ParameterSetName)
-    {
-        'AllDetails' { $user = [CustomerUser]::new($usageLocation,$userPrincipalName,$firstName,$lastName,$displayName,$password,$forceChangePassword)}
-        'ByProfile'  { $user = [CustomerUser]::new($usageLocation,$userPrincipalName,$firstName,$lastName,$displayName,$passwordProfile)}
-    }
-
+    $user = [CustomerUser]::new($usageLocation,$userPrincipalName,$firstName,$lastName,$displayName,$password,$forceChangePassword)
     $body = $user | ConvertTo-Json -Depth 100
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Body $body -Method "POST" # -Debug -Verbose
@@ -150,9 +144,8 @@ function Set-CustomerUser
             [Parameter(Mandatory = $false)][string]$lastName,
             [Parameter(Mandatory = $false)][string]$userPrincipalName,
             [Parameter(Mandatory = $false)][string]$location,    
-            [Parameter(ParameterSetName='AllDetails',Mandatory = $false)][string]$password,
+            [Parameter(ParameterSetName='AllDetails',Mandatory = $false)][SecureString]$password,
             [Parameter(ParameterSetName='AllDetails',Mandatory = $false)][bool]$forceChangePassword,
-            [Parameter(ParameterSetName='ByProfile',Mandatory = $false)][CustomerUserPasswordProfile] $passwordProfile, 
             [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
     _testTokenContext($satoken)
     _testTenantContext ($tenantid)
@@ -164,7 +157,6 @@ function Set-CustomerUser
     if($firstName) {$actualUser.firstName = $firstName}
     if($lastName) {$actualUser.lastName = $lastName}
     if($userPrincipalName) {$actualUser.userPrincipalName = $userPrincipalName}
-    if($location) {$actualUser.location = $location}
     if($location) {$actualUser.location = $location}
     if($password -or $forceChangePassword)
     {

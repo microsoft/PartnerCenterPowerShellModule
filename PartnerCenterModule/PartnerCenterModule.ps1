@@ -8,6 +8,10 @@
     profits, business interruption, loss of business information, or other pecuniary loss) arising out of the use of or inability to use the 
     sample scripts or documentation, even if Microsoft has been advised of the possibility of such damages.
 #>
+
+$here = Split-Path -Parent $MyInvocation.MyCommand.Path
+. "$here\src\commons.ps1"
+
 class Attributes
 {
     [string] $ObjectType
@@ -162,9 +166,9 @@ class CustomerUserPasswordProfile
 {
     [string] $password
     [bool] $forceChangePassword
-    CustomerUserPasswordProfile ([string] $password,[bool]$forceChangePassword)
+    CustomerUserPasswordProfile ([SecureString] $password,[bool]$forceChangePassword)
     {
-        $this.password = $password
+        $this.password = _unsecureString -string $password
         $this.forceChangePassword = $forceChangePassword
     }
 }
@@ -181,7 +185,7 @@ class CustomerUser
     [CustomerUserPasswordProfile] $passwordProfile
     [Attributes] $Attributes
 
-    CustomerUser ([string]$usageLocation ,[string] $userPrincipalName,[string] $firstName,[string] $lastName,[string] $displayName,[string] $password,[bool] $forceChangePassword)
+    CustomerUser ([string]$usageLocation ,[string] $userPrincipalName,[string] $firstName,[string] $lastName,[string] $displayName,[SecureString] $password,[bool] $forceChangePassword)
     {
         $passwordProfile_tmp = [CustomerUserPasswordProfile]::new($password,$forceChangePassword)
         $att_tmp = [Attributes]::new('CustomerUser')
@@ -194,7 +198,8 @@ class CustomerUser
         $this.Attributes = $att_tmp
     }
 
-    CustomerUser([string]$usageLocation ,[string] $userPrincipalName,[string] $firstName,[string] $lastName,[string] $displayName,[string] $CustomerUserPasswordProfile)
+    <#
+    CustomerUser([string]$usageLocation ,[string] $userPrincipalName,[string] $firstName,[string] $lastName,[string] $displayName,[CustomerUserPasswordProfile]$CustomerUserPasswordProfile)
     {
         $att_tmp = [Attributes]::new('CustomerUser')
         $this.usageLocation = $usageLocation
@@ -205,6 +210,7 @@ class CustomerUser
         $this.passwordProfile = $CustomerUserPasswordProfile
         $this.Attributes = $att_tmp
     }
+    #>
 }
 
 class DirectoryRoleMember
@@ -397,12 +403,12 @@ class PasswordProfile
     [bool] $forceChangePasswordNextLogin
 }
 
-Set-Variable -Name "GlobalCustomerID" -Value "" -Scope Global
-Set-Variable -Name "GlobalToken" -Value "" -Scope Global
+Set-Variable -Name "GlobalCustomerID" -Value "" -Scope Global -Visibility Private 
+Set-Variable -Name "GlobalToken" -Value "" -Scope Global -Visibility Private 
 
 #telemetry variables
-Set-Variable -Name "GlobalPCPSTelemetry" -Value $true -Scope Global
-Set-Variable -Name "GlobalPCPSCSPDomain" -Value $null -Scope Global
-Set-Variable -Name "GlobalPCPSExecutionId" -Value $null -Scope Global
-Set-Variable -Name "GlobalPCPSModuleVersion" -Value $null -Scope Global 
+Set-Variable -Name "GlobalPCPSTelemetry" -Value $true -Scope Global -Visibility Private 
+Set-Variable -Name "GlobalPCPSCSPDomain" -Value $null -Scope Global -Visibility Private 
+Set-Variable -Name "GlobalPCPSExecutionId" -Value $null -Scope Global -Visibility Private 
+Set-Variable -Name "GlobalPCPSModuleVersion" -Value $null -Scope Global -Visibility Private 
 

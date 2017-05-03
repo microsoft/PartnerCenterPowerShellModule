@@ -46,6 +46,13 @@ function _testTokenContext($satoken)
     }
 }
 
+function _unsecureString
+{
+    param ([SecureString]$string)
+    $tmp_cred = New-Object System.Management.Automation.PSCredential -ArgumentList "tmp", $string
+    return $tmp_cred.GetNetworkCredential().Password
+}
+
 #Setting Global Token
 function Get-SAToken
 {
