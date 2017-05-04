@@ -9,7 +9,7 @@
 **Order a new subscription**
 
     # Get offer
-    Get-PCOffer -countryid '<country two digits id>' -offerid '<offer id GUID>'
+    $offer = Get-PCOffer -countryid '<country two digits id>' -offerid '<offer id GUID>'
     
     # Create the OrderLineItem
     $lineItems = @()
@@ -20,7 +20,7 @@
     $lineItems[0].Quantity = <quantity>
     
     # Send order
-    New-PCOrder -tenantid $customer.id -orderid $order.id -LineItems $lineItems
+    New-PCOrder -tenantid $customer.id -LineItems $lineItems
     
 **Order an Addon to a subscription**
 
