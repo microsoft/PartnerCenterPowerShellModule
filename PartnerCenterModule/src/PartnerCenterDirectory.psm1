@@ -12,7 +12,7 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 . "$here\commons.ps1"
 Import-Module -FullyQualifiedName "$here\PartnerCenterTelemetry.psm1"
 
-function Get-DomainAvailability
+function Get-PCDomainAvailability
 {
     [CmdletBinding()]
     param
@@ -43,7 +43,7 @@ function Get-DomainAvailability
     }
 }
 
-function Get-CustomerRole
+function Get-PCCustomerRole
 {
     [CmdletBinding()]
     param ([Parameter(Mandatory = $false)][String]$tenantid=$GlobalCustomerID,
@@ -61,7 +61,7 @@ function Get-CustomerRole
     return (_formatResult -obj $obj -type "DirectoryRoles")   
 }
 
-function Get-CustomerRoleMember
+function Get-PCCustomerRoleMember
 {
     [CmdletBinding()]
     param ( 
@@ -81,7 +81,7 @@ function Get-CustomerRoleMember
     return (_formatResult -obj $obj -type "DirectoryRolesUser")
 }
 
-function Add-CustomerRoleMember
+function Add-PCCustomerRoleMember
 {    
     [CmdletBinding()]
     param ([Parameter(Mandatory = $false)][String]$tenantid=$GlobalCustomerID,
@@ -104,7 +104,7 @@ function Add-CustomerRoleMember
     return (_formatResult -obj $obj -type "DirectoryRolesUser") 
 }
 
-function Remove-CustomerRoleMember
+function Remove-PCCustomerRoleMember
 {
     [CmdletBinding()]
     param ( [Parameter(Mandatory = $false)][String]$tenantid=$GlobalCustomerID,
@@ -127,7 +127,7 @@ function Remove-CustomerRoleMember
     return (_formatResult -obj $obj -type "DirectoryRolesUser")   
 }
 
-function New-RelationshipRequest
+function New-PCRelationshipRequest
 {    
     [CmdletBinding()]
     param  ([Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)

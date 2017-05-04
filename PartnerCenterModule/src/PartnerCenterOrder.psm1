@@ -13,7 +13,7 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 . "$here\commons.ps1"
 Import-Module -FullyQualifiedName "$here\PartnerCenterTelemetry.psm1"
 
-function Get-Order 
+function Get-PCOrder 
 {
     [CmdletBinding()]
     param ([Parameter(Mandatory = $false)][String]$tenantid=$GlobalCustomerID,
@@ -44,7 +44,7 @@ function Get-Order
     }
 }
 
-function New-Order
+function New-PCOrder
 {
     [CmdletBinding()]
       param( [Parameter(Mandatory = $false)][String]$tenantid=$GlobalCustomerID,
@@ -98,7 +98,7 @@ function New-Order
     return (_formatResult -obj $obj -type "Order")  
 }
 
-function New-AddonOrder
+function New-PCAddonOrder
 {
     [CmdletBinding()]
     param 
@@ -139,7 +139,7 @@ function Set-Order
             [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
     $obj = @()
     _testTokenContext($satoken)
-    $actualOrder = Get-Order -tenantID $order.ReferenceCustomerId -orderID $order.id -satoken $satoken
+    $actualOrder = Get-PCOrder -tenantID $order.ReferenceCustomerId -orderID $order.id -satoken $satoken
 
     if ($FriendlyName) { $actualOrder.lineItems[$LineItemNumber].friendlyName = $FriendlyName}
     if ($quantity) {$actualOrder.lineItems[$LineItemNumber].Quantity = $quantity}

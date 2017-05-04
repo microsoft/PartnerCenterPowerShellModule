@@ -13,7 +13,7 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 . "$here\commons.ps1"
 Import-Module -FullyQualifiedName "$here\PartnerCenterTelemetry.psm1"
 
-function Get-Subscription
+function Get-PCSubscription
 {
     [CmdletBinding()]
 
@@ -127,7 +127,7 @@ function Get-Subscription
 
 }
 
-function Set-Subscription
+function Set-PCSubscription
 {
     [CmdletBinding()]
     Param(
@@ -144,7 +144,7 @@ function Set-Subscription
     Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
     $obj = @()
 
-    $actualSubscription = Get-Subscription -satoken $satoken -tenantid $tenantid -subscriptionid $subscription.Id
+    $actualSubscription = Get-PCSubscription -satoken $satoken -tenantid $tenantid -subscriptionid $subscription.Id
 
     if($status)          {$actualSubscription.status = $status}
     if($friendlyName){$actualSubscription.friendlyName = $friendlyName}

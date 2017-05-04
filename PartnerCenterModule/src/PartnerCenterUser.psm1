@@ -13,7 +13,7 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 . "$here\commons.ps1"
 Import-Module -FullyQualifiedName "$here\PartnerCenterTelemetry.psm1"
 
-function Get-CustomerUser
+function Get-PCCustomerUser
 {
     [CmdletBinding()]
     Param(
@@ -104,7 +104,7 @@ function Get-CustomerUser
     }
 }
 
-function New-CustomerUser
+function New-PCCustomerUser
 {
     [CmdletBinding()]
     param ([Parameter(Mandatory = $false)][String]$tenantid=$GlobalCustomerID,
@@ -134,7 +134,7 @@ function New-CustomerUser
     return (_formatResult -obj $obj -type "CustomerUser")       
 }
 
-function Set-CustomerUser
+function Set-PCCustomerUser
 {
     [CmdletBinding()]
     param (
@@ -152,7 +152,7 @@ function Set-CustomerUser
     Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
     $obj = @()
 
-    $actualUser = Get-CustomerUser -tenantid $tenantid -userid $user.Id -satoken $satoken
+    $actualUser = Get-PCCustomerUser -tenantid $tenantid -userid $user.Id -satoken $satoken
 
     if($firstName) {$actualUser.firstName = $firstName}
     if($lastName) {$actualUser.lastName = $lastName}
@@ -175,7 +175,7 @@ function Set-CustomerUser
     return (_formatResult -obj $obj -type "CustomerUser")       
 }
 
-function Restore-CustomerUser
+function Restore-PCCustomerUser
 {
     [CmdletBinding()]
     param (
@@ -198,7 +198,7 @@ function Restore-CustomerUser
     return (_formatResult -obj $obj -type "CustomerUser")     
 }
 
-function Remove-CustomerUser
+function Remove-PCCustomerUser
 {
     [CmdletBinding()]
     param ( [Parameter(Mandatory = $false)][String]$tenantid=$GlobalCustomerID,
@@ -219,7 +219,7 @@ function Remove-CustomerUser
     return (_formatResult -obj $obj -type "CustomerUser")       
 }
 
-function Get-CustomerUserRoles
+function Get-PCCustomerUserRoles
 {
     [CmdletBinding()]
     param ( [Parameter(Mandatory = $false)][String]$tenantid=$GlobalCustomerID,

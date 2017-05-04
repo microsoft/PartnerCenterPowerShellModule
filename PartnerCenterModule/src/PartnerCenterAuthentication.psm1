@@ -48,7 +48,7 @@ function Get-GraphAADTokenByApp
 	return $response.access_token
 }
 
-function Add-Authentication
+function Add-PCAuthentication
 {
     [CmdletBinding()]
     param ([Parameter(Mandatory=$True,ParameterSetName='app')][Parameter(Mandatory=$True,ParameterSetName='user')][string] $cspAppID,
@@ -106,7 +106,7 @@ function Add-Authentication
     return $result
 }
 
-function New-SAToken
+function New-PCSAToken
 {
     [CmdletBinding()]
     param ([Parameter(Mandatory=$True,ParameterSetName='app')][Parameter(Mandatory=$True,ParameterSetName='user')][string] $cspAppID,

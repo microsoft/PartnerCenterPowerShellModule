@@ -13,7 +13,7 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 . "$here\commons.ps1"
 Import-Module -FullyQualifiedName "$here\PartnerCenterTelemetry.psm1"
 
-function Get-LicensesDeployment
+function Get-PCLicensesDeployment
 {
     [CmdletBinding()]
     Param(
@@ -30,7 +30,7 @@ function Get-LicensesDeployment
     return (_formatResult -obj $obj -type "PartnerLicensesDeploymentInsights")      
 }
 
-function Get-LicensesUsage
+function Get-PCLicensesUsage
 {
     [CmdletBinding()]
     Param(
@@ -47,7 +47,7 @@ function Get-LicensesUsage
     return (_formatResult -obj $obj -type "PartnerLicensesUsageInsights")      
 }
 
-function Get-CustomerLicensesDeployment
+function Get-PCCustomerLicensesDeployment
 {
     [CmdletBinding()]
     Param(
@@ -66,7 +66,7 @@ function Get-CustomerLicensesDeployment
     return (_formatResult -obj $obj -type "CustomerLicensesDeploymentInsights")      
 }
 
-function Get-CustomerLicensesUsage
+function Get-PCCustomerLicensesUsage
 {
     [CmdletBinding()]
     Param(

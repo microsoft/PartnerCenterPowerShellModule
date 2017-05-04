@@ -13,7 +13,7 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 . "$here\commons.ps1"
 Import-Module -FullyQualifiedName "$here\PartnerCenterTelemetry.psm1"
 
-function Get-Usage
+function Get-PCUsage
 {
     [CmdletBinding()]
     param ( [Parameter(Mandatory = $true)][String]$subscriptionid,
@@ -55,7 +55,7 @@ function Get-Usage
 }
 
 
-function Get-SubscriptionMonthlyUsageRecords
+function Get-PCSubscriptionMonthlyUsageRecords
 {
     [CmdletBinding()]
     param ([Parameter(Mandatory = $false)][String]$tenantid=$GlobalCustomerID,
@@ -75,7 +75,7 @@ function Get-SubscriptionMonthlyUsageRecords
     return (_formatResult -obj $obj -type "SubscriptionMonthlyUsageRecord")
 }
 
-function Get-AzureResourceMonthlyUsageRecords
+function GetPCAzureResourceMonthlyUsageRecords
 {
     [CmdletBinding()]
     param (
@@ -97,7 +97,7 @@ function Get-AzureResourceMonthlyUsageRecords
     return (_formatResult -obj $obj -type "AzureResourceMonthlyUsageRecord") 
 }
 
-function Get-CustomerUsageSummary
+function Get-PCustomerUsageSummary
 {
     [CmdletBinding()]
     param(
@@ -118,7 +118,7 @@ function Get-CustomerUsageSummary
     return (_formatResult -obj $obj -type "CustomerUsageSummary") 
 }
 
-function Get-CustomerServiceCostSummary
+function Get-PCCustomerServiceCostSummary
 {
     [CmdletBinding()]
     param  (
