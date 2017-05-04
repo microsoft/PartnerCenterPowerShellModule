@@ -16,4 +16,7 @@
 
 **Reset a customer user password**
 
-    Set-PartnerCenterCustomerUser -tenantid $customer.id -user $user -password '<new password>' -forceChangePassword $true/$false
+    $password = '<password>'
+	$passwordSecure = $password | ConvertTo-SecureString -AsPlainText -Force
+
+    Set-PartnerCenterCustomerUser -tenantid $customer.id -user $user -password $passwordSecure -forceChangePassword $true/$false
