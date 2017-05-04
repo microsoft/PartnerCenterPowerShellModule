@@ -13,7 +13,7 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 . "$here\commons.ps1"
 Import-Module -FullyQualifiedName "$here\PartnerCenterTelemetry.psm1"
 
-function Get-Customer
+function Get-PCCustomer
 {
     [CmdletBinding()]
 
@@ -90,7 +90,7 @@ function Get-Customer
     }
 }
 
-function Get-SubscribedSKUs
+function Get-PCSubscribedSKUs
 {
     [CmdletBinding()]
     param ([Parameter(Mandatory = $false)][String]$tenantid=$GlobalCustomerID,
@@ -109,7 +109,7 @@ function Get-SubscribedSKUs
     return (_formatResult -obj $obj -type "SubscribedSku")  
 }
 
-function Get-SpendingBudget
+function Get-PCSpendingBudget
 {
     [CmdletBinding()]
     param ([Parameter(Mandatory = $false)][String]$tenantid=$GlobalCustomerID,
@@ -125,7 +125,7 @@ function Get-SpendingBudget
     $obj += $response.Substring(1) | ConvertFrom-Json
     return (_formatResult -obj $obj -type "SpendingBudget")  
 }
-function Set-SpendingBudget
+function Set-PCSpendingBudget
 {
     [CmdletBinding()]
     param ([Parameter(Mandatory = $false)][String]$tenantid=$GlobalCustomerID,
@@ -145,7 +145,7 @@ function Set-SpendingBudget
     return  (_formatResult -obj $obj -type "CustomerSpendingBudget")  
 }
 
-function New-Customer
+function New-PCCustomer
 {
     [CmdletBinding()]
 
@@ -190,7 +190,7 @@ function New-Customer
     return (_formatResult -obj $obj -type "Customer")
 }
 
-function Remove-Customer 
+function Remove-PCCustomer 
 {
     [CmdletBinding()]
     param ($tenantid,         [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
@@ -207,7 +207,7 @@ function Remove-Customer
     return (_formatResult -obj $obj -type "Customer")  
 }
 
-function Get-ManagedServices
+function Get-PCManagedServices
 {    
     [CmdletBinding()]
     param ([Parameter(Mandatory = $false)][String]$tenantid=$GlobalCustomerID,
@@ -225,7 +225,7 @@ function Get-ManagedServices
 }
 
 
-function Select-Customer
+function Select-PCCustomer
 {
     [CmdletBinding()]
     Param(
@@ -250,7 +250,7 @@ function Select-Customer
 
 
 
-function Get-CustomerRelationships
+function Get-PCCustomerRelationships
 {    
     [CmdletBinding()]
     param ([Parameter(Mandatory = $false)][String]$tenantid=$GlobalCustomerID,
@@ -270,7 +270,7 @@ function Get-CustomerRelationships
 
 
 
-function Get-ResellerCustomers
+function Get-PCResellerCustomers
 {
     [CmdletBinding()]
 

@@ -50,7 +50,7 @@ function Update-ModuleTelemetry
     }
 }  
 
-function Set-ModuleTelemetry
+function Set-PCModuleTelemetry
 {
     [CmdletBinding()]
     Param(
@@ -59,7 +59,7 @@ function Set-ModuleTelemetry
     $global:GlobalPCPSTelemetry = $enabled
 }
 
-function Get-ModuleTelemetry
+function Get-PCModuleTelemetry
 {
     return $global:GlobalPCPSTelemetry
 }

@@ -13,7 +13,7 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 . "$here\commons.ps1"
 Import-Module -FullyQualifiedName "$here\PartnerCenterTelemetry.psm1"
 
-function Get-Invoice
+function Get-PCInvoice
 {
     [CmdletBinding()]
 
@@ -87,7 +87,7 @@ function Get-Invoice
     }
 }
 
-function Get-InvoiceLineItems
+function Get-PCInvoiceLineItems
 {
     [CmdletBinding()]
 

@@ -13,7 +13,7 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 . "$here\commons.ps1"
 Import-Module -FullyQualifiedName "$here\PartnerCenterTelemetry.psm1"
 
-function Get-LegalBusinessProfile
+function Get-PCLegalBusinessProfile
 {
     [CmdletBinding()]
     param (
@@ -31,7 +31,7 @@ function Get-LegalBusinessProfile
     return (_formatResult -obj $obj -type "Profile") 
 }
 
-function Get-OrganizationProfile
+function Get-PCOrganizationProfile
 {
     [CmdletBinding()]
     param (
@@ -49,7 +49,7 @@ function Get-OrganizationProfile
     return (_formatResult -obj $obj -type "Profile") 
 }
 
-function Get-BillingProfile
+function Get-PCBillingProfile
 {
     [CmdletBinding()]
     param (
@@ -67,7 +67,7 @@ function Get-BillingProfile
     return (_formatResult -obj $obj -type "Profile") 
 }
 
-function Get-MpnProfile
+function Get-PCMpnProfile
 {
     [CmdletBinding()]
     param (
@@ -94,7 +94,7 @@ function Get-MpnProfile
     return (_formatResult -obj $obj -type "Profile")
 }
 
-function Get-SupportProfile
+function Get-PCSupportProfile
 {
     [CmdletBinding()]
     param (
@@ -112,7 +112,7 @@ function Get-SupportProfile
     return (_formatResult -obj $obj -type "Profile") 
 }
 
-function Set-LegalBusinessProfile
+function Set-PCLegalBusinessProfile
 {
     [CmdletBinding()]
     param(
@@ -140,7 +140,7 @@ function Set-LegalBusinessProfile
     Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
     $obj = @()
 
-    $actualLegalBP = Get-LegalBusinessProfile -satoken $satoken
+    $actualLegalBP = Get-PCLegalBusinessProfile -satoken $satoken
 
     if($AddressLine1)                  {$actualLegalBP.address.addressLine1 = $AddressLine1}
     if ($AddressLine2)             {$actualLegalBP.address.addressLine2 = $AddressLine2}
@@ -163,7 +163,7 @@ function Set-LegalBusinessProfile
     return (_formatResult -obj $obj -type "Profile") 
 }
 
-function Set-OrganizationProfile
+function Set-PCOrganizationProfile
 {
     [CmdletBinding()]
     param(
@@ -185,7 +185,7 @@ function Set-OrganizationProfile
     Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
     $obj = @()
 
-    $actualOrganizationP = Get-OrganizationProfile -satoken $satoken
+    $actualOrganizationP = Get-PCOrganizationProfile -satoken $satoken
 
     if($companyName)     {$actualOrganizationP.companyName = $companyName}
     if($AddressLine1){$actualOrganizationP.defaultAddress.addressLine1 = $AddressLine1}
@@ -209,7 +209,7 @@ function Set-OrganizationProfile
     return (_formatResult -obj $obj -type "Profile") 
 }
 
-function Set-BillingProfile
+function Set-PCBillingProfile
 {
     [CmdletBinding()]
     param(
@@ -232,7 +232,7 @@ function Set-BillingProfile
     Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
     $obj = @()
 
-    $actualBillingP = Get-BillingProfile -satoken $satoken
+    $actualBillingP = Get-PCBillingProfile -satoken $satoken
 
     if($AddressLine1)    {$actualBillingP.address.addressLine1 = $AddressLine1}
     if($AddressLine2){$actualBillingP.address.addressLine2 = $AddressLine2}
@@ -254,7 +254,7 @@ function Set-BillingProfile
     return (_formatResult -obj $obj -type "Profile") 
 }
 
-function Set-SupportProfile
+function Set-PCSupportProfile
 {
     [CmdletBinding()]
     param(
@@ -268,7 +268,7 @@ function Set-SupportProfile
     Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
     $obj = @()
 
-    $actualSupportProfile = Get-SupportProfile -satoken $satoken
+    $actualSupportProfile = Get-PCSupportProfile -satoken $satoken
 
     if($website){$actualSupportProfile.website = $website}
     if($email){$actualSupportProfile.email = $email}
@@ -284,7 +284,7 @@ function Set-SupportProfile
     return (_formatResult -obj $obj -type "Profile") 
 }
 
-function Get-CustomerBillingProfile
+function Get-PCCustomerBillingProfile
 {
     [CmdletBinding()]
     param  (
@@ -306,7 +306,7 @@ function Get-CustomerBillingProfile
     return (_formatResult -obj $obj -type "Profile") 
 }
 
-function Set-CustomerBillingProfile
+function Set-PCCustomerBillingProfile
 {
     [CmdletBinding()]
     param  (
@@ -328,7 +328,7 @@ function Set-CustomerBillingProfile
     return (_formatResult -obj $obj -type "Profile") 
 }
 
-function Get-CustomerCompanyProfile
+function Get-PCCustomerCompanyProfile
 {
     [CmdletBinding()]
     param  (
@@ -348,7 +348,7 @@ function Get-CustomerCompanyProfile
     return (_formatResult -obj $obj -type "Profile") 
 }
 
-function New-CustomerBillingProfile
+function New-PCCustomerBillingProfile
 {
     [CmdletBinding()]
     param (
@@ -378,7 +378,7 @@ function New-CustomerBillingProfile
     return $billingProfile
 }
 
-function New-CustomerDefaultAddress
+function New-PCCustomerDefaultAddress
 {
     [CmdletBinding()]
     param (
@@ -397,7 +397,7 @@ function New-CustomerDefaultAddress
     return $DefaultAddress
 }
 
-function New-CustomerCompanyProfile
+function New-PCCustomerCompanyProfile
 {   
     [CmdletBinding()]
     param (
@@ -408,7 +408,7 @@ function New-CustomerCompanyProfile
     return $companyProfile
 }
 
-function New-Address
+function New-PCAddress
 {
     [CmdletBinding()]
     param (
@@ -426,7 +426,7 @@ function New-Address
     return $Address
 }
 
-function Test-Address
+function Test-PCAddress
 {
     [CmdletBinding()]
     param ( [Parameter(ParameterSetName='ByObject',Mandatory = $true)][DefaultAddress] $Address,

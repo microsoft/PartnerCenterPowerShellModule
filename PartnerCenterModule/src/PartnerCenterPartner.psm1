@@ -13,7 +13,7 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 . "$here\commons.ps1"
 Import-Module -FullyQualifiedName "$here\PartnerCenterTelemetry.psm1"
 
-function Get-AuditRecords
+function Get-PCAuditRecords
 {
     [CmdletBinding()]
     Param(
@@ -44,7 +44,7 @@ function Get-AuditRecords
 }
 
 
-function Get-IndirectResellers
+function Get-PCIndirectResellers
 {
     [CmdletBinding()]
     Param(

@@ -13,7 +13,7 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 . "$here\commons.ps1"
 Import-Module -FullyQualifiedName "$here\PartnerCenterTelemetry.psm1"
 
-function Get-Offer
+function Get-PCOffer
 {
     [CmdletBinding()]
     param(
@@ -71,7 +71,7 @@ function Get-Offer
     }
 }
 
-function Get-OfferCategoriesByMarket
+function Get-PCOfferCategoriesByMarket
 {
     [CmdletBinding()]
     param($countryid,        [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
@@ -88,7 +88,7 @@ function Get-OfferCategoriesByMarket
     return (_formatResult -obj $obj -type "OfferCategories")   
 }
 
-function Get-AddressRulesByMarket 
+function Get-PCAddressRulesByMarket 
 {
     [CmdletBinding()]
     param ($countryid,         [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
@@ -104,7 +104,7 @@ function Get-AddressRulesByMarket
     return (_formatResult -obj $obj -type "MarketRules")   
 }
 
-function Get-AzureRateCard
+function Get-PCAzureRateCard
 {
     [CmdletBinding()]
     param ($currency, $region,         [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)

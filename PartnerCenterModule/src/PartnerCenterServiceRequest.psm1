@@ -13,7 +13,7 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 . "$here\commons.ps1"
 Import-Module -FullyQualifiedName "$here\PartnerCenterTelemetry.psm1"
 
-function Get-SR
+function Get-PCSR
 {
     [CmdletBinding()]
 
@@ -40,7 +40,7 @@ function Get-SR
     return (_formatResult -obj $obj -type "ServiceRequest")
 }
 
-function Get-SRTopics
+function Get-PCSRTopics
 {
     [CmdletBinding()]
     param([Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
@@ -56,7 +56,7 @@ function Get-SRTopics
     return (_formatResult -obj $obj -type "ServiceRequestTopics")   
 }
 
-function New-SR
+function New-PCSR
 {
    [CmdletBinding()]
    param (
@@ -94,7 +94,7 @@ function New-SR
     return (_formatResult -obj $obj -type "ServiceRequest")  
 }
 
-function Set-SR
+function Set-PCSR
 {
     [CmdletBinding()]
     param (
@@ -112,7 +112,7 @@ function Set-SR
     if ($serviceRequest) {$body = $serviceRequest | ConvertTo-Json -Depth 100}
     else
     {
-        $actualSR = Get-SR -serviceRequestId $serviceRequest.id -satoken $satoken
+        $actualSR = Get-PCSR -serviceRequestId $serviceRequest.id -satoken $satoken
         if ($status) {$actualSR.status = $status
                         $body = $actualSR | ConvertTo-Json -Depth 100}
         if ($addnote) {
