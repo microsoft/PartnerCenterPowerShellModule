@@ -84,7 +84,7 @@ function Add-PCAuthentication
         # Get SA token
         try {
             $SAToken = Get-SAToken -aadtoken $AADToken -global $true
-            $token = @{"Resource" = $resource ; "Domain" = $cspDomain; "ClientId" =  $cspAppID; "Username" = $cspUsername}
+            $token = @{"Resource" = $resource ; "Domain" = $cspDomain; "ClientId" =  $cspAppID}
             return $token 
         }
         catch
@@ -142,7 +142,7 @@ function New-PCSAToken
         # Get SA token
         try {
             $SAToken = Get-SAToken -aadtoken $AADToken -global $false
-            $token = @{"Resource" = $resource ; "Domain" = $cspDomain; "ClientId" =  $cspAppID; "Username" = $cspUsername}
+            $token = @{"Resource" = $resource ; "Domain" = $cspDomain; "ClientId" =  $cspAppID}
             write-host $token
             return $SAToken 
         }
