@@ -124,8 +124,8 @@ function New-PCSAToken
         try {
             $SAToken = Get-SAToken -aadtoken $AADToken -global $false
             $token = @{"Resource" = $resource ; "Domain" = $cspDomain; "ClientId" =  $cspAppID; "Username" = $cspUsername}
-            write-host $token
-            return $SAToken 
+            $objToReturn = @($SAToken,$token)
+            return $objToReturn 
         }
         catch
         {
@@ -143,8 +143,8 @@ function New-PCSAToken
         try {
             $SAToken = Get-SAToken -aadtoken $AADToken -global $false
             $token = @{"Resource" = $resource ; "Domain" = $cspDomain; "ClientId" =  $cspAppID}
-            write-host $token
-            return $SAToken 
+            $objToReturn = @($SAToken,$token)
+            return $objToReturn 
         }
         catch
         {
@@ -156,11 +156,13 @@ function New-PCSAToken
 
     switch ($PsCmdlet.ParameterSetName)
     {
-        "user"     { $result = Add-AuthenticationByUser   -cspAppID $cspAppID -cspDomain $cspDomain -credential $credential }
-        "app"      { $result = Add-AuthenticationBySecret -cspAppID $cspAppID -cspDomain $cspDomain -cspClientSecret $cspClientSecret } 
+        "user"     { $result_arr = Add-AuthenticationByUser   -cspAppID $cspAppID -cspDomain $cspDomain -credential $credential 
+                     $result = $result_arr[0]}
+        "app"      { $result_arr = Add-AuthenticationBySecret -cspAppID $cspAppID -cspDomain $cspDomain -cspClientSecret $cspClientSecret
+                     $result = $result_arr[0]}
     }
 
-    Update-ModuleTelemetry -cspDomain $result.Domain
+    Update-ModuleTelemetry -cspDomain $result_arr[1].Domain
     Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
     return $result
 }
