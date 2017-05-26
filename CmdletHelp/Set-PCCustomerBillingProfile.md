@@ -11,6 +11,7 @@
     $customerBillingProfile = Get-PCCustomerBillingProfile -tenantid $customer.id
 
 **Set customer Billing Profile**
+   
     $customerBillingProfile.firstName = '<first name>'
     $customerBillingProfile.lastName = '<last name>'
     $customerBillingProfile.email = '<email>'
