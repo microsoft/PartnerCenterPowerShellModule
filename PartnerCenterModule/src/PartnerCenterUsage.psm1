@@ -97,7 +97,7 @@ function Get-PCAzureResourceMonthlyUsageRecords
     return (_formatResult -obj $obj -type "AzureResourceMonthlyUsageRecord") 
 }
 
-function Get-PCustomerUsageSummary
+function Get-PCCustomerUsageSummary
 {
     [CmdletBinding()]
     param(
