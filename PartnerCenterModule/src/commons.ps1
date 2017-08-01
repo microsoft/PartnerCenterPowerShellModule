@@ -42,7 +42,7 @@ function _testTokenContext($satoken)
 {
     if ($satoken.Length -lt 1)
     {
-        throw ">>>Use Add-PartnerCenterAuthentication function to login to partnercenter or use -satoken parameter<<<"
+        throw ">>>Use Add-PCAuthentication function to login to partnercenter or use -satoken parameter<<<"
     }
 }
 
