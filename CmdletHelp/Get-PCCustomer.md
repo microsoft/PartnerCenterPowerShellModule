@@ -5,7 +5,7 @@
 
 **Get all customers**
 
-    Get-PCCustomer
+    Get-PCCustomer -all
 
 **Get a customer by ID**
 
