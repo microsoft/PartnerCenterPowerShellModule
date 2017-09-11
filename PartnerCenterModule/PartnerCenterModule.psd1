@@ -18,7 +18,7 @@
 RootModule = 'PartnerCenterModule.psm1'
 
 # Version number of this module.
-ModuleVersion = '0.9.0.8'
+ModuleVersion = '0.9.0.10'
 
 # ID used to uniquely identify this module
 GUID = '4a0bfb55-926c-4c31-8d05-50813b31c712'
@@ -36,23 +36,8 @@ Copyright = "Copyright (c) 2017 Microsoft Corporation. Licensed under MIT licens
 Description = 'Partner Center Powershell Module (preview)'
 
 # Script files (.ps1) that are run in the caller's environment prior to importing this module
-ScriptsToProcess = @("PartnerCenterModule.ps1")
 
 # Modules to import as nested modules of the module specified in RootModule/ModuleToProcess
-NestedModules = @('src\PartnerCenterAnalytics.psm1',
-                'src\PartnerCenterAuthentication.psm1',
-                'src\PartnerCenterCustomer.psm1',
-                'src\PartnerCenterDirectory.psm1',
-                'src\PartnerCenterInvoice.psm1',
-                'src\PartnerCenterOffer.psm1',
-                'src\PartnerCenterOrder.psm1',
-                'src\PartnerCenterProfiles.psm1',
-                'src\PartnerCenterServiceRequest.psm1',
-                'src\PartnerCenterSubscription.psm1',
-                'src\PartnerCenterTelemetry.psm1',
-                'src\PartnerCenterUsage.psm1',
-                'src\PartnerCenterPartner.psm1',
-                'src\PartnerCenterUser.psm1')
 
 # Functions to export from this module
 FunctionsToExport = @('Add-PCAuthentication',
