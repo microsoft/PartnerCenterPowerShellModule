@@ -34,7 +34,7 @@ function _testTenantContext($tenantID)
 {
     if ($tenantid.Length -lt 1)
     {
-        throw ">>>Use Select-PartnerCenterCustomer function to select a specific tenant or use -tenantid parameter<<<"
+        throw ">>>Use Select-PCCustomer function to select a specific tenant or use -tenantid parameter<<<"
     }
 }
 
