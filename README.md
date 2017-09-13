@@ -37,10 +37,32 @@ After this first steps you are ready to start using bellow cmdlet scenarios. (ex
 | Partner Center API Scenario | | CmdLet |
 |:-|:-|:-|
 | | | |
+| **Analytics** |Retrieve analytics | |
+| | [Get partner licenses deployment information](https://msdn.microsoft.com/en-us/library/partnercenter/mt797761.aspx) | [Get-PCLicensesDeployment](./CmdletHelp/Get-PCLicensesDeployment.md) |
+| | [Get partner licenses usage information](https://msdn.microsoft.com/en-us/library/partnercenter/mt797762.aspx) | [Get-PCLicensesUsage](./CmdletHelp/Get-PCLicensesUsage.md) |
+| | [Get customer licenses deployment information](https://msdn.microsoft.com/en-us/library/partnercenter/mt797759.aspx) | [Get-PCCustomerLicensesDeployment](./CmdletHelp/Get-PCCustomerLicensesDeployment.md) |
+| | [Get customer licenses usage information](https://msdn.microsoft.com/en-us/library/partnercenter/mt797760.aspx) | [Get-PCCustomerLicensesUsage](./CmdletHelp/Get-PCCustomerLicensesUsage.md) |
+| | | |
+| **Device Deployment** | Configuration policies | |
+| Add, delete, update and retrieve device configuration policies | | |
+| | [Create a new configuration policy for the specified customer](https://msdn.microsoft.com/en-us/library/partnercenter/mt842820.aspx) | [NA](./CmdletHelp/NA.md) |
+| | [Delete a configuration policy for the specified customer](https://msdn.microsoft.com/en-us/library/partnercenter/mt842821.aspx) | [NA](./CmdletHelp/NA.md) |
+| | [Get a list of a customer's policies](https://msdn.microsoft.com/en-us/library/partnercenter/mt842825.aspx) | [NA](./CmdletHelp/NA.md) |
+| | [Retrieve a customer's configuration policy](https://msdn.microsoft.com/en-us/library/partnercenter/mt842829.aspx) | [NA](./CmdletHelp/NA.md) |
+| | [Update a configuration policy for the specified customer](https://msdn.microsoft.com/en-us/library/partnercenter/mt842830.aspx) | [NA](./CmdletHelp/NA.md) |
+| Work with and upload device batches and device metadata | | |
+| | [Get the status of a device batch upload](https://msdn.microsoft.com/en-us/library/partnercenter/mt842828.aspx) | [NA](./CmdletHelp/NA.md) |
+| | [Get a list of device batches for the specified customer](https://msdn.microsoft.com/en-us/library/partnercenter/mt842827.aspx) | [NA](./CmdletHelp/NA.md) |
+| | [Get a list of devices for the specified batch and customer](https://msdn.microsoft.com/en-us/library/partnercenter/mt842826.aspx) | [NA](./CmdletHelp/NA.md) |
+| | [Upload a list of devices to create a new batch for the specified customer](https://msdn.microsoft.com/en-us/library/partnercenter/mt842833.aspx) | [NA](./CmdletHelp/NA.md) |
+| | [Upload a list of devices to an existing batch for the specified customer](https://msdn.microsoft.com/en-us/library/partnercenter/mt842832.aspx) | [NA](./CmdletHelp/NA.md) |
+| | [Delete a device for the specified customer](https://msdn.microsoft.com/en-us/library/partnercenter/mt842822.aspx) | [NA](./CmdletHelp/NA.md) |
+| | | |
 | **Manage customer accounts** | | |
 | Create a customer | | |
 | | [Create a customer](https://msdn.microsoft.com/en-us/library/partnercenter/mt634668.aspx) | [New-PCCustomer](./CmdletHelp/New-PCCustomer.md) |
-| | [Request a reseller relationship](https://msdn.microsoft.com/en-us/library/partnercenter/mt712736.aspx) | [New-PCRelationshipRequest](./CmdletHelp/New-PCRelationshipRequest.md) |
+| | [Create a customer for an indirect reseller](https://msdn.microsoft.com/en-us/library/partnercenter/mt784594.aspx) | [NA](./CmdletHelp/NA.md) |
+| | [Retrieve a relationship request URL](https://msdn.microsoft.com/en-us/library/partnercenter/mt712736.aspx) | [New-PCRelationshipRequest](./CmdletHelp/New-PCRelationshipRequest.md) |
 | Look up a customer | | |
 | | [Get a customer by ID](https://msdn.microsoft.com/en-us/library/partnercenter/mt634680.aspx) | [Get-PCCustomer](./CmdletHelp/Get-PCCustomer.md) |
 | | [Get a customer by company name or domain](https://msdn.microsoft.com/en-us/library/partnercenter/mt634681.aspx) | [Get-PCCustomer](./CmdletHelp/Get-PCCustomer.md) |
@@ -68,8 +90,10 @@ After this first steps you are ready to start using bellow cmdlet scenarios. (ex
 | | [Set user roles for a customer](https://msdn.microsoft.com/en-us/library/partnercenter/mt725336.aspx) | [Add-PCCustomerRoleMember](./CmdletHelp/Add-PCCustomerRoleMember.md) |
 | | [Remove a customer user from a role](https://msdn.microsoft.com/en-us/library/partnercenter/mt745131.aspx) | [Remove-PCCustomerRoleMember](./CmdletHelp/Remove-PCCustomerRoleMember.md) |
 | | [Get a list of available licenses](https://msdn.microsoft.com/en-us/library/partnercenter/mt725331.aspx) | [Get-PCSubscribedSKUs](./CmdletHelp/Get-PCSubscribedSKUs.md) |
-| | [Assign licenses to a user](https://msdn.microsoft.com/en-us/library/partnercenter/mt725326.aspx) |  |
+| | [Assign licenses to a user](https://msdn.microsoft.com/en-us/library/partnercenter/mt725326.aspx) | [NA](./CmdletHelp/NA.md) |
 | | [Check which licenses are assigned to a user](https://msdn.microsoft.com/en-us/library/partnercenter/mt725327.aspx) | [Get-PCCustomerUser](./CmdletHelp/Get-PCCustomerUser.md) |
+| | [Get licenses assigned to a user by license group](https://msdn.microsoft.com/en-us/library/partnercenter/mt784685.aspx) |  [NA](./CmdletHelp/NA.md) |
+| | [Get a list of available licenses by license group](https://msdn.microsoft.com/en-us/library/partnercenter/mt784684.aspx) |  [NA](./CmdletHelp/NA.md) |
 | | | |
 | **Place orders** | | |
 | Get offers from the catalog | | |
@@ -79,18 +103,23 @@ After this first steps you are ready to start using bellow cmdlet scenarios. (ex
 | | [Get add-ons for an offer ID](https://msdn.microsoft.com/en-us/library/partnercenter/mt634669.aspx) | [Get-PCOffer](./CmdletHelp/Get-PCOffer.md) |
 | Create an order | | |
 | | [Create an order](https://msdn.microsoft.com/en-us/library/partnercenter/mt634667.aspx) | [New-PCOrder](./CmdletHelp/New-PCOrder.md) |
+| | [Create an order for a customer of an indirect reseller](https://msdn.microsoft.com/en-us/library/partnercenter/mt808071.aspx) | [NA](./CmdletHelp/NA.md) |
 | | [Get an order by ID](https://msdn.microsoft.com/en-us/library/partnercenter/mt634679.aspx) | [Get-PCOffer](./CmdletHelp/Get-PCOffer.md) |
 | | [Purchase an add-on to a subscription](https://msdn.microsoft.com/en-us/library/partnercenter/mt778903.aspx) | [New-PCOrder](./CmdletHelp/New-PCOrder.md) |
+| Trial conversions | | |
+| | [Get a list of trial conversion offers](https://msdn.microsoft.com/en-us/library/partnercenter/mt803172.aspx) | [NA](./CmdletHelp/NA.md) |
+| | [Convert a trial subscription to paid](https://msdn.microsoft.com/en-us/library/partnercenter/mt803171.aspx) | [NA](./CmdletHelp/NA.md) |
 | Get subscription details | | |
 | | [Get a subscription by ID](https://msdn.microsoft.com/en-us/library/partnercenter/mt634692.aspx) | [Get-PCSubscription](./CmdletHelp/Get-PCSubscription.md) |
 | | [Get a list of subscriptions by ID](https://msdn.microsoft.com/en-us/library/partnercenter/mt683489.aspx) | [Get-PCSubscription](./CmdletHelp/Get-PCSubscription.md) |
 | | [Get a list of subscriptions by order](https://msdn.microsoft.com/en-us/library/partnercenter/mt634690.aspx) | [Get-PCSubscription](./CmdletHelp/Get-PCSubscription.md) |
 | | [Get a list of add-ons for a subscription](https://msdn.microsoft.com/en-us/library/partnercenter/mt634684.aspx) | [Get-PCSubscription](./CmdletHelp/Get-PCSubscription.md) |
+| | [Get subscription provisioning status](https://msdn.microsoft.com/en-us/library/partnercenter/mt800801.aspx) | [NA](./CmdletHelp/NA.md) |
 | Change, suspend, or reactivate a subscription | | |
 | | [Change the quantity of a subscription](https://msdn.microsoft.com/en-us/library/partnercenter/mt614218.aspx) | [Set-PCSubscription](./CmdletHelp/Set-PCSubscription.md) |
 | | [Suspend a subscription](https://msdn.microsoft.com/en-us/library/partnercenter/mt634716.aspx) | [Set-PCSubscription](./CmdletHelp/Set-PCSubscription.md) |
 | | [Reactivate a suspended subscription](https://msdn.microsoft.com/en-us/library/partnercenter/mt634714.aspx) | [Set-PCSubscription](./CmdletHelp/Set-PCSubscription.md) |
-| | [Transition a subscription](https://msdn.microsoft.com/en-us/library/partnercenter/mt644395.aspx) | |
+| | [Transition a subscription](https://msdn.microsoft.com/en-us/library/partnercenter/mt644395.aspx) |[NA](./CmdletHelp/NA.md) |
 | | | |
 | **Manage billing** | | |
 | Get Azure rates and utilization records | | |
@@ -104,10 +133,16 @@ After this first steps you are ready to start using bellow cmdlet scenarios. (ex
 | Check your Azure spending budget | | |
 | | [Get usage data for a subscription](https://msdn.microsoft.com/en-us/library/partnercenter/mt651646.aspx) | [Get-PCAzureResourceMonthlyUsageRecords](./CmdletHelp/Get-PCAzureResourceMonthlyUsageRecords.md) |
 | | [Get usage summary for all of a customer's subscriptions](https://msdn.microsoft.com/en-us/library/partnercenter/mt651643.aspx) | [Get-PCCustomerUsageSummary](./CmdletHelp/Get-PCCustomerUsageSummary.md) |
+| Get service costs | | |
+| | [Get a customer's service costs summary](https://msdn.microsoft.com/en-us/library/partnercenter/mt492473.aspx) | [NA](./CmdletHelp/NA.md) |
+| | [Get a customer's service costs line items](https://msdn.microsoft.com/en-us/library/partnercenter/mt492472.aspx) | [NA](./CmdletHelp/NA.md) |
 | | | |
 | **Provide support** | | |
 | Admin services for a customer | | |
 | | [Get the managed services for a customer by ID](https://msdn.microsoft.com/en-us/library/partnercenter/mt614220.aspx) | [Get-PCManagedServices](./CmdletHelp/Get-PCManagedServices.md) |
+| Manage support contacts | | |
+| | [Get a subscription's support contact](https://msdn.microsoft.com/en-us/library/partnercenter/mt803173.aspx) | [NA](./CmdletHelp/NA.md) |
+| | [Update a subscription's support contact](https://msdn.microsoft.com/en-us/library/partnercenter/mt803174.aspx) | [NA](./CmdletHelp/NA.md) |
 | Manage service requests | | |
 | | [Create a service request](https://msdn.microsoft.com/en-us/library/partnercenter/mt805812.aspx) | [New-PCSR](./CmdletHelp/New-PCSR.md) |
 | | [Get service request support topics](https://msdn.microsoft.com/en-us/library/partnercenter/mt634701.aspx) | [Get-PCSRTopics](./CmdletHelp/Get-PCSRTopics.md) |
@@ -117,6 +152,7 @@ After this first steps you are ready to start using bellow cmdlet scenarios. (ex
 | **Manage partner accounts and profiles** | | |
 | Work with profiles in Dashboard > Account settings | | |
 | | [Get legal business profile](https://msdn.microsoft.com/en-us/library/partnercenter/mt634697.aspx) | [Get-PCLegalBusinessProfile](./CmdletHelp/Get-PCLegalBusinessProfile.md) |
+| | [Get an organization profile](https://msdn.microsoft.com/en-us/library/partnercenter/mt712729.aspx) | [NA](./CmdletHelp/NA.md) |
 | | [Get partner billing profile](https://msdn.microsoft.com/en-us/library/partnercenter/mt712731.aspx) | [Get-PCBillingProfile](./CmdletHelp/Get-PCBillingProfile.md) |
 | | [Get Microsoft Partner Network profile](https://msdn.microsoft.com/en-us/library/partnercenter/mt634699.aspx) | [Get-PCMpnProfile](./CmdletHelp/Get-PCMpnProfile.md) |
 | | [Get support profile](https://msdn.microsoft.com/en-us/library/partnercenter/mt634703.aspx) | [Get-PCSupportProfile](./CmdletHelp/Get-PCSupportProfile.md) |
@@ -124,25 +160,19 @@ After this first steps you are ready to start using bellow cmdlet scenarios. (ex
 | | [Update a partner's billing profile](https://msdn.microsoft.com/en-us/library/partnercenter/mt712738.aspx) | [Set-PCBillingProfile](./CmdletHelp/Set-PCBillingProfile.md) |
 | | [Update support profile](https://msdn.microsoft.com/en-us/library/partnercenter/mt634725.aspx) | [Set-PCSupportProfile](./CmdletHelp/Set-PCSupportProfile.md) |
 | | [Update an organization profile](https://msdn.microsoft.com/en-us/library/partnercenter/mt712737.aspx) | [Set-PCOrganizationProfile](./CmdletHelp/Set-PCOrganizationProfile.md) |
-| | [Get indirect resellers of a customer](https://msdn.microsoft.com/en-us/library/partnercenter/mt783002.aspx) | [Get-PCCustomerRelationships](./CmdletHelp/Get-PCCustomerRelationships.md) |
-| | [Retrieve a list of indirect resellers](https://msdn.microsoft.com/en-us/library/partnercenter/mt783004.aspx) | [Get-PCIndirectResellers](./CmdletHelp/Get-PCIndirectResellers.md) |
-| | [Get customers of an indirect reseller](https://msdn.microsoft.com/en-us/library/partnercenter/mt808157.aspx) | [Get-PCResellerCustomers](./CmdletHelp/Get-PCResellerCustomers.md) |
-| Work with other partners | | |
 | | [Get partner by MPN ID](https://msdn.microsoft.com/en-us/library/partnercenter/mt634698.aspx) | [Get-PCMpnProfile](./CmdletHelp/Get-PCMpnProfile.md) |
 | | [Get all subscriptions by partner](https://msdn.microsoft.com/en-us/library/partnercenter/mt634676.aspx) | [Get-PCSubscription](./CmdletHelp/Get-PCSubscription.md) |
-| | | |
-| **Analytics** | | |
-| | [Get partner licenses deployment information](https://msdn.microsoft.com/en-us/library/partnercenter/mt797761.aspx) | [Get-PCLicensesDeployment](./CmdletHelp/Get-PCLicensesDeployment.md) |
-| | [Get partner licenses usage information](https://msdn.microsoft.com/en-us/library/partnercenter/mt797762.aspx) | [Get-PCLicensesUsage](./CmdletHelp/Get-PCLicensesUsage.md) |
-| | [Get customer licenses deployment information](https://msdn.microsoft.com/en-us/library/partnercenter/mt797759.aspx) | [Get-PCCustomerLicensesDeployment](./CmdletHelp/Get-PCCustomerLicensesDeployment.md) |
-| | [Get customer licenses usage information](https://msdn.microsoft.com/en-us/library/partnercenter/mt797760.aspx) | [Get-PCCustomerLicensesUsage](./CmdletHelp/Get-PCCustomerLicensesUsage.md) |
+| | [Get indirect resellers of a customer](https://msdn.microsoft.com/en-us/library/partnercenter/mt783002.aspx) | [Get-PCCustomerRelationships](./CmdletHelp/Get-PCCustomerRelationships.md) |
+| | [Get customers of an indirect reseller](https://msdn.microsoft.com/en-us/library/partnercenter/mt808157.aspx) | [Get-PCResellerCustomers](./CmdletHelp/Get-PCResellerCustomers.md) |
+| | [Retrieve a list of indirect resellers](https://msdn.microsoft.com/en-us/library/partnercenter/mt783004.aspx) | [Get-PCIndirectResellers](./CmdletHelp/Get-PCIndirectResellers.md) |
 | | | |
 | **Utilities** | | |
+| | [Validate address format](https://msdn.microsoft.com/en-us/library/partnercenter/mt797658.aspx) | [Test-PCAddress](./CmdletHelp/Test-PCAddress.md) |
 | | [Get address formatting rules by market](https://msdn.microsoft.com/en-us/library/partnercenter/mt683490.aspx) | [Get-PCAddressRulesByMarket](./CmdletHelp/Get-PCAddressRulesByMarket.md) |
 | | [Verify domain availability](https://msdn.microsoft.com/en-us/library/partnercenter/mt644396.aspx) | [Get-PCDomainAvailability](./CmdletHelp/Get-PCDomainAvailability.md) |
 | | [Delete a customer account from the integration sandbox](https://msdn.microsoft.com/en-us/library/partnercenter/mt712728.aspx) | [Remove-PCCustomer](./CmdletHelp/Remove-PCCustomer.md) |
 | | [Get a record of Partner Center activity by user](https://msdn.microsoft.com/en-us/library/partnercenter/mt725332.aspx) | [Get-PCAuditRecords](./CmdletHelp/Get-PCAuditRecords.md) |
-| | [Validate address format](https://msdn.microsoft.com/en-us/library/partnercenter/mt797658.aspx) | [Test-PCAddress](./CmdletHelp/Test-PCAddress.md) |
+| | | |
 | **Authentication** | | |
 | | [Add Partner Center Authentication Token](https://msdn.microsoft.com/en-us/library/partnercenter/mt634709.aspx) | [Add-PCAuthentication](./CmdletHelp/Add-PCAuthentication.md) |
 | | | [New-PCSAToken](./CmdletHelp/New-PCSAToken.md) |
