@@ -34,7 +34,7 @@ function Get-PCUsage
     }
     catch
     {
-        "Start time is not in a valid format. Use '31-12-1999 00:00:00' format"
+        "Start time is not in a valid format. Use '12-31-1999 00:00:00' format"
     }
 
     try{
@@ -42,7 +42,7 @@ function Get-PCUsage
     }
     catch
     {
-        "End time is not in a valid format. Use '31-12-1999 00:00:00' format"
+        "End time is not in a valid format. Use '12-31-1999 00:00:00' format"
     }
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/Subscriptions/{1}/Utilizations/azure?start_time={2}Z&end_time={3}Z&show_details={4}&granularity={5}&size={6}" -f $tenantid, $subscriptionid,$s_time,$e_time,$show_details,$granularity,$size
