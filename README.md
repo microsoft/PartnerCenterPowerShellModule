@@ -124,7 +124,7 @@ After this first steps you are ready to start using bellow cmdlet scenarios. (ex
 | **Manage billing** | | |
 | Get Azure rates and utilization records | | |
 | | [Get prices for Microsoft Azure](https://msdn.microsoft.com/en-us/library/partnercenter/mt774619.aspx) | [Get-PCAzureRateCard](./CmdletHelp/Get-PCAzureRateCard.md) |
-| | [Get a customer's utilization records for Azure](https://msdn.microsoft.com/en-us/library/partnercenter/mt791774.aspx) | [Get-PCUsage](./CmdletHelp/Get-PCUsage.md) |
+| | [Get a customer's utilization records for Azure](https://msdn.microsoft.com/en-us/library/partnercenter/mt791774.aspx) | [Get-PCUsage](./CmdletHelp/Get-PCUsage.md)<br/>[Get-PCUsage2](./CmdletHelp/Get-PCUsage2.md) |
 | Get invoices | | |
 | | [Get the reseller's current account balance](https://msdn.microsoft.com/en-us/library/partnercenter/mt712732.aspx) | [Get-PCInvoice](./CmdletHelp/Get-PCInvoice.md) |
 | | [Get invoice by ID](https://msdn.microsoft.com/en-us/library/partnercenter/mt712734.aspx) | [Get-PCInvoice](./CmdletHelp/Get-PCInvoice.md) |
