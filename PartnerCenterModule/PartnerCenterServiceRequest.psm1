@@ -88,8 +88,9 @@ function New-PCSR
     }
 
     $body = $newSR | ConvertTo-Json -Depth 100
+    $utf8body = [System.Text.Encoding]::UTF8.GetBytes($body)
 
-    $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Body $body -Method "POST" # -Debug -Verbose
+    $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Body $utf8body -Method "POST" # -Debug -Verbose
     $obj += $response.Substring(1) | ConvertFrom-Json
     return (_formatResult -obj $obj -type "ServiceRequest")  
 }
@@ -127,7 +128,9 @@ function Set-PCSR
     $headers += @{"MS-RequestId"=[Guid]::NewGuid()}
     $headers += @{"MS-CorrelationId"=[Guid]::NewGuid()}   
 
-    $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Body $body -Method "PATCH" #-Debug -Verbose
+    $utf8body = [System.Text.Encoding]::UTF8.GetBytes($body)
+
+    $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Body $utf8body -Method "PATCH" #-Debug -Verbose
     $obj += $response.Substring(1) | ConvertFrom-Json
     return (_formatResult -obj $obj -type "ServiceRequest")
 }
