@@ -155,8 +155,9 @@ function Set-PCSubscription
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/subscriptions/{1}" -f $tenantid, $subscription.Id
     $headers = @{Authorization="Bearer $satoken"}
     $body = $actualSubscription | ConvertTo-Json -Depth 100
+    $utf8body = [System.Text.Encoding]::UTF8.GetBytes($body)
 
-    $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Body $body -Method "PATCH" #-Debug -Verbose
+    $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Body $utf8body -Method "PATCH" #-Debug -Verbose
     $obj += $response.Substring(1) | ConvertFrom-Json
     return (_formatResult -obj $obj -type "Subscription") 
 }
