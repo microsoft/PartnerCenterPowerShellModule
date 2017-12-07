@@ -34,7 +34,7 @@ function Get-PCCustomer
         $headers = @{Authorization="Bearer $satoken"}
 
         $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-        $obj += $response.Substring(1) | ConvertFrom-Json
+        $obj += $response
         return (_formatResult -obj $obj -type "Customer")      
     }
 
@@ -48,7 +48,7 @@ function Get-PCCustomer
             $headers = @{Authorization="Bearer $satoken"}
 
             $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-            $obj += $response.Substring(1) | ConvertFrom-Json
+            $obj += $response
             return (_formatResult -obj $obj -type "Customer")  
         }
         else
@@ -57,7 +57,7 @@ function Get-PCCustomer
             $headers = @{Authorization="Bearer $satoken"}
     
             $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-            $obj += $response.Substring(1) | ConvertFrom-Json
+            $obj += $response
             return (_formatResult -obj $obj -type "Customer")  
         }
     }
@@ -74,7 +74,7 @@ function Get-PCCustomer
         $headers = @{Authorization="Bearer $satoken"}
 
         $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-        $obj += $response.Substring(1) | ConvertFrom-Json
+        $obj += $response
         return (_formatResult -obj $obj -type "Customer")  
     }
 
@@ -105,7 +105,7 @@ function Get-PCSubscribedSKUs
     $headers = @{Authorization="Bearer $satoken"}
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-    $obj += $response.Substring(1) | ConvertFrom-Json
+    $obj += $response
     return (_formatResult -obj $obj -type "SubscribedSku")  
 }
 
@@ -122,7 +122,7 @@ function Get-PCSpendingBudget
     $headers = @{Authorization="Bearer $satoken"}
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-    $obj += $response.Substring(1) | ConvertFrom-Json
+    $obj += $response
     return (_formatResult -obj $obj -type "SpendingBudget")  
 }
 function Set-PCSpendingBudget
@@ -141,7 +141,7 @@ function Set-PCSpendingBudget
     $body = $spendingbudget_tmp | ConvertTo-Json -Depth 100
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Body $body -Method "PATCH" #-Debug -Verbose
-    $obj += $response.Substring(1) | ConvertFrom-Json
+    $obj += $response
     return  (_formatResult -obj $obj -type "CustomerSpendingBudget")  
 }
 
@@ -186,7 +186,7 @@ function New-PCCustomer
     $body = $customer | ConvertTo-Json -Depth 100
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Body $body -Method "POST" #-Debug -Verbose    
-    $obj += $response.Substring(1) | ConvertFrom-Json
+    $obj += $response
     return (_formatResult -obj $obj -type "Customer")
 }
 
@@ -203,7 +203,7 @@ function Remove-PCCustomer
     $headers  = @{"Authorization"="Bearer $satoken"}
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "DELETE" #-Debug -Verbose
-    $obj += $response.Substring(1) | ConvertFrom-Json
+    $obj += $response
     return (_formatResult -obj $obj -type "Customer")  
 }
 
@@ -220,7 +220,7 @@ function Get-PCManagedServices
 
     $obj = @()
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-    $obj += $response.Substring(1) | ConvertFrom-Json
+    $obj += $response
     return (_formatResult -obj $obj -type "ManagedServices")  
 }
 
@@ -240,7 +240,7 @@ function Select-PCCustomer
     $headers = @{Authorization="Bearer $satoken"}
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-    $obj += $response.Substring(1) | ConvertFrom-Json
+    $obj += $response
 
     #setting SAToke variable as global
     Set-Variable -Name "GlobalCustomerID" -Value $obj.id -Scope Global
@@ -264,7 +264,7 @@ function Get-PCCustomerRelationships
 
     $obj = @()
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-    $obj += $response.Substring(1) | ConvertFrom-Json
+    $obj += $response
     return (_formatResult -obj $obj -type "PartnerRelationship")
 }
 
@@ -292,6 +292,6 @@ function Get-PCResellerCustomers
     $headers = @{Authorization="Bearer $satoken"}
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-    $obj += $response.Substring(1) | ConvertFrom-Json
+    $obj += $response
     return (_formatResult -obj $obj -type "Customer")  
 }

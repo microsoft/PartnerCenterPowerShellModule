@@ -35,7 +35,7 @@ function Get-PCOffer
             $headers = @{Authorization="Bearer $satoken"}
 
             $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-            $obj += $response.Substring(1) | ConvertFrom-Json
+            $obj += $response
             return (_formatResult -obj $obj -type "OfferAddons")   
         }
         else
@@ -44,7 +44,7 @@ function Get-PCOffer
             $headers = @{Authorization="Bearer $satoken"}
 
             $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-            $obj += $response.Substring(1) | ConvertFrom-Json
+            $obj += $response
             return (_formatResult -obj $obj -type "Offer")     
         }
     }
@@ -56,7 +56,7 @@ function Get-PCOffer
             $headers = @{Authorization="Bearer $satoken"}
 
             $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-            $obj += $response.Substring(1) | ConvertFrom-Json
+            $obj += $response
             return (_formatResult -obj $obj -type "Offer")
         }
         else
@@ -65,7 +65,7 @@ function Get-PCOffer
             $headers = @{Authorization="Bearer $satoken"}
 
             $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-            $obj += $response.Substring(1) | ConvertFrom-Json
+            $obj += $response
             return (_formatResult -obj $obj -type "Offer")
         }
     }
@@ -84,7 +84,7 @@ function Get-PCOfferCategoriesByMarket
     $headers = @{Authorization="Bearer $satoken"}
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-    $obj += $response.Substring(1) | ConvertFrom-Json
+    $obj += $response
     return (_formatResult -obj $obj -type "OfferCategories")   
 }
 
@@ -100,7 +100,7 @@ function Get-PCAddressRulesByMarket
     $headers = @{Authorization="Bearer $satoken"}
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-    $obj += $response.Substring(1) | ConvertFrom-Json
+    $obj += $response
     return (_formatResult -obj $obj -type "MarketRules")   
 }
 
@@ -117,6 +117,6 @@ function Get-PCAzureRateCard
     $headers = @{Authorization="Bearer $satoken"}
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-    $obj += $response.Substring(1) | ConvertFrom-Json
+    $obj += $response
     return (_formatResult -obj $obj -type "AzureRateCard")   
 }

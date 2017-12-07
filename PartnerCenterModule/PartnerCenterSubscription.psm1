@@ -38,7 +38,7 @@ function Get-PCSubscription
         $headers = @{Authorization="Bearer $satoken"}
 
         $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-        $obj += $response.Substring(1) | ConvertFrom-Json
+        $obj += $response
         return (_formatResult -obj $obj -type "Subscription") 
     }
 
@@ -53,7 +53,7 @@ function Get-PCSubscription
                 $headers = @{Authorization="Bearer $satoken"}
 
                 $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-                $obj += $response.Substring(1) | ConvertFrom-Json
+                $obj += $response
                 return (_formatResult -obj $obj -type "SubscriptionAddons")   
             }
             else {
@@ -61,7 +61,7 @@ function Get-PCSubscription
                 $headers = @{Authorization="Bearer $satoken"}
 
                 $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-                $obj += $response.Substring(1) | ConvertFrom-Json
+                $obj += $response
                 return (_formatResult -obj $obj -type "Subscription") 
             }
         }
@@ -71,7 +71,7 @@ function Get-PCSubscription
             $headers = @{Authorization="Bearer $satoken"}
 
             $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-            $obj += $response.Substring(1) | ConvertFrom-Json
+            $obj += $response
             return (_formatResult -obj $obj -type "Subscription") 
         }
     }
@@ -83,7 +83,7 @@ function Get-PCSubscription
         $headers = @{Authorization="Bearer $satoken"}
 
         $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-        $obj += $response.Substring(1) | ConvertFrom-Json
+        $obj += $response
         return (_formatResult -obj $obj -type "Subscription") 
     }
 
@@ -96,7 +96,7 @@ function Get-PCSubscription
             $headers = @{Authorization="Bearer $satoken"}
 
             $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-            $obj += $response.Substring(1) | ConvertFrom-Json
+            $obj += $response
             return (_formatResult -obj $obj -type "Subscription") 
         }
         else
@@ -105,7 +105,7 @@ function Get-PCSubscription
             $headers = @{Authorization="Bearer $satoken"}
 
             $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-            $obj += $response.Substring(1) | ConvertFrom-Json
+            $obj += $response
             return (_formatResult -obj $obj -type "Subscription") 
         }
     }
@@ -158,6 +158,6 @@ function Set-PCSubscription
     $utf8body = [System.Text.Encoding]::UTF8.GetBytes($body)
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Body $utf8body -Method "PATCH" #-Debug -Verbose
-    $obj += $response.Substring(1) | ConvertFrom-Json
+    $obj += $response
     return (_formatResult -obj $obj -type "Subscription") 
 }

@@ -67,7 +67,7 @@ function Get-PCInvoice
         $headers = @{Authorization="Bearer $satoken"}
 
         $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-        $obj += $response.Substring(1) | ConvertFrom-Json
+        $obj += $response
         return (_formatResult -obj $obj -type "Invoice") 
     }
 #>
