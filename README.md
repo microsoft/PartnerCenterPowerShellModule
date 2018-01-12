@@ -8,6 +8,11 @@ This module is published via [PowerShell Gallery](https://www.powershellgallery.
 
     Install-Module -Name PartnerCenterModule
 
+### Import Classes ###
+To Import Classes so that you can use fuctions like New-PCOrder.
+
+    using module PartnerCenterModule
+
 ## How to use ##
 ### Step 1 ###
    Make sure your [App Management is already configured](https://msdn.microsoft.com/library/partnercenter/mt709136.aspx) to enable access to Partner Center API.
