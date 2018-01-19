@@ -39,7 +39,7 @@ function Get-PCAuditRecords
     $headers = @{Authorization="Bearer $satoken"}
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-    $obj += $response.Substring(1) | ConvertFrom-Json
+    $obj += $response
     return (_formatResult -obj $obj -type "AuditRecord")  
 }
 
@@ -59,6 +59,6 @@ function Get-PCIndirectResellers
     $headers = @{Authorization="Bearer $satoken"}
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-    $obj += $response.Substring(1) | ConvertFrom-Json
+    $obj += $response
     return (_formatResult -obj $obj -type "PartnerRelationship")  
 }

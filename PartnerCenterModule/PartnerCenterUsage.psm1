@@ -126,7 +126,7 @@ function Get-PCUsage_implementation
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
 
-    $obj += $response.Substring(1) | ConvertFrom-Json
+    $obj += $response
 
     $properties = @{
         'Count' = $obj[0].totalCount;
@@ -153,7 +153,7 @@ function Get-PCSubscriptionMonthlyUsageRecords
     $headers += @{"MS-CorrelationId" = [Guid]::NewGuid()}
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-    $obj += $response.Substring(1) | ConvertFrom-Json
+    $obj += $response
     return (_formatResult -obj $obj -type "SubscriptionMonthlyUsageRecord")
 }
 
@@ -175,7 +175,7 @@ function Get-PCAzureResourceMonthlyUsageRecords
     $headers += @{"MS-CorrelationId" = [Guid]::NewGuid()}
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-    $obj += $response.Substring(1) | ConvertFrom-Json
+    $obj += $response
     return (_formatResult -obj $obj -type "AzureResourceMonthlyUsageRecord") 
 }
 
@@ -196,7 +196,7 @@ function Get-PCCustomerUsageSummary
     $headers += @{"MS-CorrelationId" = [Guid]::NewGuid()}
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-    $obj += $response.Substring(1) | ConvertFrom-Json
+    $obj += $response
     return (_formatResult -obj $obj -type "CustomerUsageSummary") 
 }
 
@@ -219,6 +219,6 @@ function Get-PCCustomerServiceCostSummary
     $headers = @{Authorization = "Bearer $satoken"}
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-    $obj += $response.Substring(1) | ConvertFrom-Json
+    $obj += $response
     return (_formatResult -obj $obj -type "ServiceCostsSummary") 
 }

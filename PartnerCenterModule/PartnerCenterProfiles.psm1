@@ -27,7 +27,7 @@ function Get-PCLegalBusinessProfile
     $headers = @{Authorization="Bearer $satoken"}
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-    $obj += $response.Substring(1) | ConvertFrom-Json
+    $obj += $response
     return (_formatResult -obj $obj -type "Profile") 
 }
 
@@ -45,7 +45,7 @@ function Get-PCOrganizationProfile
     $headers = @{Authorization="Bearer $satoken"}
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-    $obj += $response.Substring(1) | ConvertFrom-Json
+    $obj += $response
     return (_formatResult -obj $obj -type "Profile") 
 }
 
@@ -63,7 +63,7 @@ function Get-PCBillingProfile
     $headers = @{Authorization="Bearer $satoken"}
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-    $obj += $response.Substring(1) | ConvertFrom-Json
+    $obj += $response
     return (_formatResult -obj $obj -type "Profile") 
 }
 
@@ -90,7 +90,7 @@ function Get-PCMpnProfile
     $headers = @{Authorization="Bearer $satoken"}
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-    $obj += $response.Substring(1) | ConvertFrom-Json
+    $obj += $response
     return (_formatResult -obj $obj -type "Profile")
 }
 
@@ -108,7 +108,7 @@ function Get-PCSupportProfile
     $headers = @{Authorization="Bearer $satoken"}
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-    $obj += $response.Substring(1) | ConvertFrom-Json
+    $obj += $response
     return (_formatResult -obj $obj -type "Profile") 
 }
 
@@ -160,7 +160,7 @@ function Set-PCLegalBusinessProfile
     $utf8body = [System.Text.Encoding]::UTF8.GetBytes($body)
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "PUT" -Body $utf8body #-Debug -Verbose
-    $obj += $response.Substring(1) | ConvertFrom-Json
+    $obj += $response
     return (_formatResult -obj $obj -type "Profile") 
 }
 
@@ -207,7 +207,7 @@ function Set-PCOrganizationProfile
     $utf8body = [System.Text.Encoding]::UTF8.GetBytes($body)
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "PUT" -Body $utf8body #-Debug -Verbose
-    $obj += $response.Substring(1) | ConvertFrom-Json
+    $obj += $response
     return (_formatResult -obj $obj -type "Profile") 
 }
 
@@ -253,7 +253,7 @@ function Set-PCBillingProfile
     $utf8body = [System.Text.Encoding]::UTF8.GetBytes($body)
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "PUT" -Body $utf8body #-Debug -Verbose
-    $obj += $response.Substring(1) | ConvertFrom-Json
+    $obj += $response
     return (_formatResult -obj $obj -type "Profile") 
 }
 
@@ -284,7 +284,7 @@ function Set-PCSupportProfile
     $utf8body = [System.Text.Encoding]::UTF8.GetBytes($body)
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "PUT" -Body $utf8body #-Debug -Verbose
-    $obj += $response.Substring(1) | ConvertFrom-Json
+    $obj += $response
     return (_formatResult -obj $obj -type "Profile") 
 }
 
@@ -306,7 +306,7 @@ function Get-PCCustomerBillingProfile
     $headers = @{Authorization="Bearer $satoken"}
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-    $obj += $response.Substring(1) | ConvertFrom-Json
+    $obj += $response
     return (_formatResult -obj $obj -type "Profile") 
 }
 
@@ -329,7 +329,7 @@ function Set-PCCustomerBillingProfile
     $utf8body = [System.Text.Encoding]::UTF8.GetBytes($body)
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Body $utf8body -Method "PUT" #-Debug -Verbose
-    $obj += $response.Substring(1) | ConvertFrom-Json
+    $obj += $response
     return (_formatResult -obj $obj -type "Profile") 
 }
 
@@ -349,7 +349,7 @@ function Get-PCCustomerCompanyProfile
     $headers = @{Authorization="Bearer $satoken"}
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-    $obj += $response.Substring(1) | ConvertFrom-Json
+    $obj += $response
     return (_formatResult -obj $obj -type "Profile") 
 }
 
@@ -462,7 +462,7 @@ function Test-PCAddress
     $utf8body = [System.Text.Encoding]::UTF8.GetBytes($body)
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Body $utf8body -Method "POST" #-Debug -Verbose    
-    $obj += $response.Substring(1) | ConvertFrom-Json
+    $obj += $response
     return (_formatResult -obj $obj -type "ValidationAddress")
 
 }

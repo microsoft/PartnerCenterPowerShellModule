@@ -57,7 +57,7 @@ function Get-PCCustomerRole
     $headers = @{Authorization="Bearer $satoken"}
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-    $obj += $response.Substring(1) | ConvertFrom-Json
+    $obj += $response
     return (_formatResult -obj $obj -type "DirectoryRoles")   
 }
 
@@ -77,7 +77,7 @@ function Get-PCCustomerRoleMember
     $headers = @{Authorization="Bearer $satoken"}
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-    $obj += $response.Substring(1) | ConvertFrom-Json
+    $obj += $response
     return (_formatResult -obj $obj -type "DirectoryRolesUser")
 }
 
@@ -100,7 +100,7 @@ function Add-PCCustomerRoleMember
     $body = $customerrolemember | ConvertTo-Json -Depth 100
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Body $body -Method "POST" #-Debug -Verbose
-    $obj += $response.Substring(1) | ConvertFrom-Json
+    $obj += $response
     return (_formatResult -obj $obj -type "DirectoryRolesUser") 
 }
 
@@ -123,7 +123,7 @@ function Remove-PCCustomerRoleMember
     $headers += @{"MS-CorrelationId"=[Guid]::NewGuid()}
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "DELETE" #-Debug -Verbose
-    $obj += $response.Substring(1) | ConvertFrom-Json
+    $obj += $response
     return (_formatResult -obj $obj -type "DirectoryRolesUser")   
 }
 
@@ -139,6 +139,6 @@ function New-PCRelationshipRequest
     $headers  = @{"Authorization"="Bearer $satoken"}
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" -Debug -Verbose
-    $obj += $response.Substring(1) | ConvertFrom-Json
+    $obj += $response
     return (_formatResult -obj $obj -type "RelationshipRequest") 
 }

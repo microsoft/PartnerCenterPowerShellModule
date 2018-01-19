@@ -30,7 +30,7 @@ function Get-PCOrder
         $headers = @{Authorization="Bearer $satoken"}
 
         $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-        $obj += $response.Substring(1) | ConvertFrom-Json
+        $obj += $response
         return (_formatResult -obj $obj -type "Order")  
     }
     else
@@ -39,7 +39,7 @@ function Get-PCOrder
         $headers = @{Authorization="Bearer $satoken"}
 
         $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-        $obj += $response.Substring(1) | ConvertFrom-Json
+        $obj += $response
         return (_formatResult -obj $obj -type "Order")  
     }
 }
@@ -94,7 +94,7 @@ function New-PCOrder
     }
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Body $body -Method $method #-Debug -Verbose
-    $obj += $response.Substring(1) | ConvertFrom-Json
+    $obj += $response
     return (_formatResult -obj $obj -type "Order")  
 }
 
@@ -123,7 +123,7 @@ function New-PCAddonOrder
     $body = $order | ConvertTo-Json -Depth 100
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Body $body -Method "PATCH" #-Debug -Verbose
-    $obj += $response.Substring(1) | ConvertFrom-Json
+    $obj += $response
     return (_formatResult -obj $obj -type "Order")
 }
 

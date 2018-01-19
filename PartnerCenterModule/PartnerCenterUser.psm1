@@ -36,7 +36,7 @@ function Get-PCCustomerUser
         $headers = @{Authorization="Bearer $satoken"}
 
         $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-        $obj += $response.Substring(1) | ConvertFrom-Json
+        $obj += $response
         return (_formatResult -obj $obj -type "CustomerUser")       
     }
 
@@ -51,7 +51,7 @@ function Get-PCCustomerUser
                 $headers = @{Authorization="Bearer $satoken"}
 
                 $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-                $obj += $response.Substring(1) | ConvertFrom-Json
+                $obj += $response
                 return (_formatResult -obj $obj -type "CustomerUserLicenses")       
             }
             else
@@ -60,7 +60,7 @@ function Get-PCCustomerUser
                 $headers = @{Authorization="Bearer $satoken"}
 
                 $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-                $obj += $response.Substring(1) | ConvertFrom-Json
+                $obj += $response
                 return (_formatResult -obj $obj -type "CustomerUser")
             }
         }
@@ -70,7 +70,7 @@ function Get-PCCustomerUser
             $headers = @{Authorization="Bearer $satoken"}
 
             $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-            $obj += $response.Substring(1) | ConvertFrom-Json
+            $obj += $response
             return (_formatResult -obj $obj -type "CustomerUser")       
         }
     }
@@ -86,7 +86,7 @@ function Get-PCCustomerUser
         $headers = @{Authorization="Bearer $satoken"}
 
         $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-        $obj += $response.Substring(1) | ConvertFrom-Json
+        $obj += $response
         return (_formatResult -obj $obj -type "CustomerUser")        
     }
 
@@ -131,7 +131,7 @@ function New-PCCustomerUser
     $utf8body = [System.Text.Encoding]::UTF8.GetBytes($body)
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Body $utf8body -Method "POST" # -Debug -Verbose
-    $obj += $response.Substring(1) | ConvertFrom-Json
+    $obj += $response
     return (_formatResult -obj $obj -type "CustomerUser")       
 }
 
@@ -173,7 +173,7 @@ function Set-PCCustomerUser
     $utf8body = [System.Text.Encoding]::UTF8.GetBytes($body)
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Body $utf8body -Method "PATCH" #-Debug -Verbose
-    $obj += $response.Substring(1) | ConvertFrom-Json
+    $obj += $response
     return (_formatResult -obj $obj -type "CustomerUser")       
 }
 
@@ -197,7 +197,7 @@ function Restore-PCCustomerUser
     $utf8body = [System.Text.Encoding]::UTF8.GetBytes($body)
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Body $utf8body -Method "PATCH" #-Debug -Verbose
-    $obj += $response.Substring(1) | ConvertFrom-Json
+    $obj += $response
     return (_formatResult -obj $obj -type "CustomerUser")     
 }
 
@@ -218,7 +218,7 @@ function Remove-PCCustomerUser
     $headers += @{"MS-CorrelationId"=[Guid]::NewGuid()}
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "DELETE" #-Debug -Verbose
-    $obj += $response.Substring(1) | ConvertFrom-Json
+    $obj += $response
     return (_formatResult -obj $obj -type "CustomerUser")       
 }
 
@@ -237,6 +237,6 @@ function Get-PCCustomerUserRoles
     $headers = @{Authorization="Bearer $satoken"}
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-    $obj += $response.Substring(1) | ConvertFrom-Json
+    $obj += $response
     return (_formatResult -obj $obj -type "CustomerUserDirectoryRoles")  
 }
