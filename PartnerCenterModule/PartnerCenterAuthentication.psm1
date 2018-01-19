@@ -42,6 +42,8 @@ function Get-GraphAADTokenByApp
     $body = $body + "resource=$resource&"
     $body = $body + "client_id=$clientid&"
     $tmp_clientsecret = _unsecureString -string $clientsecret
+    # we need to escape the secret because it may contain special chars
+    $tmp_clientsecret = [uri]::EscapeDataString($tmp_clientsecret)
     $body = $body + "client_secret=$tmp_clientsecret"
 
     $response = Invoke-RestMethod -Uri $url -ContentType "application/x-www-form-urlencoded" -Body $body -method "POST" #-Debug -Verbose -Headers $headers 
