@@ -96,12 +96,13 @@ function Get-PCInvoiceLineItems
          [Parameter(Mandatory = $true)][ValidateSet("Azure","Office")][string]$billingprovider,
          [Parameter(Mandatory = $true)][ValidateSet("BillingLineItems","UsageLineItems")][string]$invoicelineitemtype,
          [Parameter(Mandatory = $false)][int]$size = 200,
+         [Parameter(Mandatory = $false)][int]$offset = 0,
         [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken
     )
    _testTokenContext($satoken)
    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
     $obj = @()
-    $url = "https://api.partnercenter.microsoft.com/v1/invoices/{0}/lineitems/{1}/{2}?size={3}&offset=0" -f $invoiceid,$billingprovider,$invoicelineitemtype,$size
+    $url = "https://api.partnercenter.microsoft.com/v1/invoices/{0}/lineitems/{1}/{2}?size={3}&offset={4}" -f $invoiceid, $billingprovider, $invoicelineitemtype, $size, $offset
 
     $headers = @{Authorization="Bearer $satoken"}
 
