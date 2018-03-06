@@ -242,7 +242,7 @@ class Order
     [Array] $LineItems
 
     #Optional fields
-    [string] $Status = 'none'
+    #[string] $Status = 'none'
     [string] $CreationDate
     [string] $BillingCycleType
     [Attributes] $Attributes
