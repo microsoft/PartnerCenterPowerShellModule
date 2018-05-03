@@ -202,9 +202,16 @@ function Remove-PCCustomer
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}" -f $tenantid
     $headers  = @{"Authorization"="Bearer $satoken"}
 
-    $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "DELETE" #-Debug -Verbose
-    $obj += $response.Substring(1) | ConvertFrom-Json
-    return (_formatResult -obj $obj -type "Customer")  
+    $response = try
+                {
+                    Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "DELETE" #-Debug -Verbose
+                }
+                catch
+                {
+                    $_.Exception.Response
+                }
+
+    return ($response)  
 }
 
 function Get-PCManagedServices
