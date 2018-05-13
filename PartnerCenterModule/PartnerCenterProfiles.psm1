@@ -357,18 +357,18 @@ function New-PCCustomerBillingProfile
 {
     [CmdletBinding()]
     param (
+        [Parameter(Mandatory = $true)][string]$FirstName,
+        [Parameter(Mandatory = $true)][string]$LastName,
         [Parameter(Mandatory = $true)][string]$Email,
         [Parameter(Mandatory = $true)][string]$Culture,
         [Parameter(Mandatory = $true)][string]$Language,
         [Parameter(Mandatory = $true)][string]$CompanyName,
         [Parameter(ParameterSetName='AllDetails',Mandatory = $true)][string]$Country, 
-        [Parameter(ParameterSetName='AllDetails',Mandatory = $false)][string]$Region = "",
+        [Parameter(ParameterSetName='AllDetails',Mandatory = $false)][string]$Region = $null,
         [Parameter(ParameterSetName='AllDetails',Mandatory = $true)][string]$City, 
         [Parameter(ParameterSetName='AllDetails',Mandatory = $true)][string]$State, 
         [Parameter(ParameterSetName='AllDetails',Mandatory = $true)][string]$AddressLine1,
         [Parameter(ParameterSetName='AllDetails',Mandatory = $true)][string]$PostalCode, 
-        [Parameter(ParameterSetName='AllDetails',Mandatory = $true)][string]$FirstName,
-        [Parameter(ParameterSetName='AllDetails',Mandatory = $true)][string]$LastName, 
         [Parameter(ParameterSetName='AllDetails',Mandatory = $true)][string]$PhoneNumber,
         [Parameter(ParameterSetName='DefaultAddress',Mandatory = $true)][DefaultAddress]$DefaultAddress
     )
@@ -377,7 +377,7 @@ function New-PCCustomerBillingProfile
     {
         'AllDetails'    { $billingProfile = [BillingProfile]::new($Email,$Culture,$Language,$CompanyName,$Country,$Region,$City,$State,$AddressLine1, `
                                                    $PostalCode, $FirstName, $LastName,  $PhoneNumber) }
-        'DefaultAddress'{ $billingProfile = [BillingProfile]::new($Email,$Culture,$Language,$CompanyName,$DefaultAddress)}
+        'DefaultAddress'{ $billingProfile = [BillingProfile]::new($FirstName, $LastName, $Email,$Culture,$Language,$CompanyName,$DefaultAddress)}
     }
 
     return $billingProfile
@@ -388,7 +388,7 @@ function New-PCCustomerDefaultAddress
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true)][string]$Country, 
-        [Parameter(Mandatory = $false)][string]$Region = "", 
+        [Parameter(Mandatory = $false)][string]$Region = $null, 
         [Parameter(Mandatory = $true)][string]$City, 
         [Parameter(Mandatory = $true)][string]$State, 
         [Parameter(Mandatory = $true)][string]$AddressLine1,
@@ -422,8 +422,8 @@ function New-PCAddress
         [Parameter(Mandatory = $true)][string]$City, 
         [Parameter(Mandatory = $true)][string]$State, 
         [Parameter(Mandatory = $true)][string]$PostalCode, 
-        [Parameter(Mandatory = $true)][string]$country,
-        [Parameter(Mandatory = $false)][string]$region = ""
+        [Parameter(Mandatory = $true)][string]$Country,
+        [Parameter(Mandatory = $false)][string]$Region = $null
     )
     
     $Address = [DefaultAddress]::new($Country, $Region, $City,$State,$AddressLine1,$PostalCode)
