@@ -69,7 +69,6 @@ class DefaultAddress
                 [string] $PostalCode, [string] $FirstName, [string] $LastName, [string] $PhoneNumber)
     {
         $this.Country = $Country
-        $this.Region = $Region
         $this.City = $City
         $this.State = $State
         $this.AddressLine1 = $AddressLine1
@@ -77,17 +76,24 @@ class DefaultAddress
         $this.FirstName = $FirstName
         $this.LastName = $LastName
         $this.PhoneNumber = $PhoneNumber
+
+        if(-not [string]::IsNullOrEmpty($Region)) {
+            $this.Region = $Region            
+        }
     }
 
     DefaultAddress ([string] $Country, [string] $Region, [string] $City, [string] $State, [string] $AddressLine1, `
                 [string] $PostalCode)
     {
         $this.Country = $Country
-        $this.Region = $Region
         $this.City = $City
         $this.State = $State
         $this.AddressLine1 = $AddressLine1
         $this.PostalCode = $PostalCode
+
+        if(-not [string]::IsNullOrEmpty($Region)) {
+            $this.Region = $Region            
+        }
     }
 }
 
@@ -96,6 +102,8 @@ class BillingProfile
     #read only
     [string] $Id
 
+    [string] $FirstName
+    [string] $LastName
     [string] $Email
     [string] $Culture
     [string] $Language
@@ -109,6 +117,8 @@ class BillingProfile
         $defaultAddresstmp = [DefaultAddress]::new($Country, $Region, $City,$State,$AddressLine1,$PostalCode,$FirstName,$LastName,$PhoneNumber)
         $att_tmp = [Attributes]::new('BillingProfile')
 
+        $this.FirstName = $FirstName
+        $this.LastName = $LastName
         $this.DefaultAddress = $defaultAddresstmp
         $this.Email = $Email
         $this.Culture = $Culture
@@ -117,10 +127,12 @@ class BillingProfile
         $this.Attributes = $att_tmp
     }
 
-    BillingProfile ([string] $Email,[string]$Culture,[string]$Language,[string]$CompanyName,[DefaultAddress] $DefaultAddress)
+    BillingProfile ([string]$FirstName, [string]$LastName, [string] $Email,[string]$Culture,[string]$Language,[string]$CompanyName,[DefaultAddress] $DefaultAddress)
     {
         $att_tmp = [Attributes]::new('BillingProfile')
 
+        $this.FirstName = $FirstName
+        $this.LastName = $LastName
         $this.Email = $Email
         $this.Culture = $Culture
         $this.Language = $Language
@@ -136,7 +148,7 @@ class Customer
     #read only
     [string] $Id
     [string] $CommerceId
-    [string] $RelationshipToPartner = 'none'
+    [string] $RelationshipToPartner = 'unknown'
     [string] $UserCredentials
 
     #mandatoryFields
@@ -156,7 +168,7 @@ class Customer
         $defaultaddress_tmp = [DefaultAddress]::new($Country,$Region,$City,$State,$AddressLine1, `
                                                         $PostalCode,$FirstName,$LastName,$PhoneNumber)
 
-        $billingprofile_tmp = [BillingProfile]::new($Email,$Culture,$Language,$CompanyName,$defaultaddress_tmp)
+        $billingprofile_tmp = [BillingProfile]::new($FirstName, $LastName, $Email,$Culture,$Language,$CompanyName,$defaultaddress_tmp)
 
         $companyprofile_tmp = [CompanyProfile]::new($Domain)
         $att_tmp = [Attributes]::new('Customer')

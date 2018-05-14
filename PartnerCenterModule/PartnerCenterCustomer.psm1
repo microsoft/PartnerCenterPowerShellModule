@@ -178,9 +178,9 @@ function New-PCCustomer
     
     switch ($PsCmdlet.ParameterSetName)
     {
-        'AllDetails' { $customer = [Customer]::new($Email,$Culture,$Language,$CompanyName,$Country,$Region,$City,$State,$AddressLine1, `
-                                                   $PostalCode, $FirstName, $LastName,  $PhoneNumber,$Domain) }
-        'ByProfiles' { $customer = [Customer]::new($BillingProfile,$CompanyProfile)}
+        'AllDetails' { $customer = [Customer]::new($Email, $Culture, $Language, $CompanyName, $Country, $Region, $City, $State, $AddressLine1, `
+                                                   $PostalCode, $FirstName, $LastName, $PhoneNumber, $Domain) }
+        'ByProfiles' { $customer = [Customer]::new($BillingProfile, $CompanyProfile)}
     }
         
     $body = $customer | ConvertTo-Json -Depth 100
