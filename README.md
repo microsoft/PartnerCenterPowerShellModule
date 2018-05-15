@@ -1,26 +1,26 @@
 # Partner Center PowerShell Module (preview) #
 
-## What is it ##
+## Introduction ##
 
-Partner Center Powershell Module is the powershell implementation of the Partner Center API available scenarios. You can manage your customers, offers, subscriptions, usage, etc. Objective is to keep this module as close as possible to the Partner Center SDK functionalities. 
+Partner Center Powershell Module is the PowerShell implementation of the Partner Center API available scenarios. You can manage your customers, offers, subscriptions, usage, etc. The objective is to keep this module close to the Partner Center SDK functionality.
 
 ## How to install ##
 
-This module is published via [PowerShell Gallery](https://www.powershellgallery.com/) so it can be installed using Install-Module.
+This module is published via [PowerShell Gallery](https://www.powershellgallery.com/) and can be installed using Install-Module.
 
     Install-Module -Name PartnerCenterModule
 
-### Import Classes ###
+## Import Classes ##
 
 To Import Classes so that you can use fuctions like New-PCOrder.
 
     using module PartnerCenterModule
 
-## How to use ##
+## Getting Started ##
 
 ### Step 1 ###
 
-   Make sure your [App Management is already configured](https://msdn.microsoft.com/library/partnercenter/mt709136.aspx) to enable access to Partner Center API.
+   Make sure that [Partner Center App Management is configured](https://msdn.microsoft.com/library/partnercenter/mt709136.aspx) to enable access to the Partner Center API.
 
 ### Step 2 ###
 
@@ -44,11 +44,11 @@ You can obtain the Web App ID and the Client Secret from either Partner Center U
 
 ### Ready ###
 
-After completing these steps you are ready to start using cmdlet scenarios listed below. (ex: create customers, create subscriptions, etc)
+After completing these steps you are ready to start using the cmdlets for the scenarios listed below. (ex: create customers, create subscriptions, etc)
 
-## Partner Center API scenario -> powershell module matrix ##
+## Partner Center API scenario -> PowerShell module matrix ##
 
-| Partner Center API Scenario | | CmdLet |
+| Partner Center API Scenario | | Cmdlet |
 |:-|:-|:-|
 | | | |
 | **Analytics** |Retrieve analytics | |
@@ -194,18 +194,17 @@ After completing these steps you are ready to start using cmdlet scenarios liste
 | **Authentication** | | |
 | | [Add Partner Center Authentication Token](https://msdn.microsoft.com/en-us/library/partnercenter/mt634709.aspx) | [Add-PCAuthentication](./CmdletHelp/Add-PCAuthentication.md) |
 | | | [New-PCSAToken](./CmdletHelp/New-PCSAToken.md) |
- 
 
 ## Telemetry collection ##
+
 To help us to better understand the module utilization and better prioritize development efforts we enabled telemetry collection by default.
 
 What we collect?
 
--  The CSP account domain
--  The cmdlet name executed (only the name, no data is collected)
--  The module version
- 
+- The CSP account domain
+- The cmdlet name executed (only the name, no data is collected)
+- The module version
+
 If you prefer not to send this data use the following command to disable the telemetry collection:
 
     Set-PCModuleTelemetry -enabled $false
-
