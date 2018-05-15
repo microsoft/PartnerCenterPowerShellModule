@@ -1,6 +1,6 @@
 # Partner Center PowerShell Module (preview) #
 
-## What is ##
+## What is it ##
 
 Partner Center Powershell Module is the powershell implementation of the Partner Center API available scenarios. You can manage your customers, offers, subscriptions, usage, etc. Objective is to keep this module as close as possible to the Partner Center SDK functionalities. 
 
@@ -24,27 +24,27 @@ To Import Classes so that you can use fuctions like New-PCOrder.
 
 ### Step 2 ###
 
-Just like with AzureRM powershell module, the first step to start using it is to provide authentication. In Partner Center PowerShell Module you use [Add-PCAuthentication](./CmdletHelp/Add-PCAuthentication.md) cmdlet. This will set your CSP account authentication context.
+Just like with AzureRM powershell module, the first step to start using it is to provide authentication. In Partner Center PowerShell Module you use [Add-PCAuthentication](./CmdletHelp/Add-PCAuthentication.md) cmdlet to set your CSP account authentication context.
 
-**Set user authentication**
+#### Set user authentication ####
 
-    $credentials = Get-Credential '<username@domain>'
-    Add-PCAuthentication -cspappID '<native app id GUID>' -cspDomain '<csp partner domain>' -credential $credentials
+    $cred = Get-Credential '<username@domain>'
+    Add-PCAuthentication -cspappID '<native app id GUID>' -cspDomain '<csp partner domain>' -credential $cred
 
-or 
+or
 
-**Set app authentication**
+#### Set app authentication ####
 
     $clientSecret = '<key code secret>'
-	$clientSecretSecure = $clientSecret | ConvertTo-SecureString -AsPlainText -Force
+    $clientSecretSecure = $clientSecret | ConvertTo-SecureString -AsPlainText -Force
 
-	Add-PCAuthentication -cspappID '<web app id GUID>' -cspDomain '<csp partner domain>' -cspClientSecret $clientSecretSecure
+    Add-PCAuthentication -cspappID '<web app id GUID>' -cspDomain '<csp partner domain>' -cspClientSecret $clientSecretSecure
 
 You can obtain the Web App ID and the Client Secret from either Partner Center UI or Azure Active Directory
 
 ### Ready ###
 
-After this first steps you are ready to start using bellow cmdlet scenarios. (ex: create customers, create subscriptions, etc)
+After completing these steps you are ready to start using cmdlet scenarios listed below. (ex: create customers, create subscriptions, etc)
 
 ## Partner Center API scenario -> powershell module matrix ##
 
