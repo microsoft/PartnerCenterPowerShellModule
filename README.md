@@ -134,6 +134,10 @@ After this first steps you are ready to start using bellow cmdlet scenarios. (ex
 | | [Suspend a subscription](https://msdn.microsoft.com/en-us/library/partnercenter/mt634716.aspx) | [Set-PCSubscription](./CmdletHelp/Set-PCSubscription.md) |
 | | [Reactivate a suspended subscription](https://msdn.microsoft.com/en-us/library/partnercenter/mt634714.aspx) | [Set-PCSubscription](./CmdletHelp/Set-PCSubscription.md) |
 | | [Transition a subscription](https://msdn.microsoft.com/en-us/library/partnercenter/mt644395.aspx) |[NA](./CmdletHelp/NA.md) |
+| Manage carts | | |
+| | [Create a cart](https://docs.microsoft.com/en-us/partner-center/develop/create-a-cart) | [NA](./CmdletHelp/NA.md) |
+| | [Update a cart](https://docs.microsoft.com/en-us/partner-center/develop/update-a-cart) | [NA](./CmdletHelp/NA.md) |
+| | [Checkout a cart](https://docs.microsoft.com/en-us/partner-center/develop/checkout-a-cart) | [NA](./CmdletHelp/NA.md) |
 | | | |
 | **Manage billing** | | |
 | Get Azure rates and utilization records | | |
