@@ -1,4 +1,4 @@
-Set-StrictMode -Version latest
+﻿Set-StrictMode -Version latest
 <#
     © 2017 Microsoft Corporation. All rights reserved. This sample code is not supported under any Microsoft standard support program or service. 
     This sample code is provided AS IS without warranty of any kind. Microsoft disclaims all implied warranties including, without limitation, 
@@ -197,7 +197,7 @@ function Remove-PCCustomer
     _testTokenContext($satoken)
     Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
 
-    $obj = @()
+    #$obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}" -f $tenantid
     $headers  = @{"Authorization"="Bearer $satoken"}
