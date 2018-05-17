@@ -8,13 +8,17 @@ Partner Center Powershell Module is the PowerShell implementation of the Partner
 
 This module is published via [PowerShell Gallery](https://www.powershellgallery.com/) and can be installed using Install-Module.
 
-    Install-Module -Name PartnerCenterModule
+```powershell
+Install-Module -Name PartnerCenterModule
+```
 
 ## Import Classes ##
 
 To Import Classes so that you can use fuctions like New-PCOrder.
 
-    using module PartnerCenterModule
+```powershell
+using module PartnerCenterModule
+```
 
 ## Getting Started ##
 
@@ -28,17 +32,21 @@ Just like with AzureRM powershell module, the first step to start using it is to
 
 #### Set user authentication ####
 
-    $cred = Get-Credential '<username@domain>'
-    Add-PCAuthentication -cspappID '<native app id GUID>' -cspDomain '<csp partner domain>' -credential $cred
+```powershell
+$cred = Get-Credential '<username@domain>'
+Add-PCAuthentication -cspappID '<native app id GUID>' -cspDomain '<csp partner domain>' -credential $cred
+```
 
 or
 
 #### Set app authentication ####
 
-    $clientSecret = '<key code secret>'
-    $clientSecretSecure = $clientSecret | ConvertTo-SecureString -AsPlainText -Force
+```powershell
+$clientSecret = '<key code secret>'
+$clientSecretSecure = $clientSecret | ConvertTo-SecureString -AsPlainText -Force
 
-    Add-PCAuthentication -cspappID '<web app id GUID>' -cspDomain '<csp partner domain>' -cspClientSecret $clientSecretSecure
+Add-PCAuthentication -cspappID '<web app id GUID>' -cspDomain '<csp partner domain>' -cspClientSecret $clientSecretSecure
+```
 
 You can obtain the Web App ID and the Client Secret from either Partner Center UI or Azure Active Directory
 
@@ -207,4 +215,6 @@ What we collect?
 
 If you prefer not to send this data use the following command to disable the telemetry collection:
 
-    Set-PCModuleTelemetry -enabled $false
+```powershell
+Set-PCModuleTelemetry -enabled $false
+```
