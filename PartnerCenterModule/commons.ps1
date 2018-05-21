@@ -64,7 +64,7 @@ function Get-SAToken
     
     $response = Invoke-RestMethod -Uri $url -ContentType "application/x-www-form-urlencoded" -Headers $headers -Body $body -method "POST" #-Debug -Verbose
 
-    #setting SAToke variable as global
+    #setting SAToken variable as global
     if ($global){
         Set-Variable -Name "GlobalToken" -Value $response.access_token -Scope Global
     }

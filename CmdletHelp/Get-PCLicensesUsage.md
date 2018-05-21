@@ -2,7 +2,10 @@
 
 ## Get-PCLicensesUsage ##
 
-**Get partner licenses usage information**
+Deprecated: Please use Get-PCLicenseUsage instead
 
+### Get partner licenses usage information ###
+
+```powershell
     Get-PCLicensesUsage
-
+```

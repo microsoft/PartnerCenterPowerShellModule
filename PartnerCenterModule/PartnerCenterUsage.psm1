@@ -157,6 +157,27 @@ function Get-PCSubscriptionMonthlyUsageRecords
     return (_formatResult -obj $obj -type "SubscriptionMonthlyUsageRecord")
 }
 
+# Adding non-plural noun version of cmdlet. Plural version of the cmdlet will be removed in future versions.
+function Get-PCSubscriptionMonthlyUsageRecord
+{
+    [CmdletBinding()]
+    param ([Parameter(Mandatory = $false)][String]$tenantid = $GlobalCustomerID,
+        [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
+    _testTokenContext($satoken)
+    _testTenantContext ($tenantid)
+    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
+    $obj = @()
+
+    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/subscriptions/usagerecords" -f $tenantid
+    $headers = @{Authorization = "Bearer $satoken"}
+    $headers += @{"MS-RequestId" = [Guid]::NewGuid()}
+    $headers += @{"MS-CorrelationId" = [Guid]::NewGuid()}
+
+    $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
+    $obj += $response.Substring(1) | ConvertFrom-Json
+    return (_formatResult -obj $obj -type "SubscriptionMonthlyUsageRecord")
+}
+
 function Get-PCAzureResourceMonthlyUsageRecords
 {
     [CmdletBinding()]
@@ -178,6 +199,30 @@ function Get-PCAzureResourceMonthlyUsageRecords
     $obj += $response.Substring(1) | ConvertFrom-Json
     return (_formatResult -obj $obj -type "AzureResourceMonthlyUsageRecord") 
 }
+
+# Adding non-plural noun version of cmdlet. Plural version of the cmdlet will be removed in future versions.
+function Get-PCAzureResourceMonthlyUsageRecord
+{
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory = $false)][String]$tenantid = $GlobalCustomerID, 
+        [string]$subscriptionid,
+        [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
+    _testTokenContext($satoken)
+    _testTenantContext ($tenantid)
+    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
+    $obj = @()
+
+    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/subscriptions/{1}/usagerecords/resources" -f $tenantid, $subscriptionid
+    $headers = @{Authorization = "Bearer $satoken"}
+    $headers += @{"MS-RequestId" = [Guid]::NewGuid()}
+    $headers += @{"MS-CorrelationId" = [Guid]::NewGuid()}
+
+    $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
+    $obj += $response.Substring(1) | ConvertFrom-Json
+    return (_formatResult -obj $obj -type "AzureResourceMonthlyUsageRecord") 
+}
+
 
 function Get-PCCustomerUsageSummary
 {

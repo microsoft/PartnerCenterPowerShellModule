@@ -110,3 +110,28 @@ function Get-PCInvoiceLineItems
     $obj += $response
     return (_formatResult -obj $obj -type "Invoice") 
 }
+
+# Adding non-plural noun version of cmdlet. Plural version of the cmdlet will be removed in future versions.
+function Get-PCInvoiceLineItem
+{
+    [CmdletBinding()]
+
+    Param(
+         [Parameter(Mandatory = $true)][String]$invoiceid,
+         [Parameter(Mandatory = $true)][ValidateSet("Azure","Office")][string]$billingprovider,
+         [Parameter(Mandatory = $true)][ValidateSet("BillingLineItems","UsageLineItems")][string]$invoicelineitemtype,
+         [Parameter(Mandatory = $false)][int]$size = 200,
+         [Parameter(Mandatory = $false)][int]$offset = 0,
+        [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken
+    )
+   _testTokenContext($satoken)
+   Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
+    $obj = @()
+    $url = "https://api.partnercenter.microsoft.com/v1/invoices/{0}/lineitems/{1}/{2}?size={3}&offset={4}" -f $invoiceid, $billingprovider, $invoicelineitemtype, $size, $offset
+
+    $headers = @{Authorization="Bearer $satoken"}
+
+    $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
+    $obj += $response
+    return (_formatResult -obj $obj -type "Invoice") 
+}

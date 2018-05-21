@@ -46,7 +46,7 @@ function Update-ModuleTelemetry
 
     if ($global:GlobalPCPSModuleVersion -ne $latestModuleVersion)
     {
-        Write-Host "A new Partner Center PowerShell Module version ($latestModuleVersion) is available" -ForegroundColor Yellow
+        Write-Output "A new Partner Center PowerShell Module version ($latestModuleVersion) is available" -ForegroundColor Yellow
     }
 }  
 

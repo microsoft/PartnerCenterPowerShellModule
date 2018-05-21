@@ -2,12 +2,10 @@
 
 ## Get-PCAuditRecords ##
 
-Deprecated: Please use Get-PCAuditRecord
-
 ### Get audit logs starting from a specific date ###
 
 ```powershell
-    Get-PCAuditRecords -startDate '2017-04-12'
+    Get-PCAuditRecord -startDate '2017-04-12'
 ```
 
 ### Get audit logs between two dates ###

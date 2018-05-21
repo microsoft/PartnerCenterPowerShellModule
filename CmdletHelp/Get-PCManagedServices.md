@@ -2,11 +2,16 @@
 
 ## Get-PCManagedServices ##
 
-**Get a customer**
+Deprecated: Please use Get-PCManagedService instead
 
-    $customer = Get-PCCustomer -tenantid '<tenant id GUID>'
+### Select a customer ###
 
-**Get all managed services for customer**
+```powershell
+    Select-PCCustomer -tenantid '<tenant id GUID>'
+```
 
+### Get all managed services for customer ###
+
+```powershell
     Get-PCManagedServices -tenantid $customer.id
-
+```

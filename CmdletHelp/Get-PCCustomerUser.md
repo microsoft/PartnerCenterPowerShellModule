@@ -2,9 +2,11 @@
 
 ## Get-PCCustomerUser ##
 
-**Get a customer**
+### Select a customer ###
 
-    $customer = Get-PCCustomer -tenantid '<tenant id GUID>'
+```powershell
+    Select-PCCustomer -tenantid '<tenant id GUID>'
+```
 
 **Get all customer users**
 

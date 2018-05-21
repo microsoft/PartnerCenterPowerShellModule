@@ -43,8 +43,58 @@ function Get-PCAuditRecords
     return (_formatResult -obj $obj -type "AuditRecord")  
 }
 
+# Add non-plural noun version of cmdlet. Plural version of the cmdlet will be removed in future releases.
+function Get-PCAuditRecord
+{
+    [CmdletBinding()]
+    Param(
+            [Parameter(Mandatory = $true)][string]$startDate,
+            [Parameter(Mandatory = $false)][string]$endDate,
+            #[Parameter(Mandatory = $false)][string]$filter,
+            [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken
+    )
+    _testTokenContext($satoken)
+    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
+
+    $obj = @()
+
+    if ($startDate) { $url = "https://api.partnercenter.microsoft.com/v1/auditrecords?startDate={0}" -f $startDate }
+    if ($endDate)   { $url = "https://api.partnercenter.microsoft.com/v1/auditrecords?startDate={0}&endDate={1}" -f $startDate, $endDate }
+    #if ($filter)
+    #{
+    #    [Reflection.Assembly]::LoadWithPartialName("System.Web") | Out-Null
+    #    $filter = [System.Web.HttpUtility]::UrlEncode($filter)
+    #    $url = "https://api.partnercenter.microsoft.com/v1/auditrecords?startDate={0}&endDate={1}&filter={2}" -f $startDate, $endDate, $filter
+    #}
+
+    $headers = @{Authorization="Bearer $satoken"}
+
+    $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
+    $obj += $response.items
+    return (_formatResult -obj $obj -type "AuditRecord")  
+}
 
 function Get-PCIndirectResellers
+{
+    [CmdletBinding()]
+    Param(
+            [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken
+    )
+    _testTokenContext($satoken)
+    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
+
+    $obj = @()
+
+    $url = "https://api.partnercenter.microsoft.com/v1/relationships?relationship_type=IsIndirectCloudSolutionProviderOf"
+    $headers = @{Authorization="Bearer $satoken"}
+
+    $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
+    $obj += $response.Substring(1) | ConvertFrom-Json
+    return (_formatResult -obj $obj -type "PartnerRelationship")  
+}
+
+# Add non-plural noun version of cmdlet. Plural version of the cmdlet will be removed in future releases.
+function Get-PCIndirectReseller
 {
     [CmdletBinding()]
     Param(

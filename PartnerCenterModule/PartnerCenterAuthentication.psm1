@@ -62,11 +62,12 @@ function Add-PCAuthentication
     function Private:Add-AuthenticationByUser ($cspAppID,$cspDomain,[PSCredential]$credential)
     {
         $resource = 'https://api.partnercenter.microsoft.com'
-        $AADToken = Get-GraphAADTokenByUser -resource $resource -domain $cspDomain -clientid $cspAppID -credential $credential
+        #$AADToken = Get-GraphAADTokenByUser -resource $resource -domain $cspDomain -clientid $cspAppID -credential $credential
         $cspUsername = $credential.UserName
+        
         # Get SA token
         try {
-            $SAToken = Get-SAToken -aadtoken $AADToken -global $true
+            #$SAToken = Get-SAToken -aadtoken $AADToken -global $true
             $token = @{"Resource" = $resource ; "Domain" = $cspDomain; "ClientId" =  $cspAppID; "Username" = $cspUsername}
             return $token 
         }
@@ -81,11 +82,11 @@ function Add-PCAuthentication
     function Private:Add-AuthenticationBySecret ($cspAppID,$cspDomain,$cspClientSecret)
     {
         $resource = 'https://graph.windows.net' 
-        $AADToken = Get-GraphAADTokenByApp -resource $resource -domain $cspDomain -clientid $cspAppID -clientsecret $cspClientSecret
+        #$AADToken = Get-GraphAADTokenByApp -resource $resource -domain $cspDomain -clientid $cspAppID -clientsecret $cspClientSecret
 
         # Get SA token
         try {
-            $SAToken = Get-SAToken -aadtoken $AADToken -global $true
+            #$SAToken = Get-SAToken -aadtoken $AADToken -global $true
             $token = @{"Resource" = $resource ; "Domain" = $cspDomain; "ClientId" =  $cspAppID}
             return $token 
         }

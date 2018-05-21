@@ -2,9 +2,11 @@
 
 ## Get-PCCustomerUsageSummary ##
 
-**Get a customer**
+### Select a customer ###
 
-    $customer = Get-PCCustomer -tenantid '<tenant id GUID>'
+```powershell
+    Select-PCCustomer -tenantid '<tenant id GUID>'
+```
 
 **Get usage summary for all of a customer's subscriptions**
 

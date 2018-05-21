@@ -231,6 +231,24 @@ function Get-PCManagedServices
     return (_formatResult -obj $obj -type "ManagedServices")  
 }
 
+# Adding non-plural noun version of cmdlet. Plural version of the cmdlet will be removed in future versions.
+function Get-PCManagedService
+{    
+    [CmdletBinding()]
+    param ([Parameter(Mandatory = $false)][String]$tenantid=$GlobalCustomerID,
+           [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
+   _testTokenContext($satoken)
+   _testTenantContext ($tenantid)
+   Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
+    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/managedservices" -f $tenantid
+    $headers = @{Authorization="Bearer $satoken"}
+
+    $obj = @()
+    $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
+    $obj += $response.Substring(1) | ConvertFrom-Json
+    return (_formatResult -obj $obj -type "ManagedServices")  
+}
+
 
 function Select-PCCustomer
 {
@@ -255,8 +273,6 @@ function Select-PCCustomer
     return (_formatResult -obj $obj -type "Customer") 
 }
 
-
-
 function Get-PCCustomerRelationships
 {    
     [CmdletBinding()]
@@ -275,9 +291,53 @@ function Get-PCCustomerRelationships
     return (_formatResult -obj $obj -type "PartnerRelationship")
 }
 
+# Adding non-plural noun version of cmdlet. Plural version of the cmdlet will be removed in future versions.
+function Get-PCCustomerRelationship
+{    
+    [CmdletBinding()]
+    param ([Parameter(Mandatory = $false)][String]$tenantid=$GlobalCustomerID,
+           [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
+   _testTokenContext($satoken)
+   _testTenantContext ($tenantid)
+   Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
 
+    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/relationships" -f $tenantid
+    $headers = @{Authorization="Bearer $satoken"}
+
+    $obj = @()
+    $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
+    $obj += $response.Substring(1) | ConvertFrom-Json
+    return (_formatResult -obj $obj -type "PartnerRelationship")
+}
 
 function Get-PCResellerCustomers
+{
+    [CmdletBinding()]
+
+    Param(
+        [Parameter(ParameterSetName='filter', Mandatory = $true)][String]$resellerId,
+        [Parameter(ParameterSetName='filter', Mandatory = $false)][int]$size = 200,
+        [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken
+    )
+   _testTokenContext($satoken)
+    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
+
+    $obj = @()
+
+    [string]$filter = '{"Field":"IndirectReseller","Value":"' + $resellerId + '","Operator":"starts_with"}'
+    [Reflection.Assembly]::LoadWithPartialName("System.Web") | Out-Null
+    $Encode = [System.Web.HttpUtility]::UrlEncode($filter)
+
+    $url = "https://api.partnercenter.microsoft.com/v1/customers?size={0}&filter={1}" -f $size,$Encode
+    $headers = @{Authorization="Bearer $satoken"}
+
+    $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
+    $obj += $response.Substring(1) | ConvertFrom-Json
+    return (_formatResult -obj $obj -type "Customer")  
+}
+
+# Adding non-plural noun version of cmdlet. Plural version of the cmdlet will be removed in future versions.
+function Get-PCResellerCustomer
 {
     [CmdletBinding()]
 
