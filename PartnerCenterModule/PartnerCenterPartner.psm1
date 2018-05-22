@@ -11,7 +11,6 @@
 # Load common code
 $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 . "$here\commons.ps1"
-Import-Module -FullyQualifiedName "$here\PartnerCenterTelemetry.psm1"
 
 function Get-PCAuditRecords
 {
@@ -23,7 +22,7 @@ function Get-PCAuditRecords
             [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken
     )
     _testTokenContext($satoken)
-    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
+
 
     $obj = @()
 
@@ -54,7 +53,6 @@ function Get-PCAuditRecord
             [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken
     )
     _testTokenContext($satoken)
-    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
 
     $obj = @()
 
@@ -81,7 +79,6 @@ function Get-PCIndirectResellers
             [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken
     )
     _testTokenContext($satoken)
-    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
 
     $obj = @()
 
@@ -101,7 +98,6 @@ function Get-PCIndirectReseller
             [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken
     )
     _testTokenContext($satoken)
-    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
 
     $obj = @()
 

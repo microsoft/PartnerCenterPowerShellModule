@@ -1,8 +1,7 @@
-# Partner Center PowerShell Module (preview) #
+# Set-PCSupportProfile #
 
-## Set-PCSupportProfile ##
+## Set Partner Support Profile ##
 
-**Set Partner Support Profile**
-
+```powershell
     Set-PCSupportProfile -website '<url>' -email '<email>' -phone '<phone number>'
-
+```

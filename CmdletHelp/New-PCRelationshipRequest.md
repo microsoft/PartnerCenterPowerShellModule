@@ -1,8 +1,7 @@
-# Partner Center PowerShell Module (preview) #
+# New-PCRelationshipRequest #
 
-## New-PCRelationshipRequest ##
+## Get invitation URL to send to customer ##
 
-** Get invitation URL to send to customer **
-
+```powershell
     $inviteURL = (New-PCRelationshipRequest).url
-
+```

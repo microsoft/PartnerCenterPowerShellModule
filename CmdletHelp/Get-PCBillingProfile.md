@@ -1,8 +1,6 @@
-# Partner Center PowerShell Module (preview) #
+# Get-PCBillingProfile #
 
-## Get-PCBillingProfile ##
-
-**Get Partner Billing Profile**
+## Get Partner Billing Profile ##
 
 ```powershell
     Get-PCBillingProfile

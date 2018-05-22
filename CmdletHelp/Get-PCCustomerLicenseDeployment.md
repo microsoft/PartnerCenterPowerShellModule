@@ -1,13 +1,13 @@
-# Partner Center PowerShell Module (preview) #
+# Get-PCCustomerLicenseDeployment #
 
-## Get-PCCustomerLicensesDeployment ##
+## Specify a customer ##
 
-**Get a customer**
-
+```powershell
     $customer = Get-PCCustomer -tenantid '<tenant id GUID>'
+```
 
-**Get customer licenses deployment information**
+## Get customer licenses deployment information ##
 
-    Get-PCCustomerLicensesDeployment -tenantid $customer.id
-
-
+```powershell
+    Get-PCCustomerLicenseDeployment -tenantid $customer.id
+```

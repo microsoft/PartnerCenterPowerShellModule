@@ -11,7 +11,6 @@
 # Load common code
 $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 . "$here\commons.ps1"
-Import-Module -FullyQualifiedName "$here\PartnerCenterTelemetry.psm1"
 
 function Get-PCUsage
 {
@@ -26,7 +25,6 @@ function Get-PCUsage
         [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
     _testTokenContext($satoken)
     _testTenantContext ($tenantid)
-    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
 
     $retObject = Get-PCUsage_implementation -subscriptionid $subscriptionid -start_time $start_time -end_time $end_time -granularity $granularity -show_details $show_details -size $size -tenantid $tenantid -satoken $satoken
 
@@ -46,7 +44,6 @@ function Get-PCUsage2
         [Parameter(Mandatory = $false, ParameterSetName = 'first')][Parameter(Mandatory = $false, ParameterSetName = 'next')][string]$satoken = $GlobalToken,
         [Parameter(Mandatory = $true, ParameterSetName = 'next')]$continuationLink = $null)
     _testTokenContext($satoken)
-    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
 
     switch ($PsCmdlet.ParameterSetName)
     {
@@ -77,7 +74,6 @@ function Get-PCUsage_implementation
         [string]$satoken,
         $continuationLink)
     
-    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
     $obj = @()
 
     $urlParts = @("https://api.partnercenter.microsoft.com/v1/")
@@ -144,7 +140,7 @@ function Get-PCSubscriptionMonthlyUsageRecords
         [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
     _testTokenContext($satoken)
     _testTenantContext ($tenantid)
-    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
+
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/subscriptions/usagerecords" -f $tenantid
@@ -165,7 +161,7 @@ function Get-PCSubscriptionMonthlyUsageRecord
         [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
     _testTokenContext($satoken)
     _testTenantContext ($tenantid)
-    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
+
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/subscriptions/usagerecords" -f $tenantid
@@ -187,7 +183,7 @@ function Get-PCAzureResourceMonthlyUsageRecords
         [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
     _testTokenContext($satoken)
     _testTenantContext ($tenantid)
-    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
+
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/subscriptions/{1}/usagerecords/resources" -f $tenantid, $subscriptionid
@@ -210,7 +206,7 @@ function Get-PCAzureResourceMonthlyUsageRecord
         [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
     _testTokenContext($satoken)
     _testTenantContext ($tenantid)
-    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
+
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/subscriptions/{1}/usagerecords/resources" -f $tenantid, $subscriptionid
@@ -232,7 +228,7 @@ function Get-PCCustomerUsageSummary
         [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
     _testTokenContext($satoken)
     _testTenantContext ($tenantid)
-    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
+
     $obj = @()  
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/usagesummary" -f $tenantid
@@ -256,7 +252,6 @@ function Get-PCCustomerServiceCostSummary
 
     _testTokenContext($satoken)
     _testTenantContext ($tenantid)
-    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
 
     $obj = @()
 

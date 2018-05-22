@@ -1,14 +1,13 @@
-# Partner Center PowerShell Module (preview) #
+# Get-PCCustomerUsageSummary #
 
-## Get-PCCustomerUsageSummary ##
-
-### Select a customer ###
+## Select a customer ##
 
 ```powershell
     Select-PCCustomer -tenantid '<tenant id GUID>'
 ```
 
-**Get usage summary for all of a customer's subscriptions**
+## Get usage summary for all of a customer's subscriptions ##
 
+```powershell
     Get-PCCustomerUsageSummary -tenantid $customer.id
-
+```

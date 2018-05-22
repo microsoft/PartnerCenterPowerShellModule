@@ -11,7 +11,6 @@
 # Load common code
 $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 . "$here\commons.ps1"
-Import-Module -FullyQualifiedName "$here\PartnerCenterTelemetry.psm1"
 
 function Get-PCSR
 {
@@ -24,7 +23,7 @@ function Get-PCSR
         [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken
     )
     _testTokenContext($satoken)
-    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
+
     $obj = @()
     $headers = @{Authorization="Bearer $satoken"}
 
@@ -45,7 +44,7 @@ function Get-PCSRTopics
     [CmdletBinding()]
     param([Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
     _testTokenContext($satoken)
-    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
+
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/servicerequests/supporttopics"
@@ -55,6 +54,24 @@ function Get-PCSRTopics
     $obj += $response.Substring(1) | ConvertFrom-Json
     return (_formatResult -obj $obj -type "ServiceRequestTopics")   
 }
+
+# Add non-plural version of the cmdlet. The plural version will be removed in future versions.
+function Get-PCSRTopic
+{
+    [CmdletBinding()]
+    param([Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
+    _testTokenContext($satoken)
+
+    $obj = @()
+
+    $url = "https://api.partnercenter.microsoft.com/v1/servicerequests/supporttopics"
+    $headers = @{Authorization="Bearer $satoken"}
+
+    $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
+    $obj += $response.Substring(1) | ConvertFrom-Json
+    return (_formatResult -obj $obj -type "ServiceRequestTopics")   
+}
+
 
 function New-PCSR
 {
@@ -71,7 +88,7 @@ function New-PCSR
         [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken
     )
     _testTokenContext($satoken)
-    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
+
     $obj = @()
     $url = "https://api.partnercenter.microsoft.com/v1/servicerequests/{0}" -f $agentLocale
     $headers = @{Authorization="Bearer $satoken"}
@@ -107,7 +124,7 @@ function Set-PCSR
         [Parameter(ParameterSetName='byParam', Mandatory = $false)][string]$satoken = $GlobalToken
     )
      _testTokenContext($satoken)  
-     Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
+
     $obj = @()
 
     if ($serviceRequest) {$body = $serviceRequest | ConvertTo-Json -Depth 100}

@@ -1,13 +1,13 @@
-# Partner Center PowerShell Module (preview) #
+# Get-PCSubscriptionMonthlyUsageRecords #
 
-## Get-PCSubscriptionMonthlyUsageRecords ##
+## Get a customer ##
 
-**Get a customer**
-
+```powershell
     $customer = Get-PCCustomer -tenantid '<tenant id GUID>'
+```
 
-**Get usage data for subscriptions**
+## Get usage data for subscriptions ##
 
+```powershell
     Get-PCSubscriptionMonthlyUsageRecords -tenantid $customer.id
-
-
+```

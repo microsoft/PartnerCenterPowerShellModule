@@ -1,17 +1,18 @@
-# Partner Center PowerShell Module (preview) #
+# New-PCSAToken #
 
-## New-PCSAToken ##
+## Set a specific token for a command/function - user authentication ##
 
-**Set a specific token for a command/function - user authentication**
+```powershell
+    $cred = Get-Credential
 
-    $credential = Get-Credential
+    New-PCSAToken -cspappID '<native app id GUID>' -cspDomain '<csp partner domain>' -credential $cred
+```
 
-    New-PCSAToken -cspappID '<native app id GUID>' -cspDomain '<csp partner domain>' -credential $credential
+## Set a specific token for a command/function - app authentication ##
 
-**Set a specific token for a command/function - app authentication**
-
+```powershell
     $clientSecret = '<key code secret>'
-	$clientSecretSecure = $clientSecret | ConvertTo-SecureString -AsPlainText -Force
+    $clientSecretSecure = $clientSecret | ConvertTo-SecureString -AsPlainText -Force
 
     New-PCSAToken -cspappID '<native app id GUID>' -cspDomain '<csp partner domain>' -cspClientSecret $clientSecretSecure
-
+```

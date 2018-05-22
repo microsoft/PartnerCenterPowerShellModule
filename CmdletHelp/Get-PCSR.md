@@ -1,16 +1,19 @@
-# Partner Center PowerShell Module (preview) #
+# Get-PCSR #
 
-## Get-PCSR ##
+## Get all service requests ##
 
-**Get all Service Requests**
+```powershell
+    Get-PCSR -all
+```
 
-    Get-PCSR -all 
+## Get a specific service request ##
 
-**Get a specific Service Request**
-
+```powershell
     Get-PCSR -srid '<service request id GUID>'
+```
 
-**Get all customer Service Requests**
+## Get all customer service requests ##
 
+```powershell
     Get-PCSR -tenantid '<tenant id GUID>'
-
+```

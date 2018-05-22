@@ -1,8 +1,6 @@
-# Partner Center PowerShell Module (preview) #
+# Get-PCLicenseUsage #
 
-## Get-PCLicenseUsage ##
-
-### Get partner license usage information ###
+## Get partner license usage information ##
 
 ```powershell
     Get-PCLicenseUsage

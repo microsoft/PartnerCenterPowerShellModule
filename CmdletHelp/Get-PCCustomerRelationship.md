@@ -1,15 +1,12 @@
-# Partner Center PowerShell Module (preview) #
+# Get-PCCustomerRelationship (indirect model only) #
 
-## Get-PCCustomerRelationship (indirect model only) ##
-
-
-### Get a customer ###
+## Specify a customer ##
 
 ```powershell
     $customer = Get-PCCustomer -tenantid '<tenant id GUID>'
 ```
 
-### Get all customer subscriptions ###
+## Get all customer subscriptions ##
 
 ```powershell
     Get-PCCustomerRelationship -tenantid $customer.id

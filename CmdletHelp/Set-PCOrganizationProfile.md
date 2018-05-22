@@ -1,8 +1,7 @@
-# Partner Center PowerShell Module (preview) #
+# Set-PCOrganizationProfile #
 
-## Set-PCOrganizationProfile ##
+## Set Partner Organization Profile ##
 
-**Set Partner Organization Profile**
-
+```powershell
     Set-PCOrganizationProfile -firstname '<first name>' -lastname '<last name>' -phonenumber '<phone number>'
-
+```

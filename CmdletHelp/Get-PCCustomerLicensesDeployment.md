@@ -1,16 +1,14 @@
-# Partner Center PowerShell Module (preview) #
+# Get-PCCustomerLicensesDeployment #
 
-## Get-PCCustomerLicensesDeployment ##
+## Deprecated: Use Get-PCCustomerLicenseDeployment instead ##
 
-Deprecated: Use Get-PCCustomerLicenseDeployment instead
-
-### Get a customer ###
+## Specify a customer ##
 
 ```powershell
     $customer = Get-PCCustomer -tenantid '<tenant id GUID>'
 ```
 
-### Get customer licenses deployment information ###
+## Get customer licenses deployment information ##
 
 ```powershell
     Get-PCCustomerLicensesDeployment -tenantid $customer.id

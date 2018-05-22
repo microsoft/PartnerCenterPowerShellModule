@@ -1,14 +1,12 @@
-# Partner Center PowerShell Module (preview) #
+# Get-PCManagedService #
 
-## Get-PCManagedService ##
-
-### Select a customer ###
+## Select a customer ##
 
 ```powershell
-    $customer = Get-PCCustomer -tenantid '<tenant id GUID>'
+    Select-PCCustomer -tenantid '<tenant id GUID>'
 ```
 
-### Get all managed services for specified customer ###
+## Get all managed services for specified customer ##
 
 ```powershell
     Get-PCManagedService -tenantid $customer.id

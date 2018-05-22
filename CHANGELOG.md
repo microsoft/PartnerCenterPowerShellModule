@@ -1,10 +1,22 @@
 # Partner Center PowerShell Module Changelog
 
-## 0.9.0.20 (2018-05-14)
+## 0.9.0.21 (2018-05-22)
 
 ### Features
 
-* No new features were added
+* Removed telemetry functions
+* Added non-plural cmdlets names to comply with PowerShell standards
+  * Get-PCAuditRecord
+  * Get-PCCustomerLicenseDeployment
+  * Get-PCCustomerLicenseUsage
+  * Get-PCCustomerRelationship
+  * Get-PCIndirectReseller
+  * Get-PCLicenseUsage
+  * Get-PCLicenseDeployment
+  * Get-PCManagedSerice
+  * Get-PCResellerCustomer
+  * Get-PCSRTopic
+  * Get-PCSubscribedSKU
 
 ### Bug Fixes
 

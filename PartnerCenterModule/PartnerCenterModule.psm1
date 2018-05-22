@@ -21,7 +21,6 @@ Import-Module "$($PSScriptRoot)\PartnerCenterOrder.psm1"
 Import-Module "$($PSScriptRoot)\PartnerCenterProfiles.psm1"
 Import-Module "$($PSScriptRoot)\PartnerCenterServiceRequest.psm1"
 Import-Module "$($PSScriptRoot)\PartnerCenterSubscription.psm1"
-Import-Module "$($PSScriptRoot)\PartnerCenterTelemetry.psm1"
 Import-Module "$($PSScriptRoot)\PartnerCenterUsage.psm1"
 Import-Module "$($PSScriptRoot)\PartnerCenterPartner.psm1"
 Import-Module "$($PSScriptRoot)\PartnerCenterUser.psm1"
@@ -431,11 +430,5 @@ class PasswordProfile
 
 Set-Variable -Name "GlobalCustomerID" -Value "" -Scope Global -Visibility Private 
 Set-Variable -Name "GlobalToken" -Value "" -Scope Global -Visibility Private 
-
-#telemetry variables
-Set-Variable -Name "GlobalPCPSTelemetry" -Value $true -Scope Global -Visibility Private 
-Set-Variable -Name "GlobalPCPSCSPDomain" -Value $null -Scope Global -Visibility Private 
-Set-Variable -Name "GlobalPCPSExecutionId" -Value $null -Scope Global -Visibility Private 
-Set-Variable -Name "GlobalPCPSModuleVersion" -Value $null -Scope Global -Visibility Private 
 
 

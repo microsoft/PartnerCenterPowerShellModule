@@ -1,10 +1,8 @@
-# Partner Center PowerShell Module (preview) #
+# Get-PCLicensesUsage #
 
-## Get-PCLicensesUsage ##
+## Deprecated: Use Get-PCLicenseUsage instead ##
 
-Deprecated: Please use Get-PCLicenseUsage instead
-
-### Get partner licenses usage information ###
+## Get partner licenses usage information ##
 
 ```powershell
     Get-PCLicensesUsage

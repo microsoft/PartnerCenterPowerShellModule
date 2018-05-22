@@ -11,7 +11,6 @@
 # Load common code
 $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 . "$here\commons.ps1"
-Import-Module -FullyQualifiedName "$here\PartnerCenterTelemetry.psm1"
 
 function Get-PCLicensesDeployment
 {
@@ -20,7 +19,25 @@ function Get-PCLicensesDeployment
         [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken
     )
     _testTokenContext($satoken)
-    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
+
+    # Write-Output "Get-PCLicensesDeployment is deprecated and will not be available in future releases, use Get-PCLicenseDeployment instead."
+
+    $url = "https://api.partnercenter.microsoft.com/v1/analytics/licenses/deployment"
+    $headers = @{Authorization="Bearer $satoken"}
+
+    $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
+    $obj = @() + $response.Substring(1) | ConvertFrom-Json
+    return (_formatResult -obj $obj -type "PartnerLicensesDeploymentInsights")      
+}
+
+# Add non-plural noun version of cmdlet. Get-PCLicensesDeployment will be removed in future releases.
+function Get-PCLicenseDeployment
+{
+    [CmdletBinding()]
+    Param(
+        [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken
+    )
+    _testTokenContext($satoken)
 
     $url = "https://api.partnercenter.microsoft.com/v1/analytics/licenses/deployment"
     $headers = @{Authorization="Bearer $satoken"}
@@ -37,7 +54,8 @@ function Get-PCLicensesUsage
         [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken
     )
     _testTokenContext($satoken)
-    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
+
+    Write-Output "Get-PCLicensesUsage is deprecated and will not be available in future releases, use Get-PCLicenseUsage instead."
 
     $url = "https://api.partnercenter.microsoft.com/v1/analytics/licenses/usage"
     $headers = @{Authorization="Bearer $satoken"}
@@ -47,7 +65,7 @@ function Get-PCLicensesUsage
     return (_formatResult -obj $obj -type "PartnerLicensesUsageInsights")      
 }
 
-# Add non-plural noun version of cmdlet. Plural version of the cmdlet will be removed in future releases.
+# Add non-plural noun version of cmdlet. Get-PCLicenseUsage cmdlet will be removed in future releases.
 function Get-PCLicenseUsage
 {
     [CmdletBinding()]
@@ -55,7 +73,6 @@ function Get-PCLicenseUsage
         [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken
     )
     _testTokenContext($satoken)
-    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
 
     $url = "https://api.partnercenter.microsoft.com/v1/analytics/licenses/usage"
     $headers = @{Authorization="Bearer $satoken"}
@@ -75,7 +92,6 @@ function Get-PCCustomerLicensesDeployment
     )
     _testTokenContext($satoken)
     _testTenantContext ($tenantid)
-    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/analytics/licenses/deployment" -f $tenantid
     $headers = @{Authorization="Bearer $satoken"}
@@ -85,7 +101,7 @@ function Get-PCCustomerLicensesDeployment
     return (_formatResult -obj $obj -type "CustomerLicensesDeploymentInsights")      
 }
 
-# Add non-plural noun version of cmdlet. Plural version of the cmdlet will be removed in future releases.
+# Add non-plural noun version of cmdlet. Get-PCCustomerLicensesDeployment will be removed in future releases.
 function Get-PCCustomerLicenseDeployment
 {
     [CmdletBinding()]
@@ -95,7 +111,6 @@ function Get-PCCustomerLicenseDeployment
     )
     _testTokenContext($satoken)
     _testTenantContext ($tenantid)
-    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/analytics/licenses/deployment" -f $tenantid
     $headers = @{Authorization="Bearer $satoken"}
@@ -114,7 +129,6 @@ function Get-PCCustomerLicensesUsage
     )
     _testTokenContext($satoken)
     _testTenantContext ($tenantid)
-    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/analytics/licenses/usage" -f $tenantid
     $headers = @{Authorization="Bearer $satoken"}
@@ -124,7 +138,7 @@ function Get-PCCustomerLicensesUsage
     return (_formatResult -obj $obj -type "CustomerLicensesUsageInsights")      
 }
 
-# Add non-plural noun version of cmdlet. Plural version of the cmdlet will be removed in future releases.
+# Add non-plural noun version of cmdlet. Get-PCCustomerLicensesUsage will be removed in future releases.
 function Get-PCCustomerLicenseUsage
 {
     [CmdletBinding()]
@@ -134,7 +148,6 @@ function Get-PCCustomerLicenseUsage
     )
     _testTokenContext($satoken)
     _testTenantContext ($tenantid)
-    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/analytics/licenses/usage" -f $tenantid
     $headers = @{Authorization="Bearer $satoken"}

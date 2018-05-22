@@ -9,9 +9,9 @@
     sample scripts or documentation, even if Microsoft has been advised of the possibility of such damages.
 #>
 # Load common code
+
 $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 . "$here\commons.ps1"
-Import-Module -FullyQualifiedName "$here\PartnerCenterTelemetry.psm1"
 
 function Get-PCInvoice
 {
@@ -25,8 +25,8 @@ function Get-PCInvoice
         #[Parameter(ParameterSetName='detailurl',Mandatory = $false)][switch]$detailurl
     )
    _testTokenContext($satoken)
-   Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
-    function Private:Get-InvoiceSummaryInner($satoken)
+
+   function Private:Get-InvoiceSummaryInner($satoken)
     {
         $obj = @()
         $url = "https://api.partnercenter.microsoft.com/v1/invoices/summary"
@@ -100,7 +100,7 @@ function Get-PCInvoiceLineItems
         [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken
     )
    _testTokenContext($satoken)
-   Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
+
     $obj = @()
     $url = "https://api.partnercenter.microsoft.com/v1/invoices/{0}/lineitems/{1}/{2}?size={3}&offset={4}" -f $invoiceid, $billingprovider, $invoicelineitemtype, $size, $offset
 
@@ -125,7 +125,7 @@ function Get-PCInvoiceLineItem
         [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken
     )
    _testTokenContext($satoken)
-   Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
+
     $obj = @()
     $url = "https://api.partnercenter.microsoft.com/v1/invoices/{0}/lineitems/{1}/{2}?size={3}&offset={4}" -f $invoiceid, $billingprovider, $invoicelineitemtype, $size, $offset
 

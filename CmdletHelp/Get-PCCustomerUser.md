@@ -1,26 +1,25 @@
-# Partner Center PowerShell Module (preview) #
+# Get-PCCustomerUser #
 
-## Get-PCCustomerUser ##
-
-### Select a customer ###
+## Get all customer users ##
 
 ```powershell
-    Select-PCCustomer -tenantid '<tenant id GUID>'
+    Get-PCCustomerUser -tenantid $customer.id -all
 ```
 
-**Get all customer users**
+## Get customer user ##
 
-    Get-PCCustomerUser -tenantid $customer.id -all
-
-**Get customer user**
-
+```powershell
     $user = Get-PCCustomerUser -tenantid $customer.id -userid '<user id>'
+```
 
-**Get customer user assigned licenses**
+## Get customer user assigned licenses ##
 
+```powershell
     Get-PCCustomerUser -tenantid $customer.id -userid $user.id -licenses
+```
 
-**Get customer deleted users**
+## Get customer deleted users ##
 
+```powershell
     Get-PCCustomerUser -tenantid $customer.id -deleted
-
+```

@@ -11,7 +11,6 @@
 # Load common code
 $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 . "$here\commons.ps1"
-Import-Module -FullyQualifiedName "$here\PartnerCenterTelemetry.psm1"
 
 function Get-PCOrder 
 {
@@ -21,7 +20,7 @@ function Get-PCOrder
     [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
     _testTokenContext($satoken)
     _testTenantContext ($tenantid)
-    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
+
     $obj = @()
 
     if ($orderid)
@@ -57,7 +56,7 @@ function New-PCOrder
              [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
    _testTokenContext($satoken)
    _testTenantContext ($tenantid)
-   Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
+
     $obj = @()
 
     $headers  = @{"Authorization"="Bearer $satoken"}
@@ -110,7 +109,7 @@ function New-PCAddonOrder
     )
    _testTokenContext($satoken)
    _testTenantContext ($tenantid)
-   Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
+
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/orders/{1}" -f $tenantid, $orderid

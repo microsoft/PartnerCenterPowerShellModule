@@ -1,8 +1,7 @@
-# Partner Center PowerShell Module (preview) #
+# Get-PCOrganizationProfile #
 
-## Get-PCOrganizationProfile ##
+## Get Partner Organization Profile ##
 
-**Get Partner Organization Profile**
-
+```powershell
     Get-PCOrganizationProfile
-
+```

@@ -1,3 +1,1 @@
-# Partner Center PowerShell Module (preview) #
-
-## Commandlet not yet available ##
+# Cmdlet not yet available #

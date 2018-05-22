@@ -11,7 +11,6 @@
 # Load common code
 $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 . "$here\commons.ps1"
-Import-Module -FullyQualifiedName "$here\PartnerCenterTelemetry.psm1"
 
 function Get-PCSubscription
 {
@@ -29,7 +28,7 @@ function Get-PCSubscription
     )
     _testTokenContext($satoken)
     _testTenantContext ($tenantid)
-    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
+
 
     function Private:Get-SubscriptionsAllInner ($satoken, $tenantid)
     {
@@ -141,7 +140,7 @@ function Set-PCSubscription
     )
     _testTokenContext($satoken)
     _testTenantContext ($tenantid)  
-    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
+
     $obj = @()
 
     $actualSubscription = Get-PCSubscription -satoken $satoken -tenantid $tenantid -subscriptionid $subscription.Id

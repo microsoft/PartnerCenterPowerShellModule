@@ -1,15 +1,13 @@
-# Partner Center PowerShell Module (preview) #
+# Add-PCAuthentication #
 
-## Add-PCAuthentication ##
-
-### Set a global token for the script session - user authentication ###
+## Set a global token for the script session - user authentication ##
 
 ```powershell
     $cred = Get-Credential
     Add-PCAuthentication -cspappID '<native app id GUID>' -cspDomain '<csp partner domain>' -credential $cred
 ```
 
-### Set a global token for the script session - app authentication ###
+## Set a global token for the script session - app authentication ##
 
 ```powershell
     $clientSecret = '<key code secret>'

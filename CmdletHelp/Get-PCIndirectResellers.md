@@ -1,10 +1,8 @@
-# Partner Center PowerShell Module (preview) #
+# Get-PCIndirectResellers (indirect model only) #
 
-## Get-PCIndirectResellers (indirect model only) ##
+## Deprecated: Please  use Get-PCIndirectReseller ##
 
-Deprecated: Please use Get-PCIndirectReseller
-
-### Get all indirect resellers ###
+## Get all indirect resellers ##
 
 ```powershell
     Get-PCIndirectResellers

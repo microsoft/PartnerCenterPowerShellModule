@@ -11,7 +11,6 @@
 # Load common code
 $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 . "$here\commons.ps1"
-Import-Module -FullyQualifiedName "$here\PartnerCenterTelemetry.psm1"
 
 function Get-PCCustomerUser
 {
@@ -27,7 +26,6 @@ function Get-PCCustomerUser
     )
     _testTokenContext($satoken)
     _testTenantContext ($tenantid)
-    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
 
     function Private:Get-CustomerAllUserInner ($satoken, $tenantid)
     {
@@ -118,7 +116,7 @@ function New-PCCustomerUser
            [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
     _testTokenContext($satoken)
     _testTenantContext ($tenantid)
-    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
+
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/users" -f $tenantid
@@ -150,7 +148,7 @@ function Set-PCCustomerUser
             [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
     _testTokenContext($satoken)
     _testTenantContext ($tenantid)
-    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
+
     $obj = @()
 
     $actualUser = Get-PCCustomerUser -tenantid $tenantid -userid $user.Id -satoken $satoken
@@ -186,7 +184,7 @@ function Restore-PCCustomerUser
             [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
     _testTokenContext($satoken)
     _testTenantContext ($tenantid) 
-    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
+
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/users/{1}" -f $tenantid, $user.id
@@ -209,7 +207,7 @@ function Remove-PCCustomerUser
             [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
     _testTokenContext($satoken)
     _testTenantContext ($tenantid)
-    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
+
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/users/{1}" -f $tenantid, $user.id
@@ -230,7 +228,7 @@ function Get-PCCustomerUserRoles
             [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
     _testTokenContext($satoken)
     _testTenantContext ($tenantid)
-    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
+
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/users/{1}/directoryroles" -f $tenantid, $user.id
@@ -250,7 +248,7 @@ function Get-PCCustomerUserRole
             [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
     _testTokenContext($satoken)
     _testTenantContext ($tenantid)
-    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
+
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/users/{1}/directoryroles" -f $tenantid, $user.id

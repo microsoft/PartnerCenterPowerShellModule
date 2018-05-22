@@ -1,21 +1,18 @@
-# Partner Center PowerShell Module (preview) #
+# Get-PCCustomer #
 
-## Get-PCCustomer ##
-
-
-**Get all customers**
+## Get all customers ##
 
 ```powershell
     Get-PCCustomer -all
 ```
 
-**Get a customer by ID**
+## Get a customer by ID ##
 
 ```powershell
     $customer = Get-PCCustomer -tenantid '<tenant id GUID>'
 ```
 
-**Get customers by company name**
+## Get customers by company name ##
 
 ```powershell
     Get-PCCustomer -startswith '<company name>'

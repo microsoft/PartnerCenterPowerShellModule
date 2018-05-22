@@ -11,7 +11,6 @@
 # Load common code
 $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 . "$here\commons.ps1"
-Import-Module -FullyQualifiedName "$here\PartnerCenterTelemetry.psm1"
 
 function Get-PCOffer
 {
@@ -24,7 +23,6 @@ function Get-PCOffer
         [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken
     )
     _testTokenContext($satoken)
-    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
 
     $obj = @()
     if ($offerid)
@@ -76,7 +74,6 @@ function Get-PCOfferCategoriesByMarket
     [CmdletBinding()]
     param($countryid,        [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
    _testTokenContext($satoken)
-   Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
 
     $obj = @()
 
@@ -93,7 +90,7 @@ function Get-PCAddressRulesByMarket
     [CmdletBinding()]
     param ($countryid,         [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
     _testTokenContext($satoken)
-    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
+
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/countryvalidationrules/{0}" -f $countryid
@@ -109,7 +106,7 @@ function Get-PCAzureRateCard
     [CmdletBinding()]
     param ($currency, $region,         [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
    _testTokenContext($satoken)
-   Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
+
    
     $obj = @()
 

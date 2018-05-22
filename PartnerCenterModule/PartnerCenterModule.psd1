@@ -18,7 +18,7 @@
 RootModule = 'PartnerCenterModule.psm1'
 
 # Version number of this module.
-ModuleVersion = '0.9.0.20'
+ModuleVersion = '0.9.0.21'
 
 # ID used to uniquely identify this module
 GUID = '4a0bfb55-926c-4c31-8d05-50813b31c712'
@@ -30,7 +30,7 @@ Author = "Microsoft Corporation"
 CompanyName = "Microsoft Corporation"
 
 # Copyright
-Copyright = "Copyright (c) 2017 Microsoft Corporation. Licensed under MIT license."
+Copyright = "Copyright (c) 2018 Microsoft Corporation. Licensed under MIT license."
 
 # Description of the functionality provided by this module
 Description = 'Partner Center Powershell Module (preview)'
@@ -72,6 +72,8 @@ FunctionsToExport = @('Add-PCAuthentication',
                     'Get-PCInvoiceLineItem',
                     'Get-PCLegalBusinessProfile',
                     'Get-PCLicensesDeployment',
+                    'Get-PCLicenseDeployment',
+                    'Get-PCLicenseUsage',
                     'Get-PCLicensesUsage',
                     'Get-PCManagedServices',
                     'Get-PCManagedService',
@@ -84,7 +86,9 @@ FunctionsToExport = @('Add-PCAuthentication',
                     'Get-PCSpendingBudget',
                     'Get-PCSR',
                     'Get-PCSRTopics',
+                    'Get-PCSRTopic',
                     'Get-PCSubscribedSKUs',
+                    'Get-PCSubscribedSKU',
                     'Get-PCSubscription',
                     'Get-PCAzureResourceMonthlyUsageRecords',
                     'Get-PCAzureResourceMonthlyUsageRecord',
@@ -107,8 +111,6 @@ FunctionsToExport = @('Add-PCAuthentication',
                     'Remove-PCCustomerRoleMember',
                     'Restore-PCCustomerUser',
                     'Select-PCCustomer',
-                    'Set-PCModuleTelemetry',
-                    'Get-PCModuleTelemetry'
                     'Set-PCBillingProfile',
                     'Set-PCCustomerBillingProfile',
                     'Set-PCCustomerUser',

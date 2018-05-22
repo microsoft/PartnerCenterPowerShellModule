@@ -1,4 +1,4 @@
-# Get-PCCustomerCompanyProfile #
+# Get-PCSubscribedSKU #
 
 ## Specify a customer ##
 
@@ -6,8 +6,8 @@
     $customer = Get-PCCustomer -tenantid '<tenant id GUID>'
 ```
 
-## Get customer company profile ##
+## Get a list of available licenses ##
 
 ```powershell
-    Get-PCCustomerCompanyProfile -tenantid $customer.id
+    Get-PCSubscribedSKU -tenantid $customer.id
 ```

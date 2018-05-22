@@ -1,9 +1,9 @@
-# Partner Center PowerShell Module (preview) #
+# Get-PCSRTopics #
 
-## Get-PCSRTopics ##
+## Deprecated: Use Get-PCSRTopic instead ##
 
-**Get all topics available for Service Requests**
+## Get all topics available for Service Requests ##
 
-    Get-PCSRTopics 
-
-
+```powershell
+    Get-PCSRTopics
+```

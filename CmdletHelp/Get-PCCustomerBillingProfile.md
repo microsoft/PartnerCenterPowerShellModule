@@ -1,14 +1,12 @@
-# Partner Center PowerShell Module (preview) #
+# Get-PCCustomerBillingProfile #
 
-## Get-PCCustomerBillingProfile ##
-
-**Get a customer**
+## Get a customer ##
 
 ```powershell
     $customer = Get-PCCustomer -tenantid '<tenant id GUID>'
 ```
 
-**Get customer Billing Profile**
+## Get customer billing profile ##
 
 ```powershell
     Get-PCCustomerBillingProfile -tenantid $customer.id
