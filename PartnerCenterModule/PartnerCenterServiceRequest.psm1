@@ -45,6 +45,8 @@ function Get-PCSRTopics
     param([Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
     _testTokenContext($satoken)
 
+    Write-Warning "    Get-PCSRTopics is deprecated and will not be available in future releases, use Get-PCSRTopic instead."
+
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/servicerequests/supporttopics"
@@ -63,7 +65,7 @@ function Get-PCSRTopic
     _testTokenContext($satoken)
 
     $obj = @()
-
+    
     $url = "https://api.partnercenter.microsoft.com/v1/servicerequests/supporttopics"
     $headers = @{Authorization="Bearer $satoken"}
 

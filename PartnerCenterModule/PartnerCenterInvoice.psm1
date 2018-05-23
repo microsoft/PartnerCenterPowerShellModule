@@ -101,6 +101,8 @@ function Get-PCInvoiceLineItems
     )
    _testTokenContext($satoken)
 
+   Write-Warning "  Get-PCInvoiceLineItems is deprecated and will not be available in future releases, use Get-PCInvoiceLineItem instead."
+
     $obj = @()
     $url = "https://api.partnercenter.microsoft.com/v1/invoices/{0}/lineitems/{1}/{2}?size={3}&offset={4}" -f $invoiceid, $billingprovider, $invoicelineitemtype, $size, $offset
 

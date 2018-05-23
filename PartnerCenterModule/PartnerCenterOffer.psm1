@@ -72,7 +72,7 @@ function Get-PCOffer
 function Get-PCOfferCategoriesByMarket
 {
     [CmdletBinding()]
-    param($countryid,        [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
+    param($countryid,        [Parameter(Mandatory = $true)][string]$satoken = $GlobalToken)
    _testTokenContext($satoken)
 
     $obj = @()

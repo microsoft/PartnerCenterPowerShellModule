@@ -123,7 +123,7 @@ After completing these steps you are ready to start using the cmdlets for the sc
 | | [Get a list of offers for a market](https://msdn.microsoft.com/en-us/library/partnercenter/mt683488.aspx) | [Get-PCOffer](./CmdletHelp/Get-PCOffer.md) |
 | | [Get an offer by ID](https://msdn.microsoft.com/en-us/library/partnercenter/mt634678.aspx) | [Get-PCOffer](./CmdletHelp/Get-PCOffer.md) |
 | | [Get add-ons for an offer ID](https://msdn.microsoft.com/en-us/library/partnercenter/mt634669.aspx) | [Get-PCOffer](./CmdletHelp/Get-PCOffer.md) |
-| Create an order | | |
+| | [Get a list of products](https://docs.microsoft.com/en-us/partner-center/develop/get-a-list-of-products) | [NA](.CmdletHelp/NA.md) |
 | | [Create an order](https://msdn.microsoft.com/en-us/library/partnercenter/mt634667.aspx) | [New-PCOrder](./CmdletHelp/New-PCOrder.md) |
 | | [Create an order for a customer of an indirect reseller](https://msdn.microsoft.com/en-us/library/partnercenter/mt808071.aspx) | [NA](./CmdletHelp/NA.md) |
 | | [Get an order by ID](https://msdn.microsoft.com/en-us/library/partnercenter/mt634679.aspx) | [Get-PCOffer](./CmdletHelp/Get-PCOffer.md) |
@@ -205,16 +205,4 @@ After completing these steps you are ready to start using the cmdlets for the sc
 
 ## Telemetry collection ##
 
-To help us to better understand the module utilization and better prioritize development efforts we enabled telemetry collection by default.
-
-What we collect?
-
-- The CSP account domain
-- The cmdlet name executed (only the name, no data is collected)
-- The module version
-
-If you prefer not to send this data use the following command to disable the telemetry collection:
-
-```powershell
-Set-PCModuleTelemetry -enabled $false
-```
+Telemetry has been removed starting in the 0.9.0.21 release.

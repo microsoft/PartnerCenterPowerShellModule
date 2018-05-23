@@ -96,6 +96,7 @@ function Get-PCSubscribedSKUs
    _testTokenContext($satoken)
    _testTenantContext ($tenantid)
 
+   Write-Warning "  Get-PCSubscribedSKUs is deprecated and will not be available in future releases, use Get-PCSubscribedSKU instead."
 
     $obj = @()
 
@@ -236,6 +237,8 @@ function Get-PCManagedServices
    _testTokenContext($satoken)
    _testTenantContext ($tenantid)
 
+   Write-Warning "  Get-PCManagedServices is deprecated and will not be available in future releases, use Get-PCManagedService instead."
+
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/managedservices" -f $tenantid
     $headers = @{Authorization="Bearer $satoken"}
 
@@ -294,6 +297,8 @@ function Get-PCCustomerRelationships
    _testTokenContext($satoken)
    _testTenantContext ($tenantid)
 
+      Write-Warning "  Get-PCCustomerRelationships is deprecated and will not be available in future releases, use Get-PCCustomerRelationship instead."
+
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/relationships" -f $tenantid
     $headers = @{Authorization="Bearer $satoken"}
 
@@ -332,6 +337,7 @@ function Get-PCResellerCustomers
     )
    _testTokenContext($satoken)
 
+   Write-Warning "  Get-PCResellerCustomers is deprecated and will not be available in future releases, use Get-PCResellerCustomer instead."
     $obj = @()
 
     [string]$filter = '{"Field":"IndirectReseller","Value":"' + $resellerId + '","Operator":"starts_with"}'

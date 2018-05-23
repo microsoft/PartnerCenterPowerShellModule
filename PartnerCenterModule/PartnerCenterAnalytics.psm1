@@ -20,7 +20,8 @@ function Get-PCLicensesDeployment
     )
     _testTokenContext($satoken)
 
-    # Write-Output "Get-PCLicensesDeployment is deprecated and will not be available in future releases, use Get-PCLicenseDeployment instead."
+    Write-Warning "  Get-PCLicensesDeployment is deprecated and will not be available in future releases, use Get-PCLicenseDeployment instead."
+
 
     $url = "https://api.partnercenter.microsoft.com/v1/analytics/licenses/deployment"
     $headers = @{Authorization="Bearer $satoken"}
@@ -55,8 +56,8 @@ function Get-PCLicensesUsage
     )
     _testTokenContext($satoken)
 
-    Write-Output "Get-PCLicensesUsage is deprecated and will not be available in future releases, use Get-PCLicenseUsage instead."
-
+    Write-Warning "  Get-PCLicensesUsage is deprecated and will not be available in future releases, use Get-PCLicenseUsage instead."
+ 
     $url = "https://api.partnercenter.microsoft.com/v1/analytics/licenses/usage"
     $headers = @{Authorization="Bearer $satoken"}
 
@@ -92,6 +93,8 @@ function Get-PCCustomerLicensesDeployment
     )
     _testTokenContext($satoken)
     _testTenantContext ($tenantid)
+
+    Write-Warning "  Get-PCCustomerLicensesDeployment is deprecated and will not be available in future releases, use Get-PCCustomerLicenseDeployment instead."
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/analytics/licenses/deployment" -f $tenantid
     $headers = @{Authorization="Bearer $satoken"}
@@ -130,6 +133,8 @@ function Get-PCCustomerLicensesUsage
     _testTokenContext($satoken)
     _testTenantContext ($tenantid)
 
+    Write-Warning "  Get-PCCustomerLicensesUsage is deprecated and will not be available in future releases, use Get-PCCustomerLicenseUsage instead."
+ 
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/analytics/licenses/usage" -f $tenantid
     $headers = @{Authorization="Bearer $satoken"}
 

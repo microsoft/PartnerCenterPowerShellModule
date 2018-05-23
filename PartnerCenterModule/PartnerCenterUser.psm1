@@ -229,6 +229,8 @@ function Get-PCCustomerUserRoles
     _testTokenContext($satoken)
     _testTenantContext ($tenantid)
 
+    Write-Warning "  Get-PCCustomerUserRoles is deprecated and will not be available in future releases, use Get-PCCustomerUserRole instead."
+
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/users/{1}/directoryroles" -f $tenantid, $user.id

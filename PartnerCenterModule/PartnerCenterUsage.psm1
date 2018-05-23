@@ -141,6 +141,8 @@ function Get-PCSubscriptionMonthlyUsageRecords
     _testTokenContext($satoken)
     _testTenantContext ($tenantid)
 
+    Write-Warning "  Get-PCSubscriptionMonthlyUsageRecords is deprecated and will not be available in future releases, use Get-PCSubscriptionMonthlyUsageRecord instead."
+
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/subscriptions/usagerecords" -f $tenantid
@@ -183,6 +185,8 @@ function Get-PCAzureResourceMonthlyUsageRecords
         [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
     _testTokenContext($satoken)
     _testTenantContext ($tenantid)
+    
+    Write-Warning "  Get-PCAzureResourceMonthlyUsageRecords is deprecated and will not be available in future releases, use Get-PCAzureResourceMonthlyUsageRecord instead."
 
     $obj = @()
 

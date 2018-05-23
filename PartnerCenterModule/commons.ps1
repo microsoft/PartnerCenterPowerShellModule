@@ -34,7 +34,7 @@ function _testTenantContext($tenantID)
 {
     if ($tenantid.Length -lt 1)
     {
-        throw ">>>Use Select-PCCustomer function to select a specific tenant or use -tenantid parameter<<<"
+        throw ">>> Use Select-PCCustomer function to select a specific tenant or use -tenantId parameter<<<"
     }
 }
 
@@ -42,7 +42,7 @@ function _testTokenContext($satoken)
 {
     if ($satoken.Length -lt 1)
     {
-        throw ">>>Use Add-PCAuthentication function to login to partnercenter or use -satoken parameter<<<"
+        throw ">>> Use Add-PCAuthentication function to login to partnercenter or use -saToken parameter<<<"
     }
 }
 

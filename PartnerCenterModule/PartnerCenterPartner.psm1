@@ -23,7 +23,7 @@ function Get-PCAuditRecords
     )
     _testTokenContext($satoken)
 
-
+    Write-Warning "  Get-PCAuditRecords is deprecated and will not be available in future releases, use Get-PCAuditRecord instead."
     $obj = @()
 
     if ($startDate) { $url = "https://api.partnercenter.microsoft.com/v1/auditrecords?startDate={0}" -f $startDate }
@@ -55,7 +55,9 @@ function Get-PCAuditRecord
     _testTokenContext($satoken)
 
     $obj = @()
-
+    
+    # TODO Only 30 days can be returned per request, limit the request to 30 days span before executing request
+    
     if ($startDate) { $url = "https://api.partnercenter.microsoft.com/v1/auditrecords?startDate={0}" -f $startDate }
     if ($endDate)   { $url = "https://api.partnercenter.microsoft.com/v1/auditrecords?startDate={0}&endDate={1}" -f $startDate, $endDate }
     #if ($filter)
@@ -80,6 +82,8 @@ function Get-PCIndirectResellers
     )
     _testTokenContext($satoken)
 
+    Write-Warning "  Get-PCIndirectResellers is deprecated and will not be available in future releases, use Get-PCIndirectReseller instead."
+    
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/relationships?relationship_type=IsIndirectCloudSolutionProviderOf"

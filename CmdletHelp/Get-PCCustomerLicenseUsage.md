@@ -1,5 +1,7 @@
 # Get-PCCustomerLicenseUsage #
 
+This cmdlet requires App+User authentication
+
 ## Specify a customer ##
 
 ```powershell

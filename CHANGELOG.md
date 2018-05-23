@@ -21,6 +21,7 @@
 ### Bug Fixes
 
 * Addressed an issue with the New-PCCustomer cmdlet that was preventing customers currently.
+* Addressed an issue where Get-PCOfferCategoriesByMarket did not require the countryId, however the API does require this.
 
 ### Breaking Changes
 
