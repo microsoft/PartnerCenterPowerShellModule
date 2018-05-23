@@ -1,17 +1,21 @@
-# Partner Center PowerShell Module (preview) #
+# Get-PCAuditRecords #
 
-## Get-PCAuditRecords ##
+## Deprecated: Please  use Get-PCAuditRecord ##
 
-**Get audit logs starting from a specific date**
+## Get audit logs starting from a specific date ##
 
+```powershell
     Get-PCAuditRecords -startDate '2017-04-12'
+```
 
-**Get audit logs between two dates**
+## Get audit logs between two dates ##
 
+```powershell
     Gett-PCAuditRecords -startDate '2017-04-12' -endDate '2017-04-13'
+```
 
-**Get audit logs of a specific operationType between two dates**
+## Get audit logs of a specific operationType between two dates ##
 
+```powershell
     Get-PCAuditRecords -startDate '2017-04-12' -endDate '2017-04-13' | ? operationType -EQ 'delete_customer_user'
-
-
+```

@@ -1,16 +1,19 @@
-# Partner Center PowerShell Module (preview) #
+# Get-PCInvoice #
 
-## Get-PCInvoice ##
+## Get current payable amount ##
 
-**Get current payable amount**
-
+```powershell
     Get-PCInvoice -summary
+```
 
-**Get all invoices**
+## Get all invoices ##
 
+```powershell
     Get-PCInvoice -all
+```
 
-**Get an invoice**
+## Get an invoice ##
 
+```powershell
     $invoice = Get-PCInvoice -invoiceid '<invoice id>'
-
+```

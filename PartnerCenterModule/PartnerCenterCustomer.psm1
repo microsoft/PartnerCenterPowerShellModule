@@ -1,4 +1,4 @@
-Set-StrictMode -Version latest
+﻿Set-StrictMode -Version latest
 <#
     © 2017 Microsoft Corporation. All rights reserved. This sample code is not supported under any Microsoft standard support program or service. 
     This sample code is provided AS IS without warranty of any kind. Microsoft disclaims all implied warranties including, without limitation, 
@@ -11,7 +11,6 @@ Set-StrictMode -Version latest
 # Load common code
 $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 . "$here\commons.ps1"
-Import-Module -FullyQualifiedName "$here\PartnerCenterTelemetry.psm1"
 
 function Get-PCCustomer
 {
@@ -25,8 +24,7 @@ function Get-PCCustomer
         [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken
     )
    _testTokenContext($satoken)
-    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
-
+ 
     function Private:Get-CustomerAllInner ($satoken)
     {
         $obj = @()
@@ -97,7 +95,8 @@ function Get-PCSubscribedSKUs
            [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
    _testTokenContext($satoken)
    _testTenantContext ($tenantid)
-   Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
+
+   Write-Warning "  Get-PCSubscribedSKUs is deprecated and will not be available in future releases, use Get-PCSubscribedSKU instead."
 
     $obj = @()
 
@@ -109,6 +108,26 @@ function Get-PCSubscribedSKUs
     return (_formatResult -obj $obj -type "SubscribedSku")  
 }
 
+# Add non-plural version of cmdlet. The plural version will be removed in future releases.
+function Get-PCSubscribedSKU
+{
+    [CmdletBinding()]
+    param ([Parameter(Mandatory = $false)][String]$tenantid=$GlobalCustomerID,
+           [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
+   _testTokenContext($satoken)
+   _testTenantContext ($tenantid)
+
+    $obj = @()
+
+    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/subscribedskus" -f $tenantid
+    $headers = @{Authorization="Bearer $satoken"}
+
+    $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
+    $obj += $response.Substring(1) | ConvertFrom-Json
+    return (_formatResult -obj $obj -type "SubscribedSku")  
+}
+
+
 function Get-PCSpendingBudget
 {
     [CmdletBinding()]
@@ -116,7 +135,7 @@ function Get-PCSpendingBudget
            [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
    _testTokenContext($satoken)
    _testTenantContext ($tenantid)
-   Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
+
     $obj = @()
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/usagebudget" -f $tenantid
     $headers = @{Authorization="Bearer $satoken"}
@@ -133,7 +152,6 @@ function Set-PCSpendingBudget
             [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
     _testTokenContext($satoken)
    _testTenantContext ($tenantid)
-   Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/usagebudget" -f $tenantid
     $headers = @{Authorization="Bearer $satoken"}
@@ -167,7 +185,7 @@ function New-PCCustomer
             [Parameter(ParameterSetName='ByProfiles',Mandatory = $true)][CompanyProfile] $CompanyProfile, 
             [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
    _testTokenContext($satoken)
-   Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
+
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers"
@@ -195,9 +213,6 @@ function Remove-PCCustomer
     [CmdletBinding()]
     param ($tenantid,         [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
     _testTokenContext($satoken)
-    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
-
-    $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}" -f $tenantid
     $headers  = @{"Authorization"="Bearer $satoken"}
@@ -221,7 +236,27 @@ function Get-PCManagedServices
            [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
    _testTokenContext($satoken)
    _testTenantContext ($tenantid)
-   Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
+
+   Write-Warning "  Get-PCManagedServices is deprecated and will not be available in future releases, use Get-PCManagedService instead."
+
+    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/managedservices" -f $tenantid
+    $headers = @{Authorization="Bearer $satoken"}
+
+    $obj = @()
+    $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
+    $obj += $response.Substring(1) | ConvertFrom-Json
+    return (_formatResult -obj $obj -type "ManagedServices")  
+}
+
+# Adding non-plural noun version of cmdlet. Plural version of the cmdlet will be removed in future versions.
+function Get-PCManagedService
+{    
+    [CmdletBinding()]
+    param ([Parameter(Mandatory = $false)][String]$tenantid=$GlobalCustomerID,
+           [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
+   _testTokenContext($satoken)
+   _testTenantContext ($tenantid)
+
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/managedservices" -f $tenantid
     $headers = @{Authorization="Bearer $satoken"}
 
@@ -240,7 +275,6 @@ function Select-PCCustomer
         [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken
     )
       _testTokenContext($satoken)
-      Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
 
     $obj = @()
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}" -f $tenantid
@@ -249,13 +283,11 @@ function Select-PCCustomer
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj += $response.Substring(1) | ConvertFrom-Json
 
-    #setting SAToke variable as global
+    #setting SAToken variable as global
     Set-Variable -Name "GlobalCustomerID" -Value $obj.id -Scope Global
 
     return (_formatResult -obj $obj -type "Customer") 
 }
-
-
 
 function Get-PCCustomerRelationships
 {    
@@ -264,7 +296,8 @@ function Get-PCCustomerRelationships
            [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
    _testTokenContext($satoken)
    _testTenantContext ($tenantid)
-   Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
+
+      Write-Warning "  Get-PCCustomerRelationships is deprecated and will not be available in future releases, use Get-PCCustomerRelationship instead."
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/relationships" -f $tenantid
     $headers = @{Authorization="Bearer $satoken"}
@@ -275,7 +308,23 @@ function Get-PCCustomerRelationships
     return (_formatResult -obj $obj -type "PartnerRelationship")
 }
 
+# Adding non-plural noun version of cmdlet. Plural version of the cmdlet will be removed in future versions.
+function Get-PCCustomerRelationship
+{    
+    [CmdletBinding()]
+    param ([Parameter(Mandatory = $false)][String]$tenantid=$GlobalCustomerID,
+           [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
+   _testTokenContext($satoken)
+   _testTenantContext ($tenantid)
 
+    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/relationships" -f $tenantid
+    $headers = @{Authorization="Bearer $satoken"}
+
+    $obj = @()
+    $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
+    $obj += $response.Substring(1) | ConvertFrom-Json
+    return (_formatResult -obj $obj -type "PartnerRelationship")
+}
 
 function Get-PCResellerCustomers
 {
@@ -287,7 +336,33 @@ function Get-PCResellerCustomers
         [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken
     )
    _testTokenContext($satoken)
-    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
+
+   Write-Warning "  Get-PCResellerCustomers is deprecated and will not be available in future releases, use Get-PCResellerCustomer instead."
+    $obj = @()
+
+    [string]$filter = '{"Field":"IndirectReseller","Value":"' + $resellerId + '","Operator":"starts_with"}'
+    [Reflection.Assembly]::LoadWithPartialName("System.Web") | Out-Null
+    $Encode = [System.Web.HttpUtility]::UrlEncode($filter)
+
+    $url = "https://api.partnercenter.microsoft.com/v1/customers?size={0}&filter={1}" -f $size,$Encode
+    $headers = @{Authorization="Bearer $satoken"}
+
+    $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
+    $obj += $response.Substring(1) | ConvertFrom-Json
+    return (_formatResult -obj $obj -type "Customer")  
+}
+
+# Add non-plural noun version of cmdlet. Plural version of the cmdlet will be removed in future versions.
+function Get-PCResellerCustomer
+{
+    [CmdletBinding()]
+
+    Param(
+        [Parameter(ParameterSetName='filter', Mandatory = $true)][String]$resellerId,
+        [Parameter(ParameterSetName='filter', Mandatory = $false)][int]$size = 200,
+        [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken
+    )
+   _testTokenContext($satoken)
 
     $obj = @()
 

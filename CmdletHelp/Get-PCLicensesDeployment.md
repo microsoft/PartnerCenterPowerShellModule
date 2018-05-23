@@ -1,8 +1,9 @@
-# Partner Center PowerShell Module (preview) #
+# Get-PCLicensesDeployment #
 
-## Get-PCLicensesDeployment ##
+## Deprecated: Use Get-PCLicenseDeployment instead ##
 
-**Get partner licenses deployment information**
+## Get partner licenses deployment information ##
 
+```powershell
     Get-PCLicensesDeployment
-
+```

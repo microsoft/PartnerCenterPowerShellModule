@@ -1,8 +1,7 @@
-# Partner Center PowerShell Module (preview) #
+# Get-PCSupportProfile #
 
-## Get-PCSupportProfile ##
+## Get Partner Support Profile ##
 
-**Get Partner Support Profile**
-
+```powershell
     Get-PCSupportProfile
-
+```

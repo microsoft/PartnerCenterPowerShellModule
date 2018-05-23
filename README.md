@@ -1,4 +1,4 @@
-# Partner Center PowerShell Module (preview) #
+# Partner Center PowerShell Module #
 
 ## Introduction ##
 
@@ -60,10 +60,10 @@ After completing these steps you are ready to start using the cmdlets for the sc
 |:-|:-|:-|
 | | | |
 | **Analytics** |Retrieve analytics | |
-| | [Get partner licenses deployment information](https://msdn.microsoft.com/en-us/library/partnercenter/mt797761.aspx) | [Get-PCLicensesDeployment](./CmdletHelp/Get-PCLicensesDeployment.md) |
-| | [Get partner licenses usage information](https://msdn.microsoft.com/en-us/library/partnercenter/mt797762.aspx) | [Get-PCLicensesUsage](./CmdletHelp/Get-PCLicensesUsage.md) |
-| | [Get customer licenses deployment information](https://msdn.microsoft.com/en-us/library/partnercenter/mt797759.aspx) | [Get-PCCustomerLicensesDeployment](./CmdletHelp/Get-PCCustomerLicensesDeployment.md) |
-| | [Get customer licenses usage information](https://msdn.microsoft.com/en-us/library/partnercenter/mt797760.aspx) | [Get-PCCustomerLicensesUsage](./CmdletHelp/Get-PCCustomerLicensesUsage.md) |
+| | [Get partner licenses deployment information](https://msdn.microsoft.com/en-us/library/partnercenter/mt797761.aspx) | [Get-PCLicenseDeployment](./CmdletHelp/Get-PCLicenseDeployment.md) |
+| | [Get partner licenses usage information](https://msdn.microsoft.com/en-us/library/partnercenter/mt797762.aspx) | [Get-PCLicenseUsage](./CmdletHelp/Get-PCLicenseUsage.md) |
+| | [Get customer licenses deployment information](https://msdn.microsoft.com/en-us/library/partnercenter/mt797759.aspx) | [Get-PCCustomerLicenseDeployment](./CmdletHelp/Get-PCCustomerLicenseDeployment.md) |
+| | [Get customer licenses usage information](https://msdn.microsoft.com/en-us/library/partnercenter/mt797760.aspx) | [Get-PCCustomerLicenseUsage](./CmdletHelp/Get-PCCustomerLicenseUsage.md) |
 | | | |
 | **Device Deployment** | Configuration policies | |
 | Add, delete, update and retrieve device configuration policies | | |
@@ -111,7 +111,7 @@ After completing these steps you are ready to start using the cmdlets for the sc
 | | | [Get-PCCustomerRoleMember](./CmdletHelp/Get-PCCustomerRoleMember.md) |
 | | [Set user roles for a customer](https://msdn.microsoft.com/en-us/library/partnercenter/mt725336.aspx) | [Add-PCCustomerRoleMember](./CmdletHelp/Add-PCCustomerRoleMember.md) |
 | | [Remove a customer user from a role](https://msdn.microsoft.com/en-us/library/partnercenter/mt745131.aspx) | [Remove-PCCustomerRoleMember](./CmdletHelp/Remove-PCCustomerRoleMember.md) |
-| | [Get a list of available licenses](https://msdn.microsoft.com/en-us/library/partnercenter/mt725331.aspx) | [Get-PCSubscribedSKUs](./CmdletHelp/Get-PCSubscribedSKUs.md) |
+| | [Get a list of available licenses](https://msdn.microsoft.com/en-us/library/partnercenter/mt725331.aspx) | [Get-PCSubscribedSKU](./CmdletHelp/Get-PCSubscribedSKU.md) |
 | | [Assign licenses to a user](https://msdn.microsoft.com/en-us/library/partnercenter/mt725326.aspx) | [NA](./CmdletHelp/NA.md) |
 | | [Check which licenses are assigned to a user](https://msdn.microsoft.com/en-us/library/partnercenter/mt725327.aspx) | [Get-PCCustomerUser](./CmdletHelp/Get-PCCustomerUser.md) |
 | | [Get licenses assigned to a user by license group](https://msdn.microsoft.com/en-us/library/partnercenter/mt784685.aspx) |  [NA](./CmdletHelp/NA.md) |
@@ -123,7 +123,7 @@ After completing these steps you are ready to start using the cmdlets for the sc
 | | [Get a list of offers for a market](https://msdn.microsoft.com/en-us/library/partnercenter/mt683488.aspx) | [Get-PCOffer](./CmdletHelp/Get-PCOffer.md) |
 | | [Get an offer by ID](https://msdn.microsoft.com/en-us/library/partnercenter/mt634678.aspx) | [Get-PCOffer](./CmdletHelp/Get-PCOffer.md) |
 | | [Get add-ons for an offer ID](https://msdn.microsoft.com/en-us/library/partnercenter/mt634669.aspx) | [Get-PCOffer](./CmdletHelp/Get-PCOffer.md) |
-| Create an order | | |
+| | [Get a list of products](https://docs.microsoft.com/en-us/partner-center/develop/get-a-list-of-products) | [NA](.CmdletHelp/NA.md) |
 | | [Create an order](https://msdn.microsoft.com/en-us/library/partnercenter/mt634667.aspx) | [New-PCOrder](./CmdletHelp/New-PCOrder.md) |
 | | [Create an order for a customer of an indirect reseller](https://msdn.microsoft.com/en-us/library/partnercenter/mt808071.aspx) | [NA](./CmdletHelp/NA.md) |
 | | [Get an order by ID](https://msdn.microsoft.com/en-us/library/partnercenter/mt634679.aspx) | [Get-PCOffer](./CmdletHelp/Get-PCOffer.md) |
@@ -150,14 +150,14 @@ After completing these steps you are ready to start using the cmdlets for the sc
 | **Manage billing** | | |
 | Get Azure rates and utilization records | | |
 | | [Get prices for Microsoft Azure](https://msdn.microsoft.com/en-us/library/partnercenter/mt774619.aspx) | [Get-PCAzureRateCard](./CmdletHelp/Get-PCAzureRateCard.md) |
-| | [Get a customer's utilization records for Azure](https://msdn.microsoft.com/en-us/library/partnercenter/mt791774.aspx) | [Get-PCUsage](./CmdletHelp/Get-PCUsage.md)<br/>[Get-PCUsage2](./CmdletHelp/Get-PCUsage2.md) |
+| | [Get a customer's utilization records for Azure](https://msdn.microsoft.com/en-us/library/partnercenter/mt791774.aspx) | [Get-PCUsage](./CmdletHelp/Get-PCUsage.md)   [Get-PCUsage2](./CmdletHelp/Get-PCUsage2.md) |
 | Get invoices | | |
 | | [Get the reseller's current account balance](https://msdn.microsoft.com/en-us/library/partnercenter/mt712732.aspx) | [Get-PCInvoice](./CmdletHelp/Get-PCInvoice.md) |
 | | [Get invoice by ID](https://msdn.microsoft.com/en-us/library/partnercenter/mt712734.aspx) | [Get-PCInvoice](./CmdletHelp/Get-PCInvoice.md) |
-| | [Get invoice line items](https://msdn.microsoft.com/en-us/library/partnercenter/mt634696.aspx) | [Get-PCInvoiceLineItems](./CmdletHelp/Get-PCInvoiceLineItems.md) |
+| | [Get invoice line items](https://msdn.microsoft.com/en-us/library/partnercenter/mt634696.aspx) | [Get-PCInvoiceLineItem](./CmdletHelp/Get-PCInvoiceLineItem.md) |
 | | [Get a collection of invoices](https://msdn.microsoft.com/en-us/library/partnercenter/mt712730.aspx) | [Get-PCInvoice](./CmdletHelp/Get-PCInvoice.md) |
 | Check your Azure spending budget | | |
-| | [Get usage data for a subscription](https://msdn.microsoft.com/en-us/library/partnercenter/mt651646.aspx) | [Get-PCAzureResourceMonthlyUsageRecords](./CmdletHelp/Get-PCAzureResourceMonthlyUsageRecords.md) |
+| | [Get usage data for a subscription](https://msdn.microsoft.com/en-us/library/partnercenter/mt651646.aspx) | [Get-PCAzureResourceMonthlyUsageRecord](./CmdletHelp/Get-PCAzureResourceMonthlyUsageRecord.md) |
 | | [Get usage summary for all of a customer's subscriptions](https://msdn.microsoft.com/en-us/library/partnercenter/mt651643.aspx) | [Get-PCCustomerUsageSummary](./CmdletHelp/Get-PCCustomerUsageSummary.md) |
 | Get service costs | | |
 | | [Get a customer's service costs summary](https://msdn.microsoft.com/en-us/library/partnercenter/mt492473.aspx) | [NA](./CmdletHelp/NA.md) |
@@ -165,13 +165,13 @@ After completing these steps you are ready to start using the cmdlets for the sc
 | | | |
 | **Provide support** | | |
 | Admin services for a customer | | |
-| | [Get the managed services for a customer by ID](https://msdn.microsoft.com/en-us/library/partnercenter/mt614220.aspx) | [Get-PCManagedServices](./CmdletHelp/Get-PCManagedServices.md) |
+| | [Get the managed services for a customer by ID](https://msdn.microsoft.com/en-us/library/partnercenter/mt614220.aspx) | [Get-PCManagedService](./CmdletHelp/Get-PCManagedService.md) |
 | Manage support contacts | | |
 | | [Get a subscription's support contact](https://msdn.microsoft.com/en-us/library/partnercenter/mt803173.aspx) | [NA](./CmdletHelp/NA.md) |
 | | [Update a subscription's support contact](https://msdn.microsoft.com/en-us/library/partnercenter/mt803174.aspx) | [NA](./CmdletHelp/NA.md) |
 | Manage service requests | | |
 | | [Create a service request](https://msdn.microsoft.com/en-us/library/partnercenter/mt805812.aspx) | [New-PCSR](./CmdletHelp/New-PCSR.md) |
-| | [Get service request support topics](https://msdn.microsoft.com/en-us/library/partnercenter/mt634701.aspx) | [Get-PCSRTopics](./CmdletHelp/Get-PCSRTopics.md) |
+| | [Get service request support topics](https://msdn.microsoft.com/en-us/library/partnercenter/mt634701.aspx) | [Get-PCSRTopic](./CmdletHelp/Get-PCSRTopic.md) |
 | | [Get all service requests for a customer](https://msdn.microsoft.com/en-us/library/partnercenter/mt634674.aspx) | [Get-PCSR](./CmdletHelp/Get-PCSR.md) |
 | | [Update a service request](https://msdn.microsoft.com/en-us/library/partnercenter/mt634719.aspx) | [Set-PCSR](./CmdletHelp/Set-PCSR.md) |
 | | | |
@@ -188,9 +188,9 @@ After completing these steps you are ready to start using the cmdlets for the sc
 | | [Update an organization profile](https://msdn.microsoft.com/en-us/library/partnercenter/mt712737.aspx) | [Set-PCOrganizationProfile](./CmdletHelp/Set-PCOrganizationProfile.md) |
 | | [Get partner by MPN ID](https://msdn.microsoft.com/en-us/library/partnercenter/mt634698.aspx) | [Get-PCMpnProfile](./CmdletHelp/Get-PCMpnProfile.md) |
 | | [Get all subscriptions by partner](https://msdn.microsoft.com/en-us/library/partnercenter/mt634676.aspx) | [Get-PCSubscription](./CmdletHelp/Get-PCSubscription.md) |
-| | [Get indirect resellers of a customer](https://msdn.microsoft.com/en-us/library/partnercenter/mt783002.aspx) | [Get-PCCustomerRelationships](./CmdletHelp/Get-PCCustomerRelationships.md) |
-| | [Get customers of an indirect reseller](https://msdn.microsoft.com/en-us/library/partnercenter/mt808157.aspx) | [Get-PCResellerCustomers](./CmdletHelp/Get-PCResellerCustomers.md) |
-| | [Retrieve a list of indirect resellers](https://msdn.microsoft.com/en-us/library/partnercenter/mt783004.aspx) | [Get-PCIndirectResellers](./CmdletHelp/Get-PCIndirectResellers.md) |
+| | [Get indirect resellers of a customer](https://msdn.microsoft.com/en-us/library/partnercenter/mt783002.aspx) | [Get-PCCustomerRelationship](./CmdletHelp/Get-PCCustomerRelationship.md) |
+| | [Get customers of an indirect reseller](https://msdn.microsoft.com/en-us/library/partnercenter/mt808157.aspx) | [Get-PCResellerCustomer](./CmdletHelp/Get-PCResellerCustomer.md) |
+| | [Retrieve a list of indirect resellers](https://msdn.microsoft.com/en-us/library/partnercenter/mt783004.aspx) | [Get-PCIndirectReseller](./CmdletHelp/Get-PCIndirectReseller.md) |
 | | | |
 | **Utilities** | | |
 | | [Validate address format](https://msdn.microsoft.com/en-us/library/partnercenter/mt797658.aspx) | [Test-PCAddress](./CmdletHelp/Test-PCAddress.md) |
@@ -205,16 +205,4 @@ After completing these steps you are ready to start using the cmdlets for the sc
 
 ## Telemetry collection ##
 
-To help us to better understand the module utilization and better prioritize development efforts we enabled telemetry collection by default.
-
-What we collect?
-
-- The CSP account domain
-- The cmdlet name executed (only the name, no data is collected)
-- The module version
-
-If you prefer not to send this data use the following command to disable the telemetry collection:
-
-```powershell
-Set-PCModuleTelemetry -enabled $false
-```
+Telemetry has been removed starting in the 0.9.0.21 release.

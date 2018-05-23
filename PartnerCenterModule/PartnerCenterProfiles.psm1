@@ -1,4 +1,4 @@
-Set-StrictMode -Version latest
+﻿Set-StrictMode -Version latest
 <#
     © 2017 Microsoft Corporation. All rights reserved. This sample code is not supported under any Microsoft standard support program or service. 
     This sample code is provided AS IS without warranty of any kind. Microsoft disclaims all implied warranties including, without limitation, 
@@ -11,7 +11,6 @@ Set-StrictMode -Version latest
 # Load common code
 $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 . "$here\commons.ps1"
-Import-Module -FullyQualifiedName "$here\PartnerCenterTelemetry.psm1"
 
 function Get-PCLegalBusinessProfile
 {
@@ -20,7 +19,7 @@ function Get-PCLegalBusinessProfile
         [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken
     )
     _testTokenContext($satoken)
-    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
+
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/profiles/legalbusiness"
@@ -38,7 +37,7 @@ function Get-PCOrganizationProfile
         [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken
     )
     _testTokenContext($satoken)
-    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
+
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/profiles/organization"
@@ -56,7 +55,7 @@ function Get-PCBillingProfile
         [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken
     )
     _testTokenContext($satoken)
-    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
+
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/profiles/billing"
@@ -75,7 +74,7 @@ function Get-PCMpnProfile
         [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken
     )
     _testTokenContext($satoken)
-    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
+
     $obj = @()
 
     if($mpnid)
@@ -101,7 +100,7 @@ function Get-PCSupportProfile
         [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken
     )
     _testTokenContext($satoken)
-    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
+
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/profiles/support"
@@ -137,7 +136,7 @@ function Set-PCLegalBusinessProfile
             #$email_approver
     )
     _testTokenContext($satoken)
-    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
+
     $obj = @()
 
     $actualLegalBP = Get-PCLegalBusinessProfile -satoken $satoken
@@ -183,7 +182,7 @@ function Set-PCOrganizationProfile
         [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken
     )
     _testTokenContext($satoken)
-    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
+
     $obj = @()
 
     $actualOrganizationP = Get-PCOrganizationProfile -satoken $satoken
@@ -231,7 +230,7 @@ function Set-PCBillingProfile
         #$tax_id,$billingCurrency
     )
     _testTokenContext($satoken)
-    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
+
     $obj = @()
 
     $actualBillingP = Get-PCBillingProfile -satoken $satoken
@@ -268,7 +267,7 @@ function Set-PCSupportProfile
         [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken
     )
     _testTokenContext($satoken)
-    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
+
     $obj = @()
 
     $actualSupportProfile = Get-PCSupportProfile -satoken $satoken
@@ -298,7 +297,6 @@ function Get-PCCustomerBillingProfile
 
    _testTokenContext($satoken)
    _testTenantContext ($tenantid)
-   Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
 
     $obj = @()
 
@@ -320,7 +318,7 @@ function Set-PCCustomerBillingProfile
     )
    _testTokenContext($satoken)
    _testTenantContext ($tenantid)
-   Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
+
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/profiles/billing" -f $tenantid
@@ -342,7 +340,7 @@ function Get-PCCustomerCompanyProfile
     )
     _testTokenContext($satoken)
    _testTenantContext ($tenantid)
-   Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
+
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/profiles/company" -f $tenantid
@@ -443,7 +441,7 @@ function Test-PCAddress
             [Parameter(ParameterSetName='AllDetails',Mandatory = $true)][string] $country, 
             [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
    _testTokenContext($satoken)
-   Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
+
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/validations/address"

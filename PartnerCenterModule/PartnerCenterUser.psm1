@@ -1,4 +1,4 @@
-Set-StrictMode -Version latest
+﻿Set-StrictMode -Version latest
 <#
     © 2017 Microsoft Corporation. All rights reserved. This sample code is not supported under any Microsoft standard support program or service. 
     This sample code is provided AS IS without warranty of any kind. Microsoft disclaims all implied warranties including, without limitation, 
@@ -11,7 +11,6 @@ Set-StrictMode -Version latest
 # Load common code
 $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 . "$here\commons.ps1"
-Import-Module -FullyQualifiedName "$here\PartnerCenterTelemetry.psm1"
 
 function Get-PCCustomerUser
 {
@@ -27,7 +26,6 @@ function Get-PCCustomerUser
     )
     _testTokenContext($satoken)
     _testTenantContext ($tenantid)
-    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
 
     function Private:Get-CustomerAllUserInner ($satoken, $tenantid)
     {
@@ -118,7 +116,7 @@ function New-PCCustomerUser
            [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
     _testTokenContext($satoken)
     _testTenantContext ($tenantid)
-    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
+
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/users" -f $tenantid
@@ -150,7 +148,7 @@ function Set-PCCustomerUser
             [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
     _testTokenContext($satoken)
     _testTenantContext ($tenantid)
-    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
+
     $obj = @()
 
     $actualUser = Get-PCCustomerUser -tenantid $tenantid -userid $user.Id -satoken $satoken
@@ -186,7 +184,7 @@ function Restore-PCCustomerUser
             [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
     _testTokenContext($satoken)
     _testTenantContext ($tenantid) 
-    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
+
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/users/{1}" -f $tenantid, $user.id
@@ -209,7 +207,7 @@ function Remove-PCCustomerUser
             [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
     _testTokenContext($satoken)
     _testTenantContext ($tenantid)
-    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
+
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/users/{1}" -f $tenantid, $user.id
@@ -230,7 +228,29 @@ function Get-PCCustomerUserRoles
             [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
     _testTokenContext($satoken)
     _testTenantContext ($tenantid)
-    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
+
+    Write-Warning "  Get-PCCustomerUserRoles is deprecated and will not be available in future releases, use Get-PCCustomerUserRole instead."
+
+    $obj = @()
+
+    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/users/{1}/directoryroles" -f $tenantid, $user.id
+    $headers = @{Authorization="Bearer $satoken"}
+
+    $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
+    $obj += $response.Substring(1) | ConvertFrom-Json
+    return (_formatResult -obj $obj -type "CustomerUserDirectoryRoles")  
+}
+
+# Adding in non-plural noun versions of the cmdlets
+function Get-PCCustomerUserRole
+{
+    [CmdletBinding()]
+    param ( [Parameter(Mandatory = $false)][String]$tenantid=$GlobalCustomerID,
+            [Parameter(Mandatory = $true,ValueFromPipeline=$True,ValueFromPipelineByPropertyName=$True)][PSCustomObject]$user,
+            [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
+    _testTokenContext($satoken)
+    _testTenantContext ($tenantid)
+
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/users/{1}/directoryroles" -f $tenantid, $user.id

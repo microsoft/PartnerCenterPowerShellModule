@@ -11,7 +11,6 @@
 # Load common code
 $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 . "$here\commons.ps1"
-Import-Module -FullyQualifiedName "$here\PartnerCenterTelemetry.psm1"
 
 function Get-PCUsage
 {
@@ -26,7 +25,6 @@ function Get-PCUsage
         [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
     _testTokenContext($satoken)
     _testTenantContext ($tenantid)
-    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
 
     $retObject = Get-PCUsage_implementation -subscriptionid $subscriptionid -start_time $start_time -end_time $end_time -granularity $granularity -show_details $show_details -size $size -tenantid $tenantid -satoken $satoken
 
@@ -46,7 +44,6 @@ function Get-PCUsage2
         [Parameter(Mandatory = $false, ParameterSetName = 'first')][Parameter(Mandatory = $false, ParameterSetName = 'next')][string]$satoken = $GlobalToken,
         [Parameter(Mandatory = $true, ParameterSetName = 'next')]$continuationLink = $null)
     _testTokenContext($satoken)
-    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
 
     switch ($PsCmdlet.ParameterSetName)
     {
@@ -77,7 +74,6 @@ function Get-PCUsage_implementation
         [string]$satoken,
         $continuationLink)
     
-    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
     $obj = @()
 
     $urlParts = @("https://api.partnercenter.microsoft.com/v1/")
@@ -144,7 +140,30 @@ function Get-PCSubscriptionMonthlyUsageRecords
         [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
     _testTokenContext($satoken)
     _testTenantContext ($tenantid)
-    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
+
+    Write-Warning "  Get-PCSubscriptionMonthlyUsageRecords is deprecated and will not be available in future releases, use Get-PCSubscriptionMonthlyUsageRecord instead."
+
+    $obj = @()
+
+    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/subscriptions/usagerecords" -f $tenantid
+    $headers = @{Authorization = "Bearer $satoken"}
+    $headers += @{"MS-RequestId" = [Guid]::NewGuid()}
+    $headers += @{"MS-CorrelationId" = [Guid]::NewGuid()}
+
+    $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
+    $obj += $response.Substring(1) | ConvertFrom-Json
+    return (_formatResult -obj $obj -type "SubscriptionMonthlyUsageRecord")
+}
+
+# Adding non-plural noun version of cmdlet. Plural version of the cmdlet will be removed in future versions.
+function Get-PCSubscriptionMonthlyUsageRecord
+{
+    [CmdletBinding()]
+    param ([Parameter(Mandatory = $false)][String]$tenantid = $GlobalCustomerID,
+        [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
+    _testTokenContext($satoken)
+    _testTenantContext ($tenantid)
+
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/subscriptions/usagerecords" -f $tenantid
@@ -166,7 +185,9 @@ function Get-PCAzureResourceMonthlyUsageRecords
         [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
     _testTokenContext($satoken)
     _testTenantContext ($tenantid)
-    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
+    
+    Write-Warning "  Get-PCAzureResourceMonthlyUsageRecords is deprecated and will not be available in future releases, use Get-PCAzureResourceMonthlyUsageRecord instead."
+
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/subscriptions/{1}/usagerecords/resources" -f $tenantid, $subscriptionid
@@ -179,6 +200,30 @@ function Get-PCAzureResourceMonthlyUsageRecords
     return (_formatResult -obj $obj -type "AzureResourceMonthlyUsageRecord") 
 }
 
+# Adding non-plural noun version of cmdlet. Plural version of the cmdlet will be removed in future versions.
+function Get-PCAzureResourceMonthlyUsageRecord
+{
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory = $false)][String]$tenantid = $GlobalCustomerID, 
+        [string]$subscriptionid,
+        [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
+    _testTokenContext($satoken)
+    _testTenantContext ($tenantid)
+
+    $obj = @()
+
+    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/subscriptions/{1}/usagerecords/resources" -f $tenantid, $subscriptionid
+    $headers = @{Authorization = "Bearer $satoken"}
+    $headers += @{"MS-RequestId" = [Guid]::NewGuid()}
+    $headers += @{"MS-CorrelationId" = [Guid]::NewGuid()}
+
+    $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
+    $obj += $response.Substring(1) | ConvertFrom-Json
+    return (_formatResult -obj $obj -type "AzureResourceMonthlyUsageRecord") 
+}
+
+
 function Get-PCCustomerUsageSummary
 {
     [CmdletBinding()]
@@ -187,7 +232,7 @@ function Get-PCCustomerUsageSummary
         [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
     _testTokenContext($satoken)
     _testTenantContext ($tenantid)
-    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
+
     $obj = @()  
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/usagesummary" -f $tenantid
@@ -211,7 +256,6 @@ function Get-PCCustomerServiceCostSummary
 
     _testTokenContext($satoken)
     _testTenantContext ($tenantid)
-    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
 
     $obj = @()
 

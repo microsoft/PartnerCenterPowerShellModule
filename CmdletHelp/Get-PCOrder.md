@@ -1,16 +1,19 @@
-# Partner Center PowerShell Module (preview) #
+# Get-PCOrder #
 
-## Get-PCOrder ##
+## Select a customer ##
 
-**Get a customer**
+```powershell
+    Select-PCCustomer -tenantid '<tenant id GUID>'
+```
 
-    $customer = Get-PCCustomer -tenantid '<tenant id GUID>'
+## Get customer orders ##
 
-**Get customer orders**
-
+```powershell
     Get-PCOrder -tenantid $customer.id
+```
 
-**Get a customer order**
+## Get a customer order ##
 
+```powershell
     Get-PCOrder -tenantid $customer.id -orderid '<order id guid>'
-
+```

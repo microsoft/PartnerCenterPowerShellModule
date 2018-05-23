@@ -1,12 +1,13 @@
-# Partner Center PowerShell Module (preview) #
+# Remove-PCCustomer #
 
-## Remove-PCCustomer ##
+## Specify a customer ##
 
-**Get a customer**
-
+```powershell
     $customer = Get-PCCustomer -tenantid '<tenant id GUID>'
+```
 
-**Delete a customer (integration sandbox only)**
+## Delete a customer (integration sandbox only) ##
 
+```powershell
     Remove-PCCustomer -tenantid $customer.id
-
+```

@@ -1,6 +1,6 @@
-# Get-PCCustomerLicensesDeployment #
+# Get-PCCustomerLicenseDeployment #
 
-## Deprecated: Use Get-PCCustomerLicenseDeployment instead ##
+This cmdlet requires App+User authentication
 
 ## Specify a customer ##
 
@@ -11,5 +11,5 @@
 ## Get customer licenses deployment information ##
 
 ```powershell
-    Get-PCCustomerLicensesDeployment -tenantid $customer.id
+    Get-PCCustomerLicenseDeployment -tenantid $customer.id
 ```

@@ -1,4 +1,4 @@
-Set-StrictMode -Version latest
+﻿Set-StrictMode -Version latest
 <#
     © 2017 Microsoft Corporation. All rights reserved. This sample code is not supported under any Microsoft standard support program or service. 
     This sample code is provided AS IS without warranty of any kind. Microsoft disclaims all implied warranties including, without limitation, 
@@ -11,7 +11,6 @@ Set-StrictMode -Version latest
 # Load common code
 $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 . "$here\commons.ps1"
-Import-Module -FullyQualifiedName "$here\PartnerCenterTelemetry.psm1"
 
 function Get-PCSubscription
 {
@@ -29,7 +28,7 @@ function Get-PCSubscription
     )
     _testTokenContext($satoken)
     _testTenantContext ($tenantid)
-    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
+
 
     function Private:Get-SubscriptionsAllInner ($satoken, $tenantid)
     {
@@ -141,7 +140,7 @@ function Set-PCSubscription
     )
     _testTokenContext($satoken)
     _testTenantContext ($tenantid)  
-    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
+
     $obj = @()
 
     $actualSubscription = Get-PCSubscription -satoken $satoken -tenantid $tenantid -subscriptionid $subscription.Id

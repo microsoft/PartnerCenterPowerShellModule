@@ -1,4 +1,4 @@
-<#
+﻿<#
     © 2017 Microsoft Corporation. All rights reserved. This sample code is not supported under any Microsoft standard support program or service. 
     This sample code is provided AS IS without warranty of any kind. Microsoft disclaims all implied warranties including, without limitation, 
     any implied warranties of merchantability or of fitness for a particular purpose. The entire risk arising out of the use or performance 
@@ -34,7 +34,7 @@ function _testTenantContext($tenantID)
 {
     if ($tenantid.Length -lt 1)
     {
-        throw ">>>Use Select-PCCustomer function to select a specific tenant or use -tenantid parameter<<<"
+        throw ">>> Use Select-PCCustomer function to select a specific tenant or use -tenantId parameter<<<"
     }
 }
 
@@ -42,7 +42,7 @@ function _testTokenContext($satoken)
 {
     if ($satoken.Length -lt 1)
     {
-        throw ">>>Use Add-PCAuthentication function to login to partnercenter or use -satoken parameter<<<"
+        throw ">>> Use Add-PCAuthentication function to login to partnercenter or use -saToken parameter<<<"
     }
 }
 
@@ -64,7 +64,7 @@ function Get-SAToken
     
     $response = Invoke-RestMethod -Uri $url -ContentType "application/x-www-form-urlencoded" -Headers $headers -Body $body -method "POST" #-Debug -Verbose
 
-    #setting SAToke variable as global
+    #setting SAToken variable as global
     if ($global){
         Set-Variable -Name "GlobalToken" -Value $response.access_token -Scope Global
     }

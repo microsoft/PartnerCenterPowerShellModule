@@ -1,17 +1,19 @@
-# Partner Center PowerShell Module (preview) #
+# Get-PCCustomerRoleMember #
 
-## Get-PCCustomerRoleMember ##
+## Specify a customer ##
 
-**Get a customer**
-
+```powershell
     $customer = Get-PCCustomer -tenantid '<tenant id GUID>'
+```
 
-**Get customer role**
+## Get customer role ##
 
-    $role = Get-PCCustomerRole -tenantid $customer.id | Where-Object Name -EQ '<Role Name>' 
+```powershell
+    $role = Get-PCCustomerRole -tenantid $customer.id | Where-Object Name -EQ '<Role Name>'
+```
 
-**Get customer user roles**
+## Get customer user roles ##
 
+```powershell
     Get-PCCustomerRoleMember -tenantid $customer.id -roleid $role.id
-
-
+```

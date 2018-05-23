@@ -1,19 +1,22 @@
-# Partner Center PowerShell Module (preview) #
+# Set-PCCustomerBillingProfile #
 
-## Set-PCCustomerBillingProfile ##
+## Specify a customer ##
 
-**Get a customer**
-
+```powershell
     $customer = Get-PCCustomer -tenantid '<tenant id GUID>'
+```
 
-**Get customer Billing Profile**
+## Get customer Billing Profile ##
 
+```powershell
     $customerBillingProfile = Get-PCCustomerBillingProfile -tenantid $customer.id
+```
 
-**Set customer Billing Profile**
-   
+## Set customer Billing Profile ##
+
+```powershell
     $customerBillingProfile.firstName = '<first name>'
     $customerBillingProfile.lastName = '<last name>'
     $customerBillingProfile.email = '<email>'
     Set-PCCustomerBillingProfile -tenantid $customer.id -billingprofile $customerBillingProfile
-
+```

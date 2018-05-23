@@ -11,7 +11,6 @@
 # Load common code
 $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 . "$here\commons.ps1"
-Import-Module -FullyQualifiedName "$here\PartnerCenterTelemetry.psm1"
 
 function Get-GraphAADTokenByUser
 {
@@ -64,6 +63,7 @@ function Add-PCAuthentication
         $resource = 'https://api.partnercenter.microsoft.com'
         $AADToken = Get-GraphAADTokenByUser -resource $resource -domain $cspDomain -clientid $cspAppID -credential $credential
         $cspUsername = $credential.UserName
+        
         # Get SA token
         try {
             $SAToken = Get-SAToken -aadtoken $AADToken -global $true
@@ -102,9 +102,7 @@ function Add-PCAuthentication
         "user"     { $result = Add-AuthenticationByUser   -cspAppID $cspAppID -cspDomain $cspDomain -credential $credential }
         "app"      { $result = Add-AuthenticationBySecret -cspAppID $cspAppID -cspDomain $cspDomain -cspClientSecret $cspClientSecret } 
     }
-
-    Update-ModuleTelemetry -cspDomain $result.Domain
-    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
+    
     return $result
 }
 
@@ -164,7 +162,5 @@ function New-PCSAToken
                      $result = $result_arr[0]}
     }
 
-    Update-ModuleTelemetry -cspDomain $result_arr[1].Domain
-    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
     return $result
 }

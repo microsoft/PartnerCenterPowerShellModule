@@ -11,32 +11,32 @@ This project has adopted the [Microsoft Open Source Code of Conduct](https://ope
 For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
 contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
 
-- [Code of Conduct](#coc)
-- [Issues and Bugs](#issue)
-- [Feature Requests](#feature)
-- [Submission Guidelines](#submit)
+- [Code of Conduct](#code-of-conduct)
+- [Issues and Bugs](#finding-issues)
+- [Feature Requests](#requesting-features)
+- [Submission Guidelines](#submission-guidelines)
 
-## <a name="coc"></a> Code of Conduct
+## Code of Conduct
 
 Help us keep this project open and inclusive. Please read and follow our [Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
 
-## <a name="issue"></a> Found an Issue?
+## Finding Issues
 
 If you find a bug in the source code or a mistake in the documentation, you can help us by
-[submitting an issue](#submit-issue) to the GitHub Repository. Even better, you can
-[submit a Pull Request](#submit-pr) with a fix.
+[submitting an issue](#submitting-an-issue) to the GitHub Repository. Even better, you can
+[submit a Pull Request](#submitting-a-pull-request) with a fix.
 
-## <a name="feature"></a> Want a Feature?
+## Requesting Features
 
-You can *request* a new feature by [submitting an issue](#submit-issue) to the GitHub
+You can *request* a new feature by [submitting an issue](#submitting-an-issue) to the GitHub
 Repository. If you would like to *implement* a new feature, please submit an issue with
 a proposal for your work first, to be sure that we can use it.
 
-**Small Features** can be crafted and directly [submitted as a Pull Request](#submit-pr).
+**Small Features** can be crafted and directly [submitted as a Pull Request](#submitting-a-pull-request).
 
-## <a name="submit"></a> Submission Guidelines
+## Submission Guidelines
 
-### <a name="submit-issue"></a> Submitting an Issue
+### Submitting an Issue
 
 Before you submit an issue, search the archive, maybe your question was already answered.
 
@@ -54,13 +54,13 @@ chances of your issue being dealt with quickly:
 - **Suggest a Fix** - if you can't fix the bug yourself, perhaps you can point to what might be
   causing the problem (line of code or commit)
 
-You can file new issues by providing the above information at the corresponding repository's issues link: https://github.com/Microsoft/PartnerCenterPowerShellModule/issues/new.
+You can file new issues by providing the above information at the [corresponding repository's issues link](https://github.com/Microsoft/PartnerCenterPowerShellModule/issues/new).
 
-### <a name="submit-pr"></a> Submitting a Pull Request (PR)
+### Submitting a Pull Request
 
 Before you submit your Pull Request (PR) consider the following guidelines:
 
-- Search the repository (https://github.com/Microsoft/PartnerCenterPowerShellModule/pulls) for an open or closed PR
+- [Search the repository](https://github.com/Microsoft/PartnerCenterPowerShellModule/pulls) for an open or closed PR
   that relates to your submission. You don't want to duplicate effort.
 
 - Make your changes in a new git fork:

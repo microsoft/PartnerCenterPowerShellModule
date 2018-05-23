@@ -1,4 +1,4 @@
-Set-StrictMode -Version latest
+﻿Set-StrictMode -Version latest
 <#
     © 2017 Microsoft Corporation. All rights reserved. This sample code is not supported under any Microsoft standard support program or service. 
     This sample code is provided AS IS without warranty of any kind. Microsoft disclaims all implied warranties including, without limitation, 
@@ -9,9 +9,9 @@ Set-StrictMode -Version latest
     sample scripts or documentation, even if Microsoft has been advised of the possibility of such damages.
 #>
 # Load common code
+
 $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 . "$here\commons.ps1"
-Import-Module -FullyQualifiedName "$here\PartnerCenterTelemetry.psm1"
 
 function Get-PCInvoice
 {
@@ -25,8 +25,8 @@ function Get-PCInvoice
         #[Parameter(ParameterSetName='detailurl',Mandatory = $false)][switch]$detailurl
     )
    _testTokenContext($satoken)
-   Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
-    function Private:Get-InvoiceSummaryInner($satoken)
+
+   function Private:Get-InvoiceSummaryInner($satoken)
     {
         $obj = @()
         $url = "https://api.partnercenter.microsoft.com/v1/invoices/summary"
@@ -100,7 +100,34 @@ function Get-PCInvoiceLineItems
         [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken
     )
    _testTokenContext($satoken)
-   Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
+
+   Write-Warning "  Get-PCInvoiceLineItems is deprecated and will not be available in future releases, use Get-PCInvoiceLineItem instead."
+
+    $obj = @()
+    $url = "https://api.partnercenter.microsoft.com/v1/invoices/{0}/lineitems/{1}/{2}?size={3}&offset={4}" -f $invoiceid, $billingprovider, $invoicelineitemtype, $size, $offset
+
+    $headers = @{Authorization="Bearer $satoken"}
+
+    $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
+    $obj += $response
+    return (_formatResult -obj $obj -type "Invoice") 
+}
+
+# Adding non-plural noun version of cmdlet. Plural version of the cmdlet will be removed in future versions.
+function Get-PCInvoiceLineItem
+{
+    [CmdletBinding()]
+
+    Param(
+         [Parameter(Mandatory = $true)][String]$invoiceid,
+         [Parameter(Mandatory = $true)][ValidateSet("Azure","Office")][string]$billingprovider,
+         [Parameter(Mandatory = $true)][ValidateSet("BillingLineItems","UsageLineItems")][string]$invoicelineitemtype,
+         [Parameter(Mandatory = $false)][int]$size = 200,
+         [Parameter(Mandatory = $false)][int]$offset = 0,
+        [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken
+    )
+   _testTokenContext($satoken)
+
     $obj = @()
     $url = "https://api.partnercenter.microsoft.com/v1/invoices/{0}/lineitems/{1}/{2}?size={3}&offset={4}" -f $invoiceid, $billingprovider, $invoicelineitemtype, $size, $offset
 

@@ -1,21 +1,25 @@
-# Partner Center PowerShell Module (preview) #
+# Get-PCOffer #
 
-## Get-PCOffer ##
+## Get all offer details for countryId ##
 
-**Get all Offers details for countryid**
+```powershell
+    Get-PCOffer -countryId '<country two digits id>'
+```
 
-    Get-PCOffer -countryid '<country two digits id>' 
+## Get a specific offer ##
 
-**Get a specific Offer**
+```powershell
+    Get-PCOffer -countryId '<country two digits id>' -offerId '<offer id GUID>'
+```
 
-    Get-PCOffer -countryid '<country two digits id>' -offerid '<offer id GUID>'
+## Get all offer details for countryId and localeId ##
 
-**Get all Offers details for countryid and localeid**
+```powershell
+    Get-PCOffer -countryId '<country two digits id>' -localeId '<locale id four digits>'
+```
 
-    Get-PCOffer -countryid '<country two digits id>' -localeid '<locale id four digits>'
+## Get addons for a specific offer ##
 
-**Get addons for a specific Offer**
-
-    Get-PCOffer -countryid '<country two digits id>' -offerid '<offer id GUID>' -addons
-
-
+```powershell
+    Get-PCOffer -countryId '<country two digits id>' -offerId '<offer id GUID>' -addOns
+```

@@ -1,4 +1,4 @@
-Set-StrictMode -Version latest
+﻿Set-StrictMode -Version latest
 <#
     © 2017 Microsoft Corporation. All rights reserved. This sample code is not supported under any Microsoft standard support program or service. 
     This sample code is provided AS IS without warranty of any kind. Microsoft disclaims all implied warranties including, without limitation, 
@@ -8,9 +8,9 @@ Set-StrictMode -Version latest
     profits, business interruption, loss of business information, or other pecuniary loss) arising out of the use of or inability to use the 
     sample scripts or documentation, even if Microsoft has been advised of the possibility of such damages.
 #>
+
 $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 . "$here\commons.ps1"
-Import-Module -FullyQualifiedName "$here\PartnerCenterTelemetry.psm1"
 
 function Get-PCDomainAvailability
 {
@@ -24,13 +24,14 @@ function Get-PCDomainAvailability
         [string]$satoken = $GlobalToken
     )
     _testTokenContext($satoken) 
-    Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
+
     try
     {
         $url = "https://api.partnercenter.microsoft.com/v1/domains/{0}" -f $domain
         $headers = @{Authorization="Bearer $GlobalToken"}
-        $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "HEAD" #-Debug -Verbose
+        $null = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "HEAD" #-Debug -Verbose
         return $false
+
     } 
     catch [System.Net.WebException] 
     {
@@ -50,7 +51,7 @@ function Get-PCCustomerRole
            [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
    _testTokenContext($satoken)
    _testTenantContext ($tenantid)
-   Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
+
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/directoryroles" -f $tenantid
@@ -70,7 +71,6 @@ function Get-PCCustomerRoleMember
            [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
    _testTokenContext($satoken)
    _testTenantContext ($tenantid)
-   Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
 
     $obj = @()
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/directoryroles/{1}/usermembers" -f $tenantid, $roleid
@@ -90,7 +90,7 @@ function Add-PCCustomerRoleMember
             [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
    _testTokenContext($satoken)
    _testTenantContext ($tenantid)
-   Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
+
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/directoryroles/{1}/usermembers" -f $tenantid, $roleid
@@ -113,7 +113,6 @@ function Remove-PCCustomerRoleMember
             [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
    _testTokenContext($satoken)
    _testTenantContext ($tenantid)
-   Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
 
     $obj = @()
 
@@ -132,7 +131,7 @@ function New-PCRelationshipRequest
     [CmdletBinding()]
     param  ([Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
    _testTokenContext($satoken)
-   Send-ModuleTelemetry -functionName $MyInvocation.MyCommand.Name
+
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers/relationshiprequests"

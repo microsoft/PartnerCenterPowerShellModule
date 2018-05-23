@@ -1,12 +1,15 @@
-# Partner Center PowerShell Module (preview) #
+# Get-PCManagedServices #
 
-## Get-PCManagedServices ##
+## Deprecated: Use Get-PCManagedService instead ##
 
-**Get a customer**
+## Select a customer ##
 
-    $customer = Get-PCCustomer -tenantid '<tenant id GUID>'
+```powershell
+    Select-PCCustomer -tenantid '<tenant id GUID>'
+```
 
-**Get all managed services for customer**
+## Get all managed services for customer ##
 
+```powershell
     Get-PCManagedServices -tenantid $customer.id
-
+```

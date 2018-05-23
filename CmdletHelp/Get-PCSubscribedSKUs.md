@@ -1,13 +1,15 @@
-# Partner Center PowerShell Module (preview) #
+# Get-PCSubscribedSKUs #
 
-## Get-PCSubscribedSKUs ##
+## Deprecated: Use Get-PCSubscribedSKU instead ##
 
-**Get a customer**
+## Specify a customer ##
 
+```powershell
     $customer = Get-PCCustomer -tenantid '<tenant id GUID>'
+```
 
-**Get a list of available licenses**
+## Get a list of available licenses ##
 
+```powershell
     Get-PCSubscribedSKUs -tenantid $customer.id
-
-
+```

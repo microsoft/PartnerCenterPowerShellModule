@@ -18,7 +18,7 @@
 RootModule = 'PartnerCenterModule.psm1'
 
 # Version number of this module.
-ModuleVersion = '0.9.0.20'
+ModuleVersion = '0.9.0.21'
 
 # ID used to uniquely identify this module
 GUID = '4a0bfb55-926c-4c31-8d05-50813b31c712'
@@ -30,7 +30,7 @@ Author = "Microsoft Corporation"
 CompanyName = "Microsoft Corporation"
 
 # Copyright
-Copyright = "Copyright (c) 2017 Microsoft Corporation. Licensed under MIT license."
+Copyright = "Copyright (c) 2018 Microsoft Corporation. Licensed under MIT license."
 
 # Description of the functionality provided by this module
 Description = 'Partner Center Powershell Module (preview)'
@@ -44,14 +44,18 @@ FunctionsToExport = @('Add-PCAuthentication',
                     'Add-PCCustomerRoleMember',
                     'Get-PCAddressRulesByMarket',
                     'Get-PCAuditRecords',
+                    'Get-PCAuditRecord',
                     'Get-PCAzureRateCard',
                     'Get-PCAzureResourceMonthlyUsageRecords',
+                    'Get-PCAzureResourceMonthlyUsageRecord',
                     'Get-PCBillingProfile',
                     'Get-PCCustomer',
                     'Get-PCCustomerBillingProfile',
                     'Get-PCCustomerCompanyProfile',
                     'Get-PCCustomerLicensesDeployment',
                     'Get-PCCustomerLicensesUsage',
+                    'Get-PCCustomerLicenseDeployment',
+                    'Get-PCCustomerLicenseUsage',
                     'Get-PCCustomerServiceCostSummary',
                     'Get-PCCustomerUsageSummary',
                     'Get-PCCustomerUser',
@@ -59,15 +63,18 @@ FunctionsToExport = @('Add-PCAuthentication',
                     'Get-PCCustomerRoleMember',
                     'Get-PCCustomerRole',
                     'Get-PCCustomerRelationships',
+                    'Get-PCCustomerRelationship',
                     'Get-PCDomainAvailability',
-                    'Get-PCGraphUser',
-                    'Get-PCGraphUsers',
                     'Get-PCInvoice',
                     'Get-PCInvoiceLineItems',
+                    'Get-PCInvoiceLineItem',
                     'Get-PCLegalBusinessProfile',
                     'Get-PCLicensesDeployment',
+                    'Get-PCLicenseDeployment',
+                    'Get-PCLicenseUsage',
                     'Get-PCLicensesUsage',
                     'Get-PCManagedServices',
+                    'Get-PCManagedService',
                     'Get-PCMpnProfile',
                     'Get-PCOffer',
                     'Get-PCOfferCategoriesByMarket',
@@ -77,9 +84,10 @@ FunctionsToExport = @('Add-PCAuthentication',
                     'Get-PCSpendingBudget',
                     'Get-PCSR',
                     'Get-PCSRTopics',
+                    'Get-PCSRTopic',
                     'Get-PCSubscribedSKUs',
+                    'Get-PCSubscribedSKU',
                     'Get-PCSubscription',
-                    'Get-PCAzureResourceMonthlyUsageRecords',
                     'Get-PCSupportProfile',
                     'Get-PCUsage',
                     'Get-PCUsage2',
@@ -99,8 +107,6 @@ FunctionsToExport = @('Add-PCAuthentication',
                     'Remove-PCCustomerRoleMember',
                     'Restore-PCCustomerUser',
                     'Select-PCCustomer',
-                    'Set-PCModuleTelemetry',
-                    'Get-PCModuleTelemetry'
                     'Set-PCBillingProfile',
                     'Set-PCCustomerBillingProfile',
                     'Set-PCCustomerUser',
@@ -108,7 +114,9 @@ FunctionsToExport = @('Add-PCAuthentication',
                     'Set-PCLegalBusinessProfile',
                     'Set-PCOrganizationProfile',
                     'Get-PCIndirectResellers',
+                    'Get-PCIndirectReseller',
                     'Get-PCResellerCustomers',
+                    'Get-PCResellerCustomer',
                     'Set-PCSpendingBudget',
                     'Set-PCSR',
                     'Set-PCSubscription',
