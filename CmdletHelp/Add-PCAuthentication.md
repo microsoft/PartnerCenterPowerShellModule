@@ -1,13 +1,15 @@
 # Add-PCAuthentication #
 
-## Set a global token for the script session - user authentication ##
+**Note:** Some cmdlets require App+User authentication. If you are working with invoices or users, you should use App+User authenication.
+
+## Set a global token for the script session - App+User authentication ##
 
 ```powershell
     $cred = Get-Credential
     Add-PCAuthentication -cspappID '<native app id GUID>' -cspDomain '<csp partner domain>' -credential $cred
 ```
 
-## Set a global token for the script session - app authentication ##
+## Set a global token for the script session - App authentication ##
 
 ```powershell
     $clientSecret = '<key code secret>'

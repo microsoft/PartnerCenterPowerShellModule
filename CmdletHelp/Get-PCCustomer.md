@@ -9,7 +9,7 @@
 ## Get a customer by ID ##
 
 ```powershell
-    $customer = Get-PCCustomer -tenantid '<tenant id GUID>'
+    $customer = Get-PCCustomer -tenantId '<tenant id GUID>'
 ```
 
 ## Get customers by company name ##

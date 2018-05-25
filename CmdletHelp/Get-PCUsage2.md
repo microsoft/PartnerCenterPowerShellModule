@@ -3,7 +3,7 @@
 ## Get a customer ##
 
 ```powershell
-    Select-PCCustomer -tenantid '<tenant id GUID>'
+    Select-PCCustomer -tenantId '<tenant id GUID>'
 ```
 
 ## Get a subscription ##
@@ -15,7 +15,7 @@
 ## Gets first page of utilization records of a customer's Azure subscription for a specified period ##
 
 ```powershell
-    $usageData = Get-PCUsage2 -subscriptionid $subscription.id -start_time "01-12-1999 00:00:00" -end_time "31-12-1999 00:00:00" -granularity {daily | hourly}-show_details  <bool> -size <int>
+    $usageData = Get-PCUsage2 -subscriptionid $subscription.id -startTime "01-12-1999 00:00:00" -endTime "31-12-1999 00:00:00" -granularity {daily | hourly}-showDetails  <bool> -size <int>
 ```
 
 ## Gets the next page of utilization records of a customer's Azure subscription for a specified period ##

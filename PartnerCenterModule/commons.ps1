@@ -32,17 +32,17 @@ function _formatResult {
 
 function _testTenantContext($tenantID)
 {
-    if ($tenantid.Length -lt 1)
+    if ($tenantId.Length -lt 1)
     {
-        throw ">>> Use Select-PCCustomer function to select a specific tenant or use -tenantId parameter<<<"
+        throw ">>> Use Select-PCCustomer to select a specific tenant or use -tenantId parameter<<<"
     }
 }
 
-function _testTokenContext($satoken)
+function _testTokenContext($saToken)
 {
-    if ($satoken.Length -lt 1)
+    if ($saToken.Length -lt 1)
     {
-        throw ">>> Use Add-PCAuthentication function to login to partnercenter or use -saToken parameter<<<"
+        throw ">>> Use Add-PCAuthentication to login to partnercenter or use -saToken parameter<<<"
     }
 }
 
@@ -68,7 +68,6 @@ function Get-SAToken
     if ($global){
         Set-Variable -Name "GlobalToken" -Value $response.access_token -Scope Global
     }
-
 
     return $response.access_token
 }

@@ -3,19 +3,19 @@
 ## Get a customer ##
 
 ```powershell
-    $customer = Get-PCCustomer -tenantid '<tenant id GUID>'
+    $customer = Get-PCCustomer -tenantId '<tenant id GUID>'
 ```
 
 ## Get customer user ##
 
 ```powershell
-    $user = Get-PCCustomerUser -tenantid $customer.id -userid '<user id>'
+    $user = Get-PCCustomerUser -tenantId $customer.id -userid '<user id>'
 ```
 
 ## Update a customer user ##
 
 ```powershell
-    Set-PCCustomerUser -tenantid $customer.id -user $user -userPrincipalName '<new UPN>'
+    Set-PCCustomerUser -tenantId $customer.id -user $user -userPrincipalName '<new UPN>'
 ```
 
 ## Reset a customer user password ##
@@ -24,5 +24,5 @@
     $password = '<password>'
     $passwordSecure = $password | ConvertTo-SecureString -AsPlainText -Force
 
-    Set-PCCustomerUser -tenantid $customer.id -user $user -password $passwordSecure -forceChangePassword $true/$false
+    Set-PCCustomerUser -tenantId $customer.id -user $user -password $passwordSecure -forceChangePassword $true/$false
 ```

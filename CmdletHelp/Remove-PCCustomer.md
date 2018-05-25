@@ -3,11 +3,11 @@
 ## Specify a customer ##
 
 ```powershell
-    $customer = Get-PCCustomer -tenantid '<tenant id GUID>'
+    $customer = Get-PCCustomer -tenantId '<tenant id GUID>'
 ```
 
 ## Delete a customer (integration sandbox only) ##
 
 ```powershell
-    Remove-PCCustomer -tenantid $customer.id
+    Remove-PCCustomer -tenantId $customer.id
 ```

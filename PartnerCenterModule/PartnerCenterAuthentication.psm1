@@ -12,18 +12,39 @@
 $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 . "$here\commons.ps1"
 
-function Get-GraphAADTokenByUser
-{
+<#
+.SYNOPSIS
+
+.DESCRIPTION
+
+.PARAMETER resource 
+
+.PARAMETER domain 
+
+.PARAMETER clientId 
+
+.PARAMETER credential
+
+.EXAMPLE
+
+.NOTES
+#>
+function Get-GraphAADTokenByUser {
     [CmdletBinding()]
-    param ($resource, $domain, $clientid, [PSCredential]$credential)
+    param (
+        $resource, 
+        $domain, 
+        $clientId, 
+        [PSCredential]$credential
+        )
 
     $username = $credential.GetNetworkCredential().userName
     $password = $credential.GetNetworkCredential().Password
 
-    $url  = "https://login.windows.net/{0}/oauth2/token" -f $domain
-    $body =         "grant_type=password&"
+    $url = "https://login.windows.net/{0}/oauth2/token" -f $domain
+    $body = "grant_type=password&"
     $body = $body + "resource=$resource&"
-    $body = $body + "client_id=$clientid&"
+    $body = $body + "client_id=$clientId&"
     $body = $body + "username=$username&"
     $body = $body + "password=$password&"
     $body = $body + "scope=openid"
@@ -32,34 +53,71 @@ function Get-GraphAADTokenByUser
     return $response.access_token
 }
 
-function Get-GraphAADTokenByApp
-{
+<#
+.SYNOPSIS
+
+.DESCRIPTION
+
+.PARAMETER resource 
+
+.PARAMETER domain 
+
+.PARAMETER clientId 
+
+.PARAMETER clientsecret
+
+.EXAMPLE
+
+.NOTES
+#>
+function Get-GraphAADTokenByApp {
     [CmdletBinding()]
-    param ($resource, $domain, $clientid, $clientsecret)
-    $url  = "https://login.windows.net/{0}/oauth2/token" -f $domain
+    param (
+        $resource, 
+        $domain, 
+        $clientId, 
+        $clientSecret
+    )
+    $url = "https://login.windows.net/{0}/oauth2/token" -f $domain
     $body = "grant_type=client_credentials&"
     $body = $body + "resource=$resource&"
-    $body = $body + "client_id=$clientid&"
-    $tmp_clientsecret = _unsecureString -string $clientsecret
-    # we need to escape the secret because it may contain special chars
-    $tmp_clientsecret = [uri]::EscapeDataString($tmp_clientsecret)
-    $body = $body + "client_secret=$tmp_clientsecret"
+    $body = $body + "client_id=$clientId&"
+    $tmp_clientsecret = _unsecureString -string $clientSecret
+    
+    # Need to escape the secret because it may contain special chars
+    $tmp_clientsecret = [uri]::EscapeDataString($tmp_clientSecret)
+    $body = $body + "client_secret=$tmp_clientSecret"
 
     $response = Invoke-RestMethod -Uri $url -ContentType "application/x-www-form-urlencoded" -Body $body -method "POST" #-Debug -Verbose -Headers $headers 
-	return $response.access_token
+    return $response.access_token
 }
 
-function Add-PCAuthentication
-{
+<#
+.SYNOPSIS
+
+.DESCRIPTION
+
+.PARAMETER cspAppId
+
+.PARAMETER cspDomain 
+
+.PARAMETER cspClientSecret
+
+.PARAMETER credential
+
+.EXAMPLE
+
+.NOTES
+#>
+function Add-PCAuthentication {
     [CmdletBinding()]
-    param ([Parameter(Mandatory=$True,ParameterSetName='app')][Parameter(Mandatory=$True,ParameterSetName='user')][string] $cspAppID,
-           [Parameter(Mandatory=$True,ParameterSetName='app')][Parameter(Mandatory=$True,ParameterSetName='user')][string] $cspDomain,
-           [Parameter(Mandatory=$True,ParameterSetName='app' )][SecureString]$cspClientSecret,
-           [Parameter(Mandatory=$True,ParameterSetName='user')][PSCredential]$credential
+    param ([Parameter(Mandatory = $True, ParameterSetName = 'app')][Parameter(Mandatory = $True, ParameterSetName = 'user')][string] $cspAppID,
+        [Parameter(Mandatory = $True, ParameterSetName = 'app')][Parameter(Mandatory = $True, ParameterSetName = 'user')][string] $cspDomain,
+        [Parameter(Mandatory = $True, ParameterSetName = 'app' )][SecureString]$cspClientSecret,
+        [Parameter(Mandatory = $True, ParameterSetName = 'user')][PSCredential]$credential
     )
 
-    function Private:Add-AuthenticationByUser ($cspAppID,$cspDomain,[PSCredential]$credential)
-    {
+    function Private:Add-AuthenticationByUser ($cspAppID, $cspDomain, [PSCredential]$credential) {
         $resource = 'https://api.partnercenter.microsoft.com'
         $AADToken = Get-GraphAADTokenByUser -resource $resource -domain $cspDomain -clientid $cspAppID -credential $credential
         $cspUsername = $credential.UserName
@@ -67,99 +125,110 @@ function Add-PCAuthentication
         # Get SA token
         try {
             $SAToken = Get-SAToken -aadtoken $AADToken -global $true
-            $token = @{"Resource" = $resource ; "Domain" = $cspDomain; "ClientId" =  $cspAppID; "Username" = $cspUsername}
+            $token = @{"Resource" = $resource ; "Domain" = $cspDomain; "ClientId" = $cspAppID; "Username" = $cspUsername}
             return $token 
         }
-        catch
-        {
+        catch {
             $ErrorMessage = $_.Exception.Message
             "Cannot retrieve the token: $ErrorMessage"
         }
 
     }
 
-    function Private:Add-AuthenticationBySecret ($cspAppID,$cspDomain,$cspClientSecret)
-    {
+    function Private:Add-AuthenticationBySecret ($cspAppID, $cspDomain, $cspClientSecret) {
         $resource = 'https://graph.windows.net' 
         $AADToken = Get-GraphAADTokenByApp -resource $resource -domain $cspDomain -clientid $cspAppID -clientsecret $cspClientSecret
 
         # Get SA token
         try {
             $SAToken = Get-SAToken -aadtoken $AADToken -global $true
-            $token = @{"Resource" = $resource ; "Domain" = $cspDomain; "ClientId" =  $cspAppID}
+            $token = @{"Resource" = $resource ; "Domain" = $cspDomain; "ClientId" = $cspAppID}
             return $token 
         }
-        catch
-        {
+        catch {
             $ErrorMessage = $_.Exception.Message
             "Cannot retrieve the token: $ErrorMessage"
         }
 
     }
 
-    switch ($PsCmdlet.ParameterSetName)
-    {
-        "user"     { $result = Add-AuthenticationByUser   -cspAppID $cspAppID -cspDomain $cspDomain -credential $credential }
-        "app"      { $result = Add-AuthenticationBySecret -cspAppID $cspAppID -cspDomain $cspDomain -cspClientSecret $cspClientSecret } 
+    switch ($PsCmdlet.ParameterSetName) {
+        "user" { $result = Add-AuthenticationByUser   -cspAppID $cspAppID -cspDomain $cspDomain -credential $credential }
+        "app" { $result = Add-AuthenticationBySecret -cspAppID $cspAppID -cspDomain $cspDomain -cspClientSecret $cspClientSecret } 
     }
     
     return $result
 }
 
-function New-PCSAToken
-{
+<#
+.SYNOPSIS
+
+.DESCRIPTION
+
+.PARAMETER cspAppId 
+
+.PARAMETER cspDomain
+
+.PARAMETER cspClientSecret 
+
+.PARAMETER credential
+
+.EXAMPLE
+
+.NOTES
+#>
+function New-PCSAToken {
     [CmdletBinding()]
-    param ([Parameter(Mandatory=$True,ParameterSetName='app')][Parameter(Mandatory=$True,ParameterSetName='user')][string] $cspAppID,
-           [Parameter(Mandatory=$True,ParameterSetName='app')][Parameter(Mandatory=$True,ParameterSetName='user')][string] $cspDomain,
-           [Parameter(Mandatory=$True,ParameterSetName='app' )][SecureString]$cspClientSecret,
-           [Parameter(Mandatory=$True,ParameterSetName='user')][PSCredential]$credential
+    param ([Parameter(Mandatory = $True, ParameterSetName = 'app')][Parameter(Mandatory = $True, ParameterSetName = 'user')][string] $cspAppID,
+        [Parameter(Mandatory = $True, ParameterSetName = 'app')][Parameter(Mandatory = $True, ParameterSetName = 'user')][string] $cspDomain,
+        [Parameter(Mandatory = $True, ParameterSetName = 'app' )][SecureString]$cspClientSecret,
+        [Parameter(Mandatory = $True, ParameterSetName = 'user')][PSCredential]$credential
     )
 
-    function Private:Add-AuthenticationByUser ($cspAppID,$cspDomain,[PSCredential]$credential)
-    {
+    function Private:Add-AuthenticationByUser ($cspAppID, $cspDomain, [PSCredential]$credential) {
         $resource = 'https://api.partnercenter.microsoft.com'
         $AADToken = Get-GraphAADTokenByUser -resource $resource -domain $cspDomain -clientid $cspAppID -credential $credential
         $cspUsername = $credential.UserName
         # Get SA token
         try {
             $SAToken = Get-SAToken -aadtoken $AADToken -global $false
-            $token = @{"Resource" = $resource ; "Domain" = $cspDomain; "ClientId" =  $cspAppID; "Username" = $cspUsername}
-            $objToReturn = @($SAToken,$token)
+            $token = @{"Resource" = $resource ; "Domain" = $cspDomain; "ClientId" = $cspAppID; "Username" = $cspUsername}
+            $objToReturn = @($SAToken, $token)
             return $objToReturn 
         }
-        catch
-        {
+        catch {
             $ErrorMessage = $_.Exception.Message
             "Cannot retrieve the token: $ErrorMessage"
         }
     }
 
-    function Private:Add-AuthenticationBySecret ($cspAppID,$cspDomain,$cspClientSecret)
-    {
+    function Private:Add-AuthenticationBySecret ($cspAppID, $cspDomain, $cspClientSecret) {
         $resource = 'https://graph.windows.net' 
         $AADToken = Get-GraphAADTokenByApp -resource $resource -domain $cspDomain -clientid $cspAppID -clientsecret $cspClientSecret
 
         # Get SA token
         try {
             $SAToken = Get-SAToken -aadtoken $AADToken -global $false
-            $token = @{"Resource" = $resource ; "Domain" = $cspDomain; "ClientId" =  $cspAppID}
-            $objToReturn = @($SAToken,$token)
+            $token = @{"Resource" = $resource ; "Domain" = $cspDomain; "ClientId" = $cspAppID}
+            $objToReturn = @($SAToken, $token)
             return $objToReturn 
         }
-        catch
-        {
+        catch {
             $ErrorMessage = $_.Exception.Message
             "Cannot retrieve the token: $ErrorMessage"
         }
 
     }
 
-    switch ($PsCmdlet.ParameterSetName)
-    {
-        "user"     { $result_arr = Add-AuthenticationByUser   -cspAppID $cspAppID -cspDomain $cspDomain -credential $credential 
-                     $result = $result_arr[0]}
-        "app"      { $result_arr = Add-AuthenticationBySecret -cspAppID $cspAppID -cspDomain $cspDomain -cspClientSecret $cspClientSecret
-                     $result = $result_arr[0]}
+    switch ($PsCmdlet.ParameterSetName) {
+        "user" {
+            $result_arr = Add-AuthenticationByUser   -cspAppID $cspAppID -cspDomain $cspDomain -credential $credential 
+            $result = $result_arr[0]
+        }
+        "app" {
+            $result_arr = Add-AuthenticationBySecret -cspAppID $cspAppID -cspDomain $cspDomain -cspClientSecret $cspClientSecret
+            $result = $result_arr[0]
+        }
     }
 
     return $result

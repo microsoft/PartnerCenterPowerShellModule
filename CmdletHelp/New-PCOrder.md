@@ -3,14 +3,14 @@
 ## Select a customer ##
 
 ```powershell
-    $customer = Get-PCCustomer -tenantid '<tenant id GUID>'
+    $customer = Get-PCCustomer -tenantId '<tenant id GUID>'
 ```
 
 ## Order a new subscription ##
 
 ```powershell
     # Get offer
-    $offer = Get-PCOffer -countryid '<country two digits id>' -offerid '<offer id GUID>'
+    $offer = Get-PCOffer -countryId '<country two digits id>' -offerId '<offer id GUID>'
 
     # Create the OrderLineItem
     $lineItems = @()
@@ -21,23 +21,23 @@
     $lineItems[0].Quantity = <quantity>
 
     # Send order
-    New-PCOrder -tenantid $customer.id -LineItems $lineItems
+    New-PCOrder -tenantId $customer.id -LineItems $lineItems
 ```
 
 ## Order an Addon to a subscription ##
 
 ```powershell
     # Get subscription
-    $subscription = Get-PCSubscription -tenantid $customer.id -subscriptionid '<subscription id>'
+    $subscription = Get-PCSubscription -tenantId $customer.id -subscriptionid '<subscription id>'
 
     # Get list of addons available for the subscription offer
-    $addons = Get-PCOffer -countryid '<country two digits id>' -offerid $subscription.offerId -addons
+    $addons = Get-PCOffer -countryId '<country two digits id>' -offerId $subscription.offerId -addons
 
     # Get addon offer
-    $addon = Get-PCOffer -countryid 'US' -offerid '<offer id>'
+    $addon = Get-PCOffer -countryId 'US' -offerId '<offer id>'
 
     # Get subscription order
-    $order = Get-PCOrder -tenantid $customer.id -orderid $subscription.orderId
+    $order = Get-PCOrder -tenantId $customer.id -orderId $subscription.orderId
     # Get the next OrderLineItem number
     $newLineItemNumber = $order.lineItems.Count
     # Create the addon OrderLineItem
@@ -50,5 +50,5 @@
     $lineItems[0].Quantity = <quantity>
 
     # Send order
-    New-PCOrder -tenantid $customer.id -orderid $order.id -LineItems $lineItems
+    New-PCOrder -tenantId $customer.id -orderId $order.id -LineItems $lineItems
 ```

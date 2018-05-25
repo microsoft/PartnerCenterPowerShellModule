@@ -1,5 +1,7 @@
 # Get-PCInvoice #
 
+This cmdlet requires App+User authentication.
+
 ## Get current payable amount ##
 
 ```powershell
@@ -15,5 +17,5 @@
 ## Get an invoice ##
 
 ```powershell
-    $invoice = Get-PCInvoice -invoiceid '<invoice id>'
+    $invoice = Get-PCInvoice -invoiceId '<invoice id>'
 ```

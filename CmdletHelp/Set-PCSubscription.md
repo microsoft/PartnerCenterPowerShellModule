@@ -3,41 +3,41 @@
 ## Get a customer ##
 
 ```powershell
-    $customer = Get-PCCustomer -tenantid '<tenant id GUID>'
+    $customer = Get-PCCustomer -tenantId '<tenant id GUID>'
 ```
 
 ## Get a customer subscription ##
 
 ```powershell
-    $subscription = Get-PCSubscription -tenantid $customer.id -subscriptionid '<subscription id GUID>'
+    $subscription = Get-PCSubscription -tenantId $customer.id -subscriptionid '<subscription id GUID>'
 ```
 
 ## Update subscription friendly name ##
 
 ```powershell
-    $subscription | Set-PCSubscription -tenantid $customer.id -friendlyName '<friendly name>'
+    $subscription | Set-PCSubscription -tenantId $customer.id -friendlyName '<friendly name>'
 ```
 
 ## Update subscription seats (license based only) ##
 
 ```powershell
-    $subscription | Set-PCSubscription -tenantid $customer.id -quantity <seats number>
+    $subscription | Set-PCSubscription -tenantId $customer.id -quantity <seats number>
 ```
 
 ## Change subscription auto renewal ##
 
 ```powershell
-    $subscription | Set-PCSubscription -tenantid $customer.id -AutoRenewEnabled disabled
+    $subscription | Set-PCSubscription -tenantId $customer.id -AutoRenewEnabled disabled
 ```
 
 ## Suspend a subscription ##
 
 ```powershell
-    $subscription | Set-PCSubscription -tenantid $customer.id -status suspended
+    $subscription | Set-PCSubscription -tenantId $customer.id -status suspended
 ```
 
 ## Activate a subscription ##
 
 ```powershell
-    $subscription | Set-PCSubscription -tenantid $customer.id -status active
+    $subscription | Set-PCSubscription -tenantId $customer.id -status active
 ```

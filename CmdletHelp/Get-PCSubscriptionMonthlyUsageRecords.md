@@ -3,11 +3,11 @@
 ## Get a customer ##
 
 ```powershell
-    $customer = Get-PCCustomer -tenantid '<tenant id GUID>'
+    $customer = Get-PCCustomer -tenantId '<tenant id GUID>'
 ```
 
 ## Get usage data for subscriptions ##
 
 ```powershell
-    Get-PCSubscriptionMonthlyUsageRecords -tenantid $customer.id
+    Get-PCSubscriptionMonthlyUsageRecords -tenantId $customer.id
 ```

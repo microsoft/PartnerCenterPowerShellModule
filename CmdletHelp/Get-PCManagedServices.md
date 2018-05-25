@@ -5,11 +5,11 @@
 ## Select a customer ##
 
 ```powershell
-    Select-PCCustomer -tenantid '<tenant id GUID>'
+    Select-PCCustomer -tenantId '<tenant id GUID>'
 ```
 
 ## Get all managed services for customer ##
 
 ```powershell
-    Get-PCManagedServices -tenantid $customer.id
+    Get-PCManagedServices -tenantId $customer.id
 ```

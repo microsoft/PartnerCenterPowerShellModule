@@ -9,5 +9,5 @@
 ## Get a Partner MPN Profile by MPNID ##
 
 ```powershell
-    Get-PCMpnProfile -mpnid <MPNId>
+    Get-PCMpnProfile -mpnId <MPNId>
 ```

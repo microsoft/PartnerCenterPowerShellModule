@@ -12,41 +12,64 @@
 $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 . "$here\commons.ps1"
 
+<#
+.SYNOPSIS
+
+.DESCRIPTION
+
+.PARAMETER saToken 
+
+.PARAMETER tenantId 
+
+.PARAMETER userId 
+
+.PARAMETER all 
+
+.PARAMETER licenses 
+
+.PARAMETER deleted
+
+.PARAMETER size 
+
+.EXAMPLE
+
+.NOTES
+#>
 function Get-PCCustomerUser
 {
     [CmdletBinding()]
     Param(
-            [Parameter(Mandatory = $false)][String]$tenantid=$GlobalCustomerID,
+            [Parameter(Mandatory = $false)][String]$tenantId=$GlobalCustomerID,
             [Parameter(ParameterSetName='all', Mandatory = $false)][switch]$all,
-            [Parameter(ParameterSetName='activeuser', Mandatory = $false)][String]$userid,
+            [Parameter(ParameterSetName='activeuser', Mandatory = $false)][String]$userId,
             [Parameter(ParameterSetName='activeuser', Mandatory = $false)][switch]$licenses,
             [Parameter(ParameterSetName='deleteduser', Mandatory = $false)][switch]$deleted,
             [Parameter(ParameterSetName='deleteduser', Mandatory = $false)][int]$size = 200,
-            [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken
+            [Parameter(Mandatory = $false)][string]$saToken = $GlobalToken
     )
-    _testTokenContext($satoken)
-    _testTenantContext ($tenantid)
+    _testTokenContext($saToken)
+    _testTenantContext ($tenantId)
 
-    function Private:Get-CustomerAllUserInner ($satoken, $tenantid)
+    function Private:Get-CustomerAllUserInner ($saToken, $tenantId)
     {
         $obj = @()
-        $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/users" -f $tenantid
-        $headers = @{Authorization="Bearer $satoken"}
+        $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/users" -f $tenantId
+        $headers = @{Authorization="Bearer $saToken"}
 
         $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
         $obj += $response.Substring(1) | ConvertFrom-Json
         return (_formatResult -obj $obj -type "CustomerUser")       
     }
 
-    function Private:Get-CustomerUserInner ($satoken, $tenantid, $userid, $licenses)
+    function Private:Get-CustomerUserInner ($saToken, $tenantId, $userId, $licenses)
     {
        $obj = @()
-        if ($userid)
+        if ($userId)
         {
             if ($licenses)
             {
-                $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/users/{1}/licenses" -f $tenantid, $userid
-                $headers = @{Authorization="Bearer $satoken"}
+                $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/users/{1}/licenses" -f $tenantId, $userId
+                $headers = @{Authorization="Bearer $saToken"}
 
                 $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
                 $obj += $response.Substring(1) | ConvertFrom-Json
@@ -54,8 +77,8 @@ function Get-PCCustomerUser
             }
             else
             {
-                $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/users/{1}" -f $tenantid, $userid
-                $headers = @{Authorization="Bearer $satoken"}
+                $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/users/{1}" -f $tenantId, $userId
+                $headers = @{Authorization="Bearer $saToken"}
 
                 $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
                 $obj += $response.Substring(1) | ConvertFrom-Json
@@ -64,8 +87,8 @@ function Get-PCCustomerUser
         }
         else
         {
-            $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/users" -f $tenantid
-            $headers = @{Authorization="Bearer $satoken"}
+            $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/users" -f $tenantId
+            $headers = @{Authorization="Bearer $saToken"}
 
             $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
             $obj += $response.Substring(1) | ConvertFrom-Json
@@ -73,15 +96,15 @@ function Get-PCCustomerUser
         }
     }
 
-    function Private:Get-DeletedUsersInner ($satoken, $tenantid, $size)
+    function Private:Get-DeletedUsersInner ($saToken, $tenantId, $size)
     {
        $obj = @()
         $filter = '{"Field":"UserStatus","Value":"Inactive","Operator":"equals"}'
         [Reflection.Assembly]::LoadWithPartialName("System.Web") | Out-Null
         $Encode = [System.Web.HttpUtility]::UrlEncode($filter)
 
-        $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/users?size={1}&filter={2}" -f $tenantid,$size,$Encode
-        $headers = @{Authorization="Bearer $satoken"}
+        $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/users?size={1}&filter={2}" -f $tenantId,$size,$Encode
+        $headers = @{Authorization="Bearer $saToken"}
 
         $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
         $obj += $response.Substring(1) | ConvertFrom-Json
@@ -90,22 +113,49 @@ function Get-PCCustomerUser
 
     switch ($PsCmdlet.ParameterSetName)
     {
-        "activeuser" {$res = Get-CustomerUserInner -satoken $satoken -tenantid $tenantid -user $userid -licenses $licenses
+        "activeuser" {$res = Get-CustomerUserInner -saToken $saToken -tenantId $tenantId -user $userId -licenses $licenses
                           return $res}
 
-        "deleteduser"{$res = Get-DeletedUsersInner -satoken $satoken -tenantid $tenantid -size $size
+        "deleteduser"{$res = Get-DeletedUsersInner -saToken $saToken -tenantId $tenantId -size $size
                           return $res}
 
-        "all"        {$res = Get-CustomerAllUserInner -satoken $satoken -tenantid $tenantid 
+        "all"        {$res = Get-CustomerAllUserInner -saToken $saToken -tenantId $tenantId 
                           return $res}
 
     }
 }
 
+<#
+.SYNOPSIS
+
+.DESCRIPTION
+
+.PARAMETER saToken 
+
+.PARAMETER tenantId 
+
+.PARAMETER usageLocation 
+
+.PARAMETER userPrincipalName
+
+.PARAMETER firstName 
+
+.PARAMETER lastName 
+
+.PARAMETER displayName 
+
+.PARAMETER password
+
+.PARAMETER forceChangePassword 
+
+.EXAMPLE
+
+.NOTES
+#>
 function New-PCCustomerUser
 {
     [CmdletBinding()]
-    param ([Parameter(Mandatory = $false)][String]$tenantid=$GlobalCustomerID,
+    param ([Parameter(Mandatory = $false)][String]$tenantId=$GlobalCustomerID,
            [Parameter(Mandatory = $true)][string]$usageLocation,
            [Parameter(Mandatory = $true)][string]$userPrincipalName,
            [Parameter(Mandatory = $true)][string]$firstName,
@@ -113,14 +163,14 @@ function New-PCCustomerUser
            [Parameter(Mandatory = $true)][string]$displayName,
            [Parameter(ParameterSetName='AllDetails',Mandatory = $true)][SecureString]$password,
            [Parameter(ParameterSetName='AllDetails',Mandatory = $true)][bool]$forceChangePassword,
-           [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
-    _testTokenContext($satoken)
-    _testTenantContext ($tenantid)
+           [Parameter(Mandatory = $false)][string]$saToken = $GlobalToken)
+    _testTokenContext($saToken)
+    _testTenantContext ($tenantId)
 
     $obj = @()
 
-    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/users" -f $tenantid
-    $headers = @{Authorization="Bearer $satoken"}
+    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/users" -f $tenantId
+    $headers = @{Authorization="Bearer $saToken"}
     $headers += @{"MS-RequestId"=[Guid]::NewGuid()}
     $headers += @{"MS-CorrelationId"=[Guid]::NewGuid()}
 
@@ -133,11 +183,38 @@ function New-PCCustomerUser
     return (_formatResult -obj $obj -type "CustomerUser")       
 }
 
+<#
+.SYNOPSIS
+
+.DESCRIPTION
+
+.PARAMETER saToken 
+
+.PARAMETER tenantId 
+
+.PARAMETER user 
+
+.PARAMETER firstName
+
+.PARAMETER lastName 
+
+.PARAMETER userPrincipalName 
+
+.PARAMETER location 
+
+.PARAMETER password
+
+.PARAMETER forceChangePassword
+
+.EXAMPLE
+
+.NOTES
+#>
 function Set-PCCustomerUser
 {
     [CmdletBinding()]
     param (
-            [Parameter(Mandatory = $false)][String]$tenantid=$GlobalCustomerID,
+            [Parameter(Mandatory = $false)][String]$tenantId=$GlobalCustomerID,
             [Parameter(Mandatory = $true,ValueFromPipeline=$True,ValueFromPipelineByPropertyName=$True)][PSCustomObject]$user,
             [Parameter(Mandatory = $false)][string]$firstName,
             [Parameter(Mandatory = $false)][string]$lastName,
@@ -145,13 +222,13 @@ function Set-PCCustomerUser
             [Parameter(Mandatory = $false)][string]$location,    
             [Parameter(ParameterSetName='AllDetails',Mandatory = $false)][SecureString]$password,
             [Parameter(ParameterSetName='AllDetails',Mandatory = $false)][bool]$forceChangePassword,
-            [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
-    _testTokenContext($satoken)
-    _testTenantContext ($tenantid)
+            [Parameter(Mandatory = $false)][string]$saToken = $GlobalToken)
+    _testTokenContext($saToken)
+    _testTenantContext ($tenantId)
 
     $obj = @()
 
-    $actualUser = Get-PCCustomerUser -tenantid $tenantid -userid $user.Id -satoken $satoken
+    $actualUser = Get-PCCustomerUser -tenantId $tenantId -userId $user.Id -saToken $saToken
 
     if($firstName) {$actualUser.firstName = $firstName}
     if($lastName) {$actualUser.lastName = $lastName}
@@ -163,8 +240,8 @@ function Set-PCCustomerUser
         $actualUser | Add-Member -type NoteProperty -name passwordProfile -Value $passwordProfile
     }
 
-    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/users/{1}" -f $tenantid, $user.id
-    $headers = @{Authorization="Bearer $satoken"}
+    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/users/{1}" -f $tenantId, $user.id
+    $headers = @{Authorization="Bearer $saToken"}
     $headers += @{"MS-RequestId"=[Guid]::NewGuid()}
     $headers += @{"MS-CorrelationId"=[Guid]::NewGuid()}
     $body = $actualUser | ConvertTo-Json -Depth 100
@@ -175,20 +252,35 @@ function Set-PCCustomerUser
     return (_formatResult -obj $obj -type "CustomerUser")       
 }
 
+<#
+.SYNOPSIS
+
+.DESCRIPTION
+
+.PARAMETER saToken 
+
+.PARAMETER tenantId 
+
+.PARAMETER user 
+
+.EXAMPLE
+
+.NOTES
+#>
 function Restore-PCCustomerUser
 {
     [CmdletBinding()]
     param (
-            [Parameter(Mandatory = $false)][String]$tenantid=$GlobalCustomerID,
+            [Parameter(Mandatory = $false)][String]$tenantId=$GlobalCustomerID,
             [Parameter(Mandatory = $true,ValueFromPipeline=$True,ValueFromPipelineByPropertyName=$True)][PSCustomObject]$user,
-            [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
-    _testTokenContext($satoken)
-    _testTenantContext ($tenantid) 
+            [Parameter(Mandatory = $false)][string]$saToken = $GlobalToken)
+    _testTokenContext($saToken)
+    _testTenantContext ($tenantId) 
 
     $obj = @()
 
-    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/users/{1}" -f $tenantid, $user.id
-    $headers = @{Authorization="Bearer $satoken"}
+    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/users/{1}" -f $tenantId, $user.id
+    $headers = @{Authorization="Bearer $saToken"}
     $headers += @{"MS-RequestId"=[Guid]::NewGuid()}
     $headers += @{"MS-CorrelationId"=[Guid]::NewGuid()}
     $body = "{ ""State"": ""active"", ""Attributes"": { ""ObjectType"": ""CustomerUser"" } }"
@@ -199,19 +291,34 @@ function Restore-PCCustomerUser
     return (_formatResult -obj $obj -type "CustomerUser")     
 }
 
+<#
+.SYNOPSIS
+
+.DESCRIPTION
+
+.PARAMETER saToken 
+
+.PARAMETER tenantId 
+
+.PARAMETER user 
+
+.EXAMPLE
+
+.NOTES
+#>
 function Remove-PCCustomerUser
 {
     [CmdletBinding()]
-    param ( [Parameter(Mandatory = $false)][String]$tenantid=$GlobalCustomerID,
+    param ( [Parameter(Mandatory = $false)][String]$tenantId=$GlobalCustomerID,
             [Parameter(Mandatory = $true,ValueFromPipeline=$True,ValueFromPipelineByPropertyName=$True)][PSCustomObject]$user,
-            [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
-    _testTokenContext($satoken)
-    _testTenantContext ($tenantid)
+            [Parameter(Mandatory = $false)][string]$saToken = $GlobalToken)
+    _testTokenContext($saToken)
+    _testTenantContext ($tenantId)
 
     $obj = @()
 
-    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/users/{1}" -f $tenantid, $user.id
-    $headers = @{Authorization="Bearer $satoken"}
+    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/users/{1}" -f $tenantId, $user.id
+    $headers = @{Authorization="Bearer $saToken"}
     $headers += @{"MS-RequestId"=[Guid]::NewGuid()}
     $headers += @{"MS-CorrelationId"=[Guid]::NewGuid()}
 
@@ -220,41 +327,56 @@ function Remove-PCCustomerUser
     return (_formatResult -obj $obj -type "CustomerUser")       
 }
 
+
 function Get-PCCustomerUserRoles
 {
     [CmdletBinding()]
-    param ( [Parameter(Mandatory = $false)][String]$tenantid=$GlobalCustomerID,
+    param ( [Parameter(Mandatory = $false)][String]$tenantId=$GlobalCustomerID,
             [Parameter(Mandatory = $true,ValueFromPipeline=$True,ValueFromPipelineByPropertyName=$True)][PSCustomObject]$user,
-            [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
-    _testTokenContext($satoken)
-    _testTenantContext ($tenantid)
+            [Parameter(Mandatory = $false)][string]$saToken = $GlobalToken)
+    _testTokenContext($saToken)
+    _testTenantContext ($tenantId)
 
     Write-Warning "  Get-PCCustomerUserRoles is deprecated and will not be available in future releases, use Get-PCCustomerUserRole instead."
 
     $obj = @()
 
-    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/users/{1}/directoryroles" -f $tenantid, $user.id
-    $headers = @{Authorization="Bearer $satoken"}
+    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/users/{1}/directoryroles" -f $tenantId, $user.id
+    $headers = @{Authorization="Bearer $saToken"}
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj += $response.Substring(1) | ConvertFrom-Json
     return (_formatResult -obj $obj -type "CustomerUserDirectoryRoles")  
 }
 
-# Adding in non-plural noun versions of the cmdlets
+<#
+.SYNOPSIS
+
+.DESCRIPTION
+
+.PARAMETER saToken 
+
+.PARAMETER tenantId 
+
+.PARAMETER user 
+
+.EXAMPLE
+
+.NOTES
+#>
 function Get-PCCustomerUserRole
 {
     [CmdletBinding()]
-    param ( [Parameter(Mandatory = $false)][String]$tenantid=$GlobalCustomerID,
+    param ( [Parameter(Mandatory = $false)][String]$tenantId=$GlobalCustomerID,
             [Parameter(Mandatory = $true,ValueFromPipeline=$True,ValueFromPipelineByPropertyName=$True)][PSCustomObject]$user,
-            [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
-    _testTokenContext($satoken)
-    _testTenantContext ($tenantid)
+            [Parameter(Mandatory = $false)][string]$saToken = $GlobalToken)
+    _testTokenContext($saToken)
+    _testTenantContext ($tenantId)
 
     $obj = @()
 
-    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/users/{1}/directoryroles" -f $tenantid, $user.id
-    $headers = @{Authorization="Bearer $satoken"}
+    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/users/{1}/directoryroles" -f $tenantId, $user.id
+    $headers = @{Authorization="Bearer $saToken"}
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj += $response.Substring(1) | ConvertFrom-Json

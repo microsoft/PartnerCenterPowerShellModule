@@ -1,7 +1,7 @@
 # Get-PCOfferCategoriesByMarket #
 
-## Get all Offers Categories for countryid ##
+## Get all Offers Categories for countryId ##
 
 ```powershell
-    Get-PCOfferCategoriesByMarket -countryid '<country two digits id>'
+    Get-PCOfferCategoriesByMarket -countryId '<country two digits id>'
 ```

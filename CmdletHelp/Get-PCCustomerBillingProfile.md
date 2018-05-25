@@ -3,11 +3,11 @@
 ## Get a customer ##
 
 ```powershell
-    $customer = Get-PCCustomer -tenantid '<tenant id GUID>'
+    $customer = Get-PCCustomer -tenantId '<tenant id GUID>'
 ```
 
 ## Get customer billing profile ##
 
 ```powershell
-    Get-PCCustomerBillingProfile -tenantid $customer.id
+    Get-PCCustomerBillingProfile -tenantId $customer.id
 ```

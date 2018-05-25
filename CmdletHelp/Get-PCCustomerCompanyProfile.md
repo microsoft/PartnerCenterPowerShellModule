@@ -3,11 +3,11 @@
 ## Specify a customer ##
 
 ```powershell
-    $customer = Get-PCCustomer -tenantid '<tenant id GUID>'
+    $customer = Get-PCCustomer -tenantId '<tenant id GUID>'
 ```
 
 ## Get customer company profile ##
 
 ```powershell
-    Get-PCCustomerCompanyProfile -tenantid $customer.id
+    Get-PCCustomerCompanyProfile -tenantId $customer.id
 ```

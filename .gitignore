@@ -335,3 +335,5 @@ ASALocalRun/
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+tests/Test-PCCmdlets.ps1
+tests/Reset-PCTests.ps1

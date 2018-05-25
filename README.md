@@ -30,7 +30,9 @@ using module PartnerCenterModule
 
 Just like with AzureRM powershell module, the first step to start using it is to provide authentication. In Partner Center PowerShell Module you use [Add-PCAuthentication](./CmdletHelp/Add-PCAuthentication.md) cmdlet to set your CSP account authentication context.
 
-#### Set user authentication ####
+** Some cmdlets require App+User authentication to function correctly.**
+
+#### Set App+User authentication ####
 
 ```powershell
 $cred = Get-Credential '<username@domain>'

@@ -13,46 +13,63 @@
 $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 . "$here\commons.ps1"
 
+<#
+.SYNOPSIS
+
+.DESCRIPTION
+
+.PARAMETER saToken 
+
+.PARAMETER all 
+
+.PARAMETER invoiceId 
+
+.PARAMETER summary
+
+.EXAMPLE
+
+.NOTES
+#>
 function Get-PCInvoice
 {
     [CmdletBinding()]
 
     Param(
         [Parameter(ParameterSetName='allinvoices', Mandatory = $false)][switch]$all,
-        [Parameter(ParameterSetName='invoice', Mandatory = $false)][String]$invoiceid,
+        [Parameter(ParameterSetName='invoice', Mandatory = $false)][String]$invoiceId,
         [Parameter(ParameterSetName='summary',Mandatory = $false)][switch]$summary,
-        [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken
+        [Parameter(Mandatory = $false)][string]$saToken = $GlobalToken
         #[Parameter(ParameterSetName='detailurl',Mandatory = $false)][switch]$detailurl
     )
-   _testTokenContext($satoken)
+   _testTokenContext($saToken)
 
-   function Private:Get-InvoiceSummaryInner($satoken)
+   function Private:Get-InvoiceSummaryInner($saToken)
     {
         $obj = @()
         $url = "https://api.partnercenter.microsoft.com/v1/invoices/summary"
-        $headers = @{Authorization="Bearer $satoken"}
+        $headers = @{Authorization="Bearer $saToken"}
 
         $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
         $obj += $response
         return (_formatResult -obj $obj -type "Invoice")   
     }
 
-    function Private:Get-InvoiceByIdInner($satoken, $invoiceid)
+    function Private:Get-InvoiceByIdInner($saToken, $invoiceId)
     {
         $obj = @()
-        $url = "https://api.partnercenter.microsoft.com/v1/invoices/{0}" -f $invoiceid
-        $headers = @{Authorization="Bearer $satoken"}
+        $url = "https://api.partnercenter.microsoft.com/v1/invoices/{0}" -f $invoiceId
+        $headers = @{Authorization="Bearer $saToken"}
 
         $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
         $obj += $response
         return (_formatResult -obj $obj -type "Invoice") 
     }
 
-    function Private:Get-AllInvoicesInner($satoken)
+    function Private:Get-AllInvoicesInner($saToken)
     {
         $obj = @()
         $url = "https://api.partnercenter.microsoft.com/v1/invoices"
-        $headers = @{Authorization="Bearer $satoken"}
+        $headers = @{Authorization="Bearer $saToken"}
 
         $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
         $obj += $response
@@ -60,11 +77,11 @@ function Get-PCInvoice
     }
 
 <#deprecated
-    function Private:Get-InvoiceDetailInner($satoken, $detailurl)
+    function Private:Get-InvoiceDetailInner($saToken, $detailurl)
     {
         $obj = @()
         $url = "https://api.partnercenter.microsoft.com/v1{0}" -f $detailurl
-        $headers = @{Authorization="Bearer $satoken"}
+        $headers = @{Authorization="Bearer $saToken"}
 
         $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
         $obj += $response.Substring(1) | ConvertFrom-Json
@@ -74,14 +91,14 @@ function Get-PCInvoice
 
     switch ($PsCmdlet.ParameterSetName)
     {
-        "summary" {$res = Get-InvoiceSummaryInner -satoken $satoken
+        "summary" {$res = Get-InvoiceSummaryInner -saToken $saToken
                           return $res}
-        "invoice"{$res = Get-InvoiceByIdInner -satoken $satoken -invoiceID $invoiceid
+        "invoice"{$res = Get-InvoiceByIdInner -saToken $saToken -invoiceID $invoiceId
                           return $res}
-        "allinvoices"    {$res = Get-AllInvoicesInner -satoken $satoken
+        "allinvoices"    {$res = Get-AllInvoicesInner -saToken $saToken
                           return $res}
         <#deprecated
-        "detailurl"    {$res = Get-InvoiceDetailInner -satoken $satoken -detailurl $detailurl
+        "detailurl"    {$res = Get-InvoiceDetailInner -saToken $saToken -detailurl $detailurl
                           return $res}
                           #>
     }
@@ -92,46 +109,67 @@ function Get-PCInvoiceLineItems
     [CmdletBinding()]
 
     Param(
-         [Parameter(Mandatory = $true)][String]$invoiceid,
-         [Parameter(Mandatory = $true)][ValidateSet("Azure","Office")][string]$billingprovider,
+         [Parameter(Mandatory = $true)][String]$invoiceId,
+         [Parameter(Mandatory = $true)][ValidateSet("Azure","Office")][string]$billingProvider,
          [Parameter(Mandatory = $true)][ValidateSet("BillingLineItems","UsageLineItems")][string]$invoicelineitemtype,
          [Parameter(Mandatory = $false)][int]$size = 200,
          [Parameter(Mandatory = $false)][int]$offset = 0,
-        [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken
+        [Parameter(Mandatory = $false)][string]$saToken = $GlobalToken
     )
-   _testTokenContext($satoken)
+   _testTokenContext($saToken)
 
    Write-Warning "  Get-PCInvoiceLineItems is deprecated and will not be available in future releases, use Get-PCInvoiceLineItem instead."
 
     $obj = @()
-    $url = "https://api.partnercenter.microsoft.com/v1/invoices/{0}/lineitems/{1}/{2}?size={3}&offset={4}" -f $invoiceid, $billingprovider, $invoicelineitemtype, $size, $offset
+    $url = "https://api.partnercenter.microsoft.com/v1/invoices/{0}/lineitems/{1}/{2}?size={3}&offset={4}" -f $invoiceId, $billingProvider, $invoicelineitemtype, $size, $offset
 
-    $headers = @{Authorization="Bearer $satoken"}
+    $headers = @{Authorization="Bearer $saToken"}
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj += $response
     return (_formatResult -obj $obj -type "Invoice") 
 }
 
-# Adding non-plural noun version of cmdlet. Plural version of the cmdlet will be removed in future versions.
+<#
+.SYNOPSIS
+
+.DESCRIPTION
+
+.PARAMETER saToken 
+
+.PARAMETER tenantId 
+
+.PARAMETER billingProvider 
+
+.PARAMETER invoiceLineItemType 
+Valid inputs are BillingLineItems or UsageLineItems
+
+.PARAMETER size
+
+.PARAMETER offset
+
+.EXAMPLE
+
+.NOTES
+#>
 function Get-PCInvoiceLineItem
 {
     [CmdletBinding()]
 
     Param(
-         [Parameter(Mandatory = $true)][String]$invoiceid,
-         [Parameter(Mandatory = $true)][ValidateSet("Azure","Office")][string]$billingprovider,
-         [Parameter(Mandatory = $true)][ValidateSet("BillingLineItems","UsageLineItems")][string]$invoicelineitemtype,
+         [Parameter(Mandatory = $true)][String]$invoiceId,
+         [Parameter(Mandatory = $true)][ValidateSet("Azure","Office")][string]$billingProvider,
+         [Parameter(Mandatory = $true)][ValidateSet("BillingLineItems","UsageLineItems")][string]$invoiceLineItemType,
          [Parameter(Mandatory = $false)][int]$size = 200,
          [Parameter(Mandatory = $false)][int]$offset = 0,
-        [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken
+        [Parameter(Mandatory = $false)][string]$saToken = $GlobalToken
     )
-   _testTokenContext($satoken)
+   _testTokenContext($saToken)
 
     $obj = @()
-    $url = "https://api.partnercenter.microsoft.com/v1/invoices/{0}/lineitems/{1}/{2}?size={3}&offset={4}" -f $invoiceid, $billingprovider, $invoicelineitemtype, $size, $offset
+    $url = "https://api.partnercenter.microsoft.com/v1/invoices/{0}/lineitems/{1}/{2}?size={3}&offset={4}" -f $invoiceId, $billingProvider, $invoicelineitemtype, $size, $offset
 
-    $headers = @{Authorization="Bearer $satoken"}
+    $headers = @{Authorization="Bearer $saToken"}
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj += $response
