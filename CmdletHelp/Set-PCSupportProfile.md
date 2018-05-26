@@ -3,5 +3,5 @@
 ## Set Partner Support Profile ##
 
 ```powershell
-    Set-PCSupportProfile -website '<url>' -email '<email>' -phone '<phone number>'
+    Set-PCSupportProfile -website '<url>' -Email '<Email>' -phone '<phone number>'
 ```

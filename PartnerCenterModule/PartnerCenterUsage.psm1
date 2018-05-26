@@ -17,21 +17,21 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 
 .DESCRIPTION
 
-.PARAMETER saToken 
+.PARAMETER SaToken 
 
-.PARAMETER tenantId 
+.PARAMETER TenantId 
 
-.PARAMETER subscriptionId 
+.PARAMETER SubscriptionId 
 
-.PARAMETER startTime 
+.PARAMETER StartTime 
 
-.PARAMETER endTime 
+.PARAMETER EndTime 
 
-.PARAMETER granularity 
+.PARAMETER Granularity 
 
-.PARAMETER showDetails 
+.PARAMETER ShowDetails 
 
-.PARAMETER size 
+.PARAMETER Size 
 
 .EXAMPLE
 
@@ -40,18 +40,18 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 function Get-PCUsage
 {
     [CmdletBinding()]
-    param ( [Parameter(Mandatory = $true)][String]$subscriptionId,
-        [Parameter(Mandatory = $true)][String]$startTime,
-        [Parameter(Mandatory = $true)][String]$endTime,
-        [Parameter(Mandatory = $false)][ValidateSet('daily', 'hourly')][String]$granularity = 'daily',
-        [Parameter(Mandatory = $false)][bool]$showDetails = $true,
-        [Parameter(Mandatory = $false)][ValidateRange(1, 1000)] [int]$size = 1000,
-        [Parameter(Mandatory = $false)][String]$tenantId = $GlobalCustomerID,
-        [Parameter(Mandatory = $false)][string]$saToken = $GlobalToken)
-    _testTokenContext($saToken)
-    _testTenantContext ($tenantId)
+    param ( [Parameter(Mandatory = $true)][String]$SubscriptionId,
+        [Parameter(Mandatory = $true)][String]$StartTime,
+        [Parameter(Mandatory = $true)][String]$EndTime,
+        [Parameter(Mandatory = $false)][ValidateSet('daily', 'hourly')][String]$Granularity = 'daily',
+        [Parameter(Mandatory = $false)][bool]$ShowDetails = $true,
+        [Parameter(Mandatory = $false)][ValidateRange(1, 1000)] [int]$Size = 1000,
+        [Parameter(Mandatory = $false)][String]$TenantId = $GlobalCustomerId,
+        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken)
+    _testTokenContext($SaToken)
+    _testTenantContext ($TenantId)
 
-    $retObject = Get-PCUsage_implementation -subscriptionid $subscriptionId -startTime $startTime -endTime $endTime -granularity $granularity -showDetails $showDetails -size $size -tenantId $tenantId -saToken $saToken
+    $retObject = Get-PCUsage_implementation -Subscriptionid $SubscriptionId -StartTime $startTime -EndTime $endTime -Granularity $granularity -ShowDetails $showDetails -Size $size -TenantId $TenantId -SaToken $SaToken
 
     return $retObject.Items
 }
@@ -61,23 +61,23 @@ function Get-PCUsage
 
 .DESCRIPTION
 
-.PARAMETER saToken 
+.PARAMETER SaToken 
 
-.PARAMETER tenantId 
+.PARAMETER TenantId 
 
-.PARAMETER subscriptionId 
+.PARAMETER SubscriptionId 
 
-.PARAMETER startTime 
+.PARAMETER StartTime 
 
-.PARAMETER endTime 
+.PARAMETER EndTime 
 
-.PARAMETER granularity 
+.PARAMETER Granularity 
 
-.PARAMETER showDetails 
+.PARAMETER ShowDetails 
 
-.PARAMETER size 
+.PARAMETER Size 
 
-.PARAMETER continuationLink 
+.PARAMETER ContinuationLink 
 
 .EXAMPLE
 
@@ -87,28 +87,28 @@ function Get-PCUsage2
 {
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory = $true, ParameterSetName = 'first')][String]$subscriptionId,
-        [Parameter(Mandatory = $true, ParameterSetName = 'first')][String]$startTime,
-        [Parameter(Mandatory = $true, ParameterSetName = 'first')][String]$endTime,
-        [Parameter(Mandatory = $false, ParameterSetName = 'first')][ValidateSet('daily', 'hourly')][String]$granularity = 'daily',
-        [Parameter(Mandatory = $false, ParameterSetName = 'first')][bool]$showDetails = $true,
-        [Parameter(Mandatory = $false, ParameterSetName = 'first')][ValidateRange(1, 1000)] [int]$size = 1000,
-        [Parameter(Mandatory = $false, ParameterSetName = 'first')][String]$tenantId = $GlobalCustomerID,
-        [Parameter(Mandatory = $false, ParameterSetName = 'first')][Parameter(Mandatory = $false, ParameterSetName = 'next')][string]$saToken = $GlobalToken,
-        [Parameter(Mandatory = $true, ParameterSetName = 'next')]$continuationLink = $null
+        [Parameter(Mandatory = $true, ParameterSetName = 'first')][String]$SubscriptionId,
+        [Parameter(Mandatory = $true, ParameterSetName = 'first')][String]$StartTime,
+        [Parameter(Mandatory = $true, ParameterSetName = 'first')][String]$EndTime,
+        [Parameter(Mandatory = $false, ParameterSetName = 'first')][ValidateSet('daily', 'hourly')][String]$Granularity = 'daily',
+        [Parameter(Mandatory = $false, ParameterSetName = 'first')][bool]$ShowDetails = $true,
+        [Parameter(Mandatory = $false, ParameterSetName = 'first')][ValidateRange(1, 1000)] [int]$Size = 1000,
+        [Parameter(Mandatory = $false, ParameterSetName = 'first')][String]$TenantId = $GlobalCustomerId,
+        [Parameter(Mandatory = $false, ParameterSetName = 'first')][Parameter(Mandatory = $false, ParameterSetName = 'next')][string]$SaToken = $GlobalToken,
+        [Parameter(Mandatory = $true, ParameterSetName = 'next')]$ContinuationLink = $null
         )
-    _testTokenContext($saToken)
+    _testTokenContext($SaToken)
 
     switch ($PsCmdlet.ParameterSetName)
     {
         "first"
         {
-            _testTenantContext ($tenantId)
-            $retObject = Get-PCUsage_implementation -subscriptionid $subscriptionId -startTime $startTime -endTime $endTime -granularity $granularity -showDetails $showDetails -size $size -tenantId $tenantId -saToken $saToken
+            _testTenantContext ($TenantId)
+            $retObject = Get-PCUsage_implementation -Subscriptionid $SubscriptionId -StartTime $startTime -EndTime $endTime -Granularity $granularity -ShowDetails $showDetails -Size $size -TenantId $TenantId -SaToken $SaToken
         }
         "next"
         {
-            $retObject = Get-PCUsage_implementation -saToken $saToken -continuationLink $continuationLink
+            $retObject = Get-PCUsage_implementation -SaToken $SaToken -ContinuationLink $continuationLink
         } 
     }
 
@@ -120,23 +120,23 @@ function Get-PCUsage2
 
 .DESCRIPTION
 
-.PARAMETER saToken 
+.PARAMETER SaToken 
 
-.PARAMETER tenantId 
+.PARAMETER TenantId 
 
-.PARAMETER subscriptionId 
+.PARAMETER SubscriptionId 
 
-.PARAMETER startTime 
+.PARAMETER StartTime 
 
-.PARAMETER endTime 
+.PARAMETER EndTime 
 
-.PARAMETER granularity 
+.PARAMETER Granularity 
 
-.PARAMETER showDetails 
+.PARAMETER ShowDetails 
 
-.PARAMETER size 
+.PARAMETER Size 
 
-.PARAMETER continuationLink 
+.PARAMETER ContinuationLink 
 
 .EXAMPLE
 
@@ -145,26 +145,26 @@ function Get-PCUsage2
 function Get-PCUsage_implementation
 {
     [CmdletBinding()]
-    param ( [String]$subscriptionId,
-        [String]$startTime,
-        [String]$endTime,
-        [String]$granularity,
-        [bool]$showDetails,
-        [int]$size,
-        [String]$tenantId,
-        [string]$saToken,
-        $continuationLink)
+    param ( [String]$SubscriptionId,
+        [String]$StartTime,
+        [String]$EndTime,
+        [String]$Granularity,
+        [bool]$ShowDetails,
+        [int]$Size,
+        [String]$TenantId,
+        [string]$SaToken,
+        $ContinuationLink)
     
     $obj = @()
 
     $urlParts = @("https://api.partnercenter.microsoft.com/v1/")
-    $headers = @{Authorization = "Bearer $saToken"}
+    $headers = @{Authorization = "Bearer $SaToken"}
 
-    if ($continuationLink -eq $null)
+    if ($ContinuationLink -eq $null)
     {
         try
         {
-            $s_time = get-date $startTime -Format s
+            $s_time = get-date $StartTime -Format s
         }
         catch
         {
@@ -173,14 +173,14 @@ function Get-PCUsage_implementation
     
         try
         {
-            $e_time = get-date $endTime -Format s
+            $e_time = get-date $EndTime -Format s
         }
         catch
         {
             "End time is not in a valid format. Use '31-12-1999 00:00:00' format"
         }
 
-        $urlParts += "Customers/{0}/Subscriptions/{1}/Utilizations/azure?start_time={2}Z&end_time={3}Z&show_details={4}&granularity={5}&size={6}" -f $tenantId, $subscriptionId, $s_time, $e_time, $showDetails, $granularity, $size
+        $urlParts += "Customers/{0}/Subscriptions/{1}/Utilizations/azure?start_time={2}Z&end_time={3}Z&show_details={4}&granularity={5}&size={6}" -f $TenantId, $SubscriptionId, $s_time, $e_time, $showDetails, $granularity, $size
     }
     else
     {
@@ -218,17 +218,20 @@ function Get-PCUsage_implementation
 function Get-PCSubscriptionMonthlyUsageRecords
 {
     [CmdletBinding()]
-    param ([Parameter(Mandatory = $false)][String]$tenantId = $GlobalCustomerID,
-        [Parameter(Mandatory = $false)][string]$saToken = $GlobalToken)
-    _testTokenContext($saToken)
-    _testTenantContext ($tenantId)
+    param (
+        [Parameter(Mandatory = $false)][String]$TenantId = $GlobalCustomerId,
+        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
+        
+    )
+    _testTokenContext($SaToken)
+    _testTenantContext ($TenantId)
 
     Write-Warning "  Get-PCSubscriptionMonthlyUsageRecords is deprecated and will not be available in future releases, use Get-PCSubscriptionMonthlyUsageRecord instead."
 
     $obj = @()
 
-    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/subscriptions/usagerecords" -f $tenantId
-    $headers = @{Authorization = "Bearer $saToken"}
+    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/subscriptions/usagerecords" -f $TenantId
+    $headers = @{Authorization = "Bearer $SaToken"}
     $headers += @{"MS-RequestId" = [Guid]::NewGuid()}
     $headers += @{"MS-CorrelationId" = [Guid]::NewGuid()}
 
@@ -242,9 +245,9 @@ function Get-PCSubscriptionMonthlyUsageRecords
 
 .DESCRIPTION
 
-.PARAMETER saToken 
+.PARAMETER SaToken 
 
-.PARAMETER tenantId 
+.PARAMETER TenantId 
 
 .EXAMPLE
 
@@ -254,16 +257,16 @@ function Get-PCSubscriptionMonthlyUsageRecord
 {
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory = $false)][String]$tenantId = $GlobalCustomerID,
-        [Parameter(Mandatory = $false)][string]$saToken = $GlobalToken
+        [Parameter(Mandatory = $false)][String]$TenantId = $GlobalCustomerId,
+        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
         )
-    _testTokenContext($saToken)
-    _testTenantContext ($tenantId)
+    _testTokenContext($SaToken)
+    _testTenantContext ($TenantId)
 
     $obj = @()
 
-    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/subscriptions/usagerecords" -f $tenantId
-    $headers = @{Authorization = "Bearer $saToken"}
+    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/subscriptions/usagerecords" -f $TenantId
+    $headers = @{Authorization = "Bearer $SaToken"}
     $headers += @{"MS-RequestId" = [Guid]::NewGuid()}
     $headers += @{"MS-CorrelationId" = [Guid]::NewGuid()}
 
@@ -276,18 +279,18 @@ function Get-PCAzureResourceMonthlyUsageRecords
 {
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory = $false)][String]$tenantId = $GlobalCustomerID, 
-        [string]$subscriptionId,
-        [Parameter(Mandatory = $false)][string]$saToken = $GlobalToken)
-    _testTokenContext($saToken)
-    _testTenantContext ($tenantId)
+        [Parameter(Mandatory = $false)][String]$TenantId = $GlobalCustomerId, 
+        [string]$SubscriptionId,
+        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken)
+    _testTokenContext($SaToken)
+    _testTenantContext ($TenantId)
     
     Write-Warning "  Get-PCAzureResourceMonthlyUsageRecords is deprecated and will not be available in future releases, use Get-PCAzureResourceMonthlyUsageRecord instead."
 
     $obj = @()
 
-    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/subscriptions/{1}/usagerecords/resources" -f $tenantId, $subscriptionId
-    $headers = @{Authorization = "Bearer $saToken"}
+    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/subscriptions/{1}/usagerecords/resources" -f $TenantId, $SubscriptionId
+    $headers = @{Authorization = "Bearer $SaToken"}
     $headers += @{"MS-RequestId" = [Guid]::NewGuid()}
     $headers += @{"MS-CorrelationId" = [Guid]::NewGuid()}
 
@@ -301,11 +304,11 @@ function Get-PCAzureResourceMonthlyUsageRecords
 
 .DESCRIPTION
 
-.PARAMETER saToken 
+.PARAMETER SaToken 
 
-.PARAMETER tenantId 
+.PARAMETER TenantId 
 
-.PARAMETER subscriptionId 
+.PARAMETER SubscriptionId 
 
 .EXAMPLE
 
@@ -315,17 +318,17 @@ function Get-PCAzureResourceMonthlyUsageRecord
 {
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory = $false)][String]$tenantId = $GlobalCustomerID, 
-        [string]$subscriptionId,
-        [Parameter(Mandatory = $false)][string]$saToken = $GlobalToken
+        [Parameter(Mandatory = $false)][String]$TenantId = $GlobalCustomerId, 
+        [string]$SubscriptionId,
+        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
         )
-    _testTokenContext($saToken)
-    _testTenantContext ($tenantId)
+    _testTokenContext($SaToken)
+    _testTenantContext ($TenantId)
 
     $obj = @()
 
-    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/subscriptions/{1}/usagerecords/resources" -f $tenantId, $subscriptionId
-    $headers = @{Authorization = "Bearer $saToken"}
+    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/subscriptions/{1}/usagerecords/resources" -f $TenantId, $SubscriptionId
+    $headers = @{Authorization = "Bearer $SaToken"}
     $headers += @{"MS-RequestId" = [Guid]::NewGuid()}
     $headers += @{"MS-CorrelationId" = [Guid]::NewGuid()}
 
@@ -339,9 +342,9 @@ function Get-PCAzureResourceMonthlyUsageRecord
 
 .DESCRIPTION
 
-.PARAMETER saToken 
+.PARAMETER SaToken 
 
-.PARAMETER tenantId 
+.PARAMETER TenantId 
 
 .EXAMPLE
 
@@ -351,17 +354,17 @@ function Get-PCCustomerUsageSummary
 {
     [CmdletBinding()]
     param(
-        [Parameter(Mandatory = $false)][String]$tenantId = $GlobalCustomerID,
-        [Parameter(Mandatory = $false)][string]$saToken = $GlobalToken
+        [Parameter(Mandatory = $false)][String]$TenantId = $GlobalCustomerId,
+        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
         
         )
-    _testTokenContext($saToken)
-    _testTenantContext ($tenantId)
+    _testTokenContext($SaToken)
+    _testTenantContext ($TenantId)
 
     $obj = @()  
 
-    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/usagesummary" -f $tenantId
-    $headers = @{Authorization = "Bearer $saToken"}
+    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/usagesummary" -f $TenantId
+    $headers = @{Authorization = "Bearer $SaToken"}
     $headers += @{"MS-RequestId" = [Guid]::NewGuid()}
     $headers += @{"MS-CorrelationId" = [Guid]::NewGuid()}
 
@@ -375,11 +378,11 @@ function Get-PCCustomerUsageSummary
 
 .DESCRIPTION
 
-.PARAMETER saToken 
+.PARAMETER SaToken 
 
-.PARAMETER tenantId 
+.PARAMETER TenantId 
 
-.PARAMETER billingPeriod 
+.PARAMETER BillingPeriod 
 
 .EXAMPLE
 
@@ -389,18 +392,18 @@ function Get-PCCustomerServiceCostSummary
 {
     [CmdletBinding()]
     param  (
-        [Parameter(Mandatory = $true)][ValidateSet("MostRecent")][String]$billingPeriod, #toAdd "Current","none" as soon as they're supported
-        [Parameter(Mandatory = $false)][String]$tenantId = $GlobalCustomerID,
-        [Parameter(Mandatory = $false)][string]$saToken = $GlobalToken
+        [Parameter(Mandatory = $true)][ValidateSet("MostRecent")][String]$BillingPeriod, #toAdd "Current","none" as soon as they're supported
+        [Parameter(Mandatory = $false)][String]$TenantId = $GlobalCustomerId,
+        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
     )
 
-    _testTokenContext($saToken)
-    _testTenantContext ($tenantId)
+    _testTokenContext($SaToken)
+    _testTenantContext ($TenantId)
 
     $obj = @()
 
-    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/servicecosts/{1}" -f $tenantId, $billingPeriod
-    $headers = @{Authorization = "Bearer $saToken"}
+    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/servicecosts/{1}" -f $TenantId, $BillingPeriod
+    $headers = @{Authorization = "Bearer $SaToken"}
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj += $response.Substring(1) | ConvertFrom-Json

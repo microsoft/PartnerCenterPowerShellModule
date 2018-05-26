@@ -5,11 +5,11 @@
 ## Specify a customer ##
 
 ```powershell
-    $customer = Get-PCCustomer -tenantId '<tenant id GUID>'
+    $customer = Get-PCCustomer -TenantId '<tenant id GUID>'
 ```
 
 ## Get a list of available licenses ##
 
 ```powershell
-    Get-PCSubscribedSKUs -tenantId $customer.id
+    Get-PCSubscribedSKUs -TenantId $customer.id
 ```

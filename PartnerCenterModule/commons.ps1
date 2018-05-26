@@ -30,19 +30,19 @@ function _formatResult {
     }
 }
 
-function _testTenantContext($tenantID)
+function _testTenantContext($TenantId)
 {
-    if ($tenantId.Length -lt 1)
+    if ($TenantId.Length -lt 1)
     {
-        throw ">>> Use Select-PCCustomer to select a specific tenant or use -tenantId parameter<<<"
+        throw ">>> Use Select-PCCustomer to select a specific tenant or use -TenantId parameter<<<"
     }
 }
 
-function _testTokenContext($saToken)
+function _testTokenContext($SaToken)
 {
-    if ($saToken.Length -lt 1)
+    if ($SaToken.Length -lt 1)
     {
-        throw ">>> Use Add-PCAuthentication to login to partnercenter or use -saToken parameter<<<"
+        throw ">>> Use Add-PCAuthentication to login to partnercenter or use -SaToken parameter<<<"
     }
 }
 

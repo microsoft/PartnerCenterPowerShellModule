@@ -1,25 +1,25 @@
 # Get-PCOffer #
 
-## Get all offer details for countryId ##
+## Get all offer details for CountryId ##
 
 ```powershell
-    Get-PCOffer -countryId '<country two digits id>'
+    Get-PCOffer -CountryId '<Country two digits id>'
 ```
 
 ## Get a specific offer ##
 
 ```powershell
-    Get-PCOffer -countryId '<country two digits id>' -offerId '<offer id GUID>'
+    Get-PCOffer -CountryId '<Country two digits id>' -OfferId '<offer id GUID>'
 ```
 
-## Get all offer details for countryId and localeId ##
+## Get all offer details for CountryId and localeId ##
 
 ```powershell
-    Get-PCOffer -countryId '<country two digits id>' -localeId '<locale id four digits>'
+    Get-PCOffer -CountryId '<Country two digits id>' -localeId '<locale id four digits>'
 ```
 
 ## Get addons for a specific offer ##
 
 ```powershell
-    Get-PCOffer -countryId '<country two digits id>' -offerId '<offer id GUID>' -addOns
+    Get-PCOffer -CountryId '<Country two digits id>' -OfferId '<offer id GUID>' -addOns
 ```

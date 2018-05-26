@@ -18,7 +18,7 @@
     $serviceRequestContact = [ServiceRequestContact]::new()
     $serviceRequestContact.FirstName = '<first name>'
     $serviceRequestContact.LastName = '<last name>'
-    $serviceRequestContact.Email = '<email>'
+    $serviceRequestContact.Email = '<Email>'
     $serviceRequestContact.PhoneNumber = '<phone number>'
 
     $supportTopic = Get-PCSRTopics | Where-Object name -Contains '<support topic name>'

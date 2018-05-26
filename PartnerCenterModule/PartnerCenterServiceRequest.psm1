@@ -17,13 +17,13 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 
 .DESCRIPTION
 
-.PARAMETER saToken 
+.PARAMETER SaToken 
 
-.PARAMETER tenantId 
+.PARAMETER TenantId 
 
-.PARAMETER serviceRequestId 
+.PARAMETER ServiceRequestId 
 
-.PARAMETER all 
+.PARAMETER All 
 
 .EXAMPLE
 
@@ -34,21 +34,21 @@ function Get-PCSR
     [CmdletBinding()]
 
     Param(
-        [Parameter(ParameterSetName='tenantId', Mandatory = $false)][String]$tenantId,
-        [Parameter(ParameterSetName='srid', Mandatory = $false)][String]$serviceRequestId,
-        [Parameter(ParameterSetName='all', Mandatory = $true)][switch]$all,
-        [Parameter(Mandatory = $false)][string]$saToken = $GlobalToken
+        [Parameter(ParameterSetName='TenantId', Mandatory = $false)][String]$TenantId,
+        [Parameter(ParameterSetName='srid', Mandatory = $false)][String]$ServiceRequestId,
+        [Parameter(ParameterSetName='all', Mandatory = $true)][switch]$All,
+        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
     )
-    _testTokenContext($saToken)
+    _testTokenContext($SaToken)
 
     $obj = @()
-    $headers = @{Authorization="Bearer $saToken"}
+    $headers = @{Authorization="Bearer $SaToken"}
 
     switch ($PsCmdlet.ParameterSetName)
     {
-        "tenantId" {$url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/servicerequests" -f $tenantId}
+        "TenantId" {$url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/servicerequests" -f $TenantId}
         "all"      {$url = "https://api.partnercenter.microsoft.com/v1/servicerequests"}
-        "srid"      {$url = "https://api.partnercenter.microsoft.com/v1/servicerequests/{0}" -f $serviceRequestId}
+        "srid"      {$url = "https://api.partnercenter.microsoft.com/v1/servicerequests/{0}" -f $ServiceRequestId}
     }
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
@@ -59,15 +59,15 @@ function Get-PCSR
 function Get-PCSRTopics
 {
     [CmdletBinding()]
-    param([Parameter(Mandatory = $false)][string]$saToken = $GlobalToken)
-    _testTokenContext($saToken)
+    param([Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken)
+    _testTokenContext($SaToken)
 
     Write-Warning "    Get-PCSRTopics is deprecated and will not be available in future releases, use Get-PCSRTopic instead."
 
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/servicerequests/supporttopics"
-    $headers = @{Authorization="Bearer $saToken"}
+    $headers = @{Authorization="Bearer $SaToken"}
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj += $response.Substring(1) | ConvertFrom-Json
@@ -79,7 +79,7 @@ function Get-PCSRTopics
 
 .DESCRIPTION
 
-.PARAMETER saToken 
+.PARAMETER SaToken 
 
 .EXAMPLE
 
@@ -88,13 +88,13 @@ function Get-PCSRTopics
 function Get-PCSRTopic
 {
     [CmdletBinding()]
-    param([Parameter(Mandatory = $false)][string]$saToken = $GlobalToken)
-    _testTokenContext($saToken)
+    param([Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken)
+    _testTokenContext($SaToken)
 
     $obj = @()
     
     $url = "https://api.partnercenter.microsoft.com/v1/servicerequests/supporttopics"
-    $headers = @{Authorization="Bearer $saToken"}
+    $headers = @{Authorization="Bearer $SaToken"}
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj += $response.Substring(1) | ConvertFrom-Json
@@ -106,23 +106,23 @@ function Get-PCSRTopic
 
 .DESCRIPTION
 
-.PARAMETER saToken 
+.PARAMETER SaToken 
 
-.PARAMETER serviceRequest 
+.PARAMETER ServiceRequest 
 
-.PARAMETER title 
+.PARAMETER Title 
 
-.PARAMETER description 
+.PARAMETER Description 
 
-.PARAMETER severity 
+.PARAMETER Severity 
 
-.PARAMETER supportTopicId 
+.PARAMETER SupportTopicId 
 
-.PARAMETER serviceRequestContact 
+.PARAMETER ServiceRequestContact 
 
-.PARAMETER serviceRequestNote 
+.PARAMETER ServiceRequestNote 
 
-.PARAMETER agentLocale 
+.PARAMETER AgentLocale 
 
 .EXAMPLE
 
@@ -132,21 +132,21 @@ function New-PCSR
 {
    [CmdletBinding()]
    param (
-        [Parameter(ParameterSetName='byObject', Mandatory = $true)][ServiceRequest]$serviceRequest, 
-        [Parameter(ParameterSetName='byParam', Mandatory = $true)][string]$title, 
-        [Parameter(ParameterSetName='byParam', Mandatory = $true)][string]$description,
-        [Parameter(ParameterSetName='byParam', Mandatory = $true)][ValidateSet("Minimal","Moderate","Critical")][string]$severity,
-        [Parameter(ParameterSetName='byParam', Mandatory = $true)][string]$supportTopicID,
-        [Parameter(ParameterSetName='byParam', Mandatory = $false)][ServiceRequestContact]$serviceRequestContact,
-        [Parameter(ParameterSetName='byParam', Mandatory = $false)][ServiceRequestNote]$serviceRequestNote,
-        [Parameter(Mandatory = $false)][string]$agentLocale = "en-US",
-        [Parameter(Mandatory = $false)][string]$saToken = $GlobalToken
+        [Parameter(ParameterSetName='byObject', Mandatory = $true)][ServiceRequest]$ServiceRequest, 
+        [Parameter(ParameterSetName='byParam', Mandatory = $true)][string]$Title, 
+        [Parameter(ParameterSetName='byParam', Mandatory = $true)][string]$Description,
+        [Parameter(ParameterSetName='byParam', Mandatory = $true)][ValidateSet("Minimal","Moderate","Critical")][string]$Severity,
+        [Parameter(ParameterSetName='byParam', Mandatory = $true)][string]$SupportTopicID,
+        [Parameter(ParameterSetName='byParam', Mandatory = $false)][ServiceRequestContact]$ServiceRequestContact,
+        [Parameter(ParameterSetName='byParam', Mandatory = $false)][ServiceRequestNote]$ServiceRequestNote,
+        [Parameter(Mandatory = $false)][string]$AgentLocale = "en-US",
+        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
     )
-    _testTokenContext($saToken)
+    _testTokenContext($SaToken)
 
     $obj = @()
-    $url = "https://api.partnercenter.microsoft.com/v1/servicerequests/{0}" -f $agentLocale
-    $headers = @{Authorization="Bearer $saToken"}
+    $url = "https://api.partnercenter.microsoft.com/v1/servicerequests/{0}" -f $AgentLocale
+    $headers = @{Authorization="Bearer $SaToken"}
     $headers += @{"MS-RequestId"=[Guid]::NewGuid()}
     $headers += @{"MS-CorrelationId"=[Guid]::NewGuid()}
 
@@ -154,9 +154,9 @@ function New-PCSR
     if ($serviceRequest) { $newSR = $serviceRequest }
     else
     {
-        $newSR = [ServiceRequest]::new($title,$description,$severity,$supportTopicID)
-        if ($serviceRequestContact) { $newSR.PrimaryContact = $serviceRequestContact }
-        if ($serviceRequestNote) { $newSR.NewNote = $serviceRequestNote }
+        $newSR = [ServiceRequest]::new($Title,$Description,$Severity,$SupportTopicID)
+        if ($ServiceRequestContact) { $newSR.PrimaryContact = $ServiceRequestContact }
+        if ($ServiceRequestNote) { $newSR.NewNote = $ServiceRequestNote }
     }
 
     $body = $newSR | ConvertTo-Json -Depth 100
@@ -172,15 +172,15 @@ function New-PCSR
 
 .DESCRIPTION
 
-.PARAMETER saToken 
+.PARAMETER SaToken 
 
-.PARAMETER serviceRequest 
+.PARAMETER ServiceRequest 
 
-.PARAMETER status 
+.PARAMETER Status 
 
-.PARAMETER description 
+.PARAMETER Description 
 
-.PARAMETER addNote 
+.PARAMETER AddNote 
 
 .EXAMPLE
 
@@ -190,32 +190,32 @@ function Set-PCSR
 {
     [CmdletBinding()]
     param (
-        [Parameter(ParameterSetName='byParam', Mandatory = $true,ValueFromPipeline=$True,ValueFromPipelineByPropertyName=$True)][PSCustomObject]$serviceRequest,
-        [Parameter(ParameterSetName='byParam', Mandatory = $false)][ValidateSet("open","closed")][string]$status,
-        [Parameter(ParameterSetName='byParam', Mandatory = $false)][string]$title,
-        [Parameter(ParameterSetName='byParam', Mandatory = $false)][string]$description,
-        [Parameter(ParameterSetName='byParam', Mandatory = $false)][string]$addNote,
-        [Parameter(ParameterSetName='byParam', Mandatory = $false)][string]$saToken = $GlobalToken
+        [Parameter(ParameterSetName='byParam', Mandatory = $true,ValueFromPipeline=$True,ValueFromPipelineByPropertyName=$True)][PSCustomObject]$ServiceRequest,
+        [Parameter(ParameterSetName='byParam', Mandatory = $false)][ValidateSet("open","closed")][string]$Status,
+        [Parameter(ParameterSetName='byParam', Mandatory = $false)][string]$Title,
+        [Parameter(ParameterSetName='byParam', Mandatory = $false)][string]$Description,
+        [Parameter(ParameterSetName='byParam', Mandatory = $false)][string]$AddNote,
+        [Parameter(ParameterSetName='byParam', Mandatory = $false)][string]$SaToken = $GlobalToken
     )
-     _testTokenContext($saToken)  
+     _testTokenContext($SaToken)  
 
     $obj = @()
 
-    if ($serviceRequest) {$body = $serviceRequest | ConvertTo-Json -Depth 100}
+    if ($ServiceRequest) {$body = $ServiceRequest | ConvertTo-Json -Depth 100}
     else
     {
-        $actualSR = Get-PCSR -serviceRequestId $serviceRequest.id -saToken $saToken
-        if ($status) {$actualSR.status = $status
+        $actualSR = Get-PCSR -serviceRequestId $serviceRequest.id -SaToken $SaToken
+        if ($Status) {$actualSR.status = $Status
                         $body = $actualSR | ConvertTo-Json -Depth 100}
-        if ($addnote) {
+        if ($AddNote) {
             $newSR = [ServiceRequest]::new($actualSR.title, $actualSR.description,$actualSR.severity,$actualSR.SupportTopicID)
-            $newSR.newnote = $addNote
+            $newSR.newnote = $AddNote
             $body = $newSR | ConvertTo-Json -Depth 100
         }
     }
 
-    $url = "https://api.partnercenter.microsoft.com/v1/servicerequests/{0}" -f $serviceRequest.id
-    $headers = @{Authorization="Bearer $saToken"}
+    $url = "https://api.partnercenter.microsoft.com/v1/servicerequests/{0}" -f $ServiceRequest.id
+    $headers = @{Authorization="Bearer $SaToken"}
     $headers += @{"MS-RequestId"=[Guid]::NewGuid()}
     $headers += @{"MS-CorrelationId"=[Guid]::NewGuid()}   
 

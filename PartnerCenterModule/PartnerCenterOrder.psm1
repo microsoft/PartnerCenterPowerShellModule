@@ -17,11 +17,11 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 
 .DESCRIPTION
 
-.PARAMETER saToken 
+.PARAMETER SaToken 
 
-.PARAMETER tenantId 
+.PARAMETER TenantId 
 
-.PARAMETER orderId 
+.PARAMETER OrderId 
 
 .EXAMPLE
 
@@ -30,26 +30,26 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 function Get-PCOrder {
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory = $false)][String]$tenantId = $GlobalCustomerID,
-        [string]$orderId,
-        [Parameter(Mandatory = $false)][string]$saToken = $GlobalToken
+        [Parameter(Mandatory = $false)][String]$TenantId = $GlobalCustomerId,
+        [string]$OrderId,
+        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
     )
-    _testTokenContext($saToken)
-    _testTenantContext ($tenantId)
+    _testTokenContext($SaToken)
+    _testTenantContext ($TenantId)
 
     $obj = @()
 
-    if ($orderId) {
-        $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/orders/{1}" -f $tenantId, $orderId
-        $headers = @{Authorization = "Bearer $saToken"}
+    if ($OrderId) {
+        $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/orders/{1}" -f $TenantId, $OrderId
+        $headers = @{Authorization = "Bearer $SaToken"}
 
         $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
         $obj += $response.Substring(1) | ConvertFrom-Json
         return (_formatResult -obj $obj -type "Order")  
     }
     else {
-        $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/orders" -f $tenantId
-        $headers = @{Authorization = "Bearer $saToken"}
+        $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/orders" -f $TenantId
+        $headers = @{Authorization = "Bearer $SaToken"}
 
         $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
         $obj += $response.Substring(1) | ConvertFrom-Json
@@ -62,21 +62,21 @@ function Get-PCOrder {
 
 .DESCRIPTION
 
-.PARAMETER saToken 
+.PARAMETER SaToken 
 
-.PARAMETER tenantId 
+.PARAMETER TenantId 
 
-.PARAMETER orderId 
+.PARAMETER OrderId 
 
 .PARAMETER lineItems 
 
-.PARAMETER offerId 
+.PARAMETER OfferId 
 
-.PARAMETER quantity
+.PARAMETER Quantity
 
-.PARAMETER friendlyName
+.PARAMETER FriendlyName
 
-.PARAMETER partnerIdOnRecord 
+.PARAMETER PartnerIdOnRecord 
 
 .EXAMPLE
 
@@ -85,45 +85,45 @@ function Get-PCOrder {
 function New-PCOrder {
     [CmdletBinding()]
     param( 
-        [Parameter(Mandatory = $false)][String]$tenantId = $GlobalCustomerID,
-        [Parameter(ParameterSetName = 'Addon', Mandatory = $true)][string]$orderId,
+        [Parameter(Mandatory = $false)][String]$TenantId = $GlobalCustomerId,
+        [Parameter(ParameterSetName = 'Addon', Mandatory = $true)][string]$OrderId,
         [Parameter(ParameterSetName = 'ByArray', Mandatory = $true)][Parameter(ParameterSetName = 'Addon')][Array]$LineItems,
         [Parameter(ParameterSetName = 'AllDetails', Mandatory = $true)][string]$OfferId,
         [Parameter(ParameterSetName = 'AllDetails', Mandatory = $true)][uint16]$Quantity,
         [Parameter(ParameterSetName = 'AllDetails', Mandatory = $false)][string]$FriendlyName,
         [Parameter(ParameterSetName = 'AllDetails', Mandatory = $false)][string]$PartnerIdOnRecord,
-        [Parameter(Mandatory = $false)][string]$saToken = $GlobalToken
+        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
     )
-    _testTokenContext($saToken)
-    _testTenantContext ($tenantId)
+    _testTokenContext($SaToken)
+    _testTenantContext ($TenantId)
 
     $obj = @()
 
-    $headers = @{"Authorization" = "Bearer $saToken"}
+    $headers = @{"Authorization" = "Bearer $SaToken"}
     $headers += @{"MS-Contract-Version" = "v1"}
     $headers += @{"MS-RequestId" = [Guid]::NewGuid()}
     $headers += @{"MS-CorrelationId" = [Guid]::NewGuid()}
 
-    if ($orderId) {
-        $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/orders/{1}" -f $tenantId, $orderId
+    if ($OrderId) {
+        $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/orders/{1}" -f $TenantId, $OrderId
 
-        $order = [Order]::new($tenantId, $LineItems)
+        $order = [Order]::new($TenantId, $LineItems)
         $body = $order | ConvertTo-Json -Depth 100
 
         $method = "PATCH"
     }
     else {
-        $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/orders" -f $tenantId
+        $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/orders" -f $TenantId
 
         switch ($PsCmdlet.ParameterSetName) {
-            'ByArray' { $order = [Order]::new($tenantId, $LineItems)}
+            'ByArray' { $order = [Order]::new($TenantId, $LineItems)}
             'AllDetails' {
                 $lineItems_tmp = [OrderLineItem]::new(0, $OfferId, $Quantity)
                 if ($FriendlyName) {$lineItems_tmp.FriendlyName = $FriendlyName}
                 if ($PartnerIdOnRecord) {$lineItems_tmp.PartnerIdOnRecord = $PartnerIdOnRecord}
                 $arr = @()
                 $arr += $lineItems_tmp
-                $order = [Order]::new($tenantId, $arr)
+                $order = [Order]::new($TenantId, $arr)
             }
         }
 
@@ -141,13 +141,13 @@ function New-PCOrder {
 
 .DESCRIPTION
 
-.PARAMETER saToken 
+.PARAMETER SaToken 
 
-.PARAMETER tenantId 
+.PARAMETER TenantId 
 
-.PARAMETER orderId 
+.PARAMETER OrderId 
 
-.PARAMETER lineItems 
+.PARAMETER LineItems 
 
 .EXAMPLE
 
@@ -157,23 +157,23 @@ function New-PCAddonOrder {
     [CmdletBinding()]
     param 
     (
-        [Parameter(Mandatory = $false)][String]$tenantId = $GlobalCustomerID,
-        [Parameter(Mandatory = $true)][string]$orderId,
+        [Parameter(Mandatory = $false)][String]$TenantId = $GlobalCustomerId,
+        [Parameter(Mandatory = $true)][string]$OrderId,
         [Parameter(Mandatory = $true)][Array]$LineItems,
-        [Parameter(Mandatory = $false)][string]$saToken = $GlobalToken
+        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
     )
-    _testTokenContext($saToken)
-    _testTenantContext ($tenantId)
+    _testTokenContext($SaToken)
+    _testTenantContext ($TenantId)
 
     $obj = @()
 
-    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/orders/{1}" -f $tenantId, $orderId
-    $headers = @{"Authorization" = "Bearer $saToken"}
+    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/orders/{1}" -f $TenantId, $OrderId
+    $headers = @{"Authorization" = "Bearer $SaToken"}
     $headers += @{"MS-Contract-Version" = "v1"}
     $headers += @{"MS-RequestId" = [Guid]::NewGuid()}
     $headers += @{"MS-CorrelationId" = [Guid]::NewGuid()}
 
-    $order = [Order]::new($tenantId, $LineItems)
+    $order = [Order]::new($TenantId, $LineItems)
     $body = $order | ConvertTo-Json -Depth 100
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Body $body -Method "PATCH" #-Debug -Verbose
@@ -190,17 +190,17 @@ function Set-Order
             [Parameter(Mandatory = $false)][string]$FriendlyName,
             [Parameter(Mandatory = $false)][uint16]$Quantity,
             [Parameter(Mandatory = $false)][ValidateSet('Unknown','Monthly','Annual','None')][string]$BillingCycleType,
-            [Parameter(Mandatory = $false)][string]$saToken = $GlobalToken)
+            [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken)
     $obj = @()
-    _testTokenContext($saToken)
-    $actualOrder = Get-PCOrder -tenantID $order.ReferenceCustomerId -orderID $order.id -saToken $saToken
+    _testTokenContext($SaToken)
+    $actualOrder = Get-PCOrder -tenantID $order.ReferenceCustomerId -orderID $order.id -SaToken $SaToken
 
     if ($FriendlyName) { $actualOrder.lineItems[$LineItemNumber].friendlyName = $FriendlyName}
     if ($quantity) {$actualOrder.lineItems[$LineItemNumber].Quantity = $quantity}
     if ($BillingCycleType){$actualOrder.BillingCycleType = $BillingCycleType}
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/orders/{1}" -f $order.ReferenceCustomerId, $order.id
-    $headers  = @{"Authorization"="Bearer $saToken"}
+    $headers  = @{"Authorization"="Bearer $SaToken"}
     $headers += @{"MS-Contract-Version"="v1"}
     $headers += @{"MS-RequestId"=[Guid]::NewGuid()}
     $headers += @{"MS-CorrelationId"=[Guid]::NewGuid()}
@@ -215,13 +215,13 @@ function Set-Order
 
 .DESCRIPTION
 
-.PARAMETER lineItemNumber 
+.PARAMETER LineItemNumber 
 
-.PARAMETER offerId
+.PARAMETER OfferId
 
-.PARAMETER quantity
+.PARAMETER Quantity
 
-.PARAMETER friendlyName
+.PARAMETER FriendlyName
 
 .EXAMPLE
 
@@ -230,10 +230,10 @@ function Set-Order
 function New-OrderLineItem {
     [CmdletBinding()]
     Param (
-        [uint16] $lineItemNumber,
-        [string] $offerId,
-        [uint16] $quantity, 
-        [string] $friendlyName
+        [uint16] $LineItemNumber,
+        [string] $OfferId,
+        [uint16] $Quantity, 
+        [string] $FriendlyName
         
     )
     $LineItem = [OrderLineItem]::new($LineItemNumber, $OfferId, $Quantity)

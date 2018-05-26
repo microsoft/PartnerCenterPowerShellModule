@@ -3,17 +3,17 @@
 ## Get a customer ##
 
 ```powershell
-    $customer = Get-PCCustomer -tenantId '<tenant id GUID>'
+    $customer = Get-PCCustomer -TenantId '<tenant id GUID>'
 ```
 
 ## Get customer user ##
 
 ```powershell
-    $user = Get-PCCustomerUser -tenantId $customer.id -userid '<user id>'
+    $user = Get-PCCustomerUser -TenantId $customer.id -userid '<user id>'
 ```
 
 ## Delete a customer user ##
 
 ```powershell
-    Remove-PCCustomerUser -tenantId $customer.id -user $user
+    Remove-PCCustomerUser -TenantId $customer.id -user $user
 ```

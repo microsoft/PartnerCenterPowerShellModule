@@ -3,7 +3,7 @@
 ## Get a customer ##
 
 ```powershell
-    $customer = Get-PCCustomer -tenantId '<tenant id GUID>'
+    $customer = Get-PCCustomer -TenantId '<tenant id GUID>'
 ```
 
 ## Create a customer user ##
@@ -12,5 +12,5 @@
     $password = '<password>'
     $passwordSecure = $password | ConvertTo-SecureString -AsPlainText -Force
 
-    New-PCCustomerUser -tenantId $customer.id -usageLocation '<country code>' -userPrincipalName '<upn>' -firstName '<first name>' -lastName '<last name>' -displayName '<display name>' -forceChangePassword $true -password $passwordSecure
+    New-PCCustomerUser -TenantId $customer.id -usageLocation '<Country code>' -userPrincipalName '<upn>' -FirstName '<first name>' -LastName '<last name>' -displayName '<display name>' -forceChangePassword $true -password $passwordSecure
 ```

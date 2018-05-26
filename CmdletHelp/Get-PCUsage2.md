@@ -3,7 +3,7 @@
 ## Get a customer ##
 
 ```powershell
-    Select-PCCustomer -tenantId '<tenant id GUID>'
+    Select-PCCustomer -TenantId '<tenant id GUID>'
 ```
 
 ## Get a subscription ##

@@ -15,18 +15,18 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 function Get-PCAuditRecords {
     [CmdletBinding()]
     Param(
-        [Parameter(Mandatory = $true)][ValidatePattern("\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])*")][string]$startDate,
-        [Parameter(Mandatory = $false)][ValidatePattern("\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])*")][string]$endDate,
+        [Parameter(Mandatory = $true)][ValidatePattern("\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])*")][string]$StartDate,
+        [Parameter(Mandatory = $false)][ValidatePattern("\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])*")][string]$EndDate,
         #[Parameter(Mandatory = $false)][string]$filter,
-        [Parameter(Mandatory = $false)][string]$saToken = $GlobalToken
+        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
     )
-    _testTokenContext($saToken)
+    _testTokenContext($SaToken)
 
     Write-Warning "  Get-PCAuditRecords is deprecated and will not be available in future releases, use Get-PCAuditRecord instead."
     $obj = @()
 
-    if ($startDate) { $url = "https://api.partnercenter.microsoft.com/v1/auditrecords?startDate={0}" -f $startDate }
-    if ($endDate) { $url = "https://api.partnercenter.microsoft.com/v1/auditrecords?startDate={0}&endDate={1}" -f $startDate, $endDate }
+    if ($StartDate) { $url = "https://api.partnercenter.microsoft.com/v1/auditrecords?startDate={0}" -f $StartDate }
+    if ($EndDate) { $url = "https://api.partnercenter.microsoft.com/v1/auditrecords?startDate={0}&endDate={1}" -f $StartDate, $EndDate }
     #if ($filter)
     #{
     #    [Reflection.Assembly]::LoadWithPartialName("System.Web") | Out-Null
@@ -34,7 +34,7 @@ function Get-PCAuditRecords {
     #    $url = "https://api.partnercenter.microsoft.com/v1/auditrecords?startDate={0}&endDate={1}&filter={2}" -f $startDate, $endDate, $filter
     #}
 
-    $headers = @{Authorization = "Bearer $saToken"}
+    $headers = @{Authorization = "Bearer $SaToken"}
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj += $response.items
@@ -46,12 +46,12 @@ function Get-PCAuditRecords {
 
 .DESCRIPTION
 
-.PARAMETER saToken 
+.PARAMETER SaToken 
 
-.PARAMETER startDate 
+.PARAMETER StartDate 
 The date from which you will start retrieving data. Must be formated yyyy-mm-dd.
 
-.PARAMETER endDate 
+.PARAMETER EndDate 
 The date from which you will stop retrieving data. Must be formated yyyy-mm-dd.
 
 .EXAMPLE
@@ -61,19 +61,19 @@ The date from which you will stop retrieving data. Must be formated yyyy-mm-dd.
 function Get-PCAuditRecord {
     [CmdletBinding()]
     Param(
-        [Parameter(Mandatory = $true)][ValidatePattern("\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])*")][string]$startDate,
-        [Parameter(Mandatory = $false)][ValidatePattern("\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])*")][string]$endDate,
+        [Parameter(Mandatory = $true)][ValidatePattern("\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])*")][string]$StartDate,
+        [Parameter(Mandatory = $false)][ValidatePattern("\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])*")][string]$EndDate,
         #[Parameter(Mandatory = $false)][string]$filter,
-        [Parameter(Mandatory = $false)][string]$saToken = $GlobalToken
+        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
     )
-    _testTokenContext($saToken)
+    _testTokenContext($SaToken)
 
     $obj = @()
     
     # TODO Only 30 days can be returned per request, limit the request to 30 days span before executing request
     
-    if ($startDate) { $url = "https://api.partnercenter.microsoft.com/v1/auditrecords?startDate={0}" -f $startDate }
-    if ($endDate) { $url = "https://api.partnercenter.microsoft.com/v1/auditrecords?startDate={0}&endDate={1}" -f $startDate, $endDate }
+    if ($startDate) { $url = "https://api.partnercenter.microsoft.com/v1/auditrecords?startDate={0}" -f $StartDate }
+    if ($endDate) { $url = "https://api.partnercenter.microsoft.com/v1/auditrecords?startDate={0}&endDate={1}" -f $StartDate, $EndDate }
     #if ($filter)
     #{
     #    [Reflection.Assembly]::LoadWithPartialName("System.Web") | Out-Null
@@ -81,7 +81,7 @@ function Get-PCAuditRecord {
     #    $url = "https://api.partnercenter.microsoft.com/v1/auditrecords?startDate={0}&endDate={1}&filter={2}" -f $startDate, $endDate, $filter
     #}
 
-    $headers = @{Authorization = "Bearer $saToken"}
+    $headers = @{Authorization = "Bearer $SaToken"}
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj += $response.items
@@ -91,16 +91,16 @@ function Get-PCAuditRecord {
 function Get-PCIndirectResellers {
     [CmdletBinding()]
     Param(
-        [Parameter(Mandatory = $false)][string]$saToken = $GlobalToken
+        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
     )
-    _testTokenContext($saToken)
+    _testTokenContext($SaToken)
 
     Write-Warning "  Get-PCIndirectResellers is deprecated and will not be available in future releases, use Get-PCIndirectReseller instead."
     
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/relationships?relationship_type=IsIndirectCloudSolutionProviderOf"
-    $headers = @{Authorization = "Bearer $saToken"}
+    $headers = @{Authorization = "Bearer $SaToken"}
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj += $response.Substring(1) | ConvertFrom-Json
@@ -112,7 +112,7 @@ function Get-PCIndirectResellers {
 
 .DESCRIPTION
 
-.PARAMETER saToken 
+.PARAMETER SaToken 
 
 .EXAMPLE
 
@@ -121,14 +121,14 @@ function Get-PCIndirectResellers {
 function Get-PCIndirectReseller {
     [CmdletBinding()]
     Param(
-        [Parameter(Mandatory = $false)][string]$saToken = $GlobalToken
+        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
     )
-    _testTokenContext($saToken)
+    _testTokenContext($SaToken)
 
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/relationships?relationship_type=IsIndirectCloudSolutionProviderOf"
-    $headers = @{Authorization = "Bearer $saToken"}
+    $headers = @{Authorization = "Bearer $SaToken"}
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj += $response.Substring(1) | ConvertFrom-Json

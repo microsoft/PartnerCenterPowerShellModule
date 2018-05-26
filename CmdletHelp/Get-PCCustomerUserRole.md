@@ -3,17 +3,17 @@
 ## Select a customer ##
 
 ```powershell
-    Select-PCCustomer -tenantId '<tenant id GUID>'
+    Select-PCCustomer -TenantId '<tenant id GUID>'
 ```
 
 ## Get customer user ##
 
 ```powershell
-    $user = Get-PCCustomerUser -tenantId $customer.id -userid '<user id>'
+    $user = Get-PCCustomerUser -TenantId $customer.id -userid '<user id>'
 ```
 
 ## Get customer user roles ##
 
 ```powershell
-    Get-PCCustomerUserRole -tenantId $customer.id -user $user
+    Get-PCCustomerUserRole -TenantId $customer.id -user $user
 ```

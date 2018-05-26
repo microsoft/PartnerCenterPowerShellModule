@@ -1,7 +1,7 @@
 # Get-PCAddressRulesByMarket #
 
-## Get all address rules for countryId ##
+## Get all address rules for CountryId ##
 
 ```powershell
-    Get-PCAddressRulesByMarket -countryId '<country two digits id>'
+    Get-PCAddressRulesByMarket -CountryId '<Country two digits id>'
 ```

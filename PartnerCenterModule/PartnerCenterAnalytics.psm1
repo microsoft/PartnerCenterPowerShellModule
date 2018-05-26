@@ -17,15 +17,15 @@ function Get-PCLicensesDeployment
 {
     [CmdletBinding()]
     Param(
-        [Parameter(Mandatory = $false)][string]$saToken = $GlobalToken
+        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
     )
-    _testTokenContext($saToken)
+    _testTokenContext($SaToken)
 
     Write-Warning "  Get-PCLicensesDeployment is deprecated and will not be available in future releases, use Get-PCLicenseDeployment instead."
 
 
     $url = "https://api.partnercenter.microsoft.com/v1/analytics/licenses/deployment"
-    $headers = @{Authorization="Bearer $saToken"}
+    $headers = @{Authorization="Bearer $SaToken"}
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj = @() + $response.Substring(1) | ConvertFrom-Json
@@ -41,8 +41,8 @@ The Get-Inventory function uses Windows Management Instrumentation (WMI) toretri
 Computer names or IP addresses are expected as pipeline input, or may bepassed to the –computerName parameter. 
 Each computer is contacted sequentially, not in parallel.
 
-.PARAMETER saToken 
-The authentication token you have created with your Partner Center credentials.
+.PARAMETER SaToken 
+The authentication token you have created with your Partner Center Credentials.
 
 .EXAMPLE
 Return a list of assigned licenses for the partner.
@@ -50,19 +50,19 @@ Return a list of assigned licenses for the partner.
 Get-PCLicenses
 
 .NOTES
-You need to have a authentication credential already established before running this cmdlet.
+You need to have a authentication Credential already established before running this cmdlet.
 
 #>
 function Get-PCLicenseDeployment
 {
     [CmdletBinding()]
     Param(
-        [Parameter(Mandatory = $false)][string]$saToken = $GlobalToken
+        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
     )
-    _testTokenContext($saToken)
+    _testTokenContext($SaToken)
 
     $url = "https://api.partnercenter.microsoft.com/v1/analytics/licenses/deployment"
-    $headers = @{Authorization="Bearer $saToken"}
+    $headers = @{Authorization="Bearer $SaToken"}
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj = @() + $response.Substring(1) | ConvertFrom-Json
@@ -73,14 +73,14 @@ function Get-PCLicensesUsage
 {
     [CmdletBinding()]
     Param(
-        [Parameter(Mandatory = $false)][string]$saToken = $GlobalToken
+        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
     )
-    _testTokenContext($saToken)
+    _testTokenContext($SaToken)
 
     Write-Warning "  Get-PCLicensesUsage is deprecated and will not be available in future releases, use Get-PCLicenseUsage instead."
  
     $url = "https://api.partnercenter.microsoft.com/v1/analytics/licenses/usage"
-    $headers = @{Authorization="Bearer $saToken"}
+    $headers = @{Authorization="Bearer $SaToken"}
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj = @() + $response.Substring(1) | ConvertFrom-Json
@@ -92,7 +92,7 @@ function Get-PCLicensesUsage
 
 .DESCRIPTION
 
-.PARAMETER saToken 
+.PARAMETER SaToken 
 
 .EXAMPLE
 
@@ -102,12 +102,12 @@ function Get-PCLicenseUsage
 {
     [CmdletBinding()]
     Param(
-        [Parameter(Mandatory = $false)][string]$saToken = $GlobalToken
+        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
     )
-    _testTokenContext($saToken)
+    _testTokenContext($SaToken)
 
     $url = "https://api.partnercenter.microsoft.com/v1/analytics/licenses/usage"
-    $headers = @{Authorization="Bearer $saToken"}
+    $headers = @{Authorization="Bearer $SaToken"}
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj = @() + $response.Substring(1) | ConvertFrom-Json
@@ -118,16 +118,16 @@ function Get-PCCustomerLicensesDeployment
 {
     [CmdletBinding()]
     Param(
-        [Parameter(Mandatory = $false)][String]$tenantId = $GlobalCustomerID,
-        [Parameter(Mandatory = $false)][string]$saToken = $GlobalToken
+        [Parameter(Mandatory = $false)][String]$TenantId = $GlobalCustomerId,
+        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
     )
-    _testTokenContext($saToken)
-    _testTenantContext ($tenantId)
+    _testTokenContext($SaToken)
+    _testTenantContext ($TenantId)
 
     Write-Warning "  Get-PCCustomerLicensesDeployment is deprecated and will not be available in future releases, use Get-PCCustomerLicenseDeployment instead."
 
-    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/analytics/licenses/deployment" -f $tenantId
-    $headers = @{Authorization="Bearer $saToken"}
+    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/analytics/licenses/deployment" -f $TenantId
+    $headers = @{Authorization="Bearer $SaToken"}
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj = @() + $response.Substring(1) | ConvertFrom-Json
@@ -139,9 +139,9 @@ function Get-PCCustomerLicensesDeployment
 
 .DESCRIPTION
 
-.PARAMETER saToken 
+.PARAMETER SaToken 
 
-.PARAMETER tenantId 
+.PARAMETER TenantId 
 
 .EXAMPLE
 
@@ -151,14 +151,14 @@ function Get-PCCustomerLicenseDeployment
 {
     [CmdletBinding()]
     Param(
-        [Parameter(Mandatory = $false)][String]$tenantId = $GlobalCustomerID,
-        [Parameter(Mandatory = $false)][string]$saToken = $GlobalToken
+        [Parameter(Mandatory = $false)][String]$TenantId = $GlobalCustomerId,
+        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
     )
-    _testTokenContext($saToken)
-    _testTenantContext ($tenantId)
+    _testTokenContext($SaToken)
+    _testTenantContext ($TenantId)
 
-    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/analytics/licenses/deployment" -f $tenantId
-    $headers = @{Authorization="Bearer $saToken"}
+    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/analytics/licenses/deployment" -f $TenantId
+    $headers = @{Authorization="Bearer $SaToken"}
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj = @() + $response.Substring(1) | ConvertFrom-Json
@@ -169,16 +169,16 @@ function Get-PCCustomerLicensesUsage
 {
     [CmdletBinding()]
     Param(
-        [Parameter(Mandatory = $false)][String]$tenantId = $GlobalCustomerID,
-        [Parameter(Mandatory = $false)][string]$saToken = $GlobalToken
+        [Parameter(Mandatory = $false)][String]$TenantId = $GlobalCustomerId,
+        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
     )
-    _testTokenContext($saToken)
-    _testTenantContext ($tenantId)
+    _testTokenContext($SaToken)
+    _testTenantContext ($TenantId)
 
     Write-Warning "  Get-PCCustomerLicensesUsage is deprecated and will not be available in future releases, use Get-PCCustomerLicenseUsage instead."
  
-    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/analytics/licenses/usage" -f $tenantId
-    $headers = @{Authorization="Bearer $saToken"}
+    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/analytics/licenses/usage" -f $TenantId
+    $headers = @{Authorization="Bearer $SaToken"}
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj = @() + $response.Substring(1) | ConvertFrom-Json
@@ -190,9 +190,9 @@ function Get-PCCustomerLicensesUsage
 
 .DESCRIPTION
 
-.PARAMETER saToken 
+.PARAMETER SaToken 
 
-.PARAMETER tenantId 
+.PARAMETER TenantId 
 
 .EXAMPLE
 
@@ -202,14 +202,14 @@ function Get-PCCustomerLicenseUsage
 {
     [CmdletBinding()]
     Param(
-        [Parameter(Mandatory = $false)][String]$tenantId = $GlobalCustomerID,
-        [Parameter(Mandatory = $false)][string]$saToken = $GlobalToken
+        [Parameter(Mandatory = $false)][String]$TenantId = $GlobalCustomerId,
+        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
     )
-    _testTokenContext($saToken)
-    _testTenantContext ($tenantId)
+    _testTokenContext($SaToken)
+    _testTenantContext ($TenantId)
 
-    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/analytics/licenses/usage" -f $tenantId
-    $headers = @{Authorization="Bearer $saToken"}
+    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/analytics/licenses/usage" -f $TenantId
+    $headers = @{Authorization="Bearer $SaToken"}
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj = @() + $response.Substring(1) | ConvertFrom-Json

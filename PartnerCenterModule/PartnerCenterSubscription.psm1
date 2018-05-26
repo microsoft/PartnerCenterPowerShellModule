@@ -17,21 +17,21 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 
 .DESCRIPTION
 
-.PARAMETER saToken 
+.PARAMETER SaToken 
 
-.PARAMETER tenantId 
+.PARAMETER TenantId 
 
-.PARAMETER all 
+.PARAMETER All 
 
-.PARAMETER subscriptionId
+.PARAMETER SubscriptionId
 
-.PARAMETER addOns 
+.PARAMETER AddOns 
 
-.PARAMETER partnerId 
+.PARAMETER PartnerId 
 
-.PARAMETER size
+.PARAMETER Size
 
-.PARAMETER orderId
+.PARAMETER OrderId
 
 .EXAMPLE
 
@@ -42,47 +42,47 @@ function Get-PCSubscription
     [CmdletBinding()]
 
     Param(
-            [Parameter(Mandatory = $false)][String]$tenantId=$GlobalCustomerID,
-            [Parameter(ParameterSetName='all', Mandatory = $false)][switch]$all,
-            [Parameter(ParameterSetName='subscriptionId', Mandatory = $false)][String]$subscriptionId,
-            [Parameter(ParameterSetName='subscriptionId', Mandatory = $false)][switch]$addOns,           
-            [Parameter(ParameterSetName='partnerId', Mandatory = $true)][String]$partnerId,
-            [Parameter(ParameterSetName='partnerId',Mandatory = $false)][int]$size = 200,
-            [Parameter(ParameterSetName='orderId', Mandatory = $false)][string]$orderId,
-            [Parameter(Mandatory = $false)][string]$saToken = $GlobalToken
+            [Parameter(Mandatory = $false)][String]$TenantId=$GlobalCustomerId,
+            [Parameter(ParameterSetName='all', Mandatory = $false)][switch]$All,
+            [Parameter(ParameterSetName='SubscriptionId', Mandatory = $false)][String]$SubscriptionId,
+            [Parameter(ParameterSetName='SubscriptionId', Mandatory = $false)][switch]$AddOns,           
+            [Parameter(ParameterSetName='partnerId', Mandatory = $true)][String]$PartnerId,
+            [Parameter(ParameterSetName='partnerId',Mandatory = $false)][int]$Size = 200,
+            [Parameter(ParameterSetName='OrderId', Mandatory = $false)][string]$OrderId,
+            [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
     )
-    _testTokenContext($saToken)
-    _testTenantContext ($tenantId)
+    _testTokenContext($SaToken)
+    _testTenantContext ($TenantId)
 
 
-    function Private:Get-SubscriptionsAllInner ($saToken, $tenantId)
+    function Private:Get-SubscriptionsAllInner ($SaToken, $TenantId)
     {
         $obj = @()
-        $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/subscriptions" -f $tenantId
-        $headers = @{Authorization="Bearer $saToken"}
+        $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/subscriptions" -f $TenantId
+        $headers = @{Authorization="Bearer $SaToken"}
 
         $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
         $obj += $response.Substring(1) | ConvertFrom-Json
         return (_formatResult -obj $obj -type "Subscription") 
     }
 
-    function Private:Get-SubscriptionInner ($saToken, $tenantId, $subscriptionId,$addons)
+    function Private:Get-SubscriptionInner ($SaToken, $TenantId, $SubscriptionId,$AddOns)
     {
         $obj = @()
-        if($subscriptionId)
+        if($SubscriptionId)
         {
             if ($addons)
             {
-                $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/subscriptions/{1}/addons" -f $tenantId, $subscriptionId
-                $headers = @{Authorization="Bearer $saToken"}
+                $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/subscriptions/{1}/addons" -f $TenantId, $SubscriptionId
+                $headers = @{Authorization="Bearer $SaToken"}
 
                 $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
                 $obj += $response.Substring(1) | ConvertFrom-Json
                 return (_formatResult -obj $obj -type "SubscriptionAddons")   
             }
             else {
-                $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/subscriptions/{1}" -f $tenantId, $subscriptionId
-                $headers = @{Authorization="Bearer $saToken"}
+                $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/subscriptions/{1}" -f $TenantId, $SubscriptionId
+                $headers = @{Authorization="Bearer $SaToken"}
 
                 $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
                 $obj += $response.Substring(1) | ConvertFrom-Json
@@ -91,8 +91,8 @@ function Get-PCSubscription
         }
         else
         {
-            $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/subscriptions" -f $tenantId
-            $headers = @{Authorization="Bearer $saToken"}
+            $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/subscriptions" -f $TenantId
+            $headers = @{Authorization="Bearer $SaToken"}
 
             $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
             $obj += $response.Substring(1) | ConvertFrom-Json
@@ -100,24 +100,24 @@ function Get-PCSubscription
         }
     }
 
-    function Private:Get-SubscriptionPartnerInner ($saToken, $tenantId, $partnerId, $size)
+    function Private:Get-SubscriptionPartnerInner ($SaToken, $TenantId, $partnerId, $size)
     {
         $obj = @()
-        $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/subscriptions?mpn_id={1}&offset=0&size={2}" -f $tenantId,$partnerId,$size
-        $headers = @{Authorization="Bearer $saToken"}
+        $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/subscriptions?mpn_id={1}&offset=0&size={2}" -f $TenantId,$partnerId,$size
+        $headers = @{Authorization="Bearer $SaToken"}
 
         $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
         $obj += $response.Substring(1) | ConvertFrom-Json
         return (_formatResult -obj $obj -type "Subscription") 
     }
 
-    function Private:Get-SubscriptionByOrderInner ($saToken, $tenantId, $orderId)
+    function Private:Get-SubscriptionByOrderInner ($SaToken, $TenantId, $OrderId)
     {
         $obj = @()
-        if($orderId)
+        if($OrderId)
         {
-            $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/subscriptions?order_id={1}" -f $tenantId, $orderId
-            $headers = @{Authorization="Bearer $saToken"}
+            $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/subscriptions?order_id={1}" -f $TenantId, $OrderId
+            $headers = @{Authorization="Bearer $SaToken"}
 
             $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
             $obj += $response.Substring(1) | ConvertFrom-Json
@@ -125,8 +125,8 @@ function Get-PCSubscription
         }
         else
         {
-            $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/subscriptions" -f $tenantId
-            $headers = @{Authorization="Bearer $saToken"}
+            $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/subscriptions" -f $TenantId
+            $headers = @{Authorization="Bearer $SaToken"}
 
             $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
             $obj += $response.Substring(1) | ConvertFrom-Json
@@ -136,16 +136,16 @@ function Get-PCSubscription
 
     switch ($PsCmdlet.ParameterSetName)
     {
-        "subscriptionId" {$res = Get-SubscriptionInner -saToken $saToken -tenantId $tenantId -subscriptionId $subscriptionId -addons $addons
+        "SubscriptionId" {$res = Get-SubscriptionInner -SaToken $SaToken -TenantId $TenantId -SubscriptionId $SubscriptionId -addons $addons
                           return $res}
 
-        "partnerId"      {$res = Get-SubscriptionPartnerInner -saToken $saToken -tenantId $tenantId -partnerId $partnerId -size $size
+        "partnerId"      {$res = Get-SubscriptionPartnerInner -SaToken $SaToken -TenantId $TenantId -partnerId $partnerId -size $size
                           return $res}
 
-        "orderId"        {$res = Get-SubscriptionByOrderInner -saToken $saToken -tenantId $tenantId -orderId $orderId
+        "OrderId"        {$res = Get-SubscriptionByOrderInner -SaToken $SaToken -TenantId $TenantId -OrderId $OrderId
                           return $res}
 
-        "all"        {$res = Get-SubscriptionsAllInner -saToken $saToken -tenantId $tenantId
+        "all"        {$res = Get-SubscriptionsAllInner -SaToken $SaToken -TenantId $TenantId
                           return $res}
     }
 
@@ -156,19 +156,19 @@ function Get-PCSubscription
 
 .DESCRIPTION
 
-.PARAMETER saToken 
+.PARAMETER SaToken 
 
-.PARAMETER tenantId 
+.PARAMETER TenantId 
 
-.PARAMETER subscription 
+.PARAMETER Subscription 
 
-.PARAMETER status 
+.PARAMETER Status 
 
-.PARAMETER friendlyName 
+.PARAMETER FriendlyName 
 
-.PARAMETER autoRenewEnabled 
+.PARAMETER AutoRenewEnabled 
 
-.PARAMETER quantity 
+.PARAMETER Quantity 
 
 .EXAMPLE
 
@@ -178,29 +178,29 @@ function Set-PCSubscription
 {
     [CmdletBinding()]
     Param(
-        [Parameter(Mandatory = $false)][String]$tenantId=$GlobalCustomerID,
-        [Parameter(Mandatory = $true,ValueFromPipeline=$True,ValueFromPipelineByPropertyName=$True)][PSCustomObject]$subscription,
-        [Parameter(Mandatory = $false)][ValidateSet("none","active","suspended","deleted")][String]$status,
-        [Parameter(Mandatory = $false)][String]$friendlyName,
-        [Parameter(Mandatory = $false)][ValidateSet("enabled","disabled")][String]$autoRenewEnabled,
-        [Parameter(Mandatory = $false)][int]$quantity,
-        [Parameter(Mandatory = $false)][string]$saToken = $GlobalToken
+        [Parameter(Mandatory = $false)][String]$TenantId=$GlobalCustomerId,
+        [Parameter(Mandatory = $true,ValueFromPipeline=$True,ValueFromPipelineByPropertyName=$True)][PSCustomObject]$Subscription,
+        [Parameter(Mandatory = $false)][ValidateSet("none","active","suspended","deleted")][String]$Status,
+        [Parameter(Mandatory = $false)][String]$FriendlyName,
+        [Parameter(Mandatory = $false)][ValidateSet("enabled","disabled")][String]$AutoRenewEnabled,
+        [Parameter(Mandatory = $false)][int]$Quantity,
+        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
     )
-    _testTokenContext($saToken)
-    _testTenantContext ($tenantId)  
+    _testTokenContext($SaToken)
+    _testTenantContext ($TenantId)  
 
     $obj = @()
 
-    $actualSubscription = Get-PCSubscription -saToken $saToken -tenantId $tenantId -subscriptionId $subscription.Id
+    $actualSubscription = Get-PCSubscription -SaToken $SaToken -TenantId $TenantId -SubscriptionId $Subscription.Id
 
-    if($status)          {$actualSubscription.status = $status}
-    if($friendlyName){$actualSubscription.friendlyName = $friendlyName}
-    if($autoRenewEnabled -eq "enabled")    {$actualSubscription.autoRenewEnabled = $true}
-    if($autoRenewEnabled -eq "disabled")    {$actualSubscription.autoRenewEnabled = $false}
-    if(($quantity) -and ($actualSubscription.billingType -eq "license")) {$actualSubscription.quantity = $quantity}
+    if($Status)          {$actualSubscription.status = $status}
+    if($FriendlyName){$actualSubscription.friendlyName = $FriendlyName}
+    if($AutoRenewEnabled -eq "enabled")    {$actualSubscription.autoRenewEnabled = $true}
+    if($AutoRenewEnabled -eq "disabled")    {$actualSubscription.autoRenewEnabled = $false}
+    if(($Quantity) -and ($actualSubscription.billingType -eq "license")) {$actualSubscription.quantity = $quantity}
 
-    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/subscriptions/{1}" -f $tenantId, $subscription.Id
-    $headers = @{Authorization="Bearer $saToken"}
+    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/subscriptions/{1}" -f $TenantId, $Subscription.Id
+    $headers = @{Authorization="Bearer $SaToken"}
     $body = $actualSubscription | ConvertTo-Json -Depth 100
     $utf8body = [System.Text.Encoding]::UTF8.GetBytes($body)
 

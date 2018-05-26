@@ -52,26 +52,26 @@ class CompanyProfile
 
 class DefaultAddress
 {
-    [string] $country
+    [string] $Country
     [string] $region
-    [string] $city
-    [string] $state
-    [string] $addressLine1
-    [string] $addressLine2
-    [string] $postalCode
+    [string] $City
+    [string] $State
+    [string] $AddressLine1
+    [string] $AddressLine2
+    [string] $PostalCode
     [string] $FirstName
     [string] $LastName
     [string] $PhoneNumber
 
     #main constructor
-    DefaultAddress ([string] $country, [string] $region, [string] $city, [string] $state, [string] $addressLine1, `
-                [string] $postalCode, [string] $FirstName, [string] $LastName, [string] $PhoneNumber)
+    DefaultAddress ([string] $Country, [string] $region, [string] $City, [string] $State, [string] $AddressLine1, `
+                [string] $PostalCode, [string] $FirstName, [string] $LastName, [string] $PhoneNumber)
     {
-        $this.Country = $country
-        $this.City = $city
-        $this.State = $state
-        $this.addressLine1 = $addressLine1
-        $this.PostalCode = $postalCode
+        $this.Country = $Country
+        $this.City = $City
+        $this.State = $State
+        $this.AddressLine1 = $AddressLine1
+        $this.PostalCode = $PostalCode
         $this.FirstName = $FirstName
         $this.LastName = $LastName
         $this.PhoneNumber = $PhoneNumber
@@ -81,14 +81,14 @@ class DefaultAddress
         }
     }
 
-    DefaultAddress ([string] $country, [string] $region, [string] $city, [string] $state, [string] $addressLine1, `
-                [string] $postalCode)
+    DefaultAddress ([string] $Country, [string] $region, [string] $City, [string] $State, [string] $AddressLine1, `
+                [string] $PostalCode)
     {
-        $this.Country = $country
-        $this.City = $city
-        $this.State = $state
-        $this.addressLine1 = $addressLine1
-        $this.PostalCode = $postalCode
+        $this.Country = $Country
+        $this.City = $City
+        $this.State = $State
+        $this.AddressLine1 = $AddressLine1
+        $this.PostalCode = $PostalCode
 
         if(-not [string]::IsNullOrEmpty($region)) {
             $this.Region = $region            
@@ -111,9 +111,9 @@ class BillingProfile
     [Attributes] $Attributes
 
     #main constructors
-    BillingProfile ([string] $Email,[string] $Culture,[string] $Language,[string] $CompanyName, [string] $country, [string] $region, [string] $city, [string] $state, [string] $addressLine1,[string] $postalCode, [string] $FirstName, [string] $LastName, [string] $PhoneNumber)
+    BillingProfile ([string] $Email,[string] $Culture,[string] $Language,[string] $CompanyName, [string] $Country, [string] $region, [string] $City, [string] $State, [string] $AddressLine1,[string] $PostalCode, [string] $FirstName, [string] $LastName, [string] $PhoneNumber)
     {
-        $defaultAddresstmp = [DefaultAddress]::new($country, $region, $city,$state,$addressLine1,$postalCode,$FirstName,$LastName,$PhoneNumber)
+        $defaultAddresstmp = [DefaultAddress]::new($Country, $region, $City,$State,$AddressLine1,$PostalCode,$FirstName,$LastName,$PhoneNumber)
         $att_tmp = [Attributes]::new('BillingProfile')
 
         $this.FirstName = $FirstName
@@ -160,12 +160,12 @@ class Customer
 
     #main constructors
     Customer ([string] $Email,[string] $Culture,[string] $Language,[string] $CompanyName, `
-                [string] $country, [string] $region, [string] $city, [string] $state, [string] $addressLine1, `
-                [string] $postalCode, [string] $FirstName, [string] $LastName, [string] $PhoneNumber, `
+                [string] $Country, [string] $region, [string] $City, [string] $State, [string] $AddressLine1, `
+                [string] $PostalCode, [string] $FirstName, [string] $LastName, [string] $PhoneNumber, `
                 [string] $Domain)
     {
-        $defaultaddress_tmp = [DefaultAddress]::new($country,$region,$city,$state,$addressLine1, `
-                                                        $postalCode,$FirstName,$LastName,$PhoneNumber)
+        $defaultaddress_tmp = [DefaultAddress]::new($Country,$region,$City,$State,$AddressLine1, `
+                                                        $PostalCode,$FirstName,$LastName,$PhoneNumber)
 
         $billingprofile_tmp = [BillingProfile]::new($FirstName, $LastName, $Email,$Culture,$Language,$CompanyName,$defaultaddress_tmp)
 
@@ -204,33 +204,33 @@ class CustomerUser
     [string] $Id
     [string] $usageLocation
     [string] $userPrincipalName
-    [string] $firstName
-    [string] $lastName
+    [string] $FirstName
+    [string] $LastName
     [string] $displayName
     [CustomerUserPasswordProfile] $passwordProfile
     [Attributes] $Attributes
 
-    CustomerUser ([string]$usageLocation ,[string] $userPrincipalName,[string] $firstName,[string] $lastName,[string] $displayName,[SecureString] $password,[bool] $forceChangePassword)
+    CustomerUser ([string]$usageLocation ,[string] $userPrincipalName,[string] $FirstName,[string] $LastName,[string] $displayName,[SecureString] $password,[bool] $forceChangePassword)
     {
         $passwordProfile_tmp = [CustomerUserPasswordProfile]::new($password,$forceChangePassword)
         $att_tmp = [Attributes]::new('CustomerUser')
         $this.usageLocation = $usageLocation
         $this.userPrincipalName = $userPrincipalName
-        $this.firstName = $firstName
-        $this.lastName = $lastName
+        $this.FirstName = $FirstName
+        $this.LastName = $LastName
         $this.displayName = $displayName
         $this.passwordProfile = $passwordProfile_tmp
         $this.Attributes = $att_tmp
     }
 
     <#
-    CustomerUser([string]$usageLocation ,[string] $userPrincipalName,[string] $firstName,[string] $lastName,[string] $displayName,[CustomerUserPasswordProfile]$CustomerUserPasswordProfile)
+    CustomerUser([string]$usageLocation ,[string] $userPrincipalName,[string] $FirstName,[string] $LastName,[string] $displayName,[CustomerUserPasswordProfile]$CustomerUserPasswordProfile)
     {
         $att_tmp = [Attributes]::new('CustomerUser')
         $this.usageLocation = $usageLocation
         $this.userPrincipalName = $userPrincipalName
-        $this.firstName = $firstName
-        $this.lastName = $lastName
+        $this.FirstName = $FirstName
+        $this.LastName = $LastName
         $this.displayName = $displayName
         $this.passwordProfile = $CustomerUserPasswordProfile
         $this.Attributes = $att_tmp
@@ -362,7 +362,7 @@ class ServiceRequest
     [datetime]	$CreatedDate
     [datetime]	$LastModifiedDate
     [datetime]	$LastClosedDate
-    [string]	$countryCode
+    [string]	$CountryCode
     [Object]    $Attributes
     [FileInfo[]]                    $FileLinks
     [ServiceRequestNote]	        $NewNote

@@ -3,20 +3,20 @@
 ## Specify a customer ##
 
 ```powershell
-    $customer = Get-PCCustomer -tenantId '<tenant id GUID>'
+    $customer = Get-PCCustomer -TenantId '<tenant id GUID>'
 ```
 
 ## Get customer Billing Profile ##
 
 ```powershell
-    $customerBillingProfile = Get-PCCustomerBillingProfile -tenantId $customer.id
+    $customerBillingProfile = Get-PCCustomerBillingProfile -TenantId $customer.id
 ```
 
 ## Set customer Billing Profile ##
 
 ```powershell
-    $customerBillingProfile.firstName = '<first name>'
-    $customerBillingProfile.lastName = '<last name>'
-    $customerBillingProfile.email = '<email>'
-    Set-PCCustomerBillingProfile -tenantId $customer.id -billingprofile $customerBillingProfile
+    $customerBillingProfile.FirstName = '<first name>'
+    $customerBillingProfile.LastName = '<last name>'
+    $customerBillingProfile.Email = '<Email>'
+    Set-PCCustomerBillingProfile -TenantId $customer.id -billingprofile $customerBillingProfile
 ```

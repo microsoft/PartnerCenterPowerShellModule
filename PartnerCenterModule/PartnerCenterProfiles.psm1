@@ -17,7 +17,7 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 
 .DESCRIPTION
 
-.PARAMETER saToken 
+.PARAMETER SaToken 
 
 .EXAMPLE
 
@@ -26,14 +26,14 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 function Get-PCLegalBusinessProfile {
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory = $false)][string]$saToken = $GlobalToken
+        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
     )
-    _testTokenContext($saToken)
+    _testTokenContext($SaToken)
 
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/profiles/legalbusiness"
-    $headers = @{Authorization = "Bearer $saToken"}
+    $headers = @{Authorization = "Bearer $SaToken"}
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj += $response.Substring(1) | ConvertFrom-Json
@@ -45,7 +45,7 @@ function Get-PCLegalBusinessProfile {
 
 .DESCRIPTION
 
-.PARAMETER saToken 
+.PARAMETER SaToken 
 
 .EXAMPLE
 
@@ -54,14 +54,14 @@ function Get-PCLegalBusinessProfile {
 function Get-PCOrganizationProfile {
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory = $false)][string]$saToken = $GlobalToken
+        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
     )
-    _testTokenContext($saToken)
+    _testTokenContext($SaToken)
 
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/profiles/organization"
-    $headers = @{Authorization = "Bearer $saToken"}
+    $headers = @{Authorization = "Bearer $SaToken"}
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj += $response.Substring(1) | ConvertFrom-Json
@@ -73,7 +73,7 @@ function Get-PCOrganizationProfile {
 
 .DESCRIPTION
 
-.PARAMETER saToken 
+.PARAMETER SaToken 
 
 .EXAMPLE
 
@@ -82,14 +82,14 @@ function Get-PCOrganizationProfile {
 function Get-PCBillingProfile {
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory = $false)][string]$saToken = $GlobalToken
+        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
     )
-    _testTokenContext($saToken)
+    _testTokenContext($SaToken)
 
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/profiles/billing"
-    $headers = @{Authorization = "Bearer $saToken"}
+    $headers = @{Authorization = "Bearer $SaToken"}
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj += $response.Substring(1) | ConvertFrom-Json
@@ -101,9 +101,9 @@ function Get-PCBillingProfile {
 
 .DESCRIPTION
 
-.PARAMETER saToken 
+.PARAMETER SaToken 
 
-.PARAMETER mpnId 
+.PARAMETER MpnId 
 
 .EXAMPLE
 
@@ -112,21 +112,21 @@ function Get-PCBillingProfile {
 function Get-PCMpnProfile {
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory = $false)][string]$mpnId,
-        [Parameter(Mandatory = $false)][string]$saToken = $GlobalToken
+        [Parameter(Mandatory = $false)][string]$MpnId,
+        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
     )
-    _testTokenContext($saToken)
+    _testTokenContext($SaToken)
 
     $obj = @()
 
     if ($mpnId) {
-        $url = "https://api.partnercenter.microsoft.com/v1/profiles/partnernetworkprofile?mpnId={0}" -f $mpnId
+        $url = "https://api.partnercenter.microsoft.com/v1/profiles/partnernetworkprofile?mpnId={0}" -f $MpnId
     }
     else {
         $url = "https://api.partnercenter.microsoft.com/v1/profiles/mpn"
     }
     
-    $headers = @{Authorization = "Bearer $saToken"}
+    $headers = @{Authorization = "Bearer $SaToken"}
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj += $response.Substring(1) | ConvertFrom-Json
@@ -138,7 +138,7 @@ function Get-PCMpnProfile {
 
 .DESCRIPTION
 
-.PARAMETER saToken 
+.PARAMETER SaToken 
 
 .EXAMPLE
 
@@ -147,14 +147,14 @@ function Get-PCMpnProfile {
 function Get-PCSupportProfile {
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory = $false)][string]$saToken = $GlobalToken
+        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
     )
-    _testTokenContext($saToken)
+    _testTokenContext($SaToken)
 
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/profiles/support"
-    $headers = @{Authorization = "Bearer $saToken"}
+    $headers = @{Authorization = "Bearer $SaToken"}
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj += $response.Substring(1) | ConvertFrom-Json
@@ -166,27 +166,27 @@ function Get-PCSupportProfile {
 
 .DESCRIPTION
 
-.PARAMETER saToken 
+.PARAMETER SaToken 
 
-.PARAMETER country 
+.PARAMETER Country 
 
-.PARAMETER addressLine1 
+.PARAMETER AddressLine1 
 
-.PARAMETER addressLine2 
+.PARAMETER AddressLine2 
 
-.PARAMETER city 
+.PARAMETER City 
 
-.PARAMETER state 
+.PARAMETER State 
 
-.PARAMETER postalCode 
+.PARAMETER PostalCode 
 
-.PARAMETER primaryContactFirstName 
+.PARAMETER PrimaryContactFirstName 
 
-.PARAMETER primaryContactLastName 
+.PARAMETER PrimaryContactLastName 
 
-.PARAMETER primaryContactPhoneNumber 
+.PARAMETER PrimaryContactPhoneNumber 
 
-.PARAMETER primaryContactEmail 
+.PARAMETER PrimaryContactEmail 
 
 .EXAMPLE
 
@@ -196,44 +196,44 @@ function Set-PCLegalBusinessProfile {
     [CmdletBinding()]
     param(
         #write properties
-        [Parameter(Mandatory = $false)][string]$country,
-        [Parameter(Mandatory = $false)][string]$addressLine1,
-        [Parameter(Mandatory = $false)][string]$addressLine2,
-        [Parameter(Mandatory = $false)][string]$city,
-        [Parameter(Mandatory = $false)][string]$state,
-        [Parameter(Mandatory = $false)][string]$postalCode,
-        [Parameter(Mandatory = $false)][string]$primaryContactFirstName,
-        [Parameter(Mandatory = $false)][string]$primaryContactLastName,
-        [Parameter(Mandatory = $false)][string]$primaryContactPhoneNumber,
-        [Parameter(Mandatory = $false)][string]$primaryContactEmail,
-        [Parameter(Mandatory = $false)][string]$saToken = $GlobalToken
+        [Parameter(Mandatory = $false)][string]$Country,
+        [Parameter(Mandatory = $false)][string]$AddressLine1,
+        [Parameter(Mandatory = $false)][string]$AddressLine2,
+        [Parameter(Mandatory = $false)][string]$City,
+        [Parameter(Mandatory = $false)][string]$State,
+        [Parameter(Mandatory = $false)][string]$PostalCode,
+        [Parameter(Mandatory = $false)][string]$PrimaryContactFirstName,
+        [Parameter(Mandatory = $false)][string]$PrimaryContactLastName,
+        [Parameter(Mandatory = $false)][string]$PrimaryContactPhoneNumber,
+        [Parameter(Mandatory = $false)][string]$PrimaryContactEmail,
+        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
 
         #read-only properties
         #$primarycontactfirstname,#$primarycontactlastname,#$primarycontactphonenumber,
         #companyApproverAddress property
-        #$country_approver,#$addressLine1_approver,#$addressLine2_approver,#$city_approver,#$state_approver,#$postalcode_approver,
+        #$Country_approver,#$AddressLine1_approver,#$AddressLine2_approver,#$city_approver,#$state_approver,#$postalcode_approver,
         #companyApproverEmail property
         #$email_approver
     )
-    _testTokenContext($saToken)
+    _testTokenContext($SaToken)
 
     $obj = @()
 
-    $actualLegalBP = Get-PCLegalBusinessProfile -saToken $saToken
+    $actualLegalBP = Get-PCLegalBusinessProfile -SaToken $SaToken
 
-    if ($addressLine1) {$actualLegalBP.address.addressLine1 = $addressLine1}
-    if ($addressLine2) {$actualLegalBP.address.addressLine2 = $addressLine2}
-    if ($country) {$actualLegalBP.address.country = $country}
-    if ($city) {$actualLegalBP.address.city = $city}
-    if ($state) {$actualLegalBP.address.state = $state}
-    if ($postalCode) {$actualLegalBP.address.postalCode = $postalCode}
-    if ($primaryContactFirstName) {$actualLegalBP.address.firstName = $primaryContactFirstName}
-    if ($primaryContactLastName) {$actualLegalBP.address.lastName = $primaryContactLastName}
-    if ($primaryContactPhoneNumber) {$actualLegalBP.address.phoneNumber = $primaryContactPhoneNumber}
-    if ($primaryContactEmail) {$actualLegalBP.primaryContact.email = $primaryContactEmail}
+    if ($AddressLine1) {$actualLegalBP.address.AddressLine1 = $AddressLine1}
+    if ($AddressLine2) {$actualLegalBP.address.AddressLine2 = $AddressLine2}
+    if ($Country) {$actualLegalBP.address.Country = $Country}
+    if ($City) {$actualLegalBP.address.City = $City}
+    if ($State) {$actualLegalBP.address.State = $State}
+    if ($PostalCode) {$actualLegalBP.address.PostalCode = $PostalCode}
+    if ($PrimaryContactFirstName) {$actualLegalBP.address.FirstName = $PrimaryContactFirstName}
+    if ($PrimaryContactLastName) {$actualLegalBP.address.LastName = $PrimaryContactLastName}
+    if ($PrimaryContactPhoneNumber) {$actualLegalBP.address.PhoneNumber = $PrimaryContactPhoneNumber}
+    if ($PrimaryContactEmail) {$actualLegalBP.primaryContact.Email = $PrimaryContactEmail}
 
     $url = "https://api.partnercenter.microsoft.com/v1/profiles/legalbusiness"
-    $headers = @{Authorization = "Bearer $saToken"}
+    $headers = @{Authorization = "Bearer $SaToken"}
 
     $body = $actualLegalBP | ConvertTo-Json -Depth 100
     $utf8body = [System.Text.Encoding]::UTF8.GetBytes($body)
@@ -248,29 +248,29 @@ function Set-PCLegalBusinessProfile {
 
 .DESCRIPTION
 
-.PARAMETER saToken 
+.PARAMETER SaToken 
 
-.PARAMETER companyName 
+.PARAMETER CompanyName 
 
-.PARAMETER country 
+.PARAMETER Country 
 
-.PARAMETER addressLine1 
+.PARAMETER AddressLine1 
 
-.PARAMETER city 
+.PARAMETER City 
 
-.PARAMETER state 
+.PARAMETER State 
 
-.PARAMETER postalCode 
+.PARAMETER PostalCode 
 
-.PARAMETER firstName 
+.PARAMETER FirstName 
 
-.PARAMETER lastName 
+.PARAMETER LastName 
 
-.PARAMETER phoneNumber 
+.PARAMETER PhoneNumber 
 
-.PARAMETER email 
+.PARAMETER Email 
 
-.PARAMETER language 
+.PARAMETER Language 
 
 .EXAMPLE
 
@@ -280,39 +280,39 @@ function Set-PCOrganizationProfile {
     [CmdletBinding()]
     param(
         #write properties
-        [Parameter(Mandatory = $false)][string]$companyName,
-        [Parameter(Mandatory = $false)][string]$country,
-        [Parameter(Mandatory = $false)][string]$addressLine1,
-        [Parameter(Mandatory = $false)][string]$city,
-        [Parameter(Mandatory = $false)][string]$state,
-        [Parameter(Mandatory = $false)][string]$postalCode,
-        [Parameter(Mandatory = $false)][string]$firstName,
-        [Parameter(Mandatory = $false)][string]$lastName,
-        [Parameter(Mandatory = $false)][string]$phoneNumber,
-        [Parameter(Mandatory = $false)][string]$email,
-        [Parameter(Mandatory = $false)][string]$language,
-        [Parameter(Mandatory = $false)][string]$saToken = $GlobalToken
+        [Parameter(Mandatory = $false)][string]$CompanyName,
+        [Parameter(Mandatory = $false)][string]$Country,
+        [Parameter(Mandatory = $false)][string]$AddressLine1,
+        [Parameter(Mandatory = $false)][string]$City,
+        [Parameter(Mandatory = $false)][string]$State,
+        [Parameter(Mandatory = $false)][string]$PostalCode,
+        [Parameter(Mandatory = $false)][string]$FirstName,
+        [Parameter(Mandatory = $false)][string]$LastName,
+        [Parameter(Mandatory = $false)][string]$PhoneNumber,
+        [Parameter(Mandatory = $false)][string]$Email,
+        [Parameter(Mandatory = $false)][string]$Language,
+        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
     )
-    _testTokenContext($saToken)
+    _testTokenContext($SaToken)
 
     $obj = @()
 
-    $actualOrganizationP = Get-PCOrganizationProfile -saToken $saToken
+    $actualOrganizationP = Get-PCOrganizationProfile -SaToken $SaToken
 
-    if ($companyName) {$actualOrganizationP.companyName = $companyName}
-    if ($addressLine1) {$actualOrganizationP.defaultAddress.addressLine1 = $addressLine1}
-    if ($city) {$actualOrganizationP.defaultAddress.city = $city}
-    if ($state) {$actualOrganizationP.defaultAddress.state = $state}
-    if ($postalCode) {$actualOrganizationP.defaultAddress.postalCode = $postalCode}
-    if ($country) {$actualOrganizationP.defaultAddress.country = $country}
-    if ($firstName) {$actualOrganizationP.defaultAddress.firstName = $firstName}
-    if ($lastName) {$actualOrganizationP.defaultAddress.lastName = $lastName}
-    if ($phoneNumber) {$actualOrganizationP.defaultAddress.phoneNumber = $phoneNumber}
-    if ($email) {$actualOrganizationP.email = $email}
-    if ($language) {$actualOrganizationP.language = $language}
+    if ($CompanyName) {$actualOrganizationP.CompanyName = $CompanyName}
+    if ($AddressLine1) {$actualOrganizationP.defaultAddress.AddressLine1 = $AddressLine1}
+    if ($City) {$actualOrganizationP.defaultAddress.City = $City}
+    if ($State) {$actualOrganizationP.defaultAddress.State = $State}
+    if ($PostalCode) {$actualOrganizationP.defaultAddress.PostalCode = $PostalCode}
+    if ($Country) {$actualOrganizationP.defaultAddress.Country = $Country}
+    if ($FirstName) {$actualOrganizationP.defaultAddress.FirstName = $FirstName}
+    if ($LastName) {$actualOrganizationP.defaultAddress.LastName = $LastName}
+    if ($PhoneNumber) {$actualOrganizationP.defaultAddress.PhoneNumber = $PhoneNumber}
+    if ($Email) {$actualOrganizationP.Email = $Email}
+    if ($Language) {$actualOrganizationP.Language = $Language}
 
     $url = "https://api.partnercenter.microsoft.com/v1/profiles/organization"
-    $headers = @{Authorization = "Bearer $saToken"}
+    $headers = @{Authorization = "Bearer $SaToken"}
 
     $body = $actualOrganizationP | ConvertTo-Json -Depth 100
     $utf8body = [System.Text.Encoding]::UTF8.GetBytes($body)
@@ -327,23 +327,23 @@ function Set-PCOrganizationProfile {
 
 .DESCRIPTION
 
-.PARAMETER saToken 
+.PARAMETER SaToken 
 
-.PARAMETER addressLine1 
+.PARAMETER AddressLine1 
 
-.PARAMETER addressLine2
+.PARAMETER AddressLine2
 
-.PARAMETER city 
+.PARAMETER City 
 
-.PARAMETER state 
+.PARAMETER State 
 
-.PARAMETER postalCode 
+.PARAMETER PostalCode 
 
-.PARAMETER firstName 
+.PARAMETER FirstName 
 
-.PARAMETER lastName 
+.PARAMETER LastName 
 
-.PARAMETER phoneNumber 
+.PARAMETER PhoneNumber 
 
 .EXAMPLE
 
@@ -353,38 +353,38 @@ function Set-PCBillingProfile {
     [CmdletBinding()]
     param(
         #write properties
-        [Parameter(Mandatory = $false)][string]$country,
-        [Parameter(Mandatory = $false)][string]$addressLine1,
-        [Parameter(Mandatory = $false)][string]$addressLine2,
-        [Parameter(Mandatory = $false)][string]$city,
-        [Parameter(Mandatory = $false)][string]$state,
-        [Parameter(Mandatory = $false)][string]$postalCode,
-        [Parameter(Mandatory = $false)][string]$firstName,
-        [Parameter(Mandatory = $false)][string]$lastName,
-        [Parameter(Mandatory = $false)][string]$phoneNumber,
-        [Parameter(Mandatory = $false)][string]$saToken = $GlobalToken
+        [Parameter(Mandatory = $false)][string]$Country,
+        [Parameter(Mandatory = $false)][string]$AddressLine1,
+        [Parameter(Mandatory = $false)][string]$AddressLine2,
+        [Parameter(Mandatory = $false)][string]$City,
+        [Parameter(Mandatory = $false)][string]$State,
+        [Parameter(Mandatory = $false)][string]$PostalCode,
+        [Parameter(Mandatory = $false)][string]$FirstName,
+        [Parameter(Mandatory = $false)][string]$LastName,
+        [Parameter(Mandatory = $false)][string]$PhoneNumber,
+        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
 
         #read-only properties
         #$tax_id,$billingCurrency
     )
-    _testTokenContext($saToken)
+    _testTokenContext($SaToken)
 
     $obj = @()
 
-    $actualBillingP = Get-PCBillingProfile -saToken $saToken
+    $actualBillingP = Get-PCBillingProfile -SaToken $SaToken
 
-    if ($addressLine1) {$actualBillingP.address.addressLine1 = $addressLine1}
-    if ($addressLine2) {$actualBillingP.address.addressLine2 = $addressLine2}
-    if ($city) {$actualBillingP.address.city = $city}
-    if ($state) {$actualBillingP.address.state = $state}
-    if ($postalCode) {$actualBillingP.address.postalCode = $postalCode}
-    if ($country) {$actualBillingP.address.country = $country}
-    if ($firstName) {$actualBillingP.primaryContact.firstName = $firstName}
-    if ($lastName) {$actualBillingP.primaryContact.lastName = $lastName}
-    if ($phoneNumber) {$actualBillingP.primaryContact.phoneNumber = $phoneNumber}
+    if ($AddressLine1) {$actualBillingP.address.AddressLine1 = $AddressLine1}
+    if ($AddressLine2) {$actualBillingP.address.AddressLine2 = $AddressLine2}
+    if ($City) {$actualBillingP.address.City = $City}
+    if ($State) {$actualBillingP.address.State = $State}
+    if ($PostalCode) {$actualBillingP.address.PostalCode = $PostalCode}
+    if ($Country) {$actualBillingP.address.Country = $Country}
+    if ($FirstName) {$actualBillingP.primaryContact.FirstName = $FirstName}
+    if ($LastName) {$actualBillingP.primaryContact.LastName = $LastName}
+    if ($PhoneNumber) {$actualBillingP.primaryContact.PhoneNumber = $PhoneNumber}
 
     $url = "https://api.partnercenter.microsoft.com/v1/profiles/billing"
-    $headers = @{Authorization = "Bearer $saToken"}
+    $headers = @{Authorization = "Bearer $SaToken"}
 
     $body = $actualBillingP | ConvertTo-Json -Depth 100
     $utf8body = [System.Text.Encoding]::UTF8.GetBytes($body)
@@ -399,13 +399,13 @@ function Set-PCBillingProfile {
 
 .DESCRIPTION
 
-.PARAMETER saToken 
+.PARAMETER SaToken 
 
-.PARAMETER website 
+.PARAMETER Website 
 
-.PARAMETER email 
+.PARAMETER Email 
 
-.PARAMETER phoen 
+.PARAMETER Phone 
 
 .EXAMPLE
 
@@ -415,23 +415,23 @@ function Set-PCSupportProfile {
     [CmdletBinding()]
     param(
         #write properties
-        [Parameter(Mandatory = $false)][string]$website,
-        [Parameter(Mandatory = $false)][string]$email,
-        [Parameter(Mandatory = $false)][string]$phone,
-        [Parameter(Mandatory = $false)][string]$saToken = $GlobalToken
+        [Parameter(Mandatory = $false)][string]$Website,
+        [Parameter(Mandatory = $false)][string]$Email,
+        [Parameter(Mandatory = $false)][string]$Phone,
+        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
     )
-    _testTokenContext($saToken)
+    _testTokenContext($SaToken)
 
     $obj = @()
 
-    $actualSupportProfile = Get-PCSupportProfile -saToken $saToken
+    $actualSupportProfile = Get-PCSupportProfile -SaToken $SaToken
 
     if ($website) {$actualSupportProfile.website = $website}
-    if ($email) {$actualSupportProfile.email = $email}
+    if ($Email) {$actualSupportProfile.Email = $Email}
     if ($phone) {$actualSupportProfile.telephone = $phone}
 
     $url = "https://api.partnercenter.microsoft.com/v1/profiles/support"
-    $headers = @{Authorization = "Bearer $saToken"}
+    $headers = @{Authorization = "Bearer $SaToken"}
 
     $body = $actualSupportProfile | ConvertTo-Json -Depth 100
     $utf8body = [System.Text.Encoding]::UTF8.GetBytes($body)
@@ -446,9 +446,9 @@ function Set-PCSupportProfile {
 
 .DESCRIPTION
 
-.PARAMETER saToken 
+.PARAMETER SaToken 
 
-.PARAMETER tenantId 
+.PARAMETER TenantId 
 
 .EXAMPLE
 
@@ -457,17 +457,17 @@ function Set-PCSupportProfile {
 function Get-PCCustomerBillingProfile {
     [CmdletBinding()]
     param  (
-        [Parameter(Mandatory = $false)][String]$tenantId = $GlobalCustomerID,
-        [Parameter(Mandatory = $false)][string]$saToken = $GlobalToken
+        [Parameter(Mandatory = $false)][String]$TenantId = $GlobalCustomerId,
+        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
     )
 
-    _testTokenContext($saToken)
-    _testTenantContext ($tenantId)
+    _testTokenContext($SaToken)
+    _testTenantContext ($TenantId)
 
     $obj = @()
 
-    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/profiles/billing" -f $tenantId
-    $headers = @{Authorization = "Bearer $saToken"}
+    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/profiles/billing" -f $TenantId
+    $headers = @{Authorization = "Bearer $SaToken"}
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj += $response.Substring(1) | ConvertFrom-Json
@@ -479,11 +479,11 @@ function Get-PCCustomerBillingProfile {
 
 .DESCRIPTION
 
-.PARAMETER saToken 
+.PARAMETER SaToken 
 
-.PARAMETER tenantId 
+.PARAMETER TenantId 
 
-.PARAMETER billingProfile 
+.PARAMETER BillingProfile 
 
 .EXAMPLE
 
@@ -492,18 +492,18 @@ function Get-PCCustomerBillingProfile {
 function Set-PCCustomerBillingProfile {
     [CmdletBinding()]
     param  (
-        [Parameter(Mandatory = $false)][String]$tenantId = $GlobalCustomerID,
-        [Parameter(Mandatory = $true, ValueFromPipeline = $True, ValueFromPipelineByPropertyName = $True)][PSCustomObject]$billingProfile,
-        [Parameter(Mandatory = $false)][string]$saToken = $GlobalToken
+        [Parameter(Mandatory = $false)][String]$TenantId = $GlobalCustomerId,
+        [Parameter(Mandatory = $true, ValueFromPipeline = $True, ValueFromPipelineByPropertyName = $True)][PSCustomObject]$BillingProfile,
+        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
     )
-    _testTokenContext($saToken)
-    _testTenantContext ($tenantId)
+    _testTokenContext($SaToken)
+    _testTenantContext ($TenantId)
 
     $obj = @()
 
-    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/profiles/billing" -f $tenantId
-    $headers = @{Authorization = "Bearer $saToken"}
-    $body = $billingprofile | ConvertTo-Json -Depth 100
+    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/profiles/billing" -f $TenantId
+    $headers = @{Authorization = "Bearer $SaToken"}
+    $body = $Billingprofile | ConvertTo-Json -Depth 100
     $utf8body = [System.Text.Encoding]::UTF8.GetBytes($body)
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Body $utf8body -Method "PUT" #-Debug -Verbose
@@ -516,9 +516,9 @@ function Set-PCCustomerBillingProfile {
 
 .DESCRIPTION
 
-.PARAMETER saToken 
+.PARAMETER SaToken 
 
-.PARAMETER tenantId 
+.PARAMETER TenantId 
 
 .EXAMPLE
 
@@ -527,16 +527,16 @@ function Set-PCCustomerBillingProfile {
 function Get-PCCustomerCompanyProfile {
     [CmdletBinding()]
     param  (
-        [Parameter(Mandatory = $false)][String]$tenantId = $GlobalCustomerID,
-        [Parameter(Mandatory = $false)][string]$saToken = $GlobalToken
+        [Parameter(Mandatory = $false)][String]$TenantId = $GlobalCustomerId,
+        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
     )
-    _testTokenContext($saToken)
-    _testTenantContext ($tenantId)
+    _testTokenContext($SaToken)
+    _testTenantContext ($TenantId)
 
     $obj = @()
 
-    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/profiles/company" -f $tenantId
-    $headers = @{Authorization = "Bearer $saToken"}
+    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/profiles/company" -f $TenantId
+    $headers = @{Authorization = "Bearer $SaToken"}
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj += $response.Substring(1) | ConvertFrom-Json
@@ -548,33 +548,33 @@ function Get-PCCustomerCompanyProfile {
 
 .DESCRIPTION
 
-.PARAMETER saToken 
+.PARAMETER SaToken 
 
-.PARAMETER firstName 
+.PARAMETER FirstName 
 
-.PARAMETER lastName
+.PARAMETER LastName
 
-.PARAMETER email 
+.PARAMETER Email 
 
-.PARAMETER culture 
+.PARAMETER Culture 
 
-.PARAMETER language 
+.PARAMETER Language 
 
-.PARAMETER companyName
+.PARAMETER CompanyName
 
-.PARAMETER country
+.PARAMETER Country
 
 .PARAMETER region 
 
-.PARAMETER city 
+.PARAMETER City 
 
-.PARAMETER state
+.PARAMETER State
 
 .PARAMETER addressline1
 
-.PARAMETER postalCode 
+.PARAMETER PostalCode 
 
-.PARAMETER phoneNumber 
+.PARAMETER PhoneNumber 
 
 .PARAMETER defaultAddress
 
@@ -585,28 +585,28 @@ function Get-PCCustomerCompanyProfile {
 function New-PCCustomerBillingProfile {
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory = $true)][string]$firstName,
-        [Parameter(Mandatory = $true)][string]$lastName,
-        [Parameter(Mandatory = $true)][string]$email,
-        [Parameter(Mandatory = $true)][string]$culture,
-        [Parameter(Mandatory = $true)][string]$language,
-        [Parameter(Mandatory = $true)][string]$companyName,
-        [Parameter(ParameterSetName = 'AllDetails', Mandatory = $true)][string]$country, 
-        [Parameter(ParameterSetName = 'AllDetails', Mandatory = $false)][string]$region = $null,
-        [Parameter(ParameterSetName = 'AllDetails', Mandatory = $true)][string]$city, 
-        [Parameter(ParameterSetName = 'AllDetails', Mandatory = $true)][string]$state, 
-        [Parameter(ParameterSetName = 'AllDetails', Mandatory = $true)][string]$addressLine1,
-        [Parameter(ParameterSetName = 'AllDetails', Mandatory = $true)][string]$postalCode, 
-        [Parameter(ParameterSetName = 'AllDetails', Mandatory = $true)][string]$phoneNumber,
-        [Parameter(ParameterSetName = 'DefaultAddress', Mandatory = $true)][DefaultAddress]$defaultAddress
+        [Parameter(Mandatory = $true)][string]$FirstName,
+        [Parameter(Mandatory = $true)][string]$LastName,
+        [Parameter(Mandatory = $true)][string]$Email,
+        [Parameter(Mandatory = $true)][string]$Culture,
+        [Parameter(Mandatory = $true)][string]$Language,
+        [Parameter(Mandatory = $true)][string]$CompanyName,
+        [Parameter(ParameterSetName = 'AllDetails', Mandatory = $true)][string]$Country, 
+        [Parameter(ParameterSetName = 'AllDetails', Mandatory = $false)][string]$Region = $null,
+        [Parameter(ParameterSetName = 'AllDetails', Mandatory = $true)][string]$City, 
+        [Parameter(ParameterSetName = 'AllDetails', Mandatory = $true)][string]$State, 
+        [Parameter(ParameterSetName = 'AllDetails', Mandatory = $true)][string]$AddressLine1,
+        [Parameter(ParameterSetName = 'AllDetails', Mandatory = $true)][string]$PostalCode, 
+        [Parameter(ParameterSetName = 'AllDetails', Mandatory = $true)][string]$PhoneNumber,
+        [Parameter(ParameterSetName = 'DefaultAddress', Mandatory = $true)][DefaultAddress]$DefaultAddress
     )
 
     switch ($PsCmdlet.ParameterSetName) {
         'AllDetails' {
-            $billingProfile = [BillingProfile]::new($email, $culture, $language, $companyName, $country, $region, $city, $state, $addressLine1, `
-                    $postalCode, $firstName, $lastName, $phoneNumber) 
+            $billingProfile = [BillingProfile]::new($Email, $Culture, $Language, $CompanyName, $Country, $region, $City, $State, $AddressLine1, `
+                    $PostalCode, $FirstName, $LastName, $PhoneNumber) 
         }
-        'DefaultAddress' { $billingProfile = [BillingProfile]::new($firstName, $lastName, $email, $culture, $language, $companyName, $defaultAddress)}
+        'DefaultAddress' { $billingProfile = [BillingProfile]::new($FirstName, $LastName, $Email, $Culture, $Language, $CompanyName, $DefaultAddress)}
     }
 
     return $billingProfile
@@ -617,23 +617,23 @@ function New-PCCustomerBillingProfile {
 
 .DESCRIPTION
 
-.PARAMETER country 
+.PARAMETER Country 
 
-.PARAMETER region 
+.PARAMETER Region 
 
-.PARAMETER city 
+.PARAMETER City 
 
-.PARAMETER state 
+.PARAMETER State 
 
-.PARAMETER addressLine1 
+.PARAMETER AddressLine1 
 
-.PARAMETER postalCode 
+.PARAMETER PostalCode 
 
-.PARAMETER firstName 
+.PARAMETER FirstName 
 
-.PARAMETER lastName 
+.PARAMETER LastName 
 
-.PARAMETER phoneNumber 
+.PARAMETER PhoneNumber 
 
 .EXAMPLE
 
@@ -642,18 +642,18 @@ function New-PCCustomerBillingProfile {
 function New-PCCustomerDefaultAddress {
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory = $true)][string]$country, 
-        [Parameter(Mandatory = $false)][string]$region = $null, 
-        [Parameter(Mandatory = $true)][string]$city, 
-        [Parameter(Mandatory = $true)][string]$state, 
-        [Parameter(Mandatory = $true)][string]$addressLine1,
-        [Parameter(Mandatory = $true)][string]$postalCode, 
-        [Parameter(Mandatory = $true)][string]$firstName,
-        [Parameter(Mandatory = $true)][string]$lastName, 
-        [Parameter(Mandatory = $true)][string]$phoneNumber
+        [Parameter(Mandatory = $true)][string]$Country, 
+        [Parameter(Mandatory = $false)][string]$Region = $null, 
+        [Parameter(Mandatory = $true)][string]$City, 
+        [Parameter(Mandatory = $true)][string]$State, 
+        [Parameter(Mandatory = $true)][string]$AddressLine1,
+        [Parameter(Mandatory = $true)][string]$PostalCode, 
+        [Parameter(Mandatory = $true)][string]$FirstName,
+        [Parameter(Mandatory = $true)][string]$LastName, 
+        [Parameter(Mandatory = $true)][string]$PhoneNumber
     )
     
-    $DefaultAddress = [DefaultAddress]::new($country, $region, $city, $state, $addressLine1, $postalCode, $firstName, $lastName, $phoneNumber)
+    $DefaultAddress = [DefaultAddress]::new($Country, $Region, $City, $State, $AddressLine1, $PostalCode, $FirstName, $LastName, $PhoneNumber)
     return $DefaultAddress
 }
 
@@ -683,19 +683,19 @@ function New-PCCustomerCompanyProfile {
 
 .DESCRIPTION
 
-.PARAMETER addressLine1 
+.PARAMETER AddressLine1 
 
-.PARAMETER addressLine2 
+.PARAMETER AddressLine2 
 
-.PARAMETER city 
+.PARAMETER City 
 
-.PARAMETER state 
+.PARAMETER State 
 
-.PARAMETER postalCode 
+.PARAMETER PostalCode 
 
-.PARAMETER country 
+.PARAMETER Country 
 
-.PARAMETER region 
+.PARAMETER Region 
 
 .EXAMPLE
 
@@ -704,17 +704,17 @@ function New-PCCustomerCompanyProfile {
 function New-PCAddress {
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory = $true)][string]$addressLine1,
-        [Parameter(Mandatory = $false)][string]$addressLine2,
-        [Parameter(Mandatory = $true)][string]$city, 
-        [Parameter(Mandatory = $true)][string]$state, 
-        [Parameter(Mandatory = $true)][string]$postalCode, 
-        [Parameter(Mandatory = $true)][string]$country,
-        [Parameter(Mandatory = $false)][string]$region = $null
+        [Parameter(Mandatory = $true)][string]$AddressLine1,
+        [Parameter(Mandatory = $false)][string]$AddressLine2,
+        [Parameter(Mandatory = $true)][string]$City, 
+        [Parameter(Mandatory = $true)][string]$State, 
+        [Parameter(Mandatory = $true)][string]$PostalCode, 
+        [Parameter(Mandatory = $true)][string]$Country,
+        [Parameter(Mandatory = $false)][string]$Region = $null
     )
     
-    $address = [DefaultAddress]::new($country, $region, $city, $state, $addressLine1, $postalCode)
-    if ($addressLine2) {$address.addressLine2 = $addressLine2}
+    $address = [DefaultAddress]::new($Country, $Region, $City, $State, $AddressLine1, $PostalCode)
+    if ($AddressLine2) {$address.AddressLine2 = $AddressLine2}
     return $address
 }
 
@@ -723,21 +723,21 @@ function New-PCAddress {
 
 .DESCRIPTION
 
-.PARAMETER saToken 
+.PARAMETER SaToken 
 
-.PARAMETER address 
+.PARAMETER Address 
 
-.PARAMETER addressLine1 
+.PARAMETER AddressLine1 
 
-.PARAMETER addressLine2 
+.PARAMETER AddressLine2 
 
-.PARAMETER city 
+.PARAMETER City 
 
-.PARAMETER state 
+.PARAMETER State 
 
-.PARAMETER postalCode 
+.PARAMETER PostalCode 
 
-.PARAMETER country
+.PARAMETER Country
 
 .EXAMPLE
 
@@ -746,28 +746,30 @@ function New-PCAddress {
 function Test-PCAddress {
     [CmdletBinding()]
     param ( 
-        [Parameter(ParameterSetName = 'ByObject', Mandatory = $true)][DefaultAddress] $address,
-        [Parameter(ParameterSetName = 'AllDetails', Mandatory = $true)][string] $addressLine1,
-        [Parameter(ParameterSetName = 'AllDetails', Mandatory = $false)][string] $addressLine2,
-        [Parameter(ParameterSetName = 'AllDetails', Mandatory = $true)][string] $city, 
-        [Parameter(ParameterSetName = 'AllDetails', Mandatory = $true)][string] $state, 
-        [Parameter(ParameterSetName = 'AllDetails', Mandatory = $true)][string] $postalCode, 
-        [Parameter(ParameterSetName = 'AllDetails', Mandatory = $true)][string] $country, 
-        [Parameter(Mandatory = $false)][string]$saToken = $GlobalToken
+        [Parameter(ParameterSetName = 'ByObject', Mandatory = $true)][DefaultAddress] $Address,
+        [Parameter(ParameterSetName = 'AllDetails', Mandatory = $true)][string] $AddressLine1,
+        [Parameter(ParameterSetName = 'AllDetails', Mandatory = $false)][string] $AddressLine2,
+        [Parameter(ParameterSetName = 'AllDetails', Mandatory = $true)][string] $City, 
+        [Parameter(ParameterSetName = 'AllDetails', Mandatory = $true)][string] $State, 
+        [Parameter(ParameterSetName = 'AllDetails', Mandatory = $true)][string] $PostalCode, 
+        [Parameter(ParameterSetName = 'AllDetails', Mandatory = $true)][string] $Country, 
+        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
     )
-    _testTokenContext($saToken)
+    _testTokenContext($SaToken)
 
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/validations/address"
-    $headers = @{"Authorization" = "Bearer $saToken"}
+    $headers = @{"Authorization" = "Bearer $SaToken"}
     $headers += @{"MS-Contract-Version" = "v1"}
     $headers += @{"MS-RequestId" = [Guid]::NewGuid()}
     $headers += @{"MS-CorrelationId" = [Guid]::NewGuid()}
   
+
+    # TODO $Region is listed below, but it doesn't appear to be assigned from anywhere.
     switch ($PsCmdlet.ParameterSetName) {
         'ByObject' { $address_tmp = $address}
-        'AllDetails' { $address_tmp = [DefaultAddress]::new($country, $region, $city, $state, $addressLine1, $postalCode)}
+        'AllDetails' { $address_tmp = [DefaultAddress]::new($Country, $Region, $City, $State, $AddressLine1, $PostalCode)}
     }
         
     $body = $address_tmp | ConvertTo-Json -Depth 100

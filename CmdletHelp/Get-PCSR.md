@@ -15,5 +15,5 @@
 ## Get all customer service requests ##
 
 ```powershell
-    Get-PCSR -tenantId '<tenant id GUID>'
+    Get-PCSR -TenantId '<tenant id GUID>'
 ```

@@ -3,5 +3,5 @@
 ## Set Partner Organization Profile ##
 
 ```powershell
-    Set-PCOrganizationProfile -firstname '<first name>' -lastname '<last name>' -phonenumber '<phone number>'
+    Set-PCOrganizationProfile -FirstName '<first name>' -LastName '<last name>' -PhoneNumber '<phone number>'
 ```

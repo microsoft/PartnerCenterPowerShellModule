@@ -3,7 +3,7 @@
 ## Select a customer ##
 
 ```powershell
-    Select-PCCustomer -tenantId '<tenant id GUID>'
+    Select-PCCustomer -TenantId '<tenant id GUID>'
 ```
 
 ## Get customer Service Cost Summary ##
