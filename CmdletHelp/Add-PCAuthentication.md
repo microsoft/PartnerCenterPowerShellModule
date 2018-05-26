@@ -1,6 +1,6 @@
 # Add-PCAuthentication #
 
-**Note:** Some cmdlets require App+User authentication. If you are working with invoices or users, you should use App+User authenication.
+**Note:** Some cmdlets require App+User authentication. If you are working with invoices or users, you should use App+User authentication.
 
 ## Set a global token for the script session - App+User authentication ##
 
