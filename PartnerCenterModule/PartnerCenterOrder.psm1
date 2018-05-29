@@ -13,7 +13,7 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 . "$here\commons.ps1"
 
 <#
-.SYNOPSIS
+
 
 .DESCRIPTION
 
@@ -58,7 +58,7 @@ function Get-PCOrder {
 }
 
 <#
-.SYNOPSIS
+
 
 .DESCRIPTION
 
@@ -137,7 +137,7 @@ function New-PCOrder {
 }
 
 <#
-.SYNOPSIS
+
 
 .DESCRIPTION
 
@@ -211,7 +211,7 @@ function Set-Order
 #>
 
 <#
-.SYNOPSIS
+
 
 .DESCRIPTION
 

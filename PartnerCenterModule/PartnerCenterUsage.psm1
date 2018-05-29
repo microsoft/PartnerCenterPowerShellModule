@@ -13,7 +13,7 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 . "$here\commons.ps1"
 
 <#
-.SYNOPSIS
+
 
 .DESCRIPTION
 
@@ -57,7 +57,7 @@ function Get-PCUsage
 }
 
 <#
-.SYNOPSIS
+
 
 .DESCRIPTION
 
@@ -116,7 +116,7 @@ function Get-PCUsage2
 }
 
 <#
-.SYNOPSIS
+
 
 .DESCRIPTION
 
@@ -241,7 +241,7 @@ function Get-PCSubscriptionMonthlyUsageRecords
 }
 
 <#
-.SYNOPSIS
+
 
 .DESCRIPTION
 
@@ -300,7 +300,7 @@ function Get-PCAzureResourceMonthlyUsageRecords
 }
 
 <#
-.SYNOPSIS
+
 
 .DESCRIPTION
 
@@ -338,7 +338,7 @@ function Get-PCAzureResourceMonthlyUsageRecord
 }
 
 <#
-.SYNOPSIS
+
 
 .DESCRIPTION
 
@@ -374,7 +374,7 @@ function Get-PCCustomerUsageSummary
 }
 
 <#
-.SYNOPSIS
+
 
 .DESCRIPTION
 

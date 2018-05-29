@@ -41,7 +41,7 @@ function Get-PCLegalBusinessProfile {
 }
 
 <#
-.SYNOPSIS
+
 
 .DESCRIPTION
 
@@ -69,7 +69,7 @@ function Get-PCOrganizationProfile {
 }
 
 <#
-.SYNOPSIS
+
 
 .DESCRIPTION
 
@@ -97,7 +97,7 @@ function Get-PCBillingProfile {
 }
 
 <#
-.SYNOPSIS
+
 
 .DESCRIPTION
 
@@ -134,7 +134,7 @@ function Get-PCMpnProfile {
 }
 
 <#
-.SYNOPSIS
+
 
 .DESCRIPTION
 
@@ -162,7 +162,7 @@ function Get-PCSupportProfile {
 }
 
 <#
-.SYNOPSIS
+
 
 .DESCRIPTION
 
@@ -244,7 +244,7 @@ function Set-PCLegalBusinessProfile {
 }
 
 <#
-.SYNOPSIS
+
 
 .DESCRIPTION
 
@@ -323,7 +323,7 @@ function Set-PCOrganizationProfile {
 }
 
 <#
-.SYNOPSIS
+
 
 .DESCRIPTION
 
@@ -395,7 +395,7 @@ function Set-PCBillingProfile {
 }
 
 <#
-.SYNOPSIS
+
 
 .DESCRIPTION
 
@@ -442,7 +442,7 @@ function Set-PCSupportProfile {
 }
 
 <#
-.SYNOPSIS
+
 
 .DESCRIPTION
 
@@ -475,7 +475,7 @@ function Get-PCCustomerBillingProfile {
 }
 
 <#
-.SYNOPSIS
+
 
 .DESCRIPTION
 
@@ -512,7 +512,7 @@ function Set-PCCustomerBillingProfile {
 }
 
 <#
-.SYNOPSIS
+
 
 .DESCRIPTION
 
@@ -544,7 +544,7 @@ function Get-PCCustomerCompanyProfile {
 }
 
 <#
-.SYNOPSIS
+
 
 .DESCRIPTION
 
@@ -613,7 +613,7 @@ function New-PCCustomerBillingProfile {
 }
 
 <#
-.SYNOPSIS
+
 
 .DESCRIPTION
 
@@ -658,7 +658,7 @@ function New-PCCustomerDefaultAddress {
 }
 
 <#
-.SYNOPSIS
+
 
 .DESCRIPTION
 
@@ -679,7 +679,7 @@ function New-PCCustomerCompanyProfile {
 }
 
 <#
-.SYNOPSIS
+
 
 .DESCRIPTION
 
@@ -719,7 +719,7 @@ function New-PCAddress {
 }
 
 <#
-.SYNOPSIS
+
 
 .DESCRIPTION
 

@@ -13,7 +13,7 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 . "$here\commons.ps1"
 
 <#
-.SYNOPSIS
+
 
 .DESCRIPTION
 
@@ -126,7 +126,7 @@ function Get-PCCustomerUser
 }
 
 <#
-.SYNOPSIS
+
 
 .DESCRIPTION
 
@@ -184,7 +184,7 @@ function New-PCCustomerUser
 }
 
 <#
-.SYNOPSIS
+
 
 .DESCRIPTION
 
@@ -253,7 +253,7 @@ function Set-PCCustomerUser
 }
 
 <#
-.SYNOPSIS
+
 
 .DESCRIPTION
 
@@ -292,7 +292,7 @@ function Restore-PCCustomerUser
 }
 
 <#
-.SYNOPSIS
+
 
 .DESCRIPTION
 
@@ -350,7 +350,7 @@ function Get-PCCustomerUserRoles
 }
 
 <#
-.SYNOPSIS
+
 
 .DESCRIPTION
 

@@ -13,7 +13,7 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 . "$here\commons.ps1"
 
 <#
-.SYNOPSIS
+
 
 .DESCRIPTION
 
@@ -82,7 +82,7 @@ function Get-PCOffer {
 }
 
 <#
-.SYNOPSIS
+
 
 .DESCRIPTION
 
@@ -113,7 +113,7 @@ function Get-PCOfferCategoriesByMarket {
 }
 
 <#
-.SYNOPSIS
+
 Retrieves a list of address rules for a specified market.
 
 .DESCRIPTION
@@ -152,7 +152,7 @@ function Get-PCAddressRulesByMarket {
 }
 
 <#
-.SYNOPSIS
+
 Retrieves the Azure services rate card for the specified region.
 
 .DESCRIPTION

@@ -16,18 +16,21 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 .SYNOPSIS
 
 .DESCRIPTION
-
+The Get-GraphAaDTokenByUser cmdlet
 .PARAMETER Resource 
+Specifies
 
 .PARAMETER Domain 
-
+Specifies
 .PARAMETER ClientId 
+Specifies
 
 .PARAMETER Credential
-
+Specifies
 .EXAMPLE
+Returns
 
-.NOTES
+Get-GraphAadTokenByUser
 #>
 function Get-GraphAADTokenByUser {
     [CmdletBinding()]
@@ -57,18 +60,17 @@ function Get-GraphAADTokenByUser {
 .SYNOPSIS
 
 .DESCRIPTION
-
+The Get-GraphAadTokenByApp cmdlet
 .PARAMETER Resource 
-
+Specifies
 .PARAMETER Domain 
-
+Specifies
 .PARAMETER ClientId 
-
+Specifies
 .PARAMETER ClientSecret
-
+Specifies
 .EXAMPLE
-
-.NOTES
+Returns
 #>
 function Get-GraphAADTokenByApp {
     [CmdletBinding()]
@@ -96,18 +98,35 @@ function Get-GraphAADTokenByApp {
 .SYNOPSIS
 
 .DESCRIPTION
+The Add-PCAuthentication cmdlet sets up authentication for the Partner Center API. Authenticate with either App authentication or App+User authentication to use other cmdlets in this module. 
 
 .PARAMETER CspAppId
+Specifies a application Id generated for the Partner Center account. The application id must match the authentication type chosen. 
 
-.PARAMETER CspDomain 
+.PARAMETER CspDomain
+Specifies the Partner Center tenant (onmicrosoft.com) domain.
 
 .PARAMETER CspClientSecret
+Specifies an application secret key generated from the Partner Center portal.
 
 .PARAMETER Credential
+Specifies the user account credentials to use to perform this task. To specify this parameter, you can type a user name, such as User1 or Domain01\User01 or you can specify a PSCredential object. If you specify a user name for this parameter, the cmdlet prompts for a password.
+You can also create a PSCredential object by using a script or by using the Get-Credential cmdlet. You can then set the Credential parameter to the PSCredential object.
 
 .EXAMPLE
+$cred = Get-Credential
+Add-PCAuthentication -CspAppId '<native app id GUID>' -CspDomain '<csp partner domain>' -Credential $cred
 
+Set a global token for the script session - App+User authentication
+
+.EXAMPLE
+$clientSecret = '<key code secret>'
+$clientSecretSecure = $clientSecret | ConvertTo-SecureString -AsPlainText -Force
+Add-PCAuthentication -CspAppId '<web app id GUID>' -CspDomain '<csp partner domain>' -CspClientSecret $clientSecretSecure
+
+Set a global token for the script session - App authentication
 .NOTES
+Some cmdlets require App+User authentication. If you are working with invoices or users, you should use App+User authentication.
 #>
 function Add-PCAuthentication {
     [CmdletBinding()]
@@ -164,20 +183,31 @@ function Add-PCAuthentication {
 .SYNOPSIS
 
 .DESCRIPTION
+The New-PCSAToken cmdelet returns a token used the access Partner Center resources.
 
-.PARAMETER CspAppId 
+.PARAMETER CspAppId
+Specifies a application Id generated for the Partner Center account. The application id must match the authentication type chosen. 
 
-.PARAMETER CspDomain
+.PARAMETER CspDomain 
+Specifies the Partner Center tenant (onmicrosoft.com) domain.
 
-.PARAMETER CspClientSecret 
+.PARAMETER CspClientSecret
+Specifies an application secret key generated from the Partner Center portal.
 
 .PARAMETER Credential
+Specifies the user account credentials to use to perform this task. To specify this parameter, you can type a user name, such as User1 or Domain01\User01 or you can specify a PSCredential object. If you specify a user name for this parameter, the cmdlet prompts for a password.
+You can also create a PSCredential object by using a script or by using the Get-Credential cmdlet. You can then set the Credential parameter to the PSCredential object.
 
 .EXAMPLE
+Create a new token using the specified information
 
-.NOTES
+$cred = Get-Credential
+clientSecret = 'XXXXXXXXXXXXXXXXXXXXXX='
+$ClientSecretSecure = $clientSecret | ConvertTo-SecureString -AsPlainText -Force
+$sat = New-PCSaToken -CspAddId XXXXXXXXXXXXXXX -CspDomain contoso.onmicrosoft.com -CspClientSecret $ClientSecretSecure -Credential $cred
+
 #>
-function New-PCSAToken {
+function New-PCSaToken {
     [CmdletBinding()]
     param ([Parameter(Mandatory = $True, ParameterSetName = 'app')][Parameter(Mandatory = $True, ParameterSetName = 'user')][string] $CspAppId,
         [Parameter(Mandatory = $True, ParameterSetName = 'app')][Parameter(Mandatory = $True, ParameterSetName = 'user')][string] $CspDomain,

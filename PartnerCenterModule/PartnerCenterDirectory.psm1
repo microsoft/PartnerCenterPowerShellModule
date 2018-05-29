@@ -13,15 +13,19 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 . "$here\commons.ps1"
 
 <#
-.SYNOPSIS
-
 .DESCRIPTION
+The Get-PCDomainAvailability cmdlet tests to see if the specified tenant domain (onmicrosoft.com) is available to create a new tenant.
 
 .PARAMETER SaToken 
+Specifies a security token for authenticating and executing the cmdlet.
 
 .PARAMETER Domain 
+Specifies a onmicrosoft.com domain to check as to whether is available for use for a new tenant.
 
 .EXAMPLE
+Test to see if contoso.onmicrosoft.com is available
+
+Get-PCDomainAvailabilty -Domain contoso.onmicrosocft.com
 
 .NOTES
 #>
@@ -55,11 +59,12 @@ function Get-PCDomainAvailability
 }
 
 <#
-.SYNOPSIS
+
 
 .DESCRIPTION
 
 .PARAMETER SaToken 
+Specifies a security token for authenticating and executing the cmdlet.
 
 .PARAMETER TenantId 
 
@@ -86,11 +91,12 @@ function Get-PCCustomerRole
 }
 
 <#
-.SYNOPSIS
+
 
 .DESCRIPTION
 
 .PARAMETER SaToken 
+Specifies a security token for authenticating and executing the cmdlet.
 
 .PARAMETER TenantId 
 
@@ -120,11 +126,12 @@ function Get-PCCustomerRoleMember
 }
 
 <#
-.SYNOPSIS
+
 
 .DESCRIPTION
 
 .PARAMETER SaToken 
+Specifies a security token for authenticating and executing the cmdlet.
 
 .PARAMETER TenantId 
 
@@ -162,11 +169,12 @@ function Add-PCCustomerRoleMember
 }
 
 <#
-.SYNOPSIS
+
 
 .DESCRIPTION
 
 .PARAMETER SaToken 
+Specifies a security token for authenticating and executing the cmdlet.
 
 .PARAMETER TenantId 
 
@@ -201,15 +209,14 @@ function Remove-PCCustomerRoleMember
 }
 
 <#
-.SYNOPSIS
-
 .DESCRIPTION
+The New-PCRelationshipRequest cmdlet.
 
 .PARAMETER SaToken 
+Specifies a security token for authenticating and executing the cmdlet.
 
 .EXAMPLE
 
-.NOTES
 #>
 function New-PCRelationshipRequest
 {    

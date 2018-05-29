@@ -33,21 +33,16 @@ function Get-PCLicensesDeployment
 }
 
 <#
-.SYNOPSIS
-Retrieves a list of licenses assigned.
-
 .DESCRIPTION
-The Get-Inventory function uses Windows Management Instrumentation (WMI) toretrieve service pack version, operating system build number, and BIOS serial number from one or more remote computers. 
-Computer names or IP addresses are expected as pipeline input, or may bepassed to the –computerName parameter. 
-Each computer is contacted sequentially, not in parallel.
+The Get-PCLicenseDeployment cmdlet retrieves a list of licenses for the authenticated partner.
 
 .PARAMETER SaToken 
 The authentication token you have created with your Partner Center Credentials.
 
 .EXAMPLE
-Return a list of assigned licenses for the partner.
+Return a list of assigned licenses for the authenticated partner.
 
-Get-PCLicenses
+Get-PCLicenseDeployment
 
 .NOTES
 You need to have a authentication Credential already established before running this cmdlet.
@@ -88,15 +83,21 @@ function Get-PCLicensesUsage
 }
 
 <#
-.SYNOPSIS
 
 .DESCRIPTION
+The Get-PCLicenseUsage cmdlet retrieves a list of licenses assigned for the authenticated partner.
 
 .PARAMETER SaToken 
+The authentication token you have created with your Partner Center credentials.
 
 .EXAMPLE
+Return a list of assigned licenses for the authenticated partner.
+
+Get-PCLicenseUsage
 
 .NOTES
+You need to have a authentication Credential already established before running this cmdlet.
+
 #>
 function Get-PCLicenseUsage
 {
@@ -135,17 +136,19 @@ function Get-PCCustomerLicensesDeployment
 }
 
 <#
-.SYNOPSIS
-
 .DESCRIPTION
+The Get-PCCustomerLicenseDeployment cmdlet retrieves a list of licenses deployed by a partner for a specifc tenant.
 
 .PARAMETER SaToken 
+Specifies the authentication token you have created with your Partner Center credentials.
 
 .PARAMETER TenantId 
+Specifies the tenant id.
 
 .EXAMPLE
+Retrive a list of deployed liceses for the specified tenant
 
-.NOTES
+Get-PCCustomerLicenseDeployment -TenantId XXXXXXXXXXXXXXXXXXXX
 #>
 function Get-PCCustomerLicenseDeployment
 {
@@ -186,17 +189,20 @@ function Get-PCCustomerLicensesUsage
 }
 
 <#
-.SYNOPSIS
-
 .DESCRIPTION
+The Get-PCCustomerLicenseUsage cmdlet retrieves a list of licenses deployed and assigned by a partner for a specifc tenant.
 
 .PARAMETER SaToken 
+Specifies the authentication token you have created with your Partner Center credentials.
 
 .PARAMETER TenantId 
+Specifies the tenant id.
 
 .EXAMPLE
+Get-PCCustomerLicenseDeployment -TenantId XXXXXXXXXXXXXXXXXXXX
 
-.NOTES
+Retrieve a list of assigned liceses for the specified tenant
+
 #>
 function Get-PCCustomerLicenseUsage
 {

@@ -42,7 +42,7 @@ function Get-PCAuditRecords {
 }
 
 <#
-.SYNOPSIS
+
 
 .DESCRIPTION
 
@@ -108,7 +108,7 @@ function Get-PCIndirectResellers {
 }
 
 <#
-.SYNOPSIS
+
 
 .DESCRIPTION
 

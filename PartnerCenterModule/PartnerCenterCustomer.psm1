@@ -14,7 +14,7 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 
 <#
 .SYNOPSIS
-Retrieves a list of customers.
+Blank
 
 .DESCRIPTION
 The Get-PCCustomer cmdlet retrieves a list of customers, or a specific customer based on the input.
@@ -34,9 +34,9 @@ This switch does not do anything, but is still included for backward compatabili
 This switch does not do anything, but is still included for backward compatability.
 
 .EXAMPLE
-Return a list of customers for a partner.
-
 Get-PCCustomer
+
+Return a list of customers for a partner.
 
 .NOTES
 You need to have a authentication Credential already established before running this cmdlet.
@@ -59,20 +59,16 @@ function Get-PCCustomer {
 
         if ($TenantId) {
             $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}" -f $TenantId
-            $headers = @{Authorization = "Bearer $SaToken"}
-
-            $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-            $obj += $response.Substring(1) | ConvertFrom-Json
-            return (_formatResult -obj $obj -type "Customer")  
+             
         }
         else {
             $url = "https://api.partnercenter.microsoft.com/v1/customers"
-            $headers = @{Authorization = "Bearer $SaToken"}
-    
-            $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-            $obj += $response.Substring(1) | ConvertFrom-Json
-            return (_formatResult -obj $obj -type "Customer")  
+            
         }
+        $headers = @{Authorization = "Bearer $SaToken"}
+        $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
+        $obj += $response.Substring(1) | ConvertFrom-Json
+        return (_formatResult -obj $obj -type "Customer")  
     }
 
     function Private:Search-CustomerInner ($SaToken, $StartsWith, $Size) {
@@ -127,14 +123,20 @@ function Get-PCSubscribedSKUs {
 .SYNOPSIS
 
 .DESCRIPTION
+The Get-SusbscribedSKU cmdlet. 
 
 .PARAMETER SaToken 
+The authentication token you have created with your Partner Center Credentials.
 
 .PARAMETER TenantId 
+The tenant Id assigned to the customer you want to retrieve.
 
 .EXAMPLE
+Return the subscribed SKUs for the specified TenantId
 
-.NOTES
+Get-SubscribedSKU -TenantId XXXXXXXXXXXXXXXX
+
+
 #>
 function Get-PCSubscribedSKU {
     [CmdletBinding()]
@@ -154,7 +156,7 @@ function Get-PCSubscribedSKU {
 }
 
 <#
-.SYNOPSIS
+
 
 .DESCRIPTION
 
@@ -183,7 +185,7 @@ function Get-PCSpendingBudget {
 }
 
 <#
-.SYNOPSIS
+
 
 .DESCRIPTION
 
@@ -219,7 +221,7 @@ function Set-PCSpendingBudget {
 }
 
 <#
-.SYNOPSIS
+
 
 .DESCRIPTION
 
@@ -307,7 +309,7 @@ function New-PCCustomer {
 }
 
 <#
-.SYNOPSIS
+
 
 .DESCRIPTION
 
@@ -325,7 +327,7 @@ function Remove-PCCustomer {
     param (
         $TenantId, 
         [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
-        )
+    )
     _testTokenContext($SaToken)
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}" -f $TenantId
@@ -346,7 +348,7 @@ function Get-PCManagedServices {
     param (
         [Parameter(Mandatory = $false)][String]$TenantId = $GlobalCustomerId,
         [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
-        )
+    )
     _testTokenContext($SaToken)
     _testTenantContext ($TenantId)
 
@@ -362,7 +364,7 @@ function Get-PCManagedServices {
 }
 
 <#
-.SYNOPSIS
+
 
 .DESCRIPTION
 
@@ -379,7 +381,7 @@ function Get-PCManagedService {
     param (
         [Parameter(Mandatory = $false)][String]$TenantId = $GlobalCustomerId,
         [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
-        )
+    )
     _testTokenContext($SaToken)
     _testTenantContext ($TenantId)
 
@@ -394,7 +396,7 @@ function Get-PCManagedService {
 
 
 <#
-.SYNOPSIS
+
 
 .DESCRIPTION
 
@@ -447,7 +449,7 @@ function Get-PCCustomerRelationships {
 }
 
 <#
-.SYNOPSIS
+
 
 .DESCRIPTION
 
@@ -464,7 +466,7 @@ function Get-PCCustomerRelationship {
     param (
         [Parameter(Mandatory = $false)][String]$TenantId = $GlobalCustomerId,
         [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
-        )
+    )
     _testTokenContext($SaToken)
     _testTenantContext ($TenantId)
 
@@ -503,7 +505,7 @@ function Get-PCResellerCustomers {
 }
 
 <#
-.SYNOPSIS
+
 
 .DESCRIPTION
 

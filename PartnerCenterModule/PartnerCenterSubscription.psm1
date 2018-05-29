@@ -13,7 +13,7 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 . "$here\commons.ps1"
 
 <#
-.SYNOPSIS
+
 
 .DESCRIPTION
 
@@ -152,7 +152,7 @@ function Get-PCSubscription
 }
 
 <#
-.SYNOPSIS
+
 
 .DESCRIPTION
 
