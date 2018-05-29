@@ -1,6 +1,6 @@
 ﻿Set-StrictMode -Version latest
 <#
-    © 2017 Microsoft Corporation. All rights reserved. This sample code is not supported under any Microsoft standard support program or service. 
+    © 2018 Microsoft Corporation. All rights reserved. This sample code is not supported under any Microsoft standard support program or service. 
     This sample code is provided AS IS without warranty of any kind. Microsoft disclaims all implied warranties including, without limitation, 
     any implied warranties of merchantability or of fitness for a particular purpose. The entire risk arising out of the use or performance 
     of the sample code and documentation remains with you. In no event shall Microsoft, its authors, or anyone else involved in the creation, 
@@ -121,6 +121,7 @@ function Get-PCSubscribedSKUs {
 
 <#
 .SYNOPSIS
+Blank
 
 .DESCRIPTION
 The Get-SusbscribedSKU cmdlet. 
@@ -132,11 +133,9 @@ The authentication token you have created with your Partner Center Credentials.
 The tenant Id assigned to the customer you want to retrieve.
 
 .EXAMPLE
-Return the subscribed SKUs for the specified TenantId
-
 Get-SubscribedSKU -TenantId XXXXXXXXXXXXXXXX
 
-
+Return the subscribed SKUs for the specified TenantId
 #>
 function Get-PCSubscribedSKU {
     [CmdletBinding()]
@@ -161,6 +160,7 @@ function Get-PCSubscribedSKU {
 .DESCRIPTION
 
 .PARAMETER SaToken 
+Specifies the authentication token you have created with your Partner Center credentials.
 
 .PARAMETER TenantId 
 
@@ -185,25 +185,28 @@ function Get-PCSpendingBudget {
 }
 
 <#
-
-
+.SYNOPSIS
+Blank
 .DESCRIPTION
-
+The Set-PCSpendingBudget cmdlet sets a spending budged for the specified tenant.
 .PARAMETER SaToken 
-
+Specifies the authentication token you have created with your Partner Center credentials.
 .PARAMETER TenantId 
-
-.PARAMETER spendingBudget 
-
+Specifies the tenant for which to set the spending budget
+.PARAMETER SpendingBudget 
+Specifies the spending budget in the default currency for the partner.
 .EXAMPLE
+Set-PCSpendingBudget -TenantId XXXXXXXXXXXXXXXX -SpendingBudge 3000
 
+Sets the spending budget to 3000 USD
 .NOTES
+None
 #>
 function Set-PCSpendingBudget {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $false)][String]$TenantId = $GlobalCustomerId,
-        $spendingBudget,
+        [Parameter(Mandatory = $true)][String]$SpendingBudget,
         [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
     )
     
@@ -221,11 +224,13 @@ function Set-PCSpendingBudget {
 }
 
 <#
-
-
+.SYNOPSIS
+Creates a new customer.
 .DESCRIPTION
+The New-PCCustomer cmdlet creates a new customer for the current partner.
 
 .PARAMETER SaToken 
+Specifies the authentication token you have created with your Partner Center credentials.
 
 .PARAMETER Email 
 
@@ -309,16 +314,19 @@ function New-PCCustomer {
 }
 
 <#
-
+.SYNOPSIS
+Removes a customer from partner center
 
 .DESCRIPTION
+The Remove-PCCCustomer cmdlet removes a customer from being managed from the current partner.
 
 .PARAMETER SaToken 
-
+The authentication token you have created with your Partner Center Credentials.
 .PARAMETER TenantId 
 
 
 .EXAMPLE
+Remove-PCCustomer
 
 .NOTES
 #>
@@ -364,15 +372,16 @@ function Get-PCManagedServices {
 }
 
 <#
-
-
+.SYNOPSIS
+Returns a list of managed services
 .DESCRIPTION
-
+The Get-PCManagedService 
 .PARAMETER SaToken 
-
+The authentication token you have created with your Partner Center Credentials.
 .PARAMETER TenantId 
 
 .EXAMPLE
+Get-PCManagedService
 
 .NOTES
 #>
@@ -396,15 +405,16 @@ function Get-PCManagedService {
 
 
 <#
-
-
+.SYNOPSIS
+Selectes a customer to be used in other cmdlets.
 .DESCRIPTION
-
+The Select-PCCustomer cmdlet selects a customer tenant specified by the tenant id.
 .PARAMETER SaToken 
-
+The authentication token you have created with your Partner Center Credentials.
 .PARAMETER TenantId 
 
 .EXAMPLE
+Select-PCCustomer -TenantId XXXXXXXXXX
 
 .NOTES
 #>
@@ -449,15 +459,17 @@ function Get-PCCustomerRelationships {
 }
 
 <#
-
-
+.SYNOPSIS
+Returns the type of relationship the specified tenant has with the current partner.
 .DESCRIPTION
-
+The Get-PCCustomerRelationship cmdlet returns the relationship the specified customer has with the current partner.
 .PARAMETER SaToken 
-
+The authentication token you have created with your Partner Center Credentials.
 .PARAMETER TenantId 
 
 .EXAMPLE
+Get-PCCustomerRelationship -TenantId XXXXXXXXXXXXX
+
 
 .NOTES
 #>
@@ -505,12 +517,13 @@ function Get-PCResellerCustomers {
 }
 
 <#
-
+.SYNOPSIS
+Returns a list of reseller customers for the current indirect provider.
 
 .DESCRIPTION
-
+The Get-PCResllerCustomer cmdlet returns a list of reseller customers or a speficied reseller for the current indirect provider.
 .PARAMETER SaToken 
-
+The authentication token you have created with your Partner Center Credentials.
 .PARAMETER ResellerId 
 
 .PARAMETER Size 

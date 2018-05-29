@@ -1,6 +1,6 @@
 ﻿Set-StrictMode -Version latest
 <#
-    © 2017 Microsoft Corporation. All rights reserved. This sample code is not supported under any Microsoft standard support program or service. 
+    © 2018 Microsoft Corporation. All rights reserved. This sample code is not supported under any Microsoft standard support program or service. 
     This sample code is provided AS IS without warranty of any kind. Microsoft disclaims all implied warranties including, without limitation, 
     any implied warranties of merchantability or of fitness for a particular purpose. The entire risk arising out of the use or performance 
     of the sample code and documentation remains with you. In no event shall Microsoft, its authors, or anyone else involved in the creation, 
@@ -13,12 +13,12 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 . "$here\commons.ps1"
 
 <#
-
+.SYNOPSIS
 
 .DESCRIPTION
 
 .PARAMETER SaToken 
-
+The authentication token you have created with your Partner Center Credentials.
 .PARAMETER TenantId 
 
 .PARAMETER All 
@@ -152,12 +152,12 @@ function Get-PCSubscription
 }
 
 <#
-
+.SYNOPSIS
 
 .DESCRIPTION
 
 .PARAMETER SaToken 
-
+The authentication token you have created with your Partner Center Credentials.
 .PARAMETER TenantId 
 
 .PARAMETER Subscription 

@@ -1,6 +1,6 @@
 ﻿Set-StrictMode -Version latest
 <#
-    © 2017 Microsoft Corporation. All rights reserved. This sample code is not supported under any Microsoft standard support program or service. 
+    © 2018 Microsoft Corporation. All rights reserved. This sample code is not supported under any Microsoft standard support program or service. 
     This sample code is provided AS IS without warranty of any kind. Microsoft disclaims all implied warranties including, without limitation, 
     any implied warranties of merchantability or of fitness for a particular purpose. The entire risk arising out of the use or performance 
     of the sample code and documentation remains with you. In no event shall Microsoft, its authors, or anyone else involved in the creation, 
@@ -42,12 +42,12 @@ function Get-PCAuditRecords {
 }
 
 <#
-
+.SYNOPSIS
 
 .DESCRIPTION
 
 .PARAMETER SaToken 
-
+The authentication token you have created with your Partner Center Credentials.
 .PARAMETER StartDate 
 The date from which you will start retrieving data. Must be formated yyyy-mm-dd.
 
@@ -55,7 +55,7 @@ The date from which you will start retrieving data. Must be formated yyyy-mm-dd.
 The date from which you will stop retrieving data. Must be formated yyyy-mm-dd.
 
 .EXAMPLE
-
+Get-PCAuditRecord
 .NOTES
 #>
 function Get-PCAuditRecord {
@@ -108,12 +108,12 @@ function Get-PCIndirectResellers {
 }
 
 <#
-
+.SYNOPSIS
 
 .DESCRIPTION
 
 .PARAMETER SaToken 
-
+The authentication token you have created with your Partner Center Credentials.
 .EXAMPLE
 
 .NOTES

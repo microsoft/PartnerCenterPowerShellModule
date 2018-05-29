@@ -1,6 +1,6 @@
 ﻿Set-StrictMode -Version latest
 <#
-    © 2017 Microsoft Corporation. All rights reserved. This sample code is not supported under any Microsoft standard support program or service. 
+    © 2018 Microsoft Corporation. All rights reserved. This sample code is not supported under any Microsoft standard support program or service. 
     This sample code is provided AS IS without warranty of any kind. Microsoft disclaims all implied warranties including, without limitation, 
     any implied warranties of merchantability or of fitness for a particular purpose. The entire risk arising out of the use or performance 
     of the sample code and documentation remains with you. In no event shall Microsoft, its authors, or anyone else involved in the creation, 
@@ -13,6 +13,8 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 . "$here\commons.ps1"
 
 <#
+.SYNOPSIS
+Tests to see if the specified onmicrosoft.com is available to be used for a new tenant.
 .DESCRIPTION
 The Get-PCDomainAvailability cmdlet tests to see if the specified tenant domain (onmicrosoft.com) is available to create a new tenant.
 
@@ -23,10 +25,9 @@ Specifies a security token for authenticating and executing the cmdlet.
 Specifies a onmicrosoft.com domain to check as to whether is available for use for a new tenant.
 
 .EXAMPLE
-Test to see if contoso.onmicrosoft.com is available
+Get-PCDomainAvailabilty -Domain contoso.onmicrosoft.com
 
-Get-PCDomainAvailabilty -Domain contoso.onmicrosocft.com
-
+Test to see if contoso.onmicrosoft.com is available for a new tenant.
 .NOTES
 #>
 function Get-PCDomainAvailability
@@ -59,16 +60,17 @@ function Get-PCDomainAvailability
 }
 
 <#
-
-
+.SYNOPSIS
+TODO
 .DESCRIPTION
-
+The Get-PCCustomerRole cmdlet. TODO
 .PARAMETER SaToken 
 Specifies a security token for authenticating and executing the cmdlet.
 
 .PARAMETER TenantId 
-
+Specifies the tenant id for which to return the customer roles. 
 .EXAMPLE
+Get-PCCustomerRole
 
 .NOTES
 #>
@@ -91,18 +93,22 @@ function Get-PCCustomerRole
 }
 
 <#
-
-
+.SYNOPSIS
+TODO
 .DESCRIPTION
+The Get-PCCustomerRoleMember cmdlet TODO
 
 .PARAMETER SaToken 
 Specifies a security token for authenticating and executing the cmdlet.
 
 .PARAMETER TenantId 
+Specifies the tenant id 
 
 .PARAMETER RoleId 
+Specifies the role id
 
 .EXAMPLE
+Get-PCCustomerRoleMember
 
 .NOTES
 #>
@@ -126,20 +132,25 @@ function Get-PCCustomerRoleMember
 }
 
 <#
-
-
+.SYNOPSIS
+TODO
 .DESCRIPTION
+The Add-PCCustomerRoleMember cmdlet TODO
 
 .PARAMETER SaToken 
 Specifies a security token for authenticating and executing the cmdlet.
 
 .PARAMETER TenantId 
+Specifies the tenant for which to add the role member
 
 .PARAMETER RoleId 
+Specifies the role id for which to add the member
 
 .PARAMETER CustomerRoleMember 
+Specifies the member to add to the role.
 
 .EXAMPLE
+Add-PCCustomerRoleMember 
 
 .NOTES
 #>
@@ -169,7 +180,7 @@ function Add-PCCustomerRoleMember
 }
 
 <#
-
+.SYNOPSIS
 
 .DESCRIPTION
 
@@ -178,11 +189,12 @@ Specifies a security token for authenticating and executing the cmdlet.
 
 .PARAMETER TenantId 
 
-.PARAMETER roleId 
+.PARAMETER RoleId 
 
-.PARAMETER userId 
+.PARAMETER UserId 
 
 .EXAMPLE
+Remove-PCCustomerRoleMember
 
 .NOTES
 #>
@@ -209,6 +221,9 @@ function Remove-PCCustomerRoleMember
 }
 
 <#
+.SYNOPSIS
+Returns the request text to send to the end customer administrator to initiate a relationship with the partner.
+
 .DESCRIPTION
 The New-PCRelationshipRequest cmdlet.
 
@@ -216,7 +231,7 @@ The New-PCRelationshipRequest cmdlet.
 Specifies a security token for authenticating and executing the cmdlet.
 
 .EXAMPLE
-
+New-PCRelationshipRequest
 #>
 function New-PCRelationshipRequest
 {    

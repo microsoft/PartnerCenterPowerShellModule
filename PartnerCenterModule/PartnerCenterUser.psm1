@@ -1,6 +1,6 @@
 ﻿Set-StrictMode -Version latest
 <#
-    © 2017 Microsoft Corporation. All rights reserved. This sample code is not supported under any Microsoft standard support program or service. 
+    © 2018 Microsoft Corporation. All rights reserved. This sample code is not supported under any Microsoft standard support program or service. 
     This sample code is provided AS IS without warranty of any kind. Microsoft disclaims all implied warranties including, without limitation, 
     any implied warranties of merchantability or of fitness for a particular purpose. The entire risk arising out of the use or performance 
     of the sample code and documentation remains with you. In no event shall Microsoft, its authors, or anyone else involved in the creation, 
@@ -13,23 +13,23 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 . "$here\commons.ps1"
 
 <#
-
+.SYNOPSIS
 
 .DESCRIPTION
 
 .PARAMETER SaToken 
-
+The authentication token you have created with your Partner Center Credentials.
 .PARAMETER TenantId 
 
-.PARAMETER userId 
+.PARAMETER UserId 
 
-.PARAMETER all 
+.PARAMETER All 
 
-.PARAMETER licenses 
+.PARAMETER Licenses 
 
-.PARAMETER deleted
+.PARAMETER Deleted
 
-.PARAMETER size 
+.PARAMETER Size 
 
 .EXAMPLE
 
@@ -40,11 +40,11 @@ function Get-PCCustomerUser
     [CmdletBinding()]
     Param(
             [Parameter(Mandatory = $false)][String]$TenantId=$GlobalCustomerId,
-            [Parameter(ParameterSetName='all', Mandatory = $false)][switch]$all,
-            [Parameter(ParameterSetName='activeuser', Mandatory = $false)][String]$userId,
-            [Parameter(ParameterSetName='activeuser', Mandatory = $false)][switch]$licenses,
-            [Parameter(ParameterSetName='deleteduser', Mandatory = $false)][switch]$deleted,
-            [Parameter(ParameterSetName='deleteduser', Mandatory = $false)][int]$size = 200,
+            [Parameter(ParameterSetName='all', Mandatory = $false)][switch]$All,
+            [Parameter(ParameterSetName='activeuser', Mandatory = $false)][String]$UserId,
+            [Parameter(ParameterSetName='activeuser', Mandatory = $false)][switch]$Licenses,
+            [Parameter(ParameterSetName='deleteduser', Mandatory = $false)][switch]$Deleted,
+            [Parameter(ParameterSetName='deleteduser', Mandatory = $false)][int]$Size = 200,
             [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
     )
     _testTokenContext($SaToken)
@@ -61,14 +61,14 @@ function Get-PCCustomerUser
         return (_formatResult -obj $obj -type "CustomerUser")       
     }
 
-    function Private:Get-CustomerUserInner ($SaToken, $TenantId, $userId, $licenses)
+    function Private:Get-CustomerUserInner ($SaToken, $TenantId, $UserId, $Licenses)
     {
        $obj = @()
-        if ($userId)
+        if ($UserId)
         {
-            if ($licenses)
+            if ($Licenses)
             {
-                $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/users/{1}/licenses" -f $TenantId, $userId
+                $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/users/{1}/licenses" -f $TenantId, $UserId
                 $headers = @{Authorization="Bearer $SaToken"}
 
                 $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
@@ -77,7 +77,7 @@ function Get-PCCustomerUser
             }
             else
             {
-                $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/users/{1}" -f $TenantId, $userId
+                $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/users/{1}" -f $TenantId, $UserId
                 $headers = @{Authorization="Bearer $SaToken"}
 
                 $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
@@ -96,14 +96,14 @@ function Get-PCCustomerUser
         }
     }
 
-    function Private:Get-DeletedUsersInner ($SaToken, $TenantId, $size)
+    function Private:Get-DeletedUsersInner ($SaToken, $TenantId, $Size)
     {
        $obj = @()
         $filter = '{"Field":"UserStatus","Value":"Inactive","Operator":"equals"}'
         [Reflection.Assembly]::LoadWithPartialName("System.Web") | Out-Null
         $Encode = [System.Web.HttpUtility]::UrlEncode($filter)
 
-        $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/users?size={1}&filter={2}" -f $TenantId,$size,$Encode
+        $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/users?size={1}&filter={2}" -f $TenantId,$Size,$Encode
         $headers = @{Authorization="Bearer $SaToken"}
 
         $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
@@ -113,10 +113,10 @@ function Get-PCCustomerUser
 
     switch ($PsCmdlet.ParameterSetName)
     {
-        "activeuser" {$res = Get-CustomerUserInner -SaToken $SaToken -TenantId $TenantId -user $userId -licenses $licenses
+        "activeuser" {$res = Get-CustomerUserInner -SaToken $SaToken -TenantId $TenantId -user $UserId -licenses $Licenses
                           return $res}
 
-        "deleteduser"{$res = Get-DeletedUsersInner -SaToken $SaToken -TenantId $TenantId -size $size
+        "deleteduser"{$res = Get-DeletedUsersInner -SaToken $SaToken -TenantId $TenantId -size $Size
                           return $res}
 
         "all"        {$res = Get-CustomerAllUserInner -SaToken $SaToken -TenantId $TenantId 
@@ -126,43 +126,43 @@ function Get-PCCustomerUser
 }
 
 <#
-
+.SYNOPSIS
 
 .DESCRIPTION
 
 .PARAMETER SaToken 
-
+The authentication token you have created with your Partner Center Credentials.
 .PARAMETER TenantId 
 
-.PARAMETER usageLocation 
+.PARAMETER UsageLocation 
 
-.PARAMETER userPrincipalName
+.PARAMETER UserPrincipalName
 
 .PARAMETER FirstName 
 
 .PARAMETER LastName 
 
-.PARAMETER displayName 
+.PARAMETER DisplayName 
 
-.PARAMETER password
+.PARAMETER Password
 
-.PARAMETER forceChangePassword 
+.PARAMETER ForceChangePassword 
 
 .EXAMPLE
-
+New-PCCustomerUser 
 .NOTES
 #>
 function New-PCCustomerUser
 {
     [CmdletBinding()]
     param ([Parameter(Mandatory = $false)][String]$TenantId=$GlobalCustomerId,
-           [Parameter(Mandatory = $true)][string]$usageLocation,
-           [Parameter(Mandatory = $true)][string]$userPrincipalName,
+           [Parameter(Mandatory = $true)][string]$UsageLocation,
+           [Parameter(Mandatory = $true)][string]$UserPrincipalName,
            [Parameter(Mandatory = $true)][string]$FirstName,
            [Parameter(Mandatory = $true)][string]$LastName,
-           [Parameter(Mandatory = $true)][string]$displayName,
-           [Parameter(ParameterSetName='AllDetails',Mandatory = $true)][SecureString]$password,
-           [Parameter(ParameterSetName='AllDetails',Mandatory = $true)][bool]$forceChangePassword,
+           [Parameter(Mandatory = $true)][string]$DisplayName,
+           [Parameter(ParameterSetName='AllDetails',Mandatory = $true)][SecureString]$Password,
+           [Parameter(ParameterSetName='AllDetails',Mandatory = $true)][bool]$ForceChangePassword,
            [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken)
     _testTokenContext($SaToken)
     _testTenantContext ($TenantId)
@@ -174,7 +174,7 @@ function New-PCCustomerUser
     $headers += @{"MS-RequestId"=[Guid]::NewGuid()}
     $headers += @{"MS-CorrelationId"=[Guid]::NewGuid()}
 
-    $user = [CustomerUser]::new($usageLocation,$userPrincipalName,$FirstName,$LastName,$displayName,$password,$forceChangePassword)
+    $user = [CustomerUser]::new($UsageLocation,$UserPrincipalName,$FirstName,$LastName,$DisplayName,$Password,$ForceChangePassword)
     $body = $user | ConvertTo-Json -Depth 100
     $utf8body = [System.Text.Encoding]::UTF8.GetBytes($body)
 
@@ -184,12 +184,12 @@ function New-PCCustomerUser
 }
 
 <#
-
+.SYNOPSIS
 
 .DESCRIPTION
 
 .PARAMETER SaToken 
-
+The authentication token you have created with your Partner Center Credentials.
 .PARAMETER TenantId 
 
 .PARAMETER user 
@@ -207,7 +207,7 @@ function New-PCCustomerUser
 .PARAMETER forceChangePassword
 
 .EXAMPLE
-
+Set-PCCustomerUser
 .NOTES
 #>
 function Set-PCCustomerUser
@@ -215,32 +215,32 @@ function Set-PCCustomerUser
     [CmdletBinding()]
     param (
             [Parameter(Mandatory = $false)][String]$TenantId=$GlobalCustomerId,
-            [Parameter(Mandatory = $true,ValueFromPipeline=$True,ValueFromPipelineByPropertyName=$True)][PSCustomObject]$user,
+            [Parameter(Mandatory = $true,ValueFromPipeline=$True,ValueFromPipelineByPropertyName=$True)][PSCustomObject]$User,
             [Parameter(Mandatory = $false)][string]$FirstName,
             [Parameter(Mandatory = $false)][string]$LastName,
-            [Parameter(Mandatory = $false)][string]$userPrincipalName,
-            [Parameter(Mandatory = $false)][string]$location,    
-            [Parameter(ParameterSetName='AllDetails',Mandatory = $false)][SecureString]$password,
-            [Parameter(ParameterSetName='AllDetails',Mandatory = $false)][bool]$forceChangePassword,
+            [Parameter(Mandatory = $false)][string]$UserPrincipalName,
+            [Parameter(Mandatory = $false)][string]$Location,    
+            [Parameter(ParameterSetName='AllDetails',Mandatory = $false)][SecureString]$Password,
+            [Parameter(ParameterSetName='AllDetails',Mandatory = $false)][bool]$ForceChangePassword,
             [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken)
     _testTokenContext($SaToken)
     _testTenantContext ($TenantId)
 
     $obj = @()
 
-    $actualUser = Get-PCCustomerUser -TenantId $TenantId -userId $user.Id -SaToken $SaToken
+    $actualUser = Get-PCCustomerUser -TenantId $TenantId -UserId $User.Id -SaToken $SaToken
 
     if($FirstName) {$actualUser.FirstName = $FirstName}
     if($LastName) {$actualUser.LastName = $LastName}
-    if($userPrincipalName) {$actualUser.userPrincipalName = $userPrincipalName}
-    if($location) {$actualUser.location = $location}
-    if($password -or $forceChangePassword)
+    if($UserPrincipalName) {$actualUser.userPrincipalName = $UserPrincipalName}
+    if($Location) {$actualUser.location = $Location}
+    if($Password -or $ForceChangePassword)
     {
-        $passwordProfile = [CustomerUserPasswordProfile]::new($password, $forceChangePassword)
-        $actualUser | Add-Member -type NoteProperty -name passwordProfile -Value $passwordProfile
+        $passwordProfile = [CustomerUserPasswordProfile]::new($Password, $ForceChangePassword)
+        $actualUser | Add-Member -type NoteProperty -name PasswordProfile -Value $passwordProfile
     }
 
-    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/users/{1}" -f $TenantId, $user.id
+    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/users/{1}" -f $TenantId, $User.id
     $headers = @{Authorization="Bearer $SaToken"}
     $headers += @{"MS-RequestId"=[Guid]::NewGuid()}
     $headers += @{"MS-CorrelationId"=[Guid]::NewGuid()}
@@ -253,18 +253,18 @@ function Set-PCCustomerUser
 }
 
 <#
-
+.SYNOPSIS
 
 .DESCRIPTION
 
 .PARAMETER SaToken 
-
+The authentication token you have created with your Partner Center Credentials.
 .PARAMETER TenantId 
 
 .PARAMETER user 
 
 .EXAMPLE
-
+Restore-PCCustomerUser
 .NOTES
 #>
 function Restore-PCCustomerUser
@@ -272,14 +272,14 @@ function Restore-PCCustomerUser
     [CmdletBinding()]
     param (
             [Parameter(Mandatory = $false)][String]$TenantId=$GlobalCustomerId,
-            [Parameter(Mandatory = $true,ValueFromPipeline=$True,ValueFromPipelineByPropertyName=$True)][PSCustomObject]$user,
+            [Parameter(Mandatory = $true,ValueFromPipeline=$True,ValueFromPipelineByPropertyName=$True)][PSCustomObject]$User,
             [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken)
     _testTokenContext($SaToken)
     _testTenantContext ($TenantId) 
 
     $obj = @()
 
-    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/users/{1}" -f $TenantId, $user.id
+    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/users/{1}" -f $TenantId, $User.id
     $headers = @{Authorization="Bearer $SaToken"}
     $headers += @{"MS-RequestId"=[Guid]::NewGuid()}
     $headers += @{"MS-CorrelationId"=[Guid]::NewGuid()}
@@ -292,18 +292,18 @@ function Restore-PCCustomerUser
 }
 
 <#
-
+.SYNOPSIS
 
 .DESCRIPTION
 
 .PARAMETER SaToken 
-
+The authentication token you have created with your Partner Center Credentials.
 .PARAMETER TenantId 
 
 .PARAMETER user 
 
 .EXAMPLE
-
+Remove-PCCustomerUser
 .NOTES
 #>
 function Remove-PCCustomerUser
@@ -350,15 +350,15 @@ function Get-PCCustomerUserRoles
 }
 
 <#
-
+.SYNOPSIS
 
 .DESCRIPTION
 
 .PARAMETER SaToken 
-
+The authentication token you have created with your Partner Center Credentials.
 .PARAMETER TenantId 
 
-.PARAMETER user 
+.PARAMETER User 
 
 .EXAMPLE
 
@@ -368,14 +368,14 @@ function Get-PCCustomerUserRole
 {
     [CmdletBinding()]
     param ( [Parameter(Mandatory = $false)][String]$TenantId=$GlobalCustomerId,
-            [Parameter(Mandatory = $true,ValueFromPipeline=$True,ValueFromPipelineByPropertyName=$True)][PSCustomObject]$user,
+            [Parameter(Mandatory = $true,ValueFromPipeline=$True,ValueFromPipelineByPropertyName=$True)][PSCustomObject]$User,
             [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken)
     _testTokenContext($SaToken)
     _testTenantContext ($TenantId)
 
     $obj = @()
 
-    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/users/{1}/directoryroles" -f $TenantId, $user.id
+    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/users/{1}/directoryroles" -f $TenantId, $User.id
     $headers = @{Authorization="Bearer $SaToken"}
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose

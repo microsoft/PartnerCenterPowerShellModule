@@ -1,6 +1,6 @@
 ﻿Set-StrictMode -Version latest
 <#
-    © 2017 Microsoft Corporation. All rights reserved. This sample code is not supported under any Microsoft standard support program or service. 
+    © 2018 Microsoft Corporation. All rights reserved. This sample code is not supported under any Microsoft standard support program or service. 
     This sample code is provided AS IS without warranty of any kind. Microsoft disclaims all implied warranties including, without limitation, 
     any implied warranties of merchantability or of fitness for a particular purpose. The entire risk arising out of the use or performance 
     of the sample code and documentation remains with you. In no event shall Microsoft, its authors, or anyone else involved in the creation, 
@@ -14,6 +14,8 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 . "$here\commons.ps1"
 
 <#
+.SYNOPSIS
+TODO
 .DESCRIPTION
 The Get-PCInvoice cmdlet, retreives either a specific invoice or a list of invoices. 
 
@@ -29,9 +31,10 @@ Specified an invoice id
 Specifies whether to retrieve a summary only
 
 .EXAMPLE
-Retrieve all invoices
-
 Get-PCInvoice
+
+Retrieves a list of invoices
+
 #>
 function Get-PCInvoice {
     [CmdletBinding()]
@@ -139,6 +142,9 @@ function Get-PCInvoiceLineItems {
 }
 
 <#
+.SYNOPSIS
+TODO
+
 .DESCRIPTION
 The Get-PCInvoiceLineItem cmdlet. 
 
@@ -161,9 +167,10 @@ Specifies a limit to the number of invoice line items to retrieve
 Specifies an offset
 
 .EXAMPLE
+Get-PCInvoiceLineItem -InvoceId 12345678 -BillingProvider Azure -InvoiceLineItemType UsageLineItems
+
 Retrieve a list of Azure usage from invoice 12345678.
 
-Get-PCInvoiceLineItem -InvoceId 12345678 -BillingProvider Azure -InvoiceLineItemType UsageLineItems
 .NOTES
 #>
 function Get-PCInvoiceLineItem {

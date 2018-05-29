@@ -1,6 +1,6 @@
 ﻿Set-StrictMode -Version latest
 <#
-    © 2017 Microsoft Corporation. All rights reserved. This sample code is not supported under any Microsoft standard support program or service. 
+    © 2018 Microsoft Corporation. All rights reserved. This sample code is not supported under any Microsoft standard support program or service. 
     This sample code is provided AS IS without warranty of any kind. Microsoft disclaims all implied warranties including, without limitation, 
     any implied warranties of merchantability or of fitness for a particular purpose. The entire risk arising out of the use or performance 
     of the sample code and documentation remains with you. In no event shall Microsoft, its authors, or anyone else involved in the creation, 
@@ -14,7 +14,7 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 
 <#
 .SYNOPSIS
-
+TODO
 .DESCRIPTION
 The Get-GraphAaDTokenByUser cmdlet
 .PARAMETER Resource 
@@ -58,7 +58,7 @@ function Get-GraphAADTokenByUser {
 
 <#
 .SYNOPSIS
-
+TODO
 .DESCRIPTION
 The Get-GraphAadTokenByApp cmdlet
 .PARAMETER Resource 
@@ -70,7 +70,7 @@ Specifies
 .PARAMETER ClientSecret
 Specifies
 .EXAMPLE
-Returns
+Get-GraphAADTokenByApp 
 #>
 function Get-GraphAADTokenByApp {
     [CmdletBinding()]
@@ -96,6 +96,7 @@ function Get-GraphAADTokenByApp {
 
 <#
 .SYNOPSIS
+Authenticates the current session with the Partner Center API.
 
 .DESCRIPTION
 The Add-PCAuthentication cmdlet sets up authentication for the Partner Center API. Authenticate with either App authentication or App+User authentication to use other cmdlets in this module. 
@@ -127,6 +128,11 @@ Add-PCAuthentication -CspAppId '<web app id GUID>' -CspDomain '<csp partner doma
 Set a global token for the script session - App authentication
 .NOTES
 Some cmdlets require App+User authentication. If you are working with invoices or users, you should use App+User authentication.
+
+$clientSecret = '<key code secret>'
+$clientSecretSecure = $clientSecret | ConvertTo-SecureString -AsPlainText -Force
+$cred = Get-Credential
+
 #>
 function Add-PCAuthentication {
     [CmdletBinding()]
@@ -181,6 +187,7 @@ function Add-PCAuthentication {
 
 <#
 .SYNOPSIS
+Creates an access token for the Partner Center API.
 
 .DESCRIPTION
 The New-PCSAToken cmdelet returns a token used the access Partner Center resources.
@@ -199,12 +206,13 @@ Specifies the user account credentials to use to perform this task. To specify t
 You can also create a PSCredential object by using a script or by using the Get-Credential cmdlet. You can then set the Credential parameter to the PSCredential object.
 
 .EXAMPLE
-Create a new token using the specified information
+$sat = New-PCSaToken -CspAddId XXXXXXXXXXXXXXX -CspDomain contoso.onmicrosoft.com -CspClientSecret $ClientSecretSecure -Credential $cred
 
+Creates a new token using the specified information
+.NOTES
 $cred = Get-Credential
 clientSecret = 'XXXXXXXXXXXXXXXXXXXXXX='
 $ClientSecretSecure = $clientSecret | ConvertTo-SecureString -AsPlainText -Force
-$sat = New-PCSaToken -CspAddId XXXXXXXXXXXXXXX -CspDomain contoso.onmicrosoft.com -CspClientSecret $ClientSecretSecure -Credential $cred
 
 #>
 function New-PCSaToken {

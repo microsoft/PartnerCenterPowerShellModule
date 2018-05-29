@@ -1,6 +1,6 @@
 ﻿Set-StrictMode -Version latest
 <#
-    © 2017 Microsoft Corporation. All rights reserved. This sample code is not supported under any Microsoft standard support program or service. 
+    © 2018 Microsoft Corporation. All rights reserved. This sample code is not supported under any Microsoft standard support program or service. 
     This sample code is provided AS IS without warranty of any kind. Microsoft disclaims all implied warranties including, without limitation, 
     any implied warranties of merchantability or of fitness for a particular purpose. The entire risk arising out of the use or performance 
     of the sample code and documentation remains with you. In no event shall Microsoft, its authors, or anyone else involved in the creation, 
@@ -13,12 +13,13 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 . "$here\commons.ps1"
 
 <#
-
-
+.SYNOPSIS
+TODO
 .DESCRIPTION
+The Get-PCOffer
 
 .PARAMETER SaToken 
-
+The authentication token you have created with your Partner Center Credentials.
 .PARAMETER CountryId 
 
 .PARAMETER OfferId
@@ -28,6 +29,7 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 .PARAMETER AddOns 
 
 .EXAMPLE
+Get-PCOffer
 
 .NOTES
 #>
@@ -82,15 +84,17 @@ function Get-PCOffer {
 }
 
 <#
-
-
+.SYNOPSIS
+TODO
 .DESCRIPTION
+The Get-PCOfferCategoriesByMarket cmdlet
 
 .PARAMETER SaToken 
-
+The authentication token you have created with your Partner Center Credentials.
 .PARAMETER CountryId 
-
+The two-character ISO alpha-2 Country code.
 .EXAMPLE
+Get-PCOfferCategoriesByMarket -CountryId US
 
 .NOTES
 #>
@@ -113,7 +117,7 @@ function Get-PCOfferCategoriesByMarket {
 }
 
 <#
-
+.SYNOPSIS
 Retrieves a list of address rules for a specified market.
 
 .DESCRIPTION

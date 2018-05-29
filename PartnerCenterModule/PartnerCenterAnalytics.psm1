@@ -1,6 +1,6 @@
 ﻿Set-StrictMode -Version latest
 <#
-    © 2017 Microsoft Corporation. All rights reserved. This sample code is not supported under any Microsoft standard support program or service. 
+    © 2018 Microsoft Corporation. All rights reserved. This sample code is not supported under any Microsoft standard support program or service. 
     This sample code is provided AS IS without warranty of any kind. Microsoft disclaims all implied warranties including, without limitation, 
     any implied warranties of merchantability or of fitness for a particular purpose. The entire risk arising out of the use or performance 
     of the sample code and documentation remains with you. In no event shall Microsoft, its authors, or anyone else involved in the creation, 
@@ -33,6 +33,8 @@ function Get-PCLicensesDeployment
 }
 
 <#
+.SYNOPSIS
+TODO
 .DESCRIPTION
 The Get-PCLicenseDeployment cmdlet retrieves a list of licenses for the authenticated partner.
 
@@ -40,9 +42,9 @@ The Get-PCLicenseDeployment cmdlet retrieves a list of licenses for the authenti
 The authentication token you have created with your Partner Center Credentials.
 
 .EXAMPLE
-Return a list of assigned licenses for the authenticated partner.
-
 Get-PCLicenseDeployment
+
+Return a list of assigned licenses for the authenticated partner.
 
 .NOTES
 You need to have a authentication Credential already established before running this cmdlet.
@@ -83,6 +85,8 @@ function Get-PCLicensesUsage
 }
 
 <#
+.SYNOPSIS
+Retrieves a list of licenses being used for the partner account.
 
 .DESCRIPTION
 The Get-PCLicenseUsage cmdlet retrieves a list of licenses assigned for the authenticated partner.
@@ -91,9 +95,9 @@ The Get-PCLicenseUsage cmdlet retrieves a list of licenses assigned for the auth
 The authentication token you have created with your Partner Center credentials.
 
 .EXAMPLE
-Return a list of assigned licenses for the authenticated partner.
-
 Get-PCLicenseUsage
+
+Return a list of assigned licenses for the authenticated partner.
 
 .NOTES
 You need to have a authentication Credential already established before running this cmdlet.
@@ -136,6 +140,8 @@ function Get-PCCustomerLicensesDeployment
 }
 
 <#
+.SYNOPSIS
+TODO
 .DESCRIPTION
 The Get-PCCustomerLicenseDeployment cmdlet retrieves a list of licenses deployed by a partner for a specifc tenant.
 
@@ -146,9 +152,10 @@ Specifies the authentication token you have created with your Partner Center cre
 Specifies the tenant id.
 
 .EXAMPLE
-Retrive a list of deployed liceses for the specified tenant
-
 Get-PCCustomerLicenseDeployment -TenantId XXXXXXXXXXXXXXXXXXXX
+
+Retrieve a list of deployed liceses for the specified tenant.
+
 #>
 function Get-PCCustomerLicenseDeployment
 {
@@ -189,6 +196,8 @@ function Get-PCCustomerLicensesUsage
 }
 
 <#
+.SYNOPSIS
+TODO
 .DESCRIPTION
 The Get-PCCustomerLicenseUsage cmdlet retrieves a list of licenses deployed and assigned by a partner for a specifc tenant.
 

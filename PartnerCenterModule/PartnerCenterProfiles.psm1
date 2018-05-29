@@ -1,6 +1,6 @@
 ﻿Set-StrictMode -Version latest
 <#
-    © 2017 Microsoft Corporation. All rights reserved. This sample code is not supported under any Microsoft standard support program or service. 
+    © 2018 Microsoft Corporation. All rights reserved. This sample code is not supported under any Microsoft standard support program or service. 
     This sample code is provided AS IS without warranty of any kind. Microsoft disclaims all implied warranties including, without limitation, 
     any implied warranties of merchantability or of fitness for a particular purpose. The entire risk arising out of the use or performance 
     of the sample code and documentation remains with you. In no event shall Microsoft, its authors, or anyone else involved in the creation, 
@@ -18,7 +18,7 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 .DESCRIPTION
 
 .PARAMETER SaToken 
-
+The authentication token you have created with your Partner Center Credentials.
 .EXAMPLE
 
 .NOTES
@@ -41,14 +41,14 @@ function Get-PCLegalBusinessProfile {
 }
 
 <#
-
+.SYNOPSIS
 
 .DESCRIPTION
 
 .PARAMETER SaToken 
-
+The authentication token you have created with your Partner Center Credentials.
 .EXAMPLE
-
+Get-PCOrganizationProfile
 .NOTES
 #>
 function Get-PCOrganizationProfile {
@@ -69,12 +69,12 @@ function Get-PCOrganizationProfile {
 }
 
 <#
-
+.SYNOPSIS
 
 .DESCRIPTION
 
 .PARAMETER SaToken 
-
+The authentication token you have created with your Partner Center Credentials.
 .EXAMPLE
 
 .NOTES
@@ -97,12 +97,12 @@ function Get-PCBillingProfile {
 }
 
 <#
-
+.SYNOPSIS
 
 .DESCRIPTION
 
 .PARAMETER SaToken 
-
+The authentication token you have created with your Partner Center Credentials.
 .PARAMETER MpnId 
 
 .EXAMPLE
@@ -134,11 +134,12 @@ function Get-PCMpnProfile {
 }
 
 <#
-
+.SYNOPSIS
 
 .DESCRIPTION
 
 .PARAMETER SaToken 
+The authentication token you have created with your Partner Center Credentials.
 
 .EXAMPLE
 
@@ -162,12 +163,12 @@ function Get-PCSupportProfile {
 }
 
 <#
-
+.SYNOPSIS
 
 .DESCRIPTION
 
 .PARAMETER SaToken 
-
+The authentication token you have created with your Partner Center Credentials.
 .PARAMETER Country 
 
 .PARAMETER AddressLine1 
@@ -244,12 +245,12 @@ function Set-PCLegalBusinessProfile {
 }
 
 <#
-
+.SYNOPSIS
 
 .DESCRIPTION
 
 .PARAMETER SaToken 
-
+The authentication token you have created with your Partner Center Credentials.
 .PARAMETER CompanyName 
 
 .PARAMETER Country 
@@ -323,12 +324,12 @@ function Set-PCOrganizationProfile {
 }
 
 <#
-
+.SYNOPSIS
 
 .DESCRIPTION
 
 .PARAMETER SaToken 
-
+The authentication token you have created with your Partner Center Credentials.
 .PARAMETER AddressLine1 
 
 .PARAMETER AddressLine2
@@ -395,11 +396,12 @@ function Set-PCBillingProfile {
 }
 
 <#
-
+.SYNOPSIS
 
 .DESCRIPTION
 
 .PARAMETER SaToken 
+The authentication token you have created with your Partner Center Credentials.
 
 .PARAMETER Website 
 
@@ -442,12 +444,12 @@ function Set-PCSupportProfile {
 }
 
 <#
-
+.SYNOPSIS
 
 .DESCRIPTION
 
 .PARAMETER SaToken 
-
+The authentication token you have created with your Partner Center Credentials.
 .PARAMETER TenantId 
 
 .EXAMPLE
@@ -475,12 +477,12 @@ function Get-PCCustomerBillingProfile {
 }
 
 <#
-
+.SYNOPSIS
 
 .DESCRIPTION
 
 .PARAMETER SaToken 
-
+The authentication token you have created with your Partner Center Credentials.
 .PARAMETER TenantId 
 
 .PARAMETER BillingProfile 
@@ -512,12 +514,12 @@ function Set-PCCustomerBillingProfile {
 }
 
 <#
-
+.SYNOPSIS
 
 .DESCRIPTION
 
 .PARAMETER SaToken 
-
+The authentication token you have created with your Partner Center Credentials.
 .PARAMETER TenantId 
 
 .EXAMPLE
@@ -544,12 +546,12 @@ function Get-PCCustomerCompanyProfile {
 }
 
 <#
-
+.SYNOPSIS
 
 .DESCRIPTION
 
 .PARAMETER SaToken 
-
+The authentication token you have created with your Partner Center Credentials.
 .PARAMETER FirstName 
 
 .PARAMETER LastName
@@ -613,7 +615,7 @@ function New-PCCustomerBillingProfile {
 }
 
 <#
-
+.SYNOPSIS
 
 .DESCRIPTION
 
@@ -658,11 +660,11 @@ function New-PCCustomerDefaultAddress {
 }
 
 <#
-
+.SYNOPSIS
 
 .DESCRIPTION
 
-.PARAMETER domain 
+.PARAMETER Domain 
 
 .EXAMPLE
 
@@ -671,15 +673,15 @@ function New-PCCustomerDefaultAddress {
 function New-PCCustomerCompanyProfile {   
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory = $true)][string]$domain
+        [Parameter(Mandatory = $true)][string]$Domain
     )
 
-    $companyProfile = [CompanyProfile]::new($domain)
-    return $companyProfile
+    $companyProfile = [CompanyProfile]::new($Domain)
+    return $CompanyProfile
 }
 
 <#
-
+.SYNOPSIS
 
 .DESCRIPTION
 
@@ -719,7 +721,7 @@ function New-PCAddress {
 }
 
 <#
-
+.SYNOPSIS
 
 .DESCRIPTION
 

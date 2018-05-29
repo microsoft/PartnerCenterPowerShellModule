@@ -28,7 +28,7 @@
 
     $serviceRequest = [ServiceRequest]::new()
     $serviceRequest.Title = '<title>'
-    $serviceRequest.Description = '<description>'
+    $serviceRequest.SYNOPSIS \n \n .DESCRIPTION = '<description>'
     $serviceRequest.Severity = '<Minimal | Moderate | Critical>'
     $serviceRequest.supportTopicID = $supportTopic.id
     $serviceRequest.PrimaryContact = $serviceRequestContact
