@@ -335,10 +335,8 @@ ASALocalRun/
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
-tests/Test-PCCmdlets.ps1
-tests/Reset-PCTests.ps1
-CmdletHelp3/New-PCOrder.md
-CmdletHelp3/New-PCCustomerUser.md
+!tests/Reset-PCTests.ps1
+!tests/Test-PCCmdlets.ps1
 tests/Get-Markdown.ps1
 tests/Get-HelpByMarkdown.ps1
 tests/Reset-PCTestsLOCAL.ps1
