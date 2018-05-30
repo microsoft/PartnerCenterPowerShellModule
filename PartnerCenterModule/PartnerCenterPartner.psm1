@@ -12,42 +12,12 @@
 $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 . "$here\commons.ps1"
 
-function Get-PCAuditRecords {
-    [CmdletBinding()]
-    Param(
-        [Parameter(Mandatory = $true)][ValidatePattern("\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])*")][string]$StartDate,
-        [Parameter(Mandatory = $false)][ValidatePattern("\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])*")][string]$EndDate,
-        #[Parameter(Mandatory = $false)][string]$filter,
-        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
-    )
-    _testTokenContext($SaToken)
-
-    Write-Warning "  Get-PCAuditRecords is deprecated and will not be available in future releases, use Get-PCAuditRecord instead."
-    $obj = @()
-
-    if ($StartDate) { $url = "https://api.partnercenter.microsoft.com/v1/auditrecords?startDate={0}" -f $StartDate }
-    if ($EndDate) { $url = "https://api.partnercenter.microsoft.com/v1/auditrecords?startDate={0}&endDate={1}" -f $StartDate, $EndDate }
-    #if ($filter)
-    #{
-    #    [Reflection.Assembly]::LoadWithPartialName("System.Web") | Out-Null
-    #    $filter = [System.Web.HttpUtility]::UrlEncode($filter)
-    #    $url = "https://api.partnercenter.microsoft.com/v1/auditrecords?startDate={0}&endDate={1}&filter={2}" -f $startDate, $endDate, $filter
-    #}
-
-    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
-    $headers.Add("Authorization", "Bearer $SaToken")
-    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
-
-    $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-    $obj += $response.items
-    return (_formatResult -obj $obj -type "AuditRecord")  
-}
-
 <#
 .SYNOPSIS
+TODO
 
 .DESCRIPTION
-
+The Get-PCAuditRecord cmdlet. 
 .PARAMETER SaToken 
 The authentication token you have created with your Partner Center Credentials.
 .PARAMETER StartDate 
@@ -92,37 +62,19 @@ function Get-PCAuditRecord {
     return (_formatResult -obj $obj -type "AuditRecord")  
 }
 
-function Get-PCIndirectResellers {
-    [CmdletBinding()]
-    Param(
-        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
-    )
-    _testTokenContext($SaToken)
-
-    Write-Warning "  Get-PCIndirectResellers is deprecated and will not be available in future releases, use Get-PCIndirectReseller instead."
-    
-    $obj = @()
-
-    $url = "https://api.partnercenter.microsoft.com/v1/relationships?relationship_type=IsIndirectCloudSolutionProviderOf"
-
-    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
-    $headers.Add("Authorization", "Bearer $SaToken")
-    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
-
-    $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-    $obj += $response.Substring(1) | ConvertFrom-Json
-    return (_formatResult -obj $obj -type "PartnerRelationship")  
-}
 
 <#
 .SYNOPSIS
+TODO
 
 .DESCRIPTION
+The Get-PCIndirectReseller cmdlet.
 
 .PARAMETER SaToken 
 The authentication token you have created with your Partner Center Credentials.
-.EXAMPLE
 
+.EXAMPLE
+Get-PCIndirectReseller
 .NOTES
 #>
 function Get-PCIndirectReseller {

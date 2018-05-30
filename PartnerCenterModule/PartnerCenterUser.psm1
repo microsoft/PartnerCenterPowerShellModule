@@ -29,7 +29,7 @@ The authentication token you have created with your Partner Center Credentials.
 
 .PARAMETER Deleted
 
-.PARAMETER Size 
+.PARAMETER Limit 
 
 .EXAMPLE
 
@@ -44,7 +44,7 @@ function Get-PCCustomerUser
             [Parameter(ParameterSetName='activeuser', Mandatory = $false)][String]$UserId,
             [Parameter(ParameterSetName='activeuser', Mandatory = $false)][switch]$Licenses,
             [Parameter(ParameterSetName='deleteduser', Mandatory = $false)][switch]$Deleted,
-            [Parameter(ParameterSetName='deleteduser', Mandatory = $false)][int]$Size = 200,
+            [Parameter(ParameterSetName='deleteduser', Mandatory = $false)][int]$Limit = 200,
             [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
     )
     _testTokenContext($SaToken)
@@ -108,14 +108,14 @@ function Get-PCCustomerUser
         }
     }
 
-    function Private:Get-DeletedUsersInner ($SaToken, $TenantId, $Size)
+    function Private:Get-DeletedUsersInner ($SaToken, $TenantId, $Limit)
     {
        $obj = @()
         $filter = '{"Field":"UserStatus","Value":"Inactive","Operator":"equals"}'
         [Reflection.Assembly]::LoadWithPartialName("System.Web") | Out-Null
         $Encode = [System.Web.HttpUtility]::UrlEncode($filter)
 
-        $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/users?size={1}&filter={2}" -f $TenantId,$Size,$Encode
+        $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/users?size={1}&filter={2}" -f $TenantId,$Limit,$Encode
 
         $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
         $headers.Add("Authorization", "Bearer $SaToken")
@@ -131,7 +131,7 @@ function Get-PCCustomerUser
         "activeuser" {$res = Get-CustomerUserInner -SaToken $SaToken -TenantId $TenantId -user $UserId -licenses $Licenses
                           return $res}
 
-        "deleteduser"{$res = Get-DeletedUsersInner -SaToken $SaToken -TenantId $TenantId -size $Size
+        "deleteduser"{$res = Get-DeletedUsersInner -SaToken $SaToken -TenantId $TenantId -Limit $Limit
                           return $res}
 
         "all"        {$res = Get-CustomerAllUserInner -SaToken $SaToken -TenantId $TenantId 

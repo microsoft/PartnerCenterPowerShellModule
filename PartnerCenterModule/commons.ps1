@@ -8,7 +8,7 @@
     sample scripts or documentation, even if Microsoft has been advised of the possibility of such damages.
 #>
 
-$ApplicationName = "Partner Center PowerShell Module v0.9.1.0"
+$ApplicationName = "Partner Center PowerShell Module v0.10.0.0"
 
 function _applyTypes {
    param($item,$type)

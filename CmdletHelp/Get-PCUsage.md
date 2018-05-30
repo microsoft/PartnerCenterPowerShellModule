@@ -9,11 +9,11 @@
 ## Get a subscription ##
 
 ```powershell
-    Get-PCSubscription -all
+    Get-PCSubscription
 ```
 
 ## Gets the utilization records of a customer's Azure subscription for a specified period ##
 
 ```powershell
-    Get-PCUsage -subscriptionid $subscription.id -startTime "01-12-1999 00:00:00" -endTime "12-31-1999 00:00:00" -granularity {daily | hourly}-showDetails  <bool> -size <int>
+    Get-PCUsage -SubscriptionId $subscription.id -StartTime "01-12-1999 00:00:00" -EndTime "12-31-1999 00:00:00" -Granularity {daily | hourly} -ShowDetails  <bool> -Limit <int>
 ```

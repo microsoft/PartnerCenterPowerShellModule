@@ -174,7 +174,7 @@ function Get-PCAddressRulesByMarket {
 }
 
 <#
-
+.SYNOPSIS
 Retrieves the Azure services rate card for the specified region.
 
 .DESCRIPTION
@@ -183,17 +183,16 @@ The Get-PCAzureRateCard returns a list of Azure rates for the specified region.
 .PARAMETER SaToken 
 The authentication token you have created with your Partner Center Credentials.
 
-.PARAMETER region 
+.PARAMETER Region 
 The two-character ISO alpha-2 Country code.
 
-.PARAMETER currency 
+.PARAMETER Currency 
 The three-character ISO currency code.
 
 .EXAMPLE
-Returns the Azure rate card for the specified region and currency.
-
 Get-PCAzureRateCard -region US -currency USD
 
+Returns the Azure rate card for the specified region and currency.
 .NOTES
 You need to have a authentication Credential already established before running this cmdlet. The region and the currency must match to return a result.
 

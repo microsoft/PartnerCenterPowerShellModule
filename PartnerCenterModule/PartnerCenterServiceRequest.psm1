@@ -14,9 +14,9 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 
 <#
 .SYNOPSIS
-
+TODO
 .DESCRIPTION
-
+The Get-PCSR cmdlet.
 .PARAMETER SaToken 
 The authentication token you have created with your Partner Center Credentials.
 .PARAMETER TenantId 
@@ -26,8 +26,10 @@ The authentication token you have created with your Partner Center Credentials.
 .PARAMETER All 
 
 .EXAMPLE
+Get-PCSR
 
 .NOTES
+TODO
 #>
 function Get-PCSR
 {
@@ -47,11 +49,17 @@ function Get-PCSR
     $headers.Add("Authorization", "Bearer $SaToken")
     $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
-    switch ($PsCmdlet.ParameterSetName)
+    if($PsCmdlet.ParameterSetName -eq "TenantId")
     {
-        "TenantId" {$url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/servicerequests" -f $TenantId}
-        "all"      {$url = "https://api.partnercenter.microsoft.com/v1/servicerequests"}
-        "srid"      {$url = "https://api.partnercenter.microsoft.com/v1/servicerequests/{0}" -f $ServiceRequestId}
+        $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/servicerequests" -f $TenantId
+    }
+    elseif(PsCmdlet.ParameterSetName -eq "srid")
+    {
+        $url = "https://api.partnercenter.microsoft.com/v1/servicerequests/{0}" -f $ServiceRequestId
+    }
+    else{
+
+        $url = "https://api.partnercenter.microsoft.com/v1/servicerequests"
     }
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
@@ -59,36 +67,15 @@ function Get-PCSR
     return (_formatResult -obj $obj -type "ServiceRequest")
 }
 
-function Get-PCSRTopics
-{
-    [CmdletBinding()]
-    param([Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken)
-    _testTokenContext($SaToken)
-
-    Write-Warning "    Get-PCSRTopics is deprecated and will not be available in future releases, use Get-PCSRTopic instead."
-
-    $obj = @()
-
-    $url = "https://api.partnercenter.microsoft.com/v1/servicerequests/supporttopics"
-    
-    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
-    $headers.Add("Authorization", "Bearer $SaToken")
-    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
-
-    $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-    $obj += $response.Substring(1) | ConvertFrom-Json
-    return (_formatResult -obj $obj -type "ServiceRequestTopics")   
-}
-
 <#
 .SYNOPSIS
-
+TODO
 .DESCRIPTION
-
+The Get-PCSRTopic cmdlet
 .PARAMETER SaToken 
 The authentication token you have created with your Partner Center Credentials.
 .EXAMPLE
-
+Get-PCSRTopic
 .NOTES
 #>
 function Get-PCSRTopic

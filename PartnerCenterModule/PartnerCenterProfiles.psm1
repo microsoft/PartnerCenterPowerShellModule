@@ -263,9 +263,9 @@ function Set-PCLegalBusinessProfile {
 
 <#
 .SYNOPSIS
-
+TODO
 .DESCRIPTION
-
+The Set-PCOrganizationProfile cmdlet.
 .PARAMETER SaToken 
 The authentication token you have created with your Partner Center Credentials.
 .PARAMETER CompanyName 
@@ -345,9 +345,9 @@ function Set-PCOrganizationProfile {
 
 <#
 .SYNOPSIS
-
+TODO 
 .DESCRIPTION
-
+The Set-PCBillingProfile cmdlet. 
 .PARAMETER SaToken 
 The authentication token you have created with your Partner Center Credentials.
 .PARAMETER AddressLine1 
@@ -420,9 +420,9 @@ function Set-PCBillingProfile {
 
 <#
 .SYNOPSIS
-
+TODO 
 .DESCRIPTION
-
+The Set-PCSupportProfile cmdlet. 
 .PARAMETER SaToken 
 The authentication token you have created with your Partner Center Credentials.
 
@@ -471,15 +471,15 @@ function Set-PCSupportProfile {
 
 <#
 .SYNOPSIS
-
+TODO
 .DESCRIPTION
-
+The Get-PCCustomerBillingProfile cmdlet.
 .PARAMETER SaToken 
 The authentication token you have created with your Partner Center Credentials.
 .PARAMETER TenantId 
 
 .EXAMPLE
-
+Get-PCCustomerBillingProfile
 .NOTES
 #>
 function Get-PCCustomerBillingProfile {
@@ -507,9 +507,9 @@ function Get-PCCustomerBillingProfile {
 
 <#
 .SYNOPSIS
-
+TODO
 .DESCRIPTION
-
+The Set-PCCustomerBillingProfile cmdlet.
 .PARAMETER SaToken 
 The authentication token you have created with your Partner Center Credentials.
 .PARAMETER TenantId 
@@ -548,11 +548,13 @@ function Set-PCCustomerBillingProfile {
 
 <#
 .SYNOPSIS
-
+TODO
 .DESCRIPTION
+The Get-PCCustomerCompanyProfile cmdlet. 
 
 .PARAMETER SaToken 
 The authentication token you have created with your Partner Center Credentials.
+
 .PARAMETER TenantId 
 
 .EXAMPLE
@@ -583,9 +585,9 @@ function Get-PCCustomerCompanyProfile {
 
 <#
 .SYNOPSIS
-
+TODO
 .DESCRIPTION
-
+The New-PCCustomerBillinghProfile cmdlet.
 .PARAMETER SaToken 
 The authentication token you have created with your Partner Center Credentials.
 .PARAMETER FirstName 
@@ -602,21 +604,22 @@ The authentication token you have created with your Partner Center Credentials.
 
 .PARAMETER Country
 
-.PARAMETER region 
+.PARAMETER Region 
 
 .PARAMETER City 
 
 .PARAMETER State
 
-.PARAMETER addressline1
+.PARAMETER AddressLine1
 
 .PARAMETER PostalCode 
 
 .PARAMETER PhoneNumber 
 
-.PARAMETER defaultAddress
+.PARAMETER DefaultAddress
 
 .EXAMPLE
+New-PCCustomerBillingProfile
 
 .NOTES
 #>
@@ -652,8 +655,9 @@ function New-PCCustomerBillingProfile {
 
 <#
 .SYNOPSIS
-
+TODO
 .DESCRIPTION
+The New-PCCustomerDefaultAddress cmdlet. 
 
 .PARAMETER Country 
 
@@ -697,12 +701,14 @@ function New-PCCustomerDefaultAddress {
 
 <#
 .SYNOPSIS
-
+TODO
 .DESCRIPTION
+The New-PCCustomerCompanyProfile cmdlet.
 
 .PARAMETER Domain 
 
 .EXAMPLE
+New-PCCustomerCompanyProfile
 
 .NOTES
 #>
@@ -718,9 +724,9 @@ function New-PCCustomerCompanyProfile {
 
 <#
 .SYNOPSIS
-
+TODO
 .DESCRIPTION
-
+The New-PCAddress cmdlet.
 .PARAMETER AddressLine1 
 
 .PARAMETER AddressLine2 
@@ -736,7 +742,7 @@ function New-PCCustomerCompanyProfile {
 .PARAMETER Region 
 
 .EXAMPLE
-
+New-PCAddress
 .NOTES
 #>
 function New-PCAddress {
@@ -758,9 +764,9 @@ function New-PCAddress {
 
 <#
 .SYNOPSIS
-
+TODO
 .DESCRIPTION
-
+The Test-PCAddress cmdlet.
 .PARAMETER SaToken 
 
 .PARAMETER Address 
@@ -778,7 +784,7 @@ function New-PCAddress {
 .PARAMETER Country
 
 .EXAMPLE
-
+Test-PCAddress
 .NOTES
 #>
 function Test-PCAddress {

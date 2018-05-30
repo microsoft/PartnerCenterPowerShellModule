@@ -25,13 +25,11 @@ The authentication token you have created with your Partner Center Credentials.
 .PARAMETER TenantId 
 The tenant Id assigned to the customer you want to retrieve.
 
-.PARAMETER Filter 
-A filter specified to limit the number of customers returned.
+.PARAMETER Limit 
+Specifies a limit to the number of customers returned.
 
 .PARAMETER StartsWith 
-This switch does not do anything, but is still included for backward compatability.
-.PARAMETER All 
-This switch does not do anything, but is still included for backward compatability.
+Specifies a filter for the customer names returned.
 
 .EXAMPLE
 Get-PCCustomer
@@ -39,7 +37,7 @@ Get-PCCustomer
 Return a list of customers for a partner.
 
 .NOTES
-You need to have a authentication Credential already established before running this cmdlet.
+You need to have a authentication credential already established before running this cmdlet.
 
 #>
 function Get-PCCustomer {
@@ -48,7 +46,7 @@ function Get-PCCustomer {
     Param(
         [Parameter(ParameterSetName = 'TenantId', Mandatory = $false)][String]$TenantId,
         [Parameter(ParameterSetName = 'filter', Mandatory = $true)][String]$StartsWith,
-        [Parameter(ParameterSetName = 'filter', Mandatory = $false)][int]$Size = 200,
+        [Parameter(ParameterSetName = 'filter', Mandatory = $false)][int]$Limit = 200,
         [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken, 
         [Parameter(Mandatory = $false)][switch]$All
     )
@@ -75,14 +73,14 @@ function Get-PCCustomer {
         return (_formatResult -obj $obj -type "Customer")  
     }
 
-    function Private:Search-CustomerInner ($SaToken, $StartsWith, $Size) {
+    function Private:Search-CustomerInner ($SaToken, $StartsWith, $Limit) {
         $obj = @()
 
         [string]$filter = '{"Field":"CompanyName","Value":"' + $StartsWith + '","Operator":"starts_with"}'
         [Reflection.Assembly]::LoadWithPartialName("System.Web") | Out-Null
         $Encode = [System.Web.HttpUtility]::UrlEncode($filter)
 
-        $url = "https://api.partnercenter.microsoft.com/v1/customers?size={0}&filter={1}" -f $Size, $Encode
+        $url = "https://api.partnercenter.microsoft.com/v1/customers?size={0}&filter={1}" -f $Limit, $Encode
 
         $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
         $headers.Add("Authorization", "Bearer $SaToken")
@@ -101,33 +99,12 @@ function Get-PCCustomer {
         return $res
     }
     elseif ($PsCmdlet.ParameterSetName -eq "filter") {
-        $res = Search-CustomerInner -SaToken $SaToken -StartsWith $StartsWith -Size $Size
+        $res = Search-CustomerInner -SaToken $SaToken -StartsWith $StartsWith -Limit $Limit
         return $res
     }
 
 }
 
-function Get-PCSubscribedSKUs {
-    [CmdletBinding()]
-    param ([Parameter(Mandatory = $false)][String]$TenantId = $GlobalCustomerId,
-        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken)
-    _testTokenContext($SaToken)
-    _testTenantContext ($TenantId)
-
-    Write-Warning "  Get-PCSubscribedSKUs is deprecated and will not be available in future releases, use Get-PCSubscribedSKU instead."
-
-    $obj = @()
-
-    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/subscribedskus" -f $TenantId
- 
-    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
-    $headers.Add("Authorization", "Bearer $SaToken")
-    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
-
-    $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-    $obj += $response.Substring(1) | ConvertFrom-Json
-    return (_formatResult -obj $obj -type "SubscribedSku")  
-}
 
 <#
 .SYNOPSIS
@@ -374,29 +351,6 @@ function Remove-PCCustomer {
     return ($response)  
 }
 
-function Get-PCManagedServices {    
-    [CmdletBinding()]
-    param (
-        [Parameter(Mandatory = $false)][String]$TenantId = $GlobalCustomerId,
-        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
-    )
-    _testTokenContext($SaToken)
-    _testTenantContext ($TenantId)
-
-    Write-Warning "  Get-PCManagedServices is deprecated and will not be available in future releases, use Get-PCManagedService instead."
-
-    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/managedservices" -f $TenantId
-
-    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
-    $headers.Add("Authorization", "Bearer $SaToken")
-    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
-    
-    $obj = @()
-    $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-    $obj += $response.Substring(1) | ConvertFrom-Json
-    return (_formatResult -obj $obj -type "ManagedServices")  
-}
-
 <#
 .SYNOPSIS
 Returns a list of managed services
@@ -471,28 +425,6 @@ function Select-PCCustomer {
     return (_formatResult -obj $obj -type "Customer") 
 }
 
-function Get-PCCustomerRelationships {    
-    [CmdletBinding()]
-    param ([
-        Parameter(Mandatory = $false)][String]$TenantId = $GlobalCustomerId,
-        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken)
-    _testTokenContext($SaToken)
-    _testTenantContext ($TenantId)
-
-    Write-Warning "  Get-PCCustomerRelationships is deprecated and will not be available in future releases, use Get-PCCustomerRelationship instead."
-
-    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/relationships" -f $TenantId
-    
-    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
-    $headers.Add("Authorization", "Bearer $SaToken")
-    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
-
-    $obj = @()
-    $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-    $obj += $response.Substring(1) | ConvertFrom-Json
-    return (_formatResult -obj $obj -type "PartnerRelationship")
-}
-
 <#
 .SYNOPSIS
 Returns the type of relationship the specified tenant has with the current partner.
@@ -504,7 +436,6 @@ The authentication token you have created with your Partner Center Credentials.
 
 .EXAMPLE
 Get-PCCustomerRelationship -TenantId XXXXXXXXXXXXX
-
 
 .NOTES
 #>
@@ -534,7 +465,7 @@ function Get-PCResellerCustomers {
 
     Param(
         [Parameter(ParameterSetName = 'filter', Mandatory = $true)][String]$ResellerId,
-        [Parameter(ParameterSetName = 'filter', Mandatory = $false)][int]$Size = 200,
+        [Parameter(ParameterSetName = 'filter', Mandatory = $false)][int]$Limit = 200,
         [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
     )
     _testTokenContext($SaToken)
@@ -546,7 +477,7 @@ function Get-PCResellerCustomers {
     [Reflection.Assembly]::LoadWithPartialName("System.Web") | Out-Null
     $Encode = [System.Web.HttpUtility]::UrlEncode($filter)
 
-    $url = "https://api.partnercenter.microsoft.com/v1/customers?size={0}&filter={1}" -f $Size, $Encode
+    $url = "https://api.partnercenter.microsoft.com/v1/customers?size={0}&filter={1}" -f $Limit, $Encode
 
     $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
     $headers.Add("Authorization", "Bearer $SaToken")
@@ -567,7 +498,7 @@ The Get-PCResllerCustomer cmdlet returns a list of reseller customers or a spefi
 The authentication token you have created with your Partner Center Credentials.
 .PARAMETER ResellerId 
 
-.PARAMETER Size 
+.PARAMETER Limit 
 
 .EXAMPLE
 
@@ -578,7 +509,7 @@ function Get-PCResellerCustomer {
 
     Param(
         [Parameter(ParameterSetName = 'filter', Mandatory = $true)][String]$ResellerId,
-        [Parameter(ParameterSetName = 'filter', Mandatory = $false)][int]$Size = 200,
+        [Parameter(ParameterSetName = 'filter', Mandatory = $false)][int]$Limit = 200,
         [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
     )
     _testTokenContext($SaToken)
@@ -589,7 +520,7 @@ function Get-PCResellerCustomer {
     [Reflection.Assembly]::LoadWithPartialName("System.Web") | Out-Null
     $Encode = [System.Web.HttpUtility]::UrlEncode($filter)
 
-    $url = "https://api.partnercenter.microsoft.com/v1/customers?size={0}&filter={1}" -f $Size, $Encode
+    $url = "https://api.partnercenter.microsoft.com/v1/customers?size={0}&filter={1}" -f $Limit, $Encode
 
     $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
     $headers.Add("Authorization", "Bearer $SaToken")

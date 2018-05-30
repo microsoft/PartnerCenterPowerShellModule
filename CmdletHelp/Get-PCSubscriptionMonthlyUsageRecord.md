@@ -1,4 +1,4 @@
-# Get-PCSubscriptionMonthlyUsageRecords #
+# Get-PCSubscriptionMonthlyUsageRecord #
 
 ## Get a customer ##
 
@@ -9,5 +9,5 @@
 ## Get usage data for subscriptions ##
 
 ```powershell
-    Get-PCSubscriptionMonthlyUsageRecords -TenantId $customer.id
+    Get-PCSubscriptionMonthlyUsageRecord -TenantId $customer.id
 ```

@@ -341,3 +341,4 @@ CmdletHelp3/New-PCOrder.md
 CmdletHelp3/New-PCCustomerUser.md
 tests/Get-Markdown.ps1
 tests/Get-HelpByMarkdown.ps1
+tests/Reset-PCTestsLOCAL.ps1

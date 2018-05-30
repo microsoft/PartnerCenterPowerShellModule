@@ -31,7 +31,7 @@ The authentication token you have created with your Partner Center Credentials.
 
 .PARAMETER ShowDetails 
 
-.PARAMETER Size 
+.PARAMETER Limit 
 
 .EXAMPLE
 
@@ -45,13 +45,13 @@ function Get-PCUsage
         [Parameter(Mandatory = $true)][String]$EndTime,
         [Parameter(Mandatory = $false)][ValidateSet('daily', 'hourly')][String]$Granularity = 'daily',
         [Parameter(Mandatory = $false)][bool]$ShowDetails = $true,
-        [Parameter(Mandatory = $false)][ValidateRange(1, 1000)] [int]$Size = 1000,
+        [Parameter(Mandatory = $false)][ValidateRange(1, 1000)] [int]$Limit = 1000,
         [Parameter(Mandatory = $false)][String]$TenantId = $GlobalCustomerId,
         [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken)
     _testTokenContext($SaToken)
     _testTenantContext ($TenantId)
 
-    $retObject = Get-PCUsage_implementation -Subscriptionid $SubscriptionId -StartTime $startTime -EndTime $endTime -Granularity $granularity -ShowDetails $showDetails -Size $size -TenantId $TenantId -SaToken $SaToken
+    $retObject = Get-PCUsage_implementation -Subscriptionid $SubscriptionId -StartTime $startTime -EndTime $endTime -Granularity $granularity -ShowDetails $showDetails -Limit $Limit -TenantId $TenantId -SaToken $SaToken
 
     return $retObject.Items
 }
@@ -75,7 +75,7 @@ The authentication token you have created with your Partner Center Credentials.
 
 .PARAMETER ShowDetails 
 
-.PARAMETER Size 
+.PARAMETER Limit 
 
 .PARAMETER ContinuationLink 
 
@@ -92,7 +92,7 @@ function Get-PCUsage2
         [Parameter(Mandatory = $true, ParameterSetName = 'first')][String]$EndTime,
         [Parameter(Mandatory = $false, ParameterSetName = 'first')][ValidateSet('daily', 'hourly')][String]$Granularity = 'daily',
         [Parameter(Mandatory = $false, ParameterSetName = 'first')][bool]$ShowDetails = $true,
-        [Parameter(Mandatory = $false, ParameterSetName = 'first')][ValidateRange(1, 1000)] [int]$Size = 1000,
+        [Parameter(Mandatory = $false, ParameterSetName = 'first')][ValidateRange(1, 1000)] [int]$Limit = 1000,
         [Parameter(Mandatory = $false, ParameterSetName = 'first')][String]$TenantId = $GlobalCustomerId,
         [Parameter(Mandatory = $false, ParameterSetName = 'first')][Parameter(Mandatory = $false, ParameterSetName = 'next')][string]$SaToken = $GlobalToken,
         [Parameter(Mandatory = $true, ParameterSetName = 'next')]$ContinuationLink = $null
@@ -104,7 +104,7 @@ function Get-PCUsage2
         "first"
         {
             _testTenantContext ($TenantId)
-            $retObject = Get-PCUsage_implementation -Subscriptionid $SubscriptionId -StartTime $startTime -EndTime $endTime -Granularity $granularity -ShowDetails $showDetails -Size $size -TenantId $TenantId -SaToken $SaToken
+            $retObject = Get-PCUsage_implementation -Subscriptionid $SubscriptionId -StartTime $startTime -EndTime $endTime -Granularity $granularity -ShowDetails $showDetails -Limit $Limit -TenantId $TenantId -SaToken $SaToken
         }
         "next"
         {
@@ -134,7 +134,7 @@ The authentication token you have created with your Partner Center Credentials.
 
 .PARAMETER ShowDetails 
 
-.PARAMETER Size 
+.PARAMETER Limit 
 
 .PARAMETER ContinuationLink 
 
@@ -150,7 +150,7 @@ function Get-PCUsage_implementation
         [String]$EndTime,
         [String]$Granularity,
         [bool]$ShowDetails,
-        [int]$Size,
+        [int]$Limit,
         [String]$TenantId,
         [string]$SaToken,
         $ContinuationLink)
@@ -183,7 +183,7 @@ function Get-PCUsage_implementation
             "End time is not in a valid format. Use '31-12-1999 00:00:00' format"
         }
 
-        $urlParts += "Customers/{0}/Subscriptions/{1}/Utilizations/azure?start_time={2}Z&end_time={3}Z&show_details={4}&granularity={5}&size={6}" -f $TenantId, $SubscriptionId, $s_time, $e_time, $showDetails, $granularity, $size
+        $urlParts += "Customers/{0}/Subscriptions/{1}/Utilizations/azure?start_time={2}Z&end_time={3}Z&show_details={4}&granularity={5}&size={6}" -f $TenantId, $SubscriptionId, $s_time, $e_time, $showDetails, $granularity, $Limit
     }
     else
     {
@@ -215,33 +215,6 @@ function Get-PCUsage_implementation
     }
     $retObject = New-Object –TypeName PSObject –Prop $properties
     return $retObject
-}
-
-
-function Get-PCSubscriptionMonthlyUsageRecords
-{
-    [CmdletBinding()]
-    param (
-        [Parameter(Mandatory = $false)][String]$TenantId = $GlobalCustomerId,
-        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
-        
-    )
-    _testTokenContext($SaToken)
-    _testTenantContext ($TenantId)
-
-    Write-Warning "  Get-PCSubscriptionMonthlyUsageRecords is deprecated and will not be available in future releases, use Get-PCSubscriptionMonthlyUsageRecord instead."
-
-    $obj = @()
-
-    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/subscriptions/usagerecords" -f $TenantId
-
-    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
-    $headers.Add("Authorization", "Bearer $SaToken")
-    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
-
-    $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-    $obj += $response.Substring(1) | ConvertFrom-Json
-    return (_formatResult -obj $obj -type "SubscriptionMonthlyUsageRecord")
 }
 
 <#
@@ -278,31 +251,6 @@ function Get-PCSubscriptionMonthlyUsageRecord
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj += $response.Substring(1) | ConvertFrom-Json
     return (_formatResult -obj $obj -type "SubscriptionMonthlyUsageRecord")
-}
-
-function Get-PCAzureResourceMonthlyUsageRecords
-{
-    [CmdletBinding()]
-    param (
-        [Parameter(Mandatory = $false)][String]$TenantId = $GlobalCustomerId, 
-        [string]$SubscriptionId,
-        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken)
-    _testTokenContext($SaToken)
-    _testTenantContext ($TenantId)
-    
-    Write-Warning "  Get-PCAzureResourceMonthlyUsageRecords is deprecated and will not be available in future releases, use Get-PCAzureResourceMonthlyUsageRecord instead."
-
-    $obj = @()
-
-    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/subscriptions/{1}/usagerecords/resources" -f $TenantId, $SubscriptionId
-
-    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
-    $headers.Add("Authorization", "Bearer $SaToken")
-    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
-
-    $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-    $obj += $response.Substring(1) | ConvertFrom-Json
-    return (_formatResult -obj $obj -type "AzureResourceMonthlyUsageRecord") 
 }
 
 <#

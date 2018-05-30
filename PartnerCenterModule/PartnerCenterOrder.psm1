@@ -14,8 +14,9 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 
 <#
 .SYNOPSIS
-
+TODO
 .DESCRIPTION
+The Get-PCOrder cmdlet.
 
 .PARAMETER SaToken 
 The authentication token you have created with your Partner Center Credentials.
@@ -24,7 +25,7 @@ The authentication token you have created with your Partner Center Credentials.
 .PARAMETER OrderId 
 
 .EXAMPLE
-
+Get-PCOrder 
 .NOTES
 #>
 function Get-PCOrder {
@@ -65,16 +66,16 @@ function Get-PCOrder {
 
 <#
 .SYNOPSIS
-
+TODO
 .DESCRIPTION
-
+The New-PCOrder cmdlet
 .PARAMETER SaToken 
 The authentication token you have created with your Partner Center Credentials.
 .PARAMETER TenantId 
 
 .PARAMETER OrderId 
 
-.PARAMETER lineItems 
+.PARAMETER LineItems 
 
 .PARAMETER OfferId 
 
@@ -85,7 +86,7 @@ The authentication token you have created with your Partner Center Credentials.
 .PARAMETER PartnerIdOnRecord 
 
 .EXAMPLE
-
+New-PCOrder
 .NOTES
 #>
 function New-PCOrder {
@@ -144,9 +145,9 @@ function New-PCOrder {
 
 <#
 .SYNOPSIS
-
+TODO
 .DESCRIPTION
-
+The New-PCAddonOrder
 .PARAMETER SaToken 
 The authentication token you have created with your Partner Center Credentials.
 .PARAMETER TenantId 
@@ -156,7 +157,7 @@ The authentication token you have created with your Partner Center Credentials.
 .PARAMETER LineItems 
 
 .EXAMPLE
-
+New-PCAddonOrder
 .NOTES
 #>
 function New-PCAddonOrder {
@@ -218,9 +219,9 @@ function Set-Order
 
 <#
 .SYNOPSIS
-
+TODO
 .DESCRIPTION
-
+The New-OrderLineItem cmdlet
 .PARAMETER LineItemNumber 
 
 .PARAMETER OfferId
@@ -230,7 +231,7 @@ function Set-Order
 .PARAMETER FriendlyName
 
 .EXAMPLE
-
+New-OrderLineItem
 .NOTES
 #>
 function New-OrderLineItem {

@@ -29,7 +29,7 @@ The authentication token you have created with your Partner Center Credentials.
 
 .PARAMETER PartnerId 
 
-.PARAMETER Size
+.PARAMETER Limit
 
 .PARAMETER OrderId
 
@@ -47,7 +47,7 @@ function Get-PCSubscription
             [Parameter(ParameterSetName='SubscriptionId', Mandatory = $false)][String]$SubscriptionId,
             [Parameter(ParameterSetName='SubscriptionId', Mandatory = $false)][switch]$AddOns,           
             [Parameter(ParameterSetName='partnerId', Mandatory = $true)][String]$PartnerId,
-            [Parameter(ParameterSetName='partnerId',Mandatory = $false)][int]$Size = 200,
+            [Parameter(ParameterSetName='partnerId',Mandatory = $false)][int]$Limit = 200,
             [Parameter(ParameterSetName='OrderId', Mandatory = $false)][string]$OrderId,
             [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
     )
@@ -112,10 +112,10 @@ function Get-PCSubscription
         }
     }
 
-    function Private:Get-SubscriptionPartnerInner ($SaToken, $TenantId, $partnerId, $size)
+    function Private:Get-SubscriptionPartnerInner ($SaToken, $TenantId, $partnerId, $Limit)
     {
         $obj = @()
-        $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/subscriptions?mpn_id={1}&offset=0&size={2}" -f $TenantId,$partnerId,$size
+        $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/subscriptions?mpn_id={1}&offset=0&size={2}" -f $TenantId,$partnerId,$Limit
 
         $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
         $headers.Add("Authorization", "Bearer $SaToken")
@@ -160,7 +160,7 @@ function Get-PCSubscription
         "SubscriptionId" {$res = Get-SubscriptionInner -SaToken $SaToken -TenantId $TenantId -SubscriptionId $SubscriptionId -addons $addons
                           return $res}
 
-        "partnerId"      {$res = Get-SubscriptionPartnerInner -SaToken $SaToken -TenantId $TenantId -partnerId $partnerId -size $size
+        "partnerId"      {$res = Get-SubscriptionPartnerInner -SaToken $SaToken -TenantId $TenantId -partnerId $partnerId -Limit $Limit
                           return $res}
 
         "OrderId"        {$res = Get-SubscriptionByOrderInner -SaToken $SaToken -TenantId $TenantId -OrderId $OrderId
