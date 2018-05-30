@@ -33,7 +33,10 @@ function Get-PCLegalBusinessProfile {
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/profiles/legalbusiness"
-    $headers = @{Authorization = "Bearer $SaToken"}
+
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj += $response.Substring(1) | ConvertFrom-Json
@@ -61,7 +64,10 @@ function Get-PCOrganizationProfile {
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/profiles/organization"
-    $headers = @{Authorization = "Bearer $SaToken"}
+
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj += $response.Substring(1) | ConvertFrom-Json
@@ -89,7 +95,10 @@ function Get-PCBillingProfile {
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/profiles/billing"
-    $headers = @{Authorization = "Bearer $SaToken"}
+
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj += $response.Substring(1) | ConvertFrom-Json
@@ -126,7 +135,9 @@ function Get-PCMpnProfile {
         $url = "https://api.partnercenter.microsoft.com/v1/profiles/mpn"
     }
     
-    $headers = @{Authorization = "Bearer $SaToken"}
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj += $response.Substring(1) | ConvertFrom-Json
@@ -155,7 +166,10 @@ function Get-PCSupportProfile {
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/profiles/support"
-    $headers = @{Authorization = "Bearer $SaToken"}
+ 
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj += $response.Substring(1) | ConvertFrom-Json
@@ -234,7 +248,10 @@ function Set-PCLegalBusinessProfile {
     if ($PrimaryContactEmail) {$actualLegalBP.primaryContact.Email = $PrimaryContactEmail}
 
     $url = "https://api.partnercenter.microsoft.com/v1/profiles/legalbusiness"
-    $headers = @{Authorization = "Bearer $SaToken"}
+
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
     $body = $actualLegalBP | ConvertTo-Json -Depth 100
     $utf8body = [System.Text.Encoding]::UTF8.GetBytes($body)
@@ -313,7 +330,10 @@ function Set-PCOrganizationProfile {
     if ($Language) {$actualOrganizationP.Language = $Language}
 
     $url = "https://api.partnercenter.microsoft.com/v1/profiles/organization"
-    $headers = @{Authorization = "Bearer $SaToken"}
+
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
     $body = $actualOrganizationP | ConvertTo-Json -Depth 100
     $utf8body = [System.Text.Encoding]::UTF8.GetBytes($body)
@@ -385,7 +405,10 @@ function Set-PCBillingProfile {
     if ($PhoneNumber) {$actualBillingP.primaryContact.PhoneNumber = $PhoneNumber}
 
     $url = "https://api.partnercenter.microsoft.com/v1/profiles/billing"
-    $headers = @{Authorization = "Bearer $SaToken"}
+
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
     $body = $actualBillingP | ConvertTo-Json -Depth 100
     $utf8body = [System.Text.Encoding]::UTF8.GetBytes($body)
@@ -433,8 +456,11 @@ function Set-PCSupportProfile {
     if ($phone) {$actualSupportProfile.telephone = $phone}
 
     $url = "https://api.partnercenter.microsoft.com/v1/profiles/support"
-    $headers = @{Authorization = "Bearer $SaToken"}
 
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
+    
     $body = $actualSupportProfile | ConvertTo-Json -Depth 100
     $utf8body = [System.Text.Encoding]::UTF8.GetBytes($body)
 
@@ -469,7 +495,10 @@ function Get-PCCustomerBillingProfile {
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/profiles/billing" -f $TenantId
-    $headers = @{Authorization = "Bearer $SaToken"}
+
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj += $response.Substring(1) | ConvertFrom-Json
@@ -504,7 +533,11 @@ function Set-PCCustomerBillingProfile {
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/profiles/billing" -f $TenantId
-    $headers = @{Authorization = "Bearer $SaToken"}
+
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
+
     $body = $Billingprofile | ConvertTo-Json -Depth 100
     $utf8body = [System.Text.Encoding]::UTF8.GetBytes($body)
 
@@ -538,8 +571,11 @@ function Get-PCCustomerCompanyProfile {
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/profiles/company" -f $TenantId
-    $headers = @{Authorization = "Bearer $SaToken"}
 
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
+    
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj += $response.Substring(1) | ConvertFrom-Json
     return (_formatResult -obj $obj -type "Profile") 

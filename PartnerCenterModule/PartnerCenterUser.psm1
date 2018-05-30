@@ -54,7 +54,10 @@ function Get-PCCustomerUser
     {
         $obj = @()
         $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/users" -f $TenantId
-        $headers = @{Authorization="Bearer $SaToken"}
+
+        $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+        $headers.Add("Authorization", "Bearer $SaToken")
+        $headers.Add("MS-PartnerCenter-Application", $ApplicationName)       
 
         $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
         $obj += $response.Substring(1) | ConvertFrom-Json
@@ -69,7 +72,10 @@ function Get-PCCustomerUser
             if ($Licenses)
             {
                 $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/users/{1}/licenses" -f $TenantId, $UserId
-                $headers = @{Authorization="Bearer $SaToken"}
+                
+                $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+                $headers.Add("Authorization", "Bearer $SaToken")
+                $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
                 $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
                 $obj += $response.Substring(1) | ConvertFrom-Json
@@ -78,7 +84,10 @@ function Get-PCCustomerUser
             else
             {
                 $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/users/{1}" -f $TenantId, $UserId
-                $headers = @{Authorization="Bearer $SaToken"}
+
+                $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+                $headers.Add("Authorization", "Bearer $SaToken")
+                $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
                 $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
                 $obj += $response.Substring(1) | ConvertFrom-Json
@@ -88,7 +97,10 @@ function Get-PCCustomerUser
         else
         {
             $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/users" -f $TenantId
-            $headers = @{Authorization="Bearer $SaToken"}
+            
+            $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+            $headers.Add("Authorization", "Bearer $SaToken")
+            $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
             $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
             $obj += $response.Substring(1) | ConvertFrom-Json
@@ -104,7 +116,10 @@ function Get-PCCustomerUser
         $Encode = [System.Web.HttpUtility]::UrlEncode($filter)
 
         $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/users?size={1}&filter={2}" -f $TenantId,$Size,$Encode
-        $headers = @{Authorization="Bearer $SaToken"}
+
+        $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+        $headers.Add("Authorization", "Bearer $SaToken")
+        $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
         $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
         $obj += $response.Substring(1) | ConvertFrom-Json
@@ -170,9 +185,10 @@ function New-PCCustomerUser
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/users" -f $TenantId
-    $headers = @{Authorization="Bearer $SaToken"}
-    $headers += @{"MS-RequestId"=[Guid]::NewGuid()}
-    $headers += @{"MS-CorrelationId"=[Guid]::NewGuid()}
+
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
     $user = [CustomerUser]::new($UsageLocation,$UserPrincipalName,$FirstName,$LastName,$DisplayName,$Password,$ForceChangePassword)
     $body = $user | ConvertTo-Json -Depth 100
@@ -241,9 +257,11 @@ function Set-PCCustomerUser
     }
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/users/{1}" -f $TenantId, $User.id
-    $headers = @{Authorization="Bearer $SaToken"}
-    $headers += @{"MS-RequestId"=[Guid]::NewGuid()}
-    $headers += @{"MS-CorrelationId"=[Guid]::NewGuid()}
+
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
+
     $body = $actualUser | ConvertTo-Json -Depth 100
     $utf8body = [System.Text.Encoding]::UTF8.GetBytes($body)
 
@@ -280,9 +298,11 @@ function Restore-PCCustomerUser
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/users/{1}" -f $TenantId, $User.id
-    $headers = @{Authorization="Bearer $SaToken"}
-    $headers += @{"MS-RequestId"=[Guid]::NewGuid()}
-    $headers += @{"MS-CorrelationId"=[Guid]::NewGuid()}
+
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
+
     $body = "{ ""State"": ""active"", ""Attributes"": { ""ObjectType"": ""CustomerUser"" } }"
     $utf8body = [System.Text.Encoding]::UTF8.GetBytes($body)
 
@@ -318,9 +338,10 @@ function Remove-PCCustomerUser
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/users/{1}" -f $TenantId, $user.id
-    $headers = @{Authorization="Bearer $SaToken"}
-    $headers += @{"MS-RequestId"=[Guid]::NewGuid()}
-    $headers += @{"MS-CorrelationId"=[Guid]::NewGuid()}
+
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "DELETE" #-Debug -Verbose
     $obj += $response.Substring(1) | ConvertFrom-Json
@@ -342,7 +363,10 @@ function Get-PCCustomerUserRoles
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/users/{1}/directoryroles" -f $TenantId, $user.id
-    $headers = @{Authorization="Bearer $SaToken"}
+
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj += $response.Substring(1) | ConvertFrom-Json
@@ -376,7 +400,10 @@ function Get-PCCustomerUserRole
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/users/{1}/directoryroles" -f $TenantId, $User.id
-    $headers = @{Authorization="Bearer $SaToken"}
+    
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj += $response.Substring(1) | ConvertFrom-Json

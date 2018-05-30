@@ -158,7 +158,10 @@ function Get-PCUsage_implementation
     $obj = @()
 
     $urlParts = @("https://api.partnercenter.microsoft.com/v1/")
-    $headers = @{Authorization = "Bearer $SaToken"}
+
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
     if ($ContinuationLink -eq $null)
     {
@@ -231,9 +234,10 @@ function Get-PCSubscriptionMonthlyUsageRecords
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/subscriptions/usagerecords" -f $TenantId
-    $headers = @{Authorization = "Bearer $SaToken"}
-    $headers += @{"MS-RequestId" = [Guid]::NewGuid()}
-    $headers += @{"MS-CorrelationId" = [Guid]::NewGuid()}
+
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj += $response.Substring(1) | ConvertFrom-Json
@@ -266,9 +270,10 @@ function Get-PCSubscriptionMonthlyUsageRecord
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/subscriptions/usagerecords" -f $TenantId
-    $headers = @{Authorization = "Bearer $SaToken"}
-    $headers += @{"MS-RequestId" = [Guid]::NewGuid()}
-    $headers += @{"MS-CorrelationId" = [Guid]::NewGuid()}
+
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj += $response.Substring(1) | ConvertFrom-Json
@@ -290,9 +295,10 @@ function Get-PCAzureResourceMonthlyUsageRecords
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/subscriptions/{1}/usagerecords/resources" -f $TenantId, $SubscriptionId
-    $headers = @{Authorization = "Bearer $SaToken"}
-    $headers += @{"MS-RequestId" = [Guid]::NewGuid()}
-    $headers += @{"MS-CorrelationId" = [Guid]::NewGuid()}
+
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj += $response.Substring(1) | ConvertFrom-Json
@@ -328,9 +334,10 @@ function Get-PCAzureResourceMonthlyUsageRecord
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/subscriptions/{1}/usagerecords/resources" -f $TenantId, $SubscriptionId
-    $headers = @{Authorization = "Bearer $SaToken"}
-    $headers += @{"MS-RequestId" = [Guid]::NewGuid()}
-    $headers += @{"MS-CorrelationId" = [Guid]::NewGuid()}
+
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj += $response.Substring(1) | ConvertFrom-Json
@@ -364,9 +371,10 @@ function Get-PCCustomerUsageSummary
     $obj = @()  
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/usagesummary" -f $TenantId
-    $headers = @{Authorization = "Bearer $SaToken"}
-    $headers += @{"MS-RequestId" = [Guid]::NewGuid()}
-    $headers += @{"MS-CorrelationId" = [Guid]::NewGuid()}
+
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj += $response.Substring(1) | ConvertFrom-Json
@@ -403,7 +411,10 @@ function Get-PCCustomerServiceCostSummary
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/servicecosts/{1}" -f $TenantId, $BillingPeriod
-    $headers = @{Authorization = "Bearer $SaToken"}
+    
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj += $response.Substring(1) | ConvertFrom-Json

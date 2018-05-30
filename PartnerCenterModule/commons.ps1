@@ -8,6 +8,8 @@
     sample scripts or documentation, even if Microsoft has been advised of the possibility of such damages.
 #>
 
+$ApplicationName = "Partner Center PowerShell Module v0.9.1.0"
+
 function _applyTypes {
    param($item,$type)
    $item.PSObject.TypeNames.Insert(0, $type)

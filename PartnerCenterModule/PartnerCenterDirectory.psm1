@@ -85,7 +85,10 @@ function Get-PCCustomerRole
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/directoryroles" -f $TenantId
-    $headers = @{Authorization="Bearer $SaToken"}
+    
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj += $response.Substring(1) | ConvertFrom-Json
@@ -124,7 +127,10 @@ function Get-PCCustomerRoleMember
 
     $obj = @()
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/directoryroles/{1}/usermembers" -f $TenantId, $RoleId
-    $headers = @{Authorization="Bearer $SaToken"}
+
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)    
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj += $response.Substring(1) | ConvertFrom-Json
@@ -169,9 +175,11 @@ function Add-PCCustomerRoleMember
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/directoryroles/{1}/usermembers" -f $TenantId, $RoleId
-    $headers = @{Authorization="Bearer $SaToken"}
-    $headers += @{"MS-RequestId"=[Guid]::NewGuid()}
-    $headers += @{"MS-CorrelationId"=[Guid]::NewGuid()}
+
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
+
     $body = $customerrolemember | ConvertTo-Json -Depth 100
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Body $body -Method "POST" #-Debug -Verbose
@@ -211,9 +219,10 @@ function Remove-PCCustomerRoleMember
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/directoryroles/{1}/usermembers/{2}" -f $TenantId, $RoleId, $UserId
-    $headers = @{Authorization="Bearer $SaToken"}
-    $headers += @{"MS-RequestId"=[Guid]::NewGuid()}
-    $headers += @{"MS-CorrelationId"=[Guid]::NewGuid()}
+    
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "DELETE" #-Debug -Verbose
     $obj += $response.Substring(1) | ConvertFrom-Json
@@ -244,7 +253,10 @@ function New-PCRelationshipRequest
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers/relationshiprequests"
-    $headers  = @{"Authorization"="Bearer $SaToken"}
+    
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" -Debug -Verbose
     $obj += $response.Substring(1) | ConvertFrom-Json

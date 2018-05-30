@@ -1,5 +1,4 @@
-﻿# v1.4.0.0
-Set-StrictMode -Version latest
+﻿Set-StrictMode -Version latest
 <#
     © 2018 Microsoft Corporation. All rights reserved. This sample code is not supported under any Microsoft standard support program or service. 
     This sample code is provided AS IS without warranty of any kind. Microsoft disclaims all implied warranties including, without limitation, 

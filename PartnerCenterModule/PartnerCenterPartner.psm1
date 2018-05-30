@@ -34,7 +34,9 @@ function Get-PCAuditRecords {
     #    $url = "https://api.partnercenter.microsoft.com/v1/auditrecords?startDate={0}&endDate={1}&filter={2}" -f $startDate, $endDate, $filter
     #}
 
-    $headers = @{Authorization = "Bearer $SaToken"}
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj += $response.items
@@ -81,7 +83,9 @@ function Get-PCAuditRecord {
     #    $url = "https://api.partnercenter.microsoft.com/v1/auditrecords?startDate={0}&endDate={1}&filter={2}" -f $startDate, $endDate, $filter
     #}
 
-    $headers = @{Authorization = "Bearer $SaToken"}
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj += $response.items
@@ -100,7 +104,10 @@ function Get-PCIndirectResellers {
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/relationships?relationship_type=IsIndirectCloudSolutionProviderOf"
-    $headers = @{Authorization = "Bearer $SaToken"}
+
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj += $response.Substring(1) | ConvertFrom-Json
@@ -128,7 +135,10 @@ function Get-PCIndirectReseller {
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/relationships?relationship_type=IsIndirectCloudSolutionProviderOf"
-    $headers = @{Authorization = "Bearer $SaToken"}
+
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj += $response.Substring(1) | ConvertFrom-Json
