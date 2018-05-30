@@ -51,7 +51,10 @@ function Get-PCInvoice {
     function Private:Get-InvoiceSummaryInner($SaToken) {
         $obj = @()
         $url = "https://api.partnercenter.microsoft.com/v1/invoices/summary"
-        $headers = @{Authorization = "Bearer $SaToken"}
+        
+        $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+        $headers.Add("Authorization", "Bearer $SaToken")
+        $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
         $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
         $obj += $response
@@ -68,7 +71,10 @@ function Get-PCInvoice {
             $url = "https://api.partnercenter.microsoft.com/v1/invoices"
         }
 
-        $headers = @{Authorization = "Bearer $SaToken"}
+        $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+        $headers.Add("Authorization", "Bearer $SaToken")
+        $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
+ 
         $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
         $obj += $response
         return (_formatResult -obj $obj -type "Invoice") 
@@ -77,7 +83,10 @@ function Get-PCInvoice {
     function Private:Get-AllInvoicesInner($SaToken) {
         $obj = @()
         $url = "https://api.partnercenter.microsoft.com/v1/invoices"
-        $headers = @{Authorization = "Bearer $SaToken"}
+
+        $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+        $headers.Add("Authorization", "Bearer $SaToken")
+        $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
         $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
         $obj += $response
@@ -89,7 +98,10 @@ function Get-PCInvoice {
     {
         $obj = @()
         $url = "https://api.partnercenter.microsoft.com/v1{0}" -f $detailurl
-        $headers = @{Authorization="Bearer $SaToken"}
+       
+        $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+        $headers.Add("Authorization", "Bearer $SaToken")
+        $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
         $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
         $obj += $response.Substring(1) | ConvertFrom-Json
@@ -134,7 +146,9 @@ function Get-PCInvoiceLineItems {
     $obj = @()
     $url = "https://api.partnercenter.microsoft.com/v1/invoices/{0}/lineitems/{1}/{2}?size={3}&offset={4}" -f $InvoiceId, $billingProvider, $invoicelineitemtype, $size, $offset
 
-    $headers = @{Authorization = "Bearer $SaToken"}
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj += $response
@@ -189,7 +203,9 @@ function Get-PCInvoiceLineItem {
     $obj = @()
     $url = "https://api.partnercenter.microsoft.com/v1/invoices/{0}/lineitems/{1}/{2}?size={3}&offset={4}" -f $InvoiceId, $BillingProvider, $InvoiceLineItemType, $Size, $Offset
 
-    $headers = @{Authorization = "Bearer $SaToken"}
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj += $response

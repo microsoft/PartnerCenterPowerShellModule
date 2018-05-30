@@ -59,7 +59,10 @@ function Get-PCSubscription
     {
         $obj = @()
         $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/subscriptions" -f $TenantId
-        $headers = @{Authorization="Bearer $SaToken"}
+
+        $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+        $headers.Add("Authorization", "Bearer $SaToken")
+        $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
         $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
         $obj += $response.Substring(1) | ConvertFrom-Json
@@ -74,7 +77,10 @@ function Get-PCSubscription
             if ($addons)
             {
                 $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/subscriptions/{1}/addons" -f $TenantId, $SubscriptionId
-                $headers = @{Authorization="Bearer $SaToken"}
+
+                $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+                $headers.Add("Authorization", "Bearer $SaToken")
+                $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
                 $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
                 $obj += $response.Substring(1) | ConvertFrom-Json
@@ -82,7 +88,10 @@ function Get-PCSubscription
             }
             else {
                 $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/subscriptions/{1}" -f $TenantId, $SubscriptionId
-                $headers = @{Authorization="Bearer $SaToken"}
+             
+                $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+                $headers.Add("Authorization", "Bearer $SaToken")
+                $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
                 $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
                 $obj += $response.Substring(1) | ConvertFrom-Json
@@ -92,7 +101,10 @@ function Get-PCSubscription
         else
         {
             $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/subscriptions" -f $TenantId
-            $headers = @{Authorization="Bearer $SaToken"}
+    
+            $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+            $headers.Add("Authorization", "Bearer $SaToken")
+            $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
             $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
             $obj += $response.Substring(1) | ConvertFrom-Json
@@ -104,7 +116,10 @@ function Get-PCSubscription
     {
         $obj = @()
         $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/subscriptions?mpn_id={1}&offset=0&size={2}" -f $TenantId,$partnerId,$size
-        $headers = @{Authorization="Bearer $SaToken"}
+
+        $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+        $headers.Add("Authorization", "Bearer $SaToken")
+        $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
         $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
         $obj += $response.Substring(1) | ConvertFrom-Json
@@ -117,7 +132,10 @@ function Get-PCSubscription
         if($OrderId)
         {
             $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/subscriptions?order_id={1}" -f $TenantId, $OrderId
-            $headers = @{Authorization="Bearer $SaToken"}
+
+            $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+            $headers.Add("Authorization", "Bearer $SaToken")
+            $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
             $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
             $obj += $response.Substring(1) | ConvertFrom-Json
@@ -126,7 +144,10 @@ function Get-PCSubscription
         else
         {
             $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/subscriptions" -f $TenantId
-            $headers = @{Authorization="Bearer $SaToken"}
+
+            $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+            $headers.Add("Authorization", "Bearer $SaToken")
+            $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
             $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
             $obj += $response.Substring(1) | ConvertFrom-Json
@@ -200,7 +221,11 @@ function Set-PCSubscription
     if(($Quantity) -and ($actualSubscription.billingType -eq "license")) {$actualSubscription.quantity = $quantity}
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/subscriptions/{1}" -f $TenantId, $Subscription.Id
-    $headers = @{Authorization="Bearer $SaToken"}
+
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
+
     $body = $actualSubscription | ConvertTo-Json -Depth 100
     $utf8body = [System.Text.Encoding]::UTF8.GetBytes($body)
 

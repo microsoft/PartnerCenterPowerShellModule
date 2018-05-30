@@ -41,7 +41,10 @@ function Get-PCOrder {
 
     if ($OrderId) {
         $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/orders/{1}" -f $TenantId, $OrderId
-        $headers = @{Authorization = "Bearer $SaToken"}
+
+        $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+        $headers.Add("Authorization", "Bearer $SaToken")
+        $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
         $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
         $obj += $response.Substring(1) | ConvertFrom-Json
@@ -49,7 +52,10 @@ function Get-PCOrder {
     }
     else {
         $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/orders" -f $TenantId
-        $headers = @{Authorization = "Bearer $SaToken"}
+        
+        $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+        $headers.Add("Authorization", "Bearer $SaToken")
+        $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
         $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
         $obj += $response.Substring(1) | ConvertFrom-Json

@@ -48,7 +48,10 @@ function Get-PCOffer {
     if ($OfferId) {
         if ($addons) {
             $url = "https://api.partnercenter.microsoft.com/v1/offers/{0}/addons?Country={1}" -f $OfferId, $CountryId
-            $headers = @{Authorization = "Bearer $SaToken"}
+
+            $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+            $headers.Add("Authorization", "Bearer $SaToken")
+            $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
             $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
             $obj += $response.Substring(1) | ConvertFrom-Json
@@ -56,7 +59,10 @@ function Get-PCOffer {
         }
         else {
             $url = "https://api.partnercenter.microsoft.com/v1/offers/{0}?Country={1}&locale={2}" -f $OfferId, $CountryId, $LocaleId
-            $headers = @{Authorization = "Bearer $SaToken"}
+
+            $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+            $headers.Add("Authorization", "Bearer $SaToken")
+            $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
             $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
             $obj += $response.Substring(1) | ConvertFrom-Json
@@ -66,7 +72,10 @@ function Get-PCOffer {
     else {
         if ($LocaleId) {
             $url = "https://api.partnercenter.microsoft.com/v1/offers?Country={0}&locale={1}" -f $CountryId, $LocaleId
-            $headers = @{Authorization = "Bearer $SaToken"}
+
+            $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+            $headers.Add("Authorization", "Bearer $SaToken")
+            $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
             $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
             $obj += $response.Substring(1) | ConvertFrom-Json
@@ -74,8 +83,11 @@ function Get-PCOffer {
         }
         else {
             $url = "https://api.partnercenter.microsoft.com/v1/offers?Country={0}" -f $CountryId
-            $headers = @{Authorization = "Bearer $SaToken"}
 
+            $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+            $headers.Add("Authorization", "Bearer $SaToken")
+            $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
+            
             $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
             $obj += $response.Substring(1) | ConvertFrom-Json
             return (_formatResult -obj $obj -type "Offer")
@@ -109,7 +121,10 @@ function Get-PCOfferCategoriesByMarket {
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/offercategories?Country={0}" -f $CountryId
-    $headers = @{Authorization = "Bearer $SaToken"}
+
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj += $response.Substring(1) | ConvertFrom-Json
@@ -148,7 +163,10 @@ function Get-PCAddressRulesByMarket {
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/Countryvalidationrules/{0}" -f $CountryId
-    $headers = @{Authorization = "Bearer $SaToken"}
+
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj += $response.Substring(1) | ConvertFrom-Json
@@ -192,7 +210,10 @@ function Get-PCAzureRateCard {
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/ratecards/azure?&currency={0}&region={1}" -f $Currency, $Region
-    $headers = @{Authorization = "Bearer $SaToken"}
+
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj += $response.Substring(1) | ConvertFrom-Json

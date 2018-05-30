@@ -65,8 +65,12 @@ function Get-PCCustomer {
             $url = "https://api.partnercenter.microsoft.com/v1/customers"
             
         }
-        $headers = @{Authorization = "Bearer $SaToken"}
-        $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
+
+        $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+        $headers.Add("Authorization", "Bearer $SaToken")
+        $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
+
+        $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET"
         $obj += $response.Substring(1) | ConvertFrom-Json
         return (_formatResult -obj $obj -type "Customer")  
     }
@@ -79,9 +83,12 @@ function Get-PCCustomer {
         $Encode = [System.Web.HttpUtility]::UrlEncode($filter)
 
         $url = "https://api.partnercenter.microsoft.com/v1/customers?size={0}&filter={1}" -f $Size, $Encode
-        $headers = @{Authorization = "Bearer $SaToken"}
 
-        $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
+        $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+        $headers.Add("Authorization", "Bearer $SaToken")
+        $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
+
+        $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" 
         $obj += $response.Substring(1) | ConvertFrom-Json
         return (_formatResult -obj $obj -type "Customer")  
     }
@@ -112,7 +119,10 @@ function Get-PCSubscribedSKUs {
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/subscribedskus" -f $TenantId
-    $headers = @{Authorization = "Bearer $SaToken"}
+ 
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj += $response.Substring(1) | ConvertFrom-Json
@@ -147,7 +157,10 @@ function Get-PCSubscribedSKU {
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/subscribedskus" -f $TenantId
-    $headers = @{Authorization = "Bearer $SaToken"}
+
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj += $response.Substring(1) | ConvertFrom-Json
@@ -177,7 +190,10 @@ function Get-PCSpendingBudget {
 
     $obj = @()
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/usagebudget" -f $TenantId
-    $headers = @{Authorization = "Bearer $SaToken"}
+
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj += $response.Substring(1) | ConvertFrom-Json
@@ -214,7 +230,11 @@ function Set-PCSpendingBudget {
     _testTenantContext ($TenantId)
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/usagebudget" -f $TenantId
-    $headers = @{Authorization = "Bearer $SaToken"}
+    
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
+
     $spendingBudget_tmp = [SpendingBudget]::new($spendingBudget)
     $body = $spendingBudget_tmp | ConvertTo-Json -Depth 100
 
@@ -293,11 +313,11 @@ function New-PCCustomer {
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers"
-    $headers = @{"Authorization" = "Bearer $SaToken"}
-    $headers += @{"MS-Contract-Version" = "v1"}
-    $headers += @{"MS-RequestId" = [Guid]::NewGuid()}
-    $headers += @{"MS-CorrelationId" = [Guid]::NewGuid()}
-    
+   
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
+  
     switch ($PsCmdlet.ParameterSetName) {
         'AllDetails' {
             $customer = [Customer]::new($Email, $Culture, $Language, $CompanyName, $Country, $region, $City, $State, $AddressLine1, `
@@ -339,7 +359,10 @@ function Remove-PCCustomer {
     _testTokenContext($SaToken)
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}" -f $TenantId
-    $headers = @{"Authorization" = "Bearer $SaToken"}
+
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
     $response = try {
         Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "DELETE" #-Debug -Verbose
@@ -363,8 +386,11 @@ function Get-PCManagedServices {
     Write-Warning "  Get-PCManagedServices is deprecated and will not be available in future releases, use Get-PCManagedService instead."
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/managedservices" -f $TenantId
-    $headers = @{Authorization = "Bearer $SaToken"}
 
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
+    
     $obj = @()
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj += $response.Substring(1) | ConvertFrom-Json
@@ -395,7 +421,10 @@ function Get-PCManagedService {
     _testTenantContext ($TenantId)
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/managedservices" -f $TenantId
-    $headers = @{Authorization = "Bearer $SaToken"}
+
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
     $obj = @()
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
@@ -428,7 +457,10 @@ function Select-PCCustomer {
 
     $obj = @()
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}" -f $TenantId
-    $headers = @{Authorization = "Bearer $SaToken"}
+
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj += $response.Substring(1) | ConvertFrom-Json
@@ -450,7 +482,10 @@ function Get-PCCustomerRelationships {
     Write-Warning "  Get-PCCustomerRelationships is deprecated and will not be available in future releases, use Get-PCCustomerRelationship instead."
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/relationships" -f $TenantId
-    $headers = @{Authorization = "Bearer $SaToken"}
+    
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
     $obj = @()
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
@@ -483,7 +518,10 @@ function Get-PCCustomerRelationship {
     _testTenantContext ($TenantId)
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/relationships" -f $TenantId
-    $headers = @{Authorization = "Bearer $SaToken"}
+
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
     $obj = @()
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
@@ -509,7 +547,10 @@ function Get-PCResellerCustomers {
     $Encode = [System.Web.HttpUtility]::UrlEncode($filter)
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers?size={0}&filter={1}" -f $Size, $Encode
-    $headers = @{Authorization = "Bearer $SaToken"}
+
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj += $response.Substring(1) | ConvertFrom-Json
@@ -549,7 +590,10 @@ function Get-PCResellerCustomer {
     $Encode = [System.Web.HttpUtility]::UrlEncode($filter)
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers?size={0}&filter={1}" -f $Size, $Encode
-    $headers = @{Authorization = "Bearer $SaToken"}
+
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj += $response.Substring(1) | ConvertFrom-Json

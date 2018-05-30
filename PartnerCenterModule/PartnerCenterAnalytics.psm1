@@ -25,7 +25,10 @@ function Get-PCLicensesDeployment
 
 
     $url = "https://api.partnercenter.microsoft.com/v1/analytics/licenses/deployment"
-    $headers = @{Authorization="Bearer $SaToken"}
+
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj = @() + $response.Substring(1) | ConvertFrom-Json
@@ -59,7 +62,10 @@ function Get-PCLicenseDeployment
     _testTokenContext($SaToken)
 
     $url = "https://api.partnercenter.microsoft.com/v1/analytics/licenses/deployment"
-    $headers = @{Authorization="Bearer $SaToken"}
+
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj = @() + $response.Substring(1) | ConvertFrom-Json
@@ -77,7 +83,10 @@ function Get-PCLicensesUsage
     Write-Warning "  Get-PCLicensesUsage is deprecated and will not be available in future releases, use Get-PCLicenseUsage instead."
  
     $url = "https://api.partnercenter.microsoft.com/v1/analytics/licenses/usage"
-    $headers = @{Authorization="Bearer $SaToken"}
+    
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj = @() + $response.Substring(1) | ConvertFrom-Json
@@ -112,7 +121,10 @@ function Get-PCLicenseUsage
     _testTokenContext($SaToken)
 
     $url = "https://api.partnercenter.microsoft.com/v1/analytics/licenses/usage"
-    $headers = @{Authorization="Bearer $SaToken"}
+
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj = @() + $response.Substring(1) | ConvertFrom-Json
@@ -132,7 +144,10 @@ function Get-PCCustomerLicensesDeployment
     Write-Warning "  Get-PCCustomerLicensesDeployment is deprecated and will not be available in future releases, use Get-PCCustomerLicenseDeployment instead."
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/analytics/licenses/deployment" -f $TenantId
-    $headers = @{Authorization="Bearer $SaToken"}
+
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj = @() + $response.Substring(1) | ConvertFrom-Json
@@ -168,7 +183,10 @@ function Get-PCCustomerLicenseDeployment
     _testTenantContext ($TenantId)
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/analytics/licenses/deployment" -f $TenantId
-    $headers = @{Authorization="Bearer $SaToken"}
+
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj = @() + $response.Substring(1) | ConvertFrom-Json
@@ -188,7 +206,10 @@ function Get-PCCustomerLicensesUsage
     Write-Warning "  Get-PCCustomerLicensesUsage is deprecated and will not be available in future releases, use Get-PCCustomerLicenseUsage instead."
  
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/analytics/licenses/usage" -f $TenantId
-    $headers = @{Authorization="Bearer $SaToken"}
+
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj = @() + $response.Substring(1) | ConvertFrom-Json
@@ -224,7 +245,10 @@ function Get-PCCustomerLicenseUsage
     _testTenantContext ($TenantId)
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/analytics/licenses/usage" -f $TenantId
-    $headers = @{Authorization="Bearer $SaToken"}
+
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj = @() + $response.Substring(1) | ConvertFrom-Json

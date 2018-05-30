@@ -42,7 +42,10 @@ function Get-PCSR
     _testTokenContext($SaToken)
 
     $obj = @()
-    $headers = @{Authorization="Bearer $SaToken"}
+    
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
     switch ($PsCmdlet.ParameterSetName)
     {
@@ -67,7 +70,10 @@ function Get-PCSRTopics
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/servicerequests/supporttopics"
-    $headers = @{Authorization="Bearer $SaToken"}
+    
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj += $response.Substring(1) | ConvertFrom-Json
@@ -94,7 +100,10 @@ function Get-PCSRTopic
     $obj = @()
     
     $url = "https://api.partnercenter.microsoft.com/v1/servicerequests/supporttopics"
-    $headers = @{Authorization="Bearer $SaToken"}
+    
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj += $response.Substring(1) | ConvertFrom-Json
@@ -146,9 +155,10 @@ function New-PCSR
 
     $obj = @()
     $url = "https://api.partnercenter.microsoft.com/v1/servicerequests/{0}" -f $AgentLocale
-    $headers = @{Authorization="Bearer $SaToken"}
-    $headers += @{"MS-RequestId"=[Guid]::NewGuid()}
-    $headers += @{"MS-CorrelationId"=[Guid]::NewGuid()}
+
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
     $newSR = [ServiceRequest]::new()
     if ($serviceRequest) { $newSR = $serviceRequest }
@@ -215,9 +225,10 @@ function Set-PCSR
     }
 
     $url = "https://api.partnercenter.microsoft.com/v1/servicerequests/{0}" -f $ServiceRequest.id
-    $headers = @{Authorization="Bearer $SaToken"}
-    $headers += @{"MS-RequestId"=[Guid]::NewGuid()}
-    $headers += @{"MS-CorrelationId"=[Guid]::NewGuid()}   
+
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
     $utf8body = [System.Text.Encoding]::UTF8.GetBytes($body)
 
