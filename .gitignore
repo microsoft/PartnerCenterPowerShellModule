@@ -340,3 +340,4 @@ ASALocalRun/
 tests/Get-Markdown.ps1
 tests/Get-HelpByMarkdown.ps1
 tests/Reset-PCTestsLOCAL.ps1
+CmdletHelp3/*

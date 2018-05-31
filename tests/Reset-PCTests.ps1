@@ -22,9 +22,9 @@ You need to have a authentication credential already established before running 
 
 [CmdletBinding()]
 Param(
-    [Parameter(Mandatory = $false)][switch]$webAppAuth,
-    [Parameter(Mandatory = $false)][switch]$appUserAuth,
-    [Parameter(Mandatory = $true)][PSCredential]$credentials,
+    [Parameter(Mandatory = $false)][switch]$WebAppAuth,
+    [Parameter(Mandatory = $false)][switch]$AppUserAuth,
+    [Parameter(Mandatory = $true)][PSCredential]$Credentials,
     [Parameter(Mandatory = $true)][string]$CspDomain,
     [Parameter(Mandatory = $false)][string]$CspClientSecret,
     [Parameter(Mandatory = $false)][string]$CspAppId,
@@ -34,7 +34,7 @@ Param(
 # If the module is already imported, remove it.
 $x = Get-Module -Name PartnerCenterModule
 if ($x -ne $null) {
-    Remove-Module -Name PartnerCenterModule    
+    Remove-Module -Name PartnerCenterModule -Force  
 }
 
 # Import the latest version of the module
