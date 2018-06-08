@@ -26,7 +26,8 @@ Specifies a security token for authenticating and executing the cmdlet.
 This parameter no longer provides any function. It is left for backward compatiblity.
 
 .PARAMETER InvoiceId 
-Specified an invoice id
+Specifies an invoice id
+
 .PARAMETER Summary
 Specifies whether to retrieve a summary only
 

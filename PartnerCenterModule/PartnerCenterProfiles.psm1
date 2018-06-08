@@ -14,13 +14,13 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 
 <#
 .SYNOPSIS
-
+TODO
 .DESCRIPTION
-
+The Get-PCLegalBusinessProfile cmdlet
 .PARAMETER SaToken 
 The authentication token you have created with your Partner Center Credentials.
 .EXAMPLE
-
+Get-PCLegalBusinessProfile 
 .NOTES
 #>
 function Get-PCLegalBusinessProfile {
@@ -45,9 +45,9 @@ function Get-PCLegalBusinessProfile {
 
 <#
 .SYNOPSIS
-
+TODO
 .DESCRIPTION
-
+The Get-PCOrganizationProfile cmdlet 
 .PARAMETER SaToken 
 The authentication token you have created with your Partner Center Credentials.
 .EXAMPLE
@@ -76,13 +76,13 @@ function Get-PCOrganizationProfile {
 
 <#
 .SYNOPSIS
-
+TODO
 .DESCRIPTION
-
+The Get-PCBillingProfile cmdlet 
 .PARAMETER SaToken 
 The authentication token you have created with your Partner Center Credentials.
 .EXAMPLE
-
+Get-PCBillingProfile
 .NOTES
 #>
 function Get-PCBillingProfile {
@@ -107,15 +107,15 @@ function Get-PCBillingProfile {
 
 <#
 .SYNOPSIS
-
+TODO
 .DESCRIPTION
-
+The Get-PCMpnProfile cmdlet 
 .PARAMETER SaToken 
-The authentication token you have created with your Partner Center Credentials.
+Specifies the authentication token you have created with your Partner Center credentials.
 .PARAMETER MpnId 
-
+Specifies the MPN id used to scope this cmdlet.
 .EXAMPLE
-
+Get-PCMpnProfile 
 .NOTES
 #>
 function Get-PCMpnProfile {
@@ -146,14 +146,14 @@ function Get-PCMpnProfile {
 
 <#
 .SYNOPSIS
-
+TODO
 .DESCRIPTION
-
+The Get-PCSupport cmdlet 
 .PARAMETER SaToken 
 The authentication token you have created with your Partner Center Credentials.
 
 .EXAMPLE
-
+Get-PCSupportProfile 
 .NOTES
 #>
 function Get-PCSupportProfile {
@@ -178,11 +178,11 @@ function Get-PCSupportProfile {
 
 <#
 .SYNOPSIS
-
+TODO
 .DESCRIPTION
-
+The Set-PCLegalBusinessProfile cmdlet.
 .PARAMETER SaToken 
-The authentication token you have created with your Partner Center Credentials.
+Specifies the authentication token you have created with your Partner Center credentials.
 .PARAMETER Country 
 
 .PARAMETER AddressLine1 
@@ -204,7 +204,7 @@ The authentication token you have created with your Partner Center Credentials.
 .PARAMETER PrimaryContactEmail 
 
 .EXAMPLE
-
+Set-PCLegalBusinessProfile
 .NOTES
 #>
 function Set-PCLegalBusinessProfile {
@@ -236,16 +236,16 @@ function Set-PCLegalBusinessProfile {
 
     $actualLegalBP = Get-PCLegalBusinessProfile -SaToken $SaToken
 
-    if ($AddressLine1) {$actualLegalBP.address.AddressLine1 = $AddressLine1}
-    if ($AddressLine2) {$actualLegalBP.address.AddressLine2 = $AddressLine2}
-    if ($Country) {$actualLegalBP.address.Country = $Country}
-    if ($City) {$actualLegalBP.address.City = $City}
-    if ($State) {$actualLegalBP.address.State = $State}
-    if ($PostalCode) {$actualLegalBP.address.PostalCode = $PostalCode}
-    if ($PrimaryContactFirstName) {$actualLegalBP.address.FirstName = $PrimaryContactFirstName}
-    if ($PrimaryContactLastName) {$actualLegalBP.address.LastName = $PrimaryContactLastName}
-    if ($PrimaryContactPhoneNumber) {$actualLegalBP.address.PhoneNumber = $PrimaryContactPhoneNumber}
-    if ($PrimaryContactEmail) {$actualLegalBP.primaryContact.Email = $PrimaryContactEmail}
+    if ($AddressLine1) {$actualLegalBP.address.addressLine1 = $AddressLine1}
+    if ($AddressLine2) {$actualLegalBP.address.addressLine2 = $AddressLine2}
+    if ($Country) {$actualLegalBP.address.country = $Country}
+    if ($City) {$actualLegalBP.address.city = $City}
+    if ($State) {$actualLegalBP.address.state = $State}
+    if ($PostalCode) {$actualLegalBP.address.postalCode = $PostalCode}
+    if ($PrimaryContactFirstName) {$actualLegalBP.PrimaryContact.firstName = $PrimaryContactFirstName}
+    if ($PrimaryContactLastName) {$actualLegalBP.PrimaryContact.lastName = $PrimaryContactLastName}
+    if ($PrimaryContactPhoneNumber) {$actualLegalBP.PrimaryContact.phoneNumber = $PrimaryContactPhoneNumber}
+    if ($PrimaryContactEmail) {$actualLegalBP.primaryContact.email = $PrimaryContactEmail}
 
     $url = "https://api.partnercenter.microsoft.com/v1/profiles/legalbusiness"
 
@@ -273,7 +273,9 @@ The authentication token you have created with your Partner Center Credentials.
 .PARAMETER Country 
 
 .PARAMETER AddressLine1 
-
+Specifies the first address line for the organization.
+.PARAMETER AddressLine2
+Specifies the second address line for the organization.
 .PARAMETER City 
 
 .PARAMETER State 
@@ -281,17 +283,17 @@ The authentication token you have created with your Partner Center Credentials.
 .PARAMETER PostalCode 
 
 .PARAMETER FirstName 
-
+Specifies the first name of the company contact.
 .PARAMETER LastName 
-
+Specifies the last name of the company contact.
 .PARAMETER PhoneNumber 
 
 .PARAMETER Email 
-
+Specifies the email address for the company contact.
 .PARAMETER Language 
-
+Specifies the two letter ISO code for the language.
 .EXAMPLE
-
+Set-PCOrganizationProfile 
 .NOTES
 #>
 function Set-PCOrganizationProfile {
@@ -301,6 +303,7 @@ function Set-PCOrganizationProfile {
         [Parameter(Mandatory = $false)][string]$CompanyName,
         [Parameter(Mandatory = $false)][string]$Country,
         [Parameter(Mandatory = $false)][string]$AddressLine1,
+        [Parameter(Mandatory = $false)][string]$AddressLine2,
         [Parameter(Mandatory = $false)][string]$City,
         [Parameter(Mandatory = $false)][string]$State,
         [Parameter(Mandatory = $false)][string]$PostalCode,
@@ -317,17 +320,18 @@ function Set-PCOrganizationProfile {
 
     $actualOrganizationP = Get-PCOrganizationProfile -SaToken $SaToken
 
-    if ($CompanyName) {$actualOrganizationP.CompanyName = $CompanyName}
-    if ($AddressLine1) {$actualOrganizationP.defaultAddress.AddressLine1 = $AddressLine1}
-    if ($City) {$actualOrganizationP.defaultAddress.City = $City}
-    if ($State) {$actualOrganizationP.defaultAddress.State = $State}
-    if ($PostalCode) {$actualOrganizationP.defaultAddress.PostalCode = $PostalCode}
-    if ($Country) {$actualOrganizationP.defaultAddress.Country = $Country}
-    if ($FirstName) {$actualOrganizationP.defaultAddress.FirstName = $FirstName}
-    if ($LastName) {$actualOrganizationP.defaultAddress.LastName = $LastName}
-    if ($PhoneNumber) {$actualOrganizationP.defaultAddress.PhoneNumber = $PhoneNumber}
-    if ($Email) {$actualOrganizationP.Email = $Email}
-    if ($Language) {$actualOrganizationP.Language = $Language}
+    if ($CompanyName) {$actualOrganizationP.companyName = $CompanyName}
+    if ($AddressLine1) {$actualOrganizationP.defaultAddress.addressLine1 = $AddressLine1}
+    if ($AddressLine2) {$actualOrganizationP.defaultAddress.addressLine2 = $AddressLine2}
+    if ($City) {$actualOrganizationP.defaultAddress.city = $City}
+    if ($State) {$actualOrganizationP.defaultAddress.state = $State}
+    if ($PostalCode) {$actualOrganizationP.defaultAddress.postalCode = $PostalCode}
+    if ($Country) {$actualOrganizationP.defaultAddress.country = $Country}
+    if ($FirstName) {$actualOrganizationP.defaultAddress.firstName = $FirstName}
+    if ($LastName) {$actualOrganizationP.defaultAddress.lastName = $LastName}
+    if ($PhoneNumber) {$actualOrganizationP.defaultAddress.phoneNumber = $PhoneNumber}
+    if ($Email) {$actualOrganizationP.email = $Email}
+    if ($Language) {$actualOrganizationP.language = $Language}
 
     $url = "https://api.partnercenter.microsoft.com/v1/profiles/organization"
 
@@ -351,23 +355,23 @@ The Set-PCBillingProfile cmdlet.
 .PARAMETER SaToken 
 The authentication token you have created with your Partner Center Credentials.
 .PARAMETER AddressLine1 
-
+Specifies the first address line for the billing contact.
 .PARAMETER AddressLine2
-
+Specifies the second address line for the billing contact.
 .PARAMETER City 
-
+Specifies the billing contact's city.
 .PARAMETER State 
-
+Specifies the billing contact's state.
 .PARAMETER PostalCode 
-
+Specifies the billing contact's postal code.
 .PARAMETER FirstName 
-
+Specifies the biling contact's first name.
 .PARAMETER LastName 
-
+Specifies the billing contact's last name.
 .PARAMETER PhoneNumber 
-
+Specifies the billing contact's phone number.
 .EXAMPLE
-
+Set-PCBillingProfile 
 .NOTES
 #>
 function Set-PCBillingProfile {
@@ -394,15 +398,15 @@ function Set-PCBillingProfile {
 
     $actualBillingP = Get-PCBillingProfile -SaToken $SaToken
 
-    if ($AddressLine1) {$actualBillingP.address.AddressLine1 = $AddressLine1}
-    if ($AddressLine2) {$actualBillingP.address.AddressLine2 = $AddressLine2}
-    if ($City) {$actualBillingP.address.City = $City}
-    if ($State) {$actualBillingP.address.State = $State}
-    if ($PostalCode) {$actualBillingP.address.PostalCode = $PostalCode}
-    if ($Country) {$actualBillingP.address.Country = $Country}
-    if ($FirstName) {$actualBillingP.primaryContact.FirstName = $FirstName}
-    if ($LastName) {$actualBillingP.primaryContact.LastName = $LastName}
-    if ($PhoneNumber) {$actualBillingP.primaryContact.PhoneNumber = $PhoneNumber}
+    if ($AddressLine1) {$actualBillingP.address.addressLine1 = $AddressLine1}
+    if ($AddressLine2) {$actualBillingP.address.addressLine2 = $AddressLine2}
+    if ($City) {$actualBillingP.address.city = $City}
+    if ($State) {$actualBillingP.address.state = $State}
+    if ($PostalCode) {$actualBillingP.address.postalCode = $PostalCode}
+    if ($Country) {$actualBillingP.address.country = $Country}
+    if ($FirstName) {$actualBillingP.primaryContact.firstName = $FirstName}
+    if ($LastName) {$actualBillingP.primaryContact.lastName = $LastName}
+    if ($PhoneNumber) {$actualBillingP.primaryContact.phoneNumber = $PhoneNumber}
 
     $url = "https://api.partnercenter.microsoft.com/v1/profiles/billing"
 
@@ -433,6 +437,7 @@ The authentication token you have created with your Partner Center Credentials.
 .PARAMETER Phone 
 
 .EXAMPLE
+Set-PCSupportProfile
 
 .NOTES
 #>
@@ -450,11 +455,23 @@ function Set-PCSupportProfile {
     $obj = @()
 
     $actualSupportProfile = Get-PCSupportProfile -SaToken $SaToken
+    # Check to make sure all of the required properties exist. If not, add them.
+    if (!($actualSupportProfile.PSObject.properties.name -match "website")) {
+        $actualSupportProfile | Add-Member -MemberType NoteProperty -Name 'website' -Value " "
+    }
+    if (!($actualSupportProfile.PSObject.properties.name -match "email")) {     
+                
+        $actualSupportProfile | Add-Member -MemberType NoteProperty -Name 'email' -Value " "
+    }
+    if (!($actualSupportProfile.PSObject.properties.name -match "telephone"))
+    {
+        $actualSupportProfile | Add-Member -MemberType NoteProperty -Name 'telephone' -Value " "
+    }
 
-    if ($website) {$actualSupportProfile.website = $website}
-    if ($Email) {$actualSupportProfile.Email = $Email}
-    if ($phone) {$actualSupportProfile.telephone = $phone}
-
+    if ($Website) {$actualSupportProfile.website = $Website}
+    if ($Email) {$actualSupportProfile.email = $Email}
+    if ($Phone) {$actualSupportProfile.telephone = $Phone}
+   
     $url = "https://api.partnercenter.microsoft.com/v1/profiles/support"
 
     $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
@@ -477,7 +494,7 @@ The Get-PCCustomerBillingProfile cmdlet.
 .PARAMETER SaToken 
 The authentication token you have created with your Partner Center Credentials.
 .PARAMETER TenantId 
-
+Specifies the tenant used for scoping this cmdlet.
 .EXAMPLE
 Get-PCCustomerBillingProfile
 .NOTES
@@ -513,10 +530,11 @@ The Set-PCCustomerBillingProfile cmdlet.
 .PARAMETER SaToken 
 The authentication token you have created with your Partner Center Credentials.
 .PARAMETER TenantId 
-
+Specifies the tenant used for scoping this cmdlet.
 .PARAMETER BillingProfile 
 
 .EXAMPLE
+Set-PCCustomerBillingProfile 
 
 .NOTES
 #>
@@ -553,10 +571,10 @@ TODO
 The Get-PCCustomerCompanyProfile cmdlet. 
 
 .PARAMETER SaToken 
-The authentication token you have created with your Partner Center Credentials.
+The authentication token you have created with your Partner Center credentials.
 
 .PARAMETER TenantId 
-
+Species a tenant id to scope this cmdlet.
 .EXAMPLE
 
 .NOTES

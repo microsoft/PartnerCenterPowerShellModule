@@ -14,13 +14,13 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 
 <#
 .SYNOPSIS
-
+TODO
 .DESCRIPTION
-
+The Get-PCUsage cmdlet
 .PARAMETER SaToken 
 The authentication token you have created with your Partner Center Credentials.
 .PARAMETER TenantId 
-
+Specifies the tenant used for scoping this cmdlet.
 .PARAMETER SubscriptionId 
 
 .PARAMETER StartTime 
@@ -58,13 +58,13 @@ function Get-PCUsage
 
 <#
 .SYNOPSIS
-
+TODO
 .DESCRIPTION
-
+The Get-PCUsage2 cmdlet.
 .PARAMETER SaToken 
 The authentication token you have created with your Partner Center Credentials.
 .PARAMETER TenantId 
-
+Specifies the tenant used for scoping this cmdlet.
 .PARAMETER SubscriptionId 
 
 .PARAMETER StartTime 
@@ -123,7 +123,7 @@ function Get-PCUsage2
 .PARAMETER SaToken 
 The authentication token you have created with your Partner Center Credentials.
 .PARAMETER TenantId 
-
+Specifies the tenant used for scoping this cmdlet.
 .PARAMETER SubscriptionId 
 
 .PARAMETER StartTime 
@@ -261,7 +261,7 @@ function Get-PCSubscriptionMonthlyUsageRecord
 .PARAMETER SaToken 
 The authentication token you have created with your Partner Center Credentials.
 .PARAMETER TenantId 
-
+Specifies the tenant used for scoping this cmdlet.
 .PARAMETER SubscriptionId 
 
 .EXAMPLE
@@ -300,7 +300,7 @@ function Get-PCAzureResourceMonthlyUsageRecord
 .PARAMETER SaToken 
 The authentication token you have created with your Partner Center Credentials.
 .PARAMETER TenantId 
-
+Specifies the tenant used for scoping this cmdlet.
 .EXAMPLE
 
 .NOTES
@@ -337,7 +337,7 @@ function Get-PCCustomerUsageSummary
 .PARAMETER SaToken 
 The authentication token you have created with your Partner Center Credentials.
 .PARAMETER TenantId 
-
+Specifies the tenant used for scoping this cmdlet.
 .PARAMETER BillingPeriod 
 
 .EXAMPLE

@@ -14,16 +14,14 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 
 <#
 .SYNOPSIS
-
+TODO
 .DESCRIPTION
-
+The Get-PCCustomerUser cmdlet
 .PARAMETER SaToken 
-The authentication token you have created with your Partner Center Credentials.
+Specifies the authentication token you have created with your Partner Center Credentials.
 .PARAMETER TenantId 
-
+Specifies the tenant used for scoping this cmdlet.
 .PARAMETER UserId 
-
-.PARAMETER All 
 
 .PARAMETER Licenses 
 
@@ -40,7 +38,6 @@ function Get-PCCustomerUser
     [CmdletBinding()]
     Param(
             [Parameter(Mandatory = $false)][String]$TenantId=$GlobalCustomerId,
-            [Parameter(ParameterSetName='all', Mandatory = $false)][switch]$All,
             [Parameter(ParameterSetName='activeuser', Mandatory = $false)][String]$UserId,
             [Parameter(ParameterSetName='activeuser', Mandatory = $false)][switch]$Licenses,
             [Parameter(ParameterSetName='deleteduser', Mandatory = $false)][switch]$Deleted,
@@ -126,29 +123,33 @@ function Get-PCCustomerUser
         return (_formatResult -obj $obj -type "CustomerUser")        
     }
 
-    switch ($PsCmdlet.ParameterSetName)
+    if($PsCmdlet.ParameterSetName -eq "activeuser")
     {
-        "activeuser" {$res = Get-CustomerUserInner -SaToken $SaToken -TenantId $TenantId -user $UserId -licenses $Licenses
-                          return $res}
-
-        "deleteduser"{$res = Get-DeletedUsersInner -SaToken $SaToken -TenantId $TenantId -Limit $Limit
-                          return $res}
-
-        "all"        {$res = Get-CustomerAllUserInner -SaToken $SaToken -TenantId $TenantId 
-                          return $res}
-
+        $res = Get-CustomerUserInner -SaToken $SaToken -TenantId $TenantId -user $UserId -licenses $Licenses
+        return $res
     }
+elseif ($PsCmdlet.ParameterSetName -eq "deleteduser")
+    {
+        $res = Get-DeletedUsersInner -SaToken $SaToken -TenantId $TenantId -Limit $Limit
+        return $res
+    }
+    else 
+    {
+        $res = Get-CustomerAllUserInner -SaToken $SaToken -TenantId $TenantId 
+        return $res
+    }
+
 }
 
 <#
 .SYNOPSIS
-
+TODO
 .DESCRIPTION
-
+The New-PCCustomerUser cmdlet
 .PARAMETER SaToken 
-The authentication token you have created with your Partner Center Credentials.
+Specifies the authentication token you have created with your Partner Center Credentials.
 .PARAMETER TenantId 
-
+Specifies the tenant used for scoping this cmdlet.
 .PARAMETER UsageLocation 
 
 .PARAMETER UserPrincipalName
@@ -201,14 +202,14 @@ function New-PCCustomerUser
 
 <#
 .SYNOPSIS
-
+TODO
 .DESCRIPTION
-
+The Set-PCustomerUser cmdlet
 .PARAMETER SaToken 
-The authentication token you have created with your Partner Center Credentials.
+Specifies the authentication token you have created with your Partner Center Credentials.
 .PARAMETER TenantId 
-
-.PARAMETER user 
+Specifies the tenant used for scoping this cmdlet.
+.PARAMETER User 
 
 .PARAMETER FirstName
 
@@ -246,8 +247,8 @@ function Set-PCCustomerUser
 
     $actualUser = Get-PCCustomerUser -TenantId $TenantId -UserId $User.Id -SaToken $SaToken
 
-    if($FirstName) {$actualUser.FirstName = $FirstName}
-    if($LastName) {$actualUser.LastName = $LastName}
+    if($FirstName) {$actualUser.firstName = $FirstName}
+    if($LastName) {$actualUser.lastName = $LastName}
     if($UserPrincipalName) {$actualUser.userPrincipalName = $UserPrincipalName}
     if($Location) {$actualUser.location = $Location}
     if($Password -or $ForceChangePassword)
@@ -272,18 +273,19 @@ function Set-PCCustomerUser
 
 <#
 .SYNOPSIS
-
+TODO
 .DESCRIPTION
-
+The Restore-PCCustomerUser cmdlet
 .PARAMETER SaToken 
-The authentication token you have created with your Partner Center Credentials.
+Specifies the authentication token you have created with your Partner Center Credentials.
 .PARAMETER TenantId 
-
-.PARAMETER user 
+Specifies the tenant used for scoping this cmdlet.
+.PARAMETER User 
 
 .EXAMPLE
 Restore-PCCustomerUser
 .NOTES
+
 #>
 function Restore-PCCustomerUser
 {
@@ -313,14 +315,14 @@ function Restore-PCCustomerUser
 
 <#
 .SYNOPSIS
-
+TODO
 .DESCRIPTION
-
+The Remove-PCCustomerUser cmdlet
 .PARAMETER SaToken 
-The authentication token you have created with your Partner Center Credentials.
+Specifies the authentication token you have created with your Partner Center Credentials.
 .PARAMETER TenantId 
-
-.PARAMETER user 
+Specifies the tenant used for scoping this cmdlet.
+.PARAMETER User 
 
 .EXAMPLE
 Remove-PCCustomerUser
@@ -348,40 +350,15 @@ function Remove-PCCustomerUser
     return (_formatResult -obj $obj -type "CustomerUser")       
 }
 
-
-function Get-PCCustomerUserRoles
-{
-    [CmdletBinding()]
-    param ( [Parameter(Mandatory = $false)][String]$TenantId=$GlobalCustomerId,
-            [Parameter(Mandatory = $true,ValueFromPipeline=$True,ValueFromPipelineByPropertyName=$True)][PSCustomObject]$user,
-            [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken)
-    _testTokenContext($SaToken)
-    _testTenantContext ($TenantId)
-
-    Write-Warning "  Get-PCCustomerUserRoles is deprecated and will not be available in future releases, use Get-PCCustomerUserRole instead."
-
-    $obj = @()
-
-    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/users/{1}/directoryroles" -f $TenantId, $user.id
-
-    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
-    $headers.Add("Authorization", "Bearer $SaToken")
-    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
-
-    $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-    $obj += $response.Substring(1) | ConvertFrom-Json
-    return (_formatResult -obj $obj -type "CustomerUserDirectoryRoles")  
-}
-
 <#
 .SYNOPSIS
-
+TODO
 .DESCRIPTION
-
+The Get-PCCustomerUserRoles cmdlet
 .PARAMETER SaToken 
-The authentication token you have created with your Partner Center Credentials.
+Specifies the authentication token you have created with your Partner Center Credentials.
 .PARAMETER TenantId 
-
+Specifies the tenant used for scoping this cmdlet.
 .PARAMETER User 
 
 .EXAMPLE

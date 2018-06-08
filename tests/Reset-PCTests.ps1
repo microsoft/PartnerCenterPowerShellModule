@@ -34,20 +34,21 @@ Param(
 # If the module is already imported, remove it.
 $x = Get-Module -Name PartnerCenterModule
 if ($x -ne $null) {
+    Write-Output " Removing current PartnerCenterModule version."
     Remove-Module -Name PartnerCenterModule -Force  
 }
 
 # Import the latest version of the module
+Write-Output " Adding in local Partner Center Module for testing"
 Import-Module ..\PartnerCenterModule\PartnerCenterModule.psd1 -Force
 
 if ($WebAppAuth) {
     # App Auth
-    Add-PCAuthentication -cspAppID $cspWebappId -cspDomain $cspDomain -cspClientSecret $cspClientSecret -Verbose
+    Add-PCAuthentication -cspAppId $cspWebAppId -cspDomain $cspDomain -cspClientSecret $cspClientSecret -Verbose
 }
 elseif ($AppUserAuth) {
-
     # App+User Auth
-    Add-PCAuthentication -cspAppID $cspAppId -cspDomain $cspDomain -credential $credentials -Verbose
+    Add-PCAuthentication -cspAppId $cspAppId -cspDomain $cspDomain -credential $credentials -Verbose
 }
 
 

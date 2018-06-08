@@ -14,7 +14,7 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 
 <#
 .SYNOPSIS
-Blank
+TODO
 
 .DESCRIPTION
 The Get-PCCustomer cmdlet retrieves a list of customers, or a specific customer based on the input.
@@ -26,7 +26,7 @@ The authentication token you have created with your Partner Center Credentials.
 The tenant Id assigned to the customer you want to retrieve.
 
 .PARAMETER Limit 
-Specifies a limit to the number of customers returned.
+Specifies a limit to the number of customer records returned. The default limit is 200 customers.
 
 .PARAMETER StartsWith 
 Specifies a filter for the customer names returned.
@@ -47,8 +47,8 @@ function Get-PCCustomer {
         [Parameter(ParameterSetName = 'TenantId', Mandatory = $false)][String]$TenantId,
         [Parameter(ParameterSetName = 'filter', Mandatory = $true)][String]$StartsWith,
         [Parameter(ParameterSetName = 'filter', Mandatory = $false)][int]$Limit = 200,
-        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken, 
-        [Parameter(Mandatory = $false)][switch]$All
+        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
+
     )
     _testTokenContext($SaToken)
 
@@ -91,8 +91,6 @@ function Get-PCCustomer {
         return (_formatResult -obj $obj -type "Customer")  
     }
 
-    if ($all) { Write-Warning "  The All switch is no longer required to return a list of all the customers. It is included for backward compatiblity and will be removed in future versions."}
-
     # replace the need to specify -all to retrieve all customers
     if ($PsCmdlet.ParameterSetName -eq "TenantId") {
         $res = Get-CustomerInner -SaToken $SaToken -TenantId $TenantId
@@ -105,10 +103,9 @@ function Get-PCCustomer {
 
 }
 
-
 <#
 .SYNOPSIS
-Blank
+TODO
 
 .DESCRIPTION
 The Get-SusbscribedSKU cmdlet. 
@@ -120,7 +117,7 @@ The authentication token you have created with your Partner Center Credentials.
 The tenant Id assigned to the customer you want to retrieve.
 
 .EXAMPLE
-Get-SubscribedSKU -TenantId XXXXXXXXXXXXXXXX
+Get-SubscribedSKU -TenantId 97037612-799c-4fa6-8c40-68be72c6b83c
 
 Return the subscribed SKUs for the specified TenantId
 #>
@@ -145,17 +142,18 @@ function Get-PCSubscribedSKU {
 }
 
 <#
-
+.SYNOPSIS
+TODO
 
 .DESCRIPTION
-
+The Get-PCSpendingBudget cmdlet
 .PARAMETER SaToken 
 Specifies the authentication token you have created with your Partner Center credentials.
 
 .PARAMETER TenantId 
-
+Specifies the tenant used for scoping this cmdlet.
 .EXAMPLE
-
+Get-PCSpendingBudget -TenantId 97037612-799c-4fa6-8c40-68be72c6b83c
 .NOTES
 #>
 function Get-PCSpendingBudget {
@@ -179,7 +177,7 @@ function Get-PCSpendingBudget {
 
 <#
 .SYNOPSIS
-Blank
+TODO
 .DESCRIPTION
 The Set-PCSpendingBudget cmdlet sets a spending budged for the specified tenant.
 .PARAMETER SaToken 
@@ -189,7 +187,7 @@ Specifies the tenant for which to set the spending budget
 .PARAMETER SpendingBudget 
 Specifies the spending budget in the default currency for the partner.
 .EXAMPLE
-Set-PCSpendingBudget -TenantId XXXXXXXXXXXXXXXX -SpendingBudge 3000
+Set-PCSpendingBudget -TenantId 97037612-799c-4fa6-8c40-68be72c6b83c -SpendingBudget 3000
 
 Sets the spending budget to 3000 USD
 .NOTES
@@ -230,39 +228,38 @@ The New-PCCustomer cmdlet creates a new customer for the current partner.
 Specifies the authentication token you have created with your Partner Center credentials.
 
 .PARAMETER Email 
-
+Specifies the contact email address for the new customer.
 .PARAMETER Culture
-
+Sepcifies the culture for the new customer. 
 .PARAMETER Language
-
-.PARAMETER Culture
+Specifies the default language for the new customer.
 
 .PARAMETER CompanyName
-
+Sepcifies the company name for the new customer.
 .PARAMETER Country
-
+Specifies the country name for the new customer. The country must be valid for the current partner.
 .PARAMETER Region
-
+Specifies the region for the new customer.
 .PARAMETER City
-
+Specifies the city address for the new customer.
 .PARAMETER State
-
+Specifies the state address for the new customer.
 .PARAMETER AddressLine1
-
+Specifies the first line of the address for the new customer.
 .PARAMETER PostalCode
-
+Specifies the postal code, if needed, for the new customer.
 .PARAMETER FirstName
-
+Specifies the the new customer's contact's first name.
 .PARAMETER LastName
-
+Specifies the the new customer's contact's last name.
 .PARAMETER PhoneNumber
-
+Specifies the the new customer's contact's phone number.
 .PARAMETER BillingProfile
 
 .PARAMETER CompanyProfile
 
 .EXAMPLE
-
+New-PCCustomer
 .NOTES
 #>
 function New-PCCustomer {
@@ -320,10 +317,10 @@ The Remove-PCCCustomer cmdlet removes a customer from being managed from the cur
 .PARAMETER SaToken 
 The authentication token you have created with your Partner Center Credentials.
 .PARAMETER TenantId 
-
+Specifies the tenant used for scoping this cmdlet.
 
 .EXAMPLE
-Remove-PCCustomer
+Remove-PCCustomer -TenantId 97037612-799c-4fa6-8c40-68be72c6b83c
 
 .NOTES
 #>
@@ -359,9 +356,9 @@ The Get-PCManagedService
 .PARAMETER SaToken 
 The authentication token you have created with your Partner Center Credentials.
 .PARAMETER TenantId 
-
+Specifies the tenant used for scoping this cmdlet.
 .EXAMPLE
-Get-PCManagedService
+Get-PCManagedService -TenantId 97037612-799c-4fa6-8c40-68be72c6b83c
 
 .NOTES
 #>
@@ -389,15 +386,16 @@ function Get-PCManagedService {
 
 <#
 .SYNOPSIS
-Selectes a customer to be used in other cmdlets.
+Selects a customer to be used in other cmdlets.
 .DESCRIPTION
 The Select-PCCustomer cmdlet selects a customer tenant specified by the tenant id.
-.PARAMETER SaToken 
-The authentication token you have created with your Partner Center Credentials.
-.PARAMETER TenantId 
 
+.PARAMETER SaToken 
+Specifies the authentication token you have created with your Partner Center Credentials.
+.PARAMETER TenantId 
+Specifies the tenant used for scoping this cmdlet.
 .EXAMPLE
-Select-PCCustomer -TenantId XXXXXXXXXX
+Select-PCCustomer -TenantId 97037612-799c-4fa6-8c40-68be72c6b83c
 
 .NOTES
 #>
@@ -433,9 +431,9 @@ The Get-PCCustomerRelationship cmdlet returns the relationship the specified cus
 .PARAMETER SaToken 
 The authentication token you have created with your Partner Center Credentials.
 .PARAMETER TenantId 
-
+Specifies the tenant used for scoping this cmdlet.
 .EXAMPLE
-Get-PCCustomerRelationship -TenantId XXXXXXXXXXXXX
+Get-PCCustomerRelationship -TenantId 97037612-799c-4fa6-8c40-68be72c6b83c
 
 .NOTES
 #>
@@ -460,33 +458,6 @@ function Get-PCCustomerRelationship {
     return (_formatResult -obj $obj -type "PartnerRelationship")
 }
 
-function Get-PCResellerCustomers {
-    [CmdletBinding()]
-
-    Param(
-        [Parameter(ParameterSetName = 'filter', Mandatory = $true)][String]$ResellerId,
-        [Parameter(ParameterSetName = 'filter', Mandatory = $false)][int]$Limit = 200,
-        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
-    )
-    _testTokenContext($SaToken)
-
-    Write-Warning "  Get-PCResellerCustomers is deprecated and will not be available in future releases, use Get-PCResellerCustomer instead."
-    $obj = @()
-
-    [string]$filter = '{"Field":"IndirectReseller","Value":"' + $ResellerId + '","Operator":"starts_with"}'
-    [Reflection.Assembly]::LoadWithPartialName("System.Web") | Out-Null
-    $Encode = [System.Web.HttpUtility]::UrlEncode($filter)
-
-    $url = "https://api.partnercenter.microsoft.com/v1/customers?size={0}&filter={1}" -f $Limit, $Encode
-
-    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
-    $headers.Add("Authorization", "Bearer $SaToken")
-    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
-
-    $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-    $obj += $response.Substring(1) | ConvertFrom-Json
-    return (_formatResult -obj $obj -type "Customer")  
-}
 
 <#
 .SYNOPSIS
@@ -499,9 +470,9 @@ The authentication token you have created with your Partner Center Credentials.
 .PARAMETER ResellerId 
 
 .PARAMETER Limit 
-
+Specifies a limit to the number of records to return. The default limit is 200 records.
 .EXAMPLE
-
+Get-PCResellerCustomer
 .NOTES
 #>
 function Get-PCResellerCustomer {

@@ -1,15 +1,18 @@
 # Partner Center PowerShell Module Changelog
 
-## 0.9.0.22 (2018-05-24)
+## 0.10.0.0 (2018-06-11)
 
 ### Features
 
-* Add application id as part of the REST request.
+* Added application id as part of the REST request.
+* Added in framework to support using a cart to create an order.
 
 ### Bug Fixes
 
 * Removed inoperable export of Set-PCGraphUserPassword
 * Made the CountryId parameter mandatory for the Get-PCAddressRulesByMarket, otherwise an error was thrown.
+* Fixed an issue where Set-PCLegalBusinessProfile could not update the primary contact information.
+* Fixed an issue where Set-PCSupportProfile could not set information, if any of the default properties were missing.
 
 * Added validation for the -currency and -region parameters on Get-PCAzureRatecard
 * Added regex validation for the -startdate and -enddate parameters of Get-PCAuditRecord
@@ -25,6 +28,7 @@
 * Removed the requirement to specify -All for the following cmdlets:
   * Get-PCCustomer
   * Get-PCSR
+  * Get-PCSubscription
 * Removed the following cmdlets, instead use the new cmdlet name:
   * Get-PCCustomerLicensesDeployment use Get-PCCustomerLicenseDeployment
   * Get-PCCustomerLicensesUsage use Get-PCCustomerLicenseUsage
@@ -37,3 +41,4 @@
   * Get-PCLicensesDeployment use Get-PCLicenseDeployment
   * Get-PCAuditRecords use Get-PCAuditRecord
   * Get-PCSubscribedSKUs use Get-PCSubscribedSKU
+* Modified the -AutoRenewEnabled parameter for Set-PCSubscription to be -AutoRenew

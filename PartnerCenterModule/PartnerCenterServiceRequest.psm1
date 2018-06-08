@@ -18,18 +18,16 @@ TODO
 .DESCRIPTION
 The Get-PCSR cmdlet.
 .PARAMETER SaToken 
-The authentication token you have created with your Partner Center Credentials.
+The authentication token you have created with your Partner Center credentials.
 .PARAMETER TenantId 
-
+Specifies the tenant used for scoping this cmdlet.
 .PARAMETER ServiceRequestId 
-
-.PARAMETER All 
 
 .EXAMPLE
 Get-PCSR
 
 .NOTES
-TODO
+The -All parameter has been removed in this version.
 #>
 function Get-PCSR
 {
@@ -38,7 +36,6 @@ function Get-PCSR
     Param(
         [Parameter(ParameterSetName='TenantId', Mandatory = $false)][String]$TenantId,
         [Parameter(ParameterSetName='srid', Mandatory = $false)][String]$ServiceRequestId,
-        [Parameter(ParameterSetName='all', Mandatory = $true)][switch]$All,
         [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
     )
     _testTokenContext($SaToken)
@@ -105,13 +102,14 @@ The New-PCSR cmdlet.
 .PARAMETER SaToken 
 The authentication token you have created with your Partner Center Credentials.
 .PARAMETER ServiceRequest 
-
+Specifies the service requst object variable created that defines the service request to open.
 .PARAMETER Title 
-
+Specifies the title of the service request.
 .PARAMETER Description 
+Specifies details of the the service request
 
 .PARAMETER Severity 
-
+Specifies the severity of request. Valid entries are: minimal, moderate, or critical
 .PARAMETER SupportTopicId 
 
 .PARAMETER ServiceRequestContact 
@@ -152,8 +150,8 @@ function New-PCSR
     else
     {
         $newSR = [ServiceRequest]::new($Title,$Description,$Severity,$SupportTopicID)
-        if ($ServiceRequestContact) { $newSR.PrimaryContact = $ServiceRequestContact }
-        if ($ServiceRequestNote) { $newSR.NewNote = $ServiceRequestNote }
+        if ($ServiceRequestContact) { $newSR.primaryContact = $ServiceRequestContact }
+        if ($ServiceRequestNote) { $newSR.newNote = $ServiceRequestNote }
     }
 
     $body = $newSR | ConvertTo-Json -Depth 100
@@ -166,22 +164,23 @@ function New-PCSR
 
 <#
 .SYNOPSIS
-
+TODO
 .DESCRIPTION
-
+The Set-PCSR cmdlet. 
 .PARAMETER SaToken 
-The authentication token you have created with your Partner Center Credentials.
+Specifies the authentication token you have created with your Partner Center Credentials.
 .PARAMETER ServiceRequest 
-
+Specifies the updated service request object used to update the service request.
 .PARAMETER Status 
-
+Specified whether the service request is open or closed. Valid values are: open and closed.
 .PARAMETER Description 
 
 .PARAMETER AddNote 
 
 .EXAMPLE
-
+Set-PCSR -ServiceRequest $s -Status 'closed'
 .NOTES
+
 #>
 function Set-PCSR
 {
@@ -205,7 +204,7 @@ function Set-PCSR
         if ($Status) {$actualSR.status = $Status
                         $body = $actualSR | ConvertTo-Json -Depth 100}
         if ($AddNote) {
-            $newSR = [ServiceRequest]::new($actualSR.title, $actualSR.description,$actualSR.severity,$actualSR.SupportTopicID)
+            $newSR = [ServiceRequest]::new($actualSR.title, $actualSR.description,$actualSR.severity,$actualSR.supportTopicID)
             $newSR.newnote = $AddNote
             $body = $newSR | ConvertTo-Json -Depth 100
         }

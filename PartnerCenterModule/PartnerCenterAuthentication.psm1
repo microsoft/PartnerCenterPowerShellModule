@@ -206,12 +206,12 @@ Specifies the user account credentials to use to perform this task. To specify t
 You can also create a PSCredential object by using a script or by using the Get-Credential cmdlet. You can then set the Credential parameter to the PSCredential object.
 
 .EXAMPLE
-$sat = New-PCSaToken -CspAddId XXXXXXXXXXXXXXX -CspDomain contoso.onmicrosoft.com -CspClientSecret $ClientSecretSecure -Credential $cred
+$sat = New-PCSaToken -CspAppId 97037612-799c-4fa6-8c40-68be72c6b83c -CspDomain contoso.onmicrosoft.com -CspClientSecret $ClientSecretSecure -Credential $cred
 
 Creates a new token using the specified information
 .NOTES
 $cred = Get-Credential
-clientSecret = 'XXXXXXXXXXXXXXXXXXXXXX='
+clientSecret = 'NQSm6Wjsd7PcDeP5JD6arEWMF3UghEpWmphGrshxzsQ='
 $ClientSecretSecure = $clientSecret | ConvertTo-SecureString -AsPlainText -Force
 
 #>

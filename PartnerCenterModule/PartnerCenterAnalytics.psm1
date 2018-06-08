@@ -15,6 +15,7 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 <#
 .SYNOPSIS
 TODO
+
 .DESCRIPTION
 The Get-PCLicenseDeployment cmdlet retrieves a list of licenses for the authenticated partner.
 
@@ -101,7 +102,7 @@ Specifies the authentication token you have created with your Partner Center cre
 Specifies the tenant id.
 
 .EXAMPLE
-Get-PCCustomerLicenseDeployment -TenantId XXXXXXXXXXXXXXXXXXXX
+Get-PCCustomerLicenseDeployment -TenantId 97037612-799c-4fa6-8c40-68be72c6b83c
 
 Retrieve a list of deployed liceses for the specified tenant.
 
@@ -141,7 +142,7 @@ Specifies the authentication token you have created with your Partner Center cre
 Specifies the tenant id.
 
 .EXAMPLE
-Get-PCCustomerLicenseDeployment -TenantId XXXXXXXXXXXXXXXXXXXX
+Get-PCCustomerLicenseDeployment -TenantId 97037612-799c-4fa6-8c40-68be72c6b83c
 
 Retrieve a list of assigned liceses for the specified tenant
 

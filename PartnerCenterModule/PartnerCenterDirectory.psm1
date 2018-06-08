@@ -106,7 +106,7 @@ The Get-PCCustomerRoleMember cmdlet TODO
 Specifies a security token for authenticating and executing the cmdlet.
 
 .PARAMETER TenantId 
-Specifies the tenant id 
+Specifies the tenant used for scoping this cmdlet.
 
 .PARAMETER RoleId 
 Specifies the role id
@@ -197,6 +197,7 @@ The Remove-PCCustomerRoleMember cmdlet
 Specifies a security token for authenticating and executing the cmdlet.
 
 .PARAMETER TenantId 
+Specifies the tenant used for scoping this cmdlet.
 
 .PARAMETER RoleId 
 

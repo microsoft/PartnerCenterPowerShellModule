@@ -15,17 +15,19 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 <#
 .SYNOPSIS
 TODO
+
 .DESCRIPTION
 The Get-PCOrder cmdlet.
 
 .PARAMETER SaToken 
 The authentication token you have created with your Partner Center Credentials.
 .PARAMETER TenantId 
-
+Specifies the tenant used for scoping this cmdlet.
 .PARAMETER OrderId 
 
 .EXAMPLE
-Get-PCOrder 
+Get-PCOrder
+
 .NOTES
 #>
 function Get-PCOrder {
@@ -72,7 +74,7 @@ The New-PCOrder cmdlet
 .PARAMETER SaToken 
 The authentication token you have created with your Partner Center Credentials.
 .PARAMETER TenantId 
-
+Specifies the tenant used for scoping this cmdlet.
 .PARAMETER OrderId 
 
 .PARAMETER LineItems 
@@ -80,13 +82,14 @@ The authentication token you have created with your Partner Center Credentials.
 .PARAMETER OfferId 
 
 .PARAMETER Quantity
-
+The number of licenses for a license-based subscription or instances for an Azure reservation.
 .PARAMETER FriendlyName
-
+Optional. The friendly name for the subscription defined by the partner to help disambiguate.
 .PARAMETER PartnerIdOnRecord 
-
+When an indirect provider places an order on behalf of an indirect reseller, populate this field with the MPN ID of the indirect reseller only (never the ID of the indirect provider). This ensures proper accounting for incentives.
 .EXAMPLE
 New-PCOrder
+
 .NOTES
 #>
 function New-PCOrder {
@@ -126,8 +129,8 @@ function New-PCOrder {
             'ByArray' { $order = [Order]::new($TenantId, $LineItems)}
             'AllDetails' {
                 $lineItems_tmp = [OrderLineItem]::new(0, $OfferId, $Quantity)
-                if ($FriendlyName) {$lineItems_tmp.FriendlyName = $FriendlyName}
-                if ($PartnerIdOnRecord) {$lineItems_tmp.PartnerIdOnRecord = $PartnerIdOnRecord}
+                if ($FriendlyName) {$lineItems_tmp.friendlyName = $FriendlyName}
+                if ($PartnerIdOnRecord) {$lineItems_tmp.partnerIdOnRecord = $PartnerIdOnRecord}
                 $arr = @()
                 $arr += $lineItems_tmp
                 $order = [Order]::new($TenantId, $arr)
@@ -147,15 +150,15 @@ function New-PCOrder {
 .SYNOPSIS
 TODO
 .DESCRIPTION
-The New-PCAddonOrder
-.PARAMETER SaToken 
-The authentication token you have created with your Partner Center Credentials.
+The New-PCAddonOrder cmdlet creates a new addon order for an already created order.
+.PARAMETER SaToken
+Specifies the authentication token you have created with your Partner Center credentials.
 .PARAMETER TenantId 
-
+Specifies the tenant used for scoping this cmdlet.
 .PARAMETER OrderId 
-
+Specifies the order id for which to associate the add on.
 .PARAMETER LineItems 
-
+Specifies the line items.
 .EXAMPLE
 New-PCAddonOrder
 .NOTES
@@ -189,33 +192,54 @@ function New-PCAddonOrder {
 }
 
 <#
-function Set-Order
-{
+.SYNOPSIS
+TODO
+.DESCRIPTION
+The Set-PCOrder cmdlet
+.PARAMETER SaToken 
+Specifies the authentication token you have created with your Partner Center credentials.
+.PARAMETER Order
+Specifies the order to modify.
+.PARAMETER LineItemNumber
+Specifies a line item number to modify
+.PARAMETER FriendlyName
+Specifies a friendly name for the order.
+.PARAMETER Quantity
+Specifies the quantity of items on the specified order line item.
+
+.PARAMETER BillingCycleType
+Specifies the billing cycle type. Valid values are: unknown, monthly, annual, none.
+.EXAMPLE
+Set-PCOrder
+.NOTES
+
+#>
+function Set-PCOrder {
     [CmdletBinding()]
-    param  ([Parameter(Mandatory = $true,ValueFromPipeline=$True,ValueFromPipelineByPropertyName=$True)][PSCustomObject]$order,
-            [Parameter(Mandatory = $true)][uint16]$LineItemNumber,
-            [Parameter(Mandatory = $false)][string]$FriendlyName,
-            [Parameter(Mandatory = $false)][uint16]$Quantity,
-            [Parameter(Mandatory = $false)][ValidateSet('Unknown','Monthly','Annual','None')][string]$BillingCycleType,
-            [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken)
+    param  ([Parameter(Mandatory = $true, ValueFromPipeline = $True, ValueFromPipelineByPropertyName = $True)][PSCustomObject]$order,
+        [Parameter(Mandatory = $true)][uint16]$LineItemNumber,
+        [Parameter(Mandatory = $false)][string]$FriendlyName,
+        [Parameter(Mandatory = $false)][uint16]$Quantity,
+        [Parameter(Mandatory = $false)][ValidateSet('Unknown', 'Monthly', 'Annual', 'None')][string]$BillingCycleType,
+        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken)
     $obj = @()
     _testTokenContext($SaToken)
-    $actualOrder = Get-PCOrder -tenantID $order.ReferenceCustomerId -orderID $order.id -SaToken $SaToken
+    $actualOrder = Get-PCOrder -tenantID $order.referenceCustomerId -orderID $Order.id -SaToken $SaToken
 
     if ($FriendlyName) { $actualOrder.lineItems[$LineItemNumber].friendlyName = $FriendlyName}
-    if ($quantity) {$actualOrder.lineItems[$LineItemNumber].Quantity = $quantity}
-    if ($BillingCycleType){$actualOrder.BillingCycleType = $BillingCycleType}
+    if ($Quantity) {$actualOrder.lineItems[$LineItemNumber].quantity = $Quantity}
+    if ($BillingCycleType) {$actualOrder.billingCycleType = $BillingCycleType}
 
-    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/orders/{1}" -f $order.ReferenceCustomerId, $order.id
-    $headers  = @{"Authorization"="Bearer $SaToken"}
-    $headers += @{"MS-Contract-Version"="v1"}
-    $headers += @{"MS-RequestId"=[Guid]::NewGuid()}
-    $headers += @{"MS-CorrelationId"=[Guid]::NewGuid()}
+    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/orders/{1}" -f $order.referenceCustomerId, $Order.id
+    $headers = @{"Authorization" = "Bearer $SaToken"}
+    $headers += @{"MS-Contract-Version" = "v1"}
+    $headers += @{"MS-RequestId" = [Guid]::NewGuid()}
+    $headers += @{"MS-CorrelationId" = [Guid]::NewGuid()}
     $body = $actualOrder | ConvertTo-Json -Depth 100
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Body $body -Method "PATCH" #-Debug -Verbose 
+    return $response
 }
-#>
 
 <#
 .SYNOPSIS
@@ -223,16 +247,18 @@ TODO
 .DESCRIPTION
 The New-OrderLineItem cmdlet
 .PARAMETER LineItemNumber 
-
+Specifies the line number of the order to add the line item. Specifying an existing line item will overwrite the current line item.
 .PARAMETER OfferId
-
+Specifies the offer id for which to purchase. Use Get-PCOffer to list offers available in your region.
 .PARAMETER Quantity
-
+Specifies a quantity of licenses to purchase for this line item.
 .PARAMETER FriendlyName
-
+Specifies a friendly name for the line item.
 .EXAMPLE
 New-OrderLineItem
+
 .NOTES
+TODO
 #>
 function New-OrderLineItem {
     [CmdletBinding()]
@@ -244,7 +270,71 @@ function New-OrderLineItem {
         
     )
     $LineItem = [OrderLineItem]::new($LineItemNumber, $OfferId, $Quantity)
-    if ($FriendlyName) {$LineItem.FriendlyName = $FriendlyName}
+    if ($FriendlyName) {$LineItem.friendlyName = $FriendlyName}
     return $LineItem
 
+}
+
+<#
+.SYNOPSIS
+TODO
+.DESCRIPTION
+The New-PCCart cmdlet creates a new cart.
+.PARAMETER SaToken 
+Specifies the authentication token you have created with your Partner Center credentials.
+.PARAMETER TenantId 
+Specifies the tenant used for scoping this cmdlet.
+.PARAMETER SubscriptionId
+Specifies the subscription 
+
+.EXAMPLE
+New-PCCart -TenantId 97037612-799c-4fa6-8c40-68be72c6b83c
+
+.NOTES
+
+#>
+function New-PCCart {
+    [CmdletBinding()]
+    Param(
+        [Parameter(ParameterSetName = 'TenantId', Mandatory = $true)][String]$TenantId,
+        [Parameter(Mandatory = $true)][string]$SubscriptionId,
+        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
+    )
+    _testTokenContext($SaToken)
+
+
+
+
+    
+    return $null
+}
+
+<#
+.SYNOPSIS
+TODO
+.DESCRIPTION
+The Set-PCCart cmdlet modifies the cart.
+.PARAMETER SaToken 
+Specifies the authentication token you have created with your Partner Center credentials.
+.PARAMETER TenantId 
+Specifies the tenant used for scoping this cmdlet.
+.PARAMETER CartId
+Specifies the cart id that you will modify.
+
+.EXAMPLE
+New-PCCart -TenantId 97037612-799c-4fa6-8c40-68be72c6b83c
+
+.NOTES
+
+#>
+function Set-PCCart {
+    [CmdletBinding()]
+    Param(
+        [Parameter(ParameterSetName = 'TenantId', Mandatory = $true)][String]$TenantId,
+        [Parameter(Mandatory = $true)][string]$CartId,
+        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
+    )
+    _testTokenContext($SaToken)
+
+    return $null
 }
