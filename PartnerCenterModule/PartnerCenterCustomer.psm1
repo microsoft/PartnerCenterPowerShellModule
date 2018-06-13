@@ -25,11 +25,18 @@ Specifies an authentication token with your Partner Center credentials.
 .PARAMETER TenantId 
 The tenant Id assigned to the customer you want to retrieve.
 
+<<<<<<< HEAD
 .PARAMETER ResultSize 
 Specifies the maximum number of results to return. The default value is 200.
+=======
+.PARAMETER Filter 
+A filter specified to limit the number of customers returned.
+>>>>>>> parent of d3de9aa... Removed deprecated cmdlets.
 
 .PARAMETER StartsWith 
-Specifies a filter for the customer names returned.
+This switch does not do anything, but is still included for backward compatability.
+.PARAMETER All 
+This switch does not do anything, but is still included for backward compatability.
 
 .EXAMPLE
 Return a list of customers for a partner.
@@ -46,7 +53,7 @@ Return a customer by specifying part of the company name
 Get-PCCustomer -StartsWith '<company name>'
 
 .NOTES
-You need to have a authentication credential already established before running this cmdlet.
+You need to have a authentication Credential already established before running this cmdlet.
 
 #>
 function Get-PCCustomer {
@@ -55,9 +62,15 @@ function Get-PCCustomer {
     Param(
         [Parameter(ParameterSetName = 'TenantId', Mandatory = $false)][String]$TenantId,
         [Parameter(ParameterSetName = 'filter', Mandatory = $true)][String]$StartsWith,
+<<<<<<< HEAD
         [Parameter(ParameterSetName = 'filter', Mandatory = $false)][int]$ResultSize = 200,
         [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
 
+=======
+        [Parameter(ParameterSetName = 'filter', Mandatory = $false)][int]$Size = 200,
+        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken, 
+        [Parameter(Mandatory = $false)][switch]$All
+>>>>>>> parent of d3de9aa... Removed deprecated cmdlets.
     )
     _testTokenContext($SaToken)
 
@@ -82,14 +95,22 @@ function Get-PCCustomer {
         return (_formatResult -obj $obj -type "Customer")  
     }
 
+<<<<<<< HEAD
     function Private:Search-CustomerInner ($SaToken, $StartsWith, $ResultSize) {
+=======
+    function Private:Search-CustomerInner ($SaToken, $StartsWith, $Size) {
+>>>>>>> parent of d3de9aa... Removed deprecated cmdlets.
         $obj = @()
 
         [string]$filter = '{"Field":"CompanyName","Value":"' + $StartsWith + '","Operator":"starts_with"}'
         [Reflection.Assembly]::LoadWithPartialName("System.Web") | Out-Null
         $Encode = [System.Web.HttpUtility]::UrlEncode($filter)
 
+<<<<<<< HEAD
         $url = "https://api.partnercenter.microsoft.com/v1/customers?size={0}&filter={1}" -f $ResultSize, $Encode
+=======
+        $url = "https://api.partnercenter.microsoft.com/v1/customers?size={0}&filter={1}" -f $Size, $Encode
+>>>>>>> parent of d3de9aa... Removed deprecated cmdlets.
 
         $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
         $headers.Add("Authorization", "Bearer $SaToken")
@@ -106,12 +127,41 @@ function Get-PCCustomer {
         return $res
     }
     elseif ($PsCmdlet.ParameterSetName -eq "filter") {
+<<<<<<< HEAD
         $res = Search-CustomerInner -SaToken $SaToken -StartsWith $StartsWith -ResultSize $ResultSize
+=======
+        $res = Search-CustomerInner -SaToken $SaToken -StartsWith $StartsWith -Size $Size
+>>>>>>> parent of d3de9aa... Removed deprecated cmdlets.
         return $res
     }
 
 }
 
+<<<<<<< HEAD
+=======
+function Get-PCSubscribedSKUs {
+    [CmdletBinding()]
+    param ([Parameter(Mandatory = $false)][String]$TenantId = $GlobalCustomerId,
+        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken)
+    _testTokenContext($SaToken)
+    _testTenantContext ($TenantId)
+
+    Write-Warning "  Get-PCSubscribedSKUs is deprecated and will not be available in future releases, use Get-PCSubscribedSKU instead."
+
+    $obj = @()
+
+    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/subscribedskus" -f $TenantId
+ 
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
+
+    $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
+    $obj += $response.Substring(1) | ConvertFrom-Json
+    return (_formatResult -obj $obj -type "SubscribedSku")  
+}
+
+>>>>>>> parent of d3de9aa... Removed deprecated cmdlets.
 <#
 .SYNOPSIS
 TODO
@@ -360,6 +410,29 @@ function Remove-PCCustomer {
     return ($response)  
 }
 
+function Get-PCManagedServices {    
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory = $false)][String]$TenantId = $GlobalCustomerId,
+        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
+    )
+    _testTokenContext($SaToken)
+    _testTenantContext ($TenantId)
+
+    Write-Warning "  Get-PCManagedServices is deprecated and will not be available in future releases, use Get-PCManagedService instead."
+
+    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/managedservices" -f $TenantId
+
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
+    
+    $obj = @()
+    $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
+    $obj += $response.Substring(1) | ConvertFrom-Json
+    return (_formatResult -obj $obj -type "ManagedServices")  
+}
+
 <#
 .SYNOPSIS
 Returns a list of managed services.
@@ -436,6 +509,28 @@ function Select-PCCustomer {
     return (_formatResult -obj $obj -type "Customer") 
 }
 
+function Get-PCCustomerRelationships {    
+    [CmdletBinding()]
+    param ([
+        Parameter(Mandatory = $false)][String]$TenantId = $GlobalCustomerId,
+        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken)
+    _testTokenContext($SaToken)
+    _testTenantContext ($TenantId)
+
+    Write-Warning "  Get-PCCustomerRelationships is deprecated and will not be available in future releases, use Get-PCCustomerRelationship instead."
+
+    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/relationships" -f $TenantId
+    
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
+
+    $obj = @()
+    $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
+    $obj += $response.Substring(1) | ConvertFrom-Json
+    return (_formatResult -obj $obj -type "PartnerRelationship")
+}
+
 <#
 .SYNOPSIS
 Returns the type of relationship the specified tenant has with the current partner for an indirect partner.
@@ -446,7 +541,13 @@ Specifies an authentication token with your Partner Center credentials.
 .PARAMETER TenantId 
 Specifies the tenant used for scoping this cmdlet.
 .EXAMPLE
+<<<<<<< HEAD
 Get-PCCustomerRelationship -TenantId 97037612-799c-4fa6-8c40-68be72c6b83c
+=======
+Get-PCCustomerRelationship -TenantId XXXXXXXXXXXXX
+
+
+>>>>>>> parent of d3de9aa... Removed deprecated cmdlets.
 .NOTES
 This can only be used in an indirect model.
 #>
@@ -471,6 +572,36 @@ function Get-PCCustomerRelationship {
     return (_formatResult -obj $obj -type "PartnerRelationship")
 }
 
+<<<<<<< HEAD
+=======
+function Get-PCResellerCustomers {
+    [CmdletBinding()]
+
+    Param(
+        [Parameter(ParameterSetName = 'filter', Mandatory = $true)][String]$ResellerId,
+        [Parameter(ParameterSetName = 'filter', Mandatory = $false)][int]$Size = 200,
+        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
+    )
+    _testTokenContext($SaToken)
+
+    Write-Warning "  Get-PCResellerCustomers is deprecated and will not be available in future releases, use Get-PCResellerCustomer instead."
+    $obj = @()
+
+    [string]$filter = '{"Field":"IndirectReseller","Value":"' + $ResellerId + '","Operator":"starts_with"}'
+    [Reflection.Assembly]::LoadWithPartialName("System.Web") | Out-Null
+    $Encode = [System.Web.HttpUtility]::UrlEncode($filter)
+
+    $url = "https://api.partnercenter.microsoft.com/v1/customers?size={0}&filter={1}" -f $Size, $Encode
+
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
+
+    $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
+    $obj += $response.Substring(1) | ConvertFrom-Json
+    return (_formatResult -obj $obj -type "Customer")  
+}
+>>>>>>> parent of d3de9aa... Removed deprecated cmdlets.
 
 <#
 .SYNOPSIS
@@ -481,9 +612,15 @@ The Get-PCResellerCustomer cmdlet returns a list of reseller customers or a spec
 .PARAMETER SaToken 
 Specifies an authentication token with your Partner Center credentials.
 .PARAMETER ResellerId 
+<<<<<<< HEAD
 Specifies the reseller id for which to return customers.
 .PARAMETER ResultSize 
 Specifies the maximum number of results to return. The default value is 200.
+=======
+
+.PARAMETER Size 
+
+>>>>>>> parent of d3de9aa... Removed deprecated cmdlets.
 .EXAMPLE
 Get-PCResellerCustomer -ResellerId '86f61a80-23de-4071-ba9f-249254da7e95'
 Return a list of customers for the specified reseller id
@@ -494,7 +631,11 @@ function Get-PCResellerCustomer {
 
     Param(
         [Parameter(ParameterSetName = 'filter', Mandatory = $true)][String]$ResellerId,
+<<<<<<< HEAD
         [Parameter(ParameterSetName = 'filter', Mandatory = $false)][int]$ResultSize= 200,
+=======
+        [Parameter(ParameterSetName = 'filter', Mandatory = $false)][int]$Size = 200,
+>>>>>>> parent of d3de9aa... Removed deprecated cmdlets.
         [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
     )
     _testTokenContext($SaToken)
@@ -505,7 +646,11 @@ function Get-PCResellerCustomer {
     [Reflection.Assembly]::LoadWithPartialName("System.Web") | Out-Null
     $Encode = [System.Web.HttpUtility]::UrlEncode($filter)
 
+<<<<<<< HEAD
     $url = "https://api.partnercenter.microsoft.com/v1/customers?size={0}&filter={1}" -f $ResultSize, $Encode
+=======
+    $url = "https://api.partnercenter.microsoft.com/v1/customers?size={0}&filter={1}" -f $Size, $Encode
+>>>>>>> parent of d3de9aa... Removed deprecated cmdlets.
 
     $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
     $headers.Add("Authorization", "Bearer $SaToken")

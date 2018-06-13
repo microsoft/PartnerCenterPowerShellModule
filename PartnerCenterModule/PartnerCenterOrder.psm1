@@ -14,10 +14,15 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 
 <#
 .SYNOPSIS
+<<<<<<< HEAD
 TODO
 
 .DESCRIPTION
 The Get-PCOrder cmdlet returns a list of orders or information about a specific order.
+=======
+
+.DESCRIPTION
+>>>>>>> parent of d3de9aa... Removed deprecated cmdlets.
 
 .PARAMETER SaToken 
 Specifies an authentication token with your Partner Center credentials.
@@ -30,8 +35,12 @@ Return all orders for the specified customer tenant.
   Get-PCOrder -TenantId 3c762ceb-b839-4b4a-85d8-0e7304c89f62
 
 .EXAMPLE
+<<<<<<< HEAD
 Get the specified customer order
   Get-PCOrder -TenantId -TenantId '3c762ceb-b839-4b4a-85d8-0e7304c89f62' -OrderId '1168c0f1-f0ed-4f9a-9e8c-1dcac072cba8'
+=======
+
+>>>>>>> parent of d3de9aa... Removed deprecated cmdlets.
 .NOTES
 #>
 function Get-PCOrder {
@@ -72,17 +81,29 @@ function Get-PCOrder {
 
 <#
 .SYNOPSIS
+<<<<<<< HEAD
 Creates a new order.
 .DESCRIPTION
 The New-PCOrder cmdlet creates a new order.
+=======
+
+.DESCRIPTION
+
+>>>>>>> parent of d3de9aa... Removed deprecated cmdlets.
 .PARAMETER SaToken 
 Specifies an authentication token with your Partner Center credentials.
 .PARAMETER TenantId 
 Specifies the tenant used for scoping this cmdlet.
 .PARAMETER OrderId 
+<<<<<<< HEAD
 Specifies the order id if this is an add on order.
 .PARAMETER LineItems 
 Specifies line items to include in the order
+=======
+
+.PARAMETER lineItems 
+
+>>>>>>> parent of d3de9aa... Removed deprecated cmdlets.
 .PARAMETER OfferId 
 Specifies the offer id guid for the ordered items.
 .PARAMETER Quantity
@@ -111,6 +132,7 @@ Send order
     New-PCOrder -TenantId $customer.id -LineItems $lineItems
 
 .EXAMPLE
+<<<<<<< HEAD
 Order an Add on to an existing subscription
 Get subscription
     $subscription = Get-PCSubscription -TenantId $customer.id -subscriptionid '<subscription id>'
@@ -139,6 +161,8 @@ Create the addon OrderLineItem
 
 Send order
     New-PCOrder -TenantId $customer.id -OrderId $order.id -LineItems $lineItems
+=======
+>>>>>>> parent of d3de9aa... Removed deprecated cmdlets.
 
 .NOTES
 #>
@@ -198,11 +222,17 @@ function New-PCOrder {
 
 <#
 .SYNOPSIS
-TODO
+
 .DESCRIPTION
+<<<<<<< HEAD
 The New-PCAddonOrder cmdlet creates a new addon order for an already created order.
 .PARAMETER SaToken
 Specifies an authentication token with your Partner Center credentials.
+=======
+
+.PARAMETER SaToken 
+The authentication token you have created with your Partner Center Credentials.
+>>>>>>> parent of d3de9aa... Removed deprecated cmdlets.
 .PARAMETER TenantId 
 Specifies the tenant used for scoping this cmdlet.
 .PARAMETER OrderId 
@@ -210,7 +240,7 @@ Specifies the order id for which to associate the add on.
 .PARAMETER LineItems 
 Specifies the line items.
 .EXAMPLE
-New-PCAddonOrder
+
 .NOTES
 #>
 function New-PCAddonOrder {
@@ -296,9 +326,9 @@ function Set-PCOrder {
 
 <#
 .SYNOPSIS
-TODO
+
 .DESCRIPTION
-The New-OrderLineItem cmdlet
+
 .PARAMETER LineItemNumber 
 Specifies the line number of the order to add the line item. Specifying an existing line item will overwrite the current line item.
 .PARAMETER OfferId
@@ -308,7 +338,10 @@ Specifies a quantity of licenses to purchase for this line item.
 .PARAMETER FriendlyName
 Specifies a friendly name for the line item.
 .EXAMPLE
+<<<<<<< HEAD
 New-OrderLineItem
+=======
+>>>>>>> parent of d3de9aa... Removed deprecated cmdlets.
 
 .NOTES
 TODO

@@ -28,6 +28,7 @@ Specifies the start time for which to retrieve usage information. Usage is only 
 .PARAMETER EndTime 
 Specifies the end time for which to retrieve usage information.
 .PARAMETER Granularity 
+<<<<<<< HEAD
 Specifies the granularity of the data to return. Valid values are: daily or hourly. The default value is daily.
 .PARAMETER ShowDetail 
 Default this is set to $true. If set to $true, the utilization records will be split by the resource instance levels. If set to false, the utilization records will be aggregated on the resource level.
@@ -35,6 +36,13 @@ Default this is set to $true. If set to $true, the utilization records will be s
 Specifies the maximum number of results to return. The default value and the maximum value is 1000. To retrieve more than 1000 records you must use the continuation link. 
 .PARAMETER ContinuationLink 
 Specifies a variable to save the URL to retrieve additional results.
+=======
+
+.PARAMETER ShowDetails 
+
+.PARAMETER Size 
+
+>>>>>>> parent of d3de9aa... Removed deprecated cmdlets.
 .EXAMPLE
      Get-PCUsage -TenantId 2a14b164-f983-4048-92e1-4f9591b87445 -SubscriptionId b027a4b3-5487-413b-aa48-ec8733c874d6 -StartTime '06-12-2018 00:00:00' -EndTime '06-31-2018 23:59:59' -Granularity hourly -ResultSize 2000
 Return up to 2000 hourly usage records for the specified date range. 
@@ -47,8 +55,13 @@ function Get-PCUsage {
         [Parameter(Mandatory = $true)][String]$StartTime,
         [Parameter(Mandatory = $true)][String]$EndTime,
         [Parameter(Mandatory = $false)][ValidateSet('daily', 'hourly')][String]$Granularity = 'daily',
+<<<<<<< HEAD
         [Parameter(Mandatory = $false)][bool]$ShowDetail = $true,
         [Parameter(Mandatory = $false)][ValidateRange(1, 100000)][int]$ResultSize = 1000,
+=======
+        [Parameter(Mandatory = $false)][bool]$ShowDetails = $true,
+        [Parameter(Mandatory = $false)][ValidateRange(1, 1000)] [int]$Size = 1000,
+>>>>>>> parent of d3de9aa... Removed deprecated cmdlets.
         [Parameter(Mandatory = $false)][String]$TenantId = $GlobalCustomerId,
         [Parameter(Mandatory = $false)][Parameter(Mandatory = $false, ParameterSetName = 'next')][string]$SaToken = $GlobalToken
     )
@@ -60,6 +73,7 @@ function Get-PCUsage {
         $retObject = Get-PCUsage_implementation -SubscriptionId $SubscriptionId -StartTime $startTime -EndTime $endTime -Granularity $granularity -ShowDetail $ShowDetail -ResultSize 1000 -TenantId $TenantId -SaToken $SaToken
         $returnItems = $retObject.Items
 
+<<<<<<< HEAD
         if ($retObject.Count -ge 1000) {
             
             do {
@@ -73,6 +87,62 @@ function Get-PCUsage {
                 #$retObject += $retObject2
             }
             until(!($r.links.PsObject.Properties.Name -match 'next'))
+=======
+    $retObject = Get-PCUsage_implementation -Subscriptionid $SubscriptionId -StartTime $startTime -EndTime $endTime -Granularity $granularity -ShowDetails $showDetails -Size $size -TenantId $TenantId -SaToken $SaToken
+
+    return $retObject.Items
+}
+
+<#
+.SYNOPSIS
+
+.DESCRIPTION
+
+.PARAMETER SaToken 
+The authentication token you have created with your Partner Center Credentials.
+.PARAMETER TenantId 
+
+.PARAMETER SubscriptionId 
+
+.PARAMETER StartTime 
+
+.PARAMETER EndTime 
+
+.PARAMETER Granularity 
+
+.PARAMETER ShowDetails 
+
+.PARAMETER Size 
+
+.PARAMETER ContinuationLink 
+
+.EXAMPLE
+
+.NOTES
+#>
+function Get-PCUsage2
+{
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory = $true, ParameterSetName = 'first')][String]$SubscriptionId,
+        [Parameter(Mandatory = $true, ParameterSetName = 'first')][String]$StartTime,
+        [Parameter(Mandatory = $true, ParameterSetName = 'first')][String]$EndTime,
+        [Parameter(Mandatory = $false, ParameterSetName = 'first')][ValidateSet('daily', 'hourly')][String]$Granularity = 'daily',
+        [Parameter(Mandatory = $false, ParameterSetName = 'first')][bool]$ShowDetails = $true,
+        [Parameter(Mandatory = $false, ParameterSetName = 'first')][ValidateRange(1, 1000)] [int]$Size = 1000,
+        [Parameter(Mandatory = $false, ParameterSetName = 'first')][String]$TenantId = $GlobalCustomerId,
+        [Parameter(Mandatory = $false, ParameterSetName = 'first')][Parameter(Mandatory = $false, ParameterSetName = 'next')][string]$SaToken = $GlobalToken,
+        [Parameter(Mandatory = $true, ParameterSetName = 'next')]$ContinuationLink = $null
+        )
+    _testTokenContext($SaToken)
+
+    switch ($PsCmdlet.ParameterSetName)
+    {
+        "first"
+        {
+            _testTenantContext ($TenantId)
+            $retObject = Get-PCUsage_implementation -Subscriptionid $SubscriptionId -StartTime $startTime -EndTime $endTime -Granularity $granularity -ShowDetails $showDetails -Size $size -TenantId $TenantId -SaToken $SaToken
+>>>>>>> parent of d3de9aa... Removed deprecated cmdlets.
         }
     }
     else {
@@ -86,14 +156,51 @@ function Get-PCUsage {
     return $returnItems
 }
 
+<<<<<<< HEAD
 function Get-PCUsage_implementation {
+=======
+<#
+.SYNOPSIS
+
+.DESCRIPTION
+
+.PARAMETER SaToken 
+The authentication token you have created with your Partner Center Credentials.
+.PARAMETER TenantId 
+
+.PARAMETER SubscriptionId 
+
+.PARAMETER StartTime 
+
+.PARAMETER EndTime 
+
+.PARAMETER Granularity 
+
+.PARAMETER ShowDetails 
+
+.PARAMETER Size 
+
+.PARAMETER ContinuationLink 
+
+.EXAMPLE
+
+.NOTES
+#>
+function Get-PCUsage_implementation
+{
+>>>>>>> parent of d3de9aa... Removed deprecated cmdlets.
     [CmdletBinding()]
     param ( [String]$SubscriptionId,
         [String]$StartTime,
         [String]$EndTime,
         [String]$Granularity,
+<<<<<<< HEAD
         [bool]$ShowDetail,
         [int]$ResultSize,
+=======
+        [bool]$ShowDetails,
+        [int]$Size,
+>>>>>>> parent of d3de9aa... Removed deprecated cmdlets.
         [String]$TenantId,
         [string]$SaToken,
         $ContinuationLink)
@@ -121,7 +228,11 @@ function Get-PCUsage_implementation {
             "End time is not in a valid format. Use '01-06-2018 23:59:00' format"
         }
 
+<<<<<<< HEAD
         $urlParts += "Customers/{0}/Subscriptions/{1}/Utilizations/azure?start_time={2}Z&end_time={3}Z&show_details={4}&granularity={5}&size={6}" -f $TenantId, $SubscriptionId, $s_time, $e_time, $ShowDetail, $granularity, $ResultSize
+=======
+        $urlParts += "Customers/{0}/Subscriptions/{1}/Utilizations/azure?start_time={2}Z&end_time={3}Z&show_details={4}&granularity={5}&size={6}" -f $TenantId, $SubscriptionId, $s_time, $e_time, $showDetails, $granularity, $size
+>>>>>>> parent of d3de9aa... Removed deprecated cmdlets.
     }
     else {
         if (Get-Member -InputObject $continuationLink -name "next" -MemberType Properties) {
@@ -149,6 +260,33 @@ function Get-PCUsage_implementation {
     }
     $retObject = New-Object –TypeName PSObject –Prop $properties
     return $retObject
+}
+
+
+function Get-PCSubscriptionMonthlyUsageRecords
+{
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory = $false)][String]$TenantId = $GlobalCustomerId,
+        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
+        
+    )
+    _testTokenContext($SaToken)
+    _testTenantContext ($TenantId)
+
+    Write-Warning "  Get-PCSubscriptionMonthlyUsageRecords is deprecated and will not be available in future releases, use Get-PCSubscriptionMonthlyUsageRecord instead."
+
+    $obj = @()
+
+    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/subscriptions/usagerecords" -f $TenantId
+
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
+
+    $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
+    $obj += $response.Substring(1) | ConvertFrom-Json
+    return (_formatResult -obj $obj -type "SubscriptionMonthlyUsageRecord")
 }
 
 <#
@@ -186,6 +324,31 @@ function Get-PCSubscriptionMonthlyUsageRecord {
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj += $response.Substring(1) | ConvertFrom-Json
     return (_formatResult -obj $obj -type "SubscriptionMonthlyUsageRecord")
+}
+
+function Get-PCAzureResourceMonthlyUsageRecords
+{
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory = $false)][String]$TenantId = $GlobalCustomerId, 
+        [string]$SubscriptionId,
+        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken)
+    _testTokenContext($SaToken)
+    _testTenantContext ($TenantId)
+    
+    Write-Warning "  Get-PCAzureResourceMonthlyUsageRecords is deprecated and will not be available in future releases, use Get-PCAzureResourceMonthlyUsageRecord instead."
+
+    $obj = @()
+
+    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/subscriptions/{1}/usagerecords/resources" -f $TenantId, $SubscriptionId
+
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
+
+    $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
+    $obj += $response.Substring(1) | ConvertFrom-Json
+    return (_formatResult -obj $obj -type "AzureResourceMonthlyUsageRecord") 
 }
 
 <#

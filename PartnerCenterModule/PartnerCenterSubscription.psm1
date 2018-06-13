@@ -29,8 +29,13 @@ Specifies whether you want to return any addons for the subscription.
 .PARAMETER PartnerId 
 Specifies the Mpn partner id for which to list the subscriptions.
 
+<<<<<<< HEAD
 .PARAMETER ResultSize
 Specifies the maximum number of results to return. The default value is 200.
+=======
+.PARAMETER Size
+
+>>>>>>> parent of d3de9aa... Removed deprecated cmdlets.
 .PARAMETER OrderId
 Specifies an order id to for which to return a list of subscriptions.
 .EXAMPLE
@@ -50,6 +55,7 @@ Return a list of customer subscriptions from a reseller (Only available in an In
 function Get-PCSubscription {
     [CmdletBinding(DefaultParameterSetName = 'SubscriptionId')]
     Param(
+<<<<<<< HEAD
         [Parameter(Mandatory = $false)][String]$TenantId = $GlobalCustomerId,
         [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken,
         [Parameter(ParameterSetName = 'SubscriptionId', Mandatory = $false)][String]$SubscriptionId,
@@ -57,6 +63,16 @@ function Get-PCSubscription {
         [Parameter(ParameterSetName = 'PartnerId', Mandatory = $true)][String]$PartnerId,
         [Parameter(ParameterSetName = 'PartnerId', Mandatory = $false)][int]$ResultSize= 200,
         [Parameter(ParameterSetName = 'OrderId', Mandatory = $false)][string]$OrderId    
+=======
+            [Parameter(Mandatory = $false)][String]$TenantId=$GlobalCustomerId,
+            [Parameter(ParameterSetName='all', Mandatory = $false)][switch]$All,
+            [Parameter(ParameterSetName='SubscriptionId', Mandatory = $false)][String]$SubscriptionId,
+            [Parameter(ParameterSetName='SubscriptionId', Mandatory = $false)][switch]$AddOns,           
+            [Parameter(ParameterSetName='partnerId', Mandatory = $true)][String]$PartnerId,
+            [Parameter(ParameterSetName='partnerId',Mandatory = $false)][int]$Size = 200,
+            [Parameter(ParameterSetName='OrderId', Mandatory = $false)][string]$OrderId,
+            [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
+>>>>>>> parent of d3de9aa... Removed deprecated cmdlets.
     )
     _testTokenContext($SaToken)
     _testTenantContext ($TenantId)
@@ -116,9 +132,16 @@ function Get-PCSubscription {
         }
     }
 
+<<<<<<< HEAD
     function Private:Get-SubscriptionPartnerInner ($SaToken, $TenantId, $partnerId, $ResultSize) {
         $obj = @()
         $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/subscriptions?mpn_id={1}&offset=0&size={2}" -f $TenantId, $partnerId, $ResultSize
+=======
+    function Private:Get-SubscriptionPartnerInner ($SaToken, $TenantId, $partnerId, $size)
+    {
+        $obj = @()
+        $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/subscriptions?mpn_id={1}&offset=0&size={2}" -f $TenantId,$partnerId,$size
+>>>>>>> parent of d3de9aa... Removed deprecated cmdlets.
 
         $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
         $headers.Add("Authorization", "Bearer $SaToken")
@@ -155,6 +178,7 @@ function Get-PCSubscription {
         }
     }
 
+<<<<<<< HEAD
     # Determine which type of search to run based on the parameter sets.
     If ($PsCmdlet.ParameterSetName -eq "SubscriptionId") {
         $res = Get-SubscriptionInner -SaToken $SaToken -TenantId $TenantId -SubscriptionId $SubscriptionId -addons $addons
@@ -172,6 +196,21 @@ function Get-PCSubscription {
         # If no parameter sets were valid, then return all subscriptions
         $res = Get-SubscriptionsInner -SaToken $SaToken -TenantId $TenantId
         return $res
+=======
+    switch ($PsCmdlet.ParameterSetName)
+    {
+        "SubscriptionId" {$res = Get-SubscriptionInner -SaToken $SaToken -TenantId $TenantId -SubscriptionId $SubscriptionId -addons $addons
+                          return $res}
+
+        "partnerId"      {$res = Get-SubscriptionPartnerInner -SaToken $SaToken -TenantId $TenantId -partnerId $partnerId -size $size
+                          return $res}
+
+        "OrderId"        {$res = Get-SubscriptionByOrderInner -SaToken $SaToken -TenantId $TenantId -OrderId $OrderId
+                          return $res}
+
+        "all"        {$res = Get-SubscriptionsAllInner -SaToken $SaToken -TenantId $TenantId
+                          return $res}
+>>>>>>> parent of d3de9aa... Removed deprecated cmdlets.
     }
 
 }

@@ -10,6 +10,7 @@ Get-PCUsage -SubscriptionId <String> -StartTime <String> -EndTime <String> [-Gra
 
 ## DESCRIPTION
 
+<<<<<<< HEAD
 The Get-PCUsage cmdlet returns the usage records specified by the start and end times.
 
 ## PARAMETERS
@@ -36,6 +37,10 @@ Position?                    named
 Default value
 Accept pipeline input?       false
 Accept wildcard characters?  false
+=======
+```powershell
+    Get-PCSubscription -all
+>>>>>>> parent of d3de9aa... Removed deprecated cmdlets.
 ```
 
 ### -EndTime &lt;String&gt;
@@ -123,5 +128,9 @@ Accept wildcard characters?  false
 Return up to 2000 hourly usage records for the specified date range.
 
 ```powershell
+<<<<<<< HEAD
 PS C:\>Get-PCUsage -TenantId 2a14b164-f983-4048-92e1-4f9591b87445 -SubscriptionId b027a4b3-5487-413b-aa48-ec8733c874d6 -StartTime '06-12-2018 00:00:00' -EndTime '06-31-2018 23:59:59' -Granularity hourly -ResultSize 2000
+=======
+    Get-PCUsage -subscriptionid $subscription.id -startTime "01-12-1999 00:00:00" -endTime "12-31-1999 00:00:00" -granularity {daily | hourly}-showDetails  <bool> -size <int>
+>>>>>>> parent of d3de9aa... Removed deprecated cmdlets.
 ```
