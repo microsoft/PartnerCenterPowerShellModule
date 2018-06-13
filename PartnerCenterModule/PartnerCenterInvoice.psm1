@@ -17,25 +17,31 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 .SYNOPSIS
 TODO
 .DESCRIPTION
-The Get-PCInvoice cmdlet, retreives either a specific invoice or a list of invoices. 
+The Get-PCInvoice cmdlet retrieves either a specific invoice or a list of invoices. This cmdlet requires App+User authentication.
 
 .PARAMETER SaToken 
 Specifies a security token for authenticating and executing the cmdlet.
 
-.PARAMETER All 
-This parameter no longer provides any function. It is left for backward compatiblity.
-
 .PARAMETER InvoiceId 
-Specifies an invoice id
+Specifies an invoice id to return.
 
 .PARAMETER Summary
-Specifies whether to retrieve a summary only
+Specifies whether to retrieve a summary of the invoice.
 
 .EXAMPLE
 Get-PCInvoice
+Return a list of all invoices.
 
-Retrieves a list of invoices
+.EXAMPLE
+Get-PCInvoice -InvoiceId D030001IZ6
+Return the specified invoice
 
+.EXAMPLE
+Get-PCInvoice -InvoiceId D030001IZ6 -Summary
+Return a summary for the specified invoice
+
+.NOTES
+This cmdlet requires App+User authentication.
 #>
 function Get-PCInvoice {
     [CmdletBinding()]
@@ -43,9 +49,8 @@ function Get-PCInvoice {
     Param(
         [Parameter(Mandatory = $false)][String]$InvoiceId,
         [Parameter(Mandatory = $false)][switch]$Summary,
-        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken,
-        [Parameter(Mandatory = $false)][switch]$All
-        #[Parameter(ParameterSetName='detailurl',Mandatory = $false)][switch]$detailurl
+        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
+        #[Parameter(ParameterSetName='detailUrl',Mandatory = $false)][switch]$detailUrl
     )
     _testTokenContext($SaToken)
 
@@ -80,35 +85,6 @@ function Get-PCInvoice {
         $obj += $response
         return (_formatResult -obj $obj -type "Invoice") 
     }
-    <#
-    function Private:Get-AllInvoicesInner($SaToken) {
-        $obj = @()
-        $url = "https://api.partnercenter.microsoft.com/v1/invoices"
-
-        $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
-        $headers.Add("Authorization", "Bearer $SaToken")
-        $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
-
-        $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-        $obj += $response
-        return (_formatResult -obj $obj -type "Invoice") 
-    }
-#>
-    <#deprecated
-    function Private:Get-InvoiceDetailInner($SaToken, $detailurl)
-    {
-        $obj = @()
-        $url = "https://api.partnercenter.microsoft.com/v1{0}" -f $detailurl
-       
-        $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
-        $headers.Add("Authorization", "Bearer $SaToken")
-        $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
-
-        $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-        $obj += $response.Substring(1) | ConvertFrom-Json
-        return (_formatResult -obj $obj -type "Invoice") 
-    }
-#>
 
     If ($Summary) {
         $res = Get-InvoiceSummaryInner -SaToken $SaToken
@@ -119,11 +95,11 @@ function Get-PCInvoice {
         return $res
     }
 
-    <#"allinvoices" {$res = Get-AllInvoicesInner -SaToken $SaToken
+    <#"allInvoices" {$res = Get-AllInvoicesInner -SaToken $SaToken
         return $res}
         #>
     <#deprecated
-        "detailurl"    {$res = Get-InvoiceDetailInner -SaToken $SaToken -detailurl $detailurl
+        "detailUrl"    {$res = Get-InvoiceDetailInner -SaToken $SaToken -detailUrl $detailUrl
                           return $res}
                           #>
 }
@@ -139,7 +115,7 @@ The Get-PCInvoiceLineItem cmdlet.
 Specifies a security token for authenticating and executing the cmdlet.
 
 .PARAMETER InvoiceId 
-Specifies the nnvoice id to retrieve.
+Specifies the invoice id to retrieve.
 
 .PARAMETER BillingProvider 
 Specifies either Azure or Office.
@@ -147,14 +123,14 @@ Specifies either Azure or Office.
 .PARAMETER InvoiceLineItemType 
 Specifies either BillingLineItems for invoiced licence-based services or UsageLineItems for invoiced usage-based services.
 
-.PARAMETER Limit
-Specifies a limit to the number of invoice line items to retrieve
+.PARAMETER ResultSize
+Specifies the maximum number of results to return. The default value is 200.
 
 .PARAMETER Offset
 Specifies an offset
 
 .EXAMPLE
-Get-PCInvoiceLineItem -InvoceId 12345678 -BillingProvider Azure -InvoiceLineItemType UsageLineItems
+Get-PCInvoiceLineItem -InvoiceId 12345678 -BillingProvider Azure -InvoiceLineItemType UsageLineItems
 
 Retrieve a list of Azure usage from invoice 12345678.
 
@@ -167,14 +143,14 @@ function Get-PCInvoiceLineItem {
         [Parameter(Mandatory = $true)][String]$InvoiceId,
         [Parameter(Mandatory = $true)][ValidateSet("Azure", "Office")][string]$BillingProvider,
         [Parameter(Mandatory = $true)][ValidateSet("BillingLineItems", "UsageLineItems")][string]$InvoiceLineItemType,
-        [Parameter(Mandatory = $false)][int]$Limit = 200,
+        [Parameter(Mandatory = $false)][int]$ResultSize= 200,
         [Parameter(Mandatory = $false)][int]$Offset = 0,
         [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
     )
     _testTokenContext($SaToken)
 
     $obj = @()
-    $url = "https://api.partnercenter.microsoft.com/v1/invoices/{0}/lineitems/{1}/{2}?size={3}&offset={4}" -f $InvoiceId, $BillingProvider, $InvoiceLineItemType, $Limit, $Offset
+    $url = "https://api.partnercenter.microsoft.com/v1/invoices/{0}/lineitems/{1}/{2}?size={3}&offset={4}" -f $InvoiceId, $BillingProvider, $InvoiceLineItemType, $ResultSize, $Offset
 
     $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
     $headers.Add("Authorization", "Bearer $SaToken")

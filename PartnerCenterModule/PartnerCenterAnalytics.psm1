@@ -20,7 +20,7 @@ TODO
 The Get-PCLicenseDeployment cmdlet retrieves a list of licenses for the authenticated partner.
 
 .PARAMETER SaToken 
-The authentication token you have created with your Partner Center Credentials.
+Specifies an authentication token with your Partner Center credentials.
 
 .EXAMPLE
 Get-PCLicenseDeployment
@@ -58,7 +58,7 @@ Retrieves a list of licenses being used for the partner account.
 The Get-PCLicenseUsage cmdlet retrieves a list of licenses assigned for the authenticated partner.
 
 .PARAMETER SaToken 
-The authentication token you have created with your Partner Center credentials.
+Specifies an authentication token with your Partner Center credentials.
 
 .EXAMPLE
 Get-PCLicenseUsage
@@ -93,10 +93,10 @@ function Get-PCLicenseUsage
 TODO
 
 .DESCRIPTION
-The Get-PCCustomerLicenseDeployment cmdlet retrieves a list of licenses deployed by a partner for a specifc tenant.
+The Get-PCCustomerLicenseDeployment cmdlet retrieves a list of licenses deployed by a partner for a specific tenant.
 
 .PARAMETER SaToken 
-Specifies the authentication token you have created with your Partner Center credentials.
+Specifies an authentication token with your Partner Center credentials.
 
 .PARAMETER TenantId 
 Specifies the tenant id.
@@ -104,8 +104,10 @@ Specifies the tenant id.
 .EXAMPLE
 Get-PCCustomerLicenseDeployment -TenantId 97037612-799c-4fa6-8c40-68be72c6b83c
 
-Retrieve a list of deployed liceses for the specified tenant.
+Retrieve a list of deployed licenses for the specified tenant.
 
+.NOTES
+This cmdlet requires App + User authentication.
 #>
 function Get-PCCustomerLicenseDeployment
 {
@@ -133,10 +135,10 @@ function Get-PCCustomerLicenseDeployment
 TODO
 
 .DESCRIPTION
-The Get-PCCustomerLicenseUsage cmdlet retrieves a list of licenses deployed and assigned by a partner for a specifc tenant.
+The Get-PCCustomerLicenseUsage cmdlet retrieves a list of licenses deployed and assigned by a partner for a specific tenant.
 
 .PARAMETER SaToken 
-Specifies the authentication token you have created with your Partner Center credentials.
+Specifies an authentication token with your Partner Center credentials.
 
 .PARAMETER TenantId 
 Specifies the tenant id.
@@ -144,7 +146,7 @@ Specifies the tenant id.
 .EXAMPLE
 Get-PCCustomerLicenseDeployment -TenantId 97037612-799c-4fa6-8c40-68be72c6b83c
 
-Retrieve a list of assigned liceses for the specified tenant
+Retrieve a list of assigned licenses for the specified tenant
 
 #>
 function Get-PCCustomerLicenseUsage

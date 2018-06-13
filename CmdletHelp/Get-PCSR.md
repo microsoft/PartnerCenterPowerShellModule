@@ -1,19 +1,87 @@
-# Get-PCSR #
+# Get-PCSR
 
-## Get all service requests ##
+TODO
+
+## SYNTAX
 
 ```powershell
-    Get-PCSR -all
+Get-PCSR [-TenantId <String>] [-SaToken <String>] [<CommonParameters>]
+
+Get-PCSR [-ServiceRequestId <String>] [-SaToken <String>] [<CommonParameters>]
 ```
 
-## Get a specific service request ##
+## DESCRIPTION
 
-```powershell
-    Get-PCSR -srid '<service request id GUID>'
+The Get-PCSR cmdlet.
+
+## PARAMETERS
+
+### -TenantId &lt;String&gt;
+
+Specifies the tenant used for scoping this cmdlet.
+
+```
+Required?                    false
+Position?                    named
+Default value
+Accept pipeline input?       false
+Accept wildcard characters?  false
 ```
 
-## Get all customer service requests ##
+### -ServiceRequestId &lt;String&gt;
+
+Specifies a service request id.
+
+```
+Required?                    false
+Position?                    named
+Default value
+Accept pipeline input?       false
+Accept wildcard characters?  false
+```
+
+### -SaToken &lt;String&gt;
+
+Specifies an authentication token with your Partner Center credentials.
+
+```
+Required?                    false
+Position?                    named
+Default value                $GlobalToken
+Accept pipeline input?       false
+Accept wildcard characters?  false
+```
+
+## INPUTS
+
+## OUTPUTS
+
+## NOTES
+
+The -All parameter has been removed in this version.
+
+## EXAMPLES
+
+### EXAMPLE 1
+
+Get all service requests.
 
 ```powershell
-    Get-PCSR -TenantId '<tenant id GUID>'
+PS C:\>Get-PCSR
+```
+
+### EXAMPLE 2
+
+Get a specific service request
+
+```powershell
+    Get-PCSR -ServiceRequestId '<service request id>'
+```
+
+### EXAMPLE 3
+
+Get all customer service requests for the specified tenant id.
+
+```powershell
+    Get-PCSR -TenantId 'e974093c-2a52-4ebd-994e-b3e7e0f90cf2'
 ```

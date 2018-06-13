@@ -14,11 +14,11 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 
 <#
 .SYNOPSIS
-TODO
+Returns the partner's legal business profile.
 .DESCRIPTION
-The Get-PCLegalBusinessProfile cmdlet
+The Get-PCLegalBusinessProfile cmdlet returns the partner's legal business profile.
 .PARAMETER SaToken 
-The authentication token you have created with your Partner Center Credentials.
+Specifies an authentication token with your Partner Center credentials.
 .EXAMPLE
 Get-PCLegalBusinessProfile 
 .NOTES
@@ -45,11 +45,11 @@ function Get-PCLegalBusinessProfile {
 
 <#
 .SYNOPSIS
-TODO
+Returns the organizational profile.
 .DESCRIPTION
-The Get-PCOrganizationProfile cmdlet 
+The Get-PCOrganizationProfile cmdlet returns the organization profile. 
 .PARAMETER SaToken 
-The authentication token you have created with your Partner Center Credentials.
+Specifies an authentication token with your Partner Center credentials.
 .EXAMPLE
 Get-PCOrganizationProfile
 .NOTES
@@ -76,11 +76,11 @@ function Get-PCOrganizationProfile {
 
 <#
 .SYNOPSIS
-TODO
+Return the partner's billing profile.
 .DESCRIPTION
-The Get-PCBillingProfile cmdlet 
+The Get-PCBillingProfile cmdlet returns the billing profile for the current partner tenant.
 .PARAMETER SaToken 
-The authentication token you have created with your Partner Center Credentials.
+Specifies an authentication token with your Partner Center credentials.
 .EXAMPLE
 Get-PCBillingProfile
 .NOTES
@@ -107,11 +107,11 @@ function Get-PCBillingProfile {
 
 <#
 .SYNOPSIS
-TODO
+Returns the specified Mpn profile.
 .DESCRIPTION
-The Get-PCMpnProfile cmdlet 
+The Get-PCMpnProfile cmdlet returns the specified Mpn profile.
 .PARAMETER SaToken 
-Specifies the authentication token you have created with your Partner Center credentials.
+Specifies an authentication token with your Partner Center credentials.
 .PARAMETER MpnId 
 Specifies the MPN id used to scope this cmdlet.
 .EXAMPLE
@@ -146,11 +146,11 @@ function Get-PCMpnProfile {
 
 <#
 .SYNOPSIS
-TODO
+Return the partner's support profile.
 .DESCRIPTION
-The Get-PCSupport cmdlet 
+The Get-PCSupportProfile cmdlet returns the partner's support profile.
 .PARAMETER SaToken 
-The authentication token you have created with your Partner Center Credentials.
+Specifies an authentication token with your Partner Center credentials.
 
 .EXAMPLE
 Get-PCSupportProfile 
@@ -178,33 +178,34 @@ function Get-PCSupportProfile {
 
 <#
 .SYNOPSIS
-TODO
+Updates the partner's legal business profile.
 .DESCRIPTION
-The Set-PCLegalBusinessProfile cmdlet.
+The Set-PCLegalBusinessProfile cmdlet updates the partner's legal business profile. 
 .PARAMETER SaToken 
-Specifies the authentication token you have created with your Partner Center credentials.
+Specifies an authentication token with your Partner Center credentials.
 .PARAMETER Country 
-
+Specifies an updated two letter ISO country code for the legal business profile.
 .PARAMETER AddressLine1 
-
+Specifies an updated street address for the legal business profile.
 .PARAMETER AddressLine2 
-
+Specifies an updated second address line for the legal business profile.
 .PARAMETER City 
-
+Specifies an updated city name for the legal business profile.
 .PARAMETER State 
-
+Specifies an updated city name for the legal business profile.
 .PARAMETER PostalCode 
-
+Specifies an updated postal code for the legal business profile.
 .PARAMETER PrimaryContactFirstName 
-
+Specifies an updated first name for the primary legal business contact.
 .PARAMETER PrimaryContactLastName 
-
+Specifies an updated last name for the primary legal business contact.
 .PARAMETER PrimaryContactPhoneNumber 
-
+Specifies an updated phone number for the primary legal business contact.
 .PARAMETER PrimaryContactEmail 
-
+Specifies an updated e-mail address for the primary legal business contact.
 .EXAMPLE
-Set-PCLegalBusinessProfile
+    Set-PCLegalBusinessProfile -PrimaryContactFirstName 'John' -PrimaryContactLastName 'Smith' -PrimaryContactEmail 'john@contoso.com'
+Update the legal business profile to use John Smith with the email address of john@contoso.com.
 .NOTES
 #>
 function Set-PCLegalBusinessProfile {
@@ -224,9 +225,9 @@ function Set-PCLegalBusinessProfile {
         [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
 
         #read-only properties
-        #$primarycontactfirstname,#$primarycontactlastname,#$primarycontactphonenumber,
+        #$primaryContactFirstName,#$primaryContactLastName,#$primaryContactPhoneNumber,
         #companyApproverAddress property
-        #$Country_approver,#$AddressLine1_approver,#$AddressLine2_approver,#$city_approver,#$state_approver,#$postalcode_approver,
+        #$Country_approver,#$AddressLine1_approver,#$AddressLine2_approver,#$city_approver,#$state_approver,#$postalCode_approver,
         #companyApproverEmail property
         #$email_approver
     )
@@ -263,37 +264,38 @@ function Set-PCLegalBusinessProfile {
 
 <#
 .SYNOPSIS
-TODO
+Updates the partner's organization profile.
 .DESCRIPTION
-The Set-PCOrganizationProfile cmdlet.
+The Set-PCOrganizationProfile cmdlet sets information on a partner's organizational profile.
 .PARAMETER SaToken 
-The authentication token you have created with your Partner Center Credentials.
+Specifies an authentication token with your Partner Center credentials.
 .PARAMETER CompanyName 
-
+Specifies an updated company name for the partner's organizational profile.
 .PARAMETER Country 
-
+Specifies an updated two letter ISO code for the partner's organizational profile.
 .PARAMETER AddressLine1 
-Specifies the first address line for the organization.
+Specifies the first address line for the partner's organizational profile.
 .PARAMETER AddressLine2
-Specifies the second address line for the organization.
+Specifies the second address line for the partner's organizational profile.
 .PARAMETER City 
-
+Specifies the second city for the partner's organizational profile.
 .PARAMETER State 
-
+Specifies the state for the partner's organizational profile.
 .PARAMETER PostalCode 
-
+Specifies the postal code for the partner's organizational profile.
 .PARAMETER FirstName 
-Specifies the first name of the company contact.
+Specifies the first name of the company contact for the partner's organizational profile.
 .PARAMETER LastName 
-Specifies the last name of the company contact.
+Specifies the last name of the company contact for the partner's organizational profile.
 .PARAMETER PhoneNumber 
-
+Specifies the phone number of the company contact for the partner's organizational profile.
 .PARAMETER Email 
 Specifies the email address for the company contact.
 .PARAMETER Language 
 Specifies the two letter ISO code for the language.
 .EXAMPLE
-Set-PCOrganizationProfile 
+    Set-PCOrganizationProfile -FirstName 'John' -LastName 'Smith' -Email 'john@contoso.com'
+Sets John Smith with the email address of john@contoso.com as the contact on the partner's organizational profile.
 .NOTES
 #>
 function Set-PCOrganizationProfile {
@@ -349,11 +351,11 @@ function Set-PCOrganizationProfile {
 
 <#
 .SYNOPSIS
-TODO 
+Updates a partner's billing profile.
 .DESCRIPTION
-The Set-PCBillingProfile cmdlet. 
+The Set-PCBillingProfile cmdlet updates the partner's billing profile. 
 .PARAMETER SaToken 
-The authentication token you have created with your Partner Center Credentials.
+Specifies an authentication token with your Partner Center credentials.
 .PARAMETER AddressLine1 
 Specifies the first address line for the billing contact.
 .PARAMETER AddressLine2
@@ -362,16 +364,18 @@ Specifies the second address line for the billing contact.
 Specifies the billing contact's city.
 .PARAMETER State 
 Specifies the billing contact's state.
+.PARAMETER Country 
+Specifies the billing contact's country two letter ISO code.
 .PARAMETER PostalCode 
 Specifies the billing contact's postal code.
 .PARAMETER FirstName 
-Specifies the biling contact's first name.
+Specifies the billing contact's first name.
 .PARAMETER LastName 
 Specifies the billing contact's last name.
 .PARAMETER PhoneNumber 
 Specifies the billing contact's phone number.
 .EXAMPLE
-Set-PCBillingProfile 
+Set-PCBillingProfile -FirstName '<first name>' -LastName '<last name>' -PhoneNumber '<phone number>' -AddressLine1 '<address 1>' -AddressLine2 '<address 2>'
 .NOTES
 #>
 function Set-PCBillingProfile {
@@ -424,21 +428,20 @@ function Set-PCBillingProfile {
 
 <#
 .SYNOPSIS
-TODO 
+Modifies the partner's support profile. 
 .DESCRIPTION
-The Set-PCSupportProfile cmdlet. 
+The Set-PCSupportProfile cmdlet update the partner's support profile.
 .PARAMETER SaToken 
-The authentication token you have created with your Partner Center Credentials.
-
+Specifies an authentication token with your Partner Center credentials.
 .PARAMETER Website 
-
+Specifies an updated support website for the partner. Do not include 'http://', specify just the DNS name of the site.
 .PARAMETER Email 
-
+Specifies an updated support email address for the partner.
 .PARAMETER Phone 
-
+Specifies an updated support phone number for the partner. 
 .EXAMPLE
-Set-PCSupportProfile
-
+    Set-PCSupportProfile -Website 'support.contoso.com' 
+Updates the support website to be support.contoso.com.
 .NOTES
 #>
 function Set-PCSupportProfile {
@@ -488,16 +491,17 @@ function Set-PCSupportProfile {
 
 <#
 .SYNOPSIS
-TODO
+Returns the specified customer's billing profile.
 .DESCRIPTION
-The Get-PCCustomerBillingProfile cmdlet.
+The Get-PCCustomerBillingProfile cmdlet returns the billing profile for the specified tenant.
 .PARAMETER SaToken 
-The authentication token you have created with your Partner Center Credentials.
+Specifies an authentication token you have created with your Partner Center credentials.
 .PARAMETER TenantId 
 Specifies the tenant used for scoping this cmdlet.
 .EXAMPLE
-Get-PCCustomerBillingProfile
+Get-PCCustomerBillingProfile -TenantId <TenantId>
 .NOTES
+TODO
 #>
 function Get-PCCustomerBillingProfile {
     [CmdletBinding()]
@@ -524,17 +528,31 @@ function Get-PCCustomerBillingProfile {
 
 <#
 .SYNOPSIS
-TODO
+Updates the specified customer's billing profile. The cmdlet accepts an updated billing profile object to determine the updates to be made. Use either Get-PCCustomerBillingProfile or New-PCCustomerBillingProfile cmdlet to create the updated customer billing profile object. 
 .DESCRIPTION
-The Set-PCCustomerBillingProfile cmdlet.
+The Set-PCCustomerBillingProfile cmdlet updates a customer's billing profile.
 .PARAMETER SaToken 
-The authentication token you have created with your Partner Center Credentials.
+Specifies an authentication token with your Partner Center credentials.
 .PARAMETER TenantId 
 Specifies the tenant used for scoping this cmdlet.
 .PARAMETER BillingProfile 
-
+Specifies a variable that includes the billing profile.
 .EXAMPLE
-Set-PCCustomerBillingProfile 
+Update the current customer billing profile.
+
+Get customer Billing Profile
+
+$customerBillingProfile = Get-PCCustomerBillingProfile -TenantId db8ea5b4-a69b-45f3-abd3-dca19e87c536
+
+Update name and email address on the customer billing profile.
+
+    $customerBillingProfile.FirstName = 'Joan'
+    $customerBillingProfile.LastName = 'Sullivan'
+    $customerBillingProfile.Email = 'joan@wingtiptoyscsptest.onmicrosoft.com'
+
+Complete update for the customer's billing profile
+
+    Set-PCCustomerBillingProfile -TenantId db8ea5b4-a69b-45f3-abd3-dca19e87c536 -BillingProfile $customerBillingProfile
 
 .NOTES
 #>
@@ -556,7 +574,7 @@ function Set-PCCustomerBillingProfile {
     $headers.Add("Authorization", "Bearer $SaToken")
     $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
-    $body = $Billingprofile | ConvertTo-Json -Depth 100
+    $body = $BillingProfile | ConvertTo-Json -Depth 100
     $utf8body = [System.Text.Encoding]::UTF8.GetBytes($body)
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Body $utf8body -Method "PUT" #-Debug -Verbose
@@ -566,17 +584,18 @@ function Set-PCCustomerBillingProfile {
 
 <#
 .SYNOPSIS
-TODO
+Returns the specified customer's company profile.
 .DESCRIPTION
-The Get-PCCustomerCompanyProfile cmdlet. 
+The Get-PCCustomerCompanyProfile cmdlet returns the customer's company profile.
 
 .PARAMETER SaToken 
-The authentication token you have created with your Partner Center credentials.
+Specifies an authentication token with your Partner Center credentials.
 
 .PARAMETER TenantId 
-Species a tenant id to scope this cmdlet.
+Specifies a tenant id to scope this cmdlet.
 .EXAMPLE
-
+Get-PCCustomerCompanyProfile -TenantId <TenantId>
+Retrieve the customer's company profile for the specified tenant id.
 .NOTES
 #>
 function Get-PCCustomerCompanyProfile {
@@ -603,42 +622,42 @@ function Get-PCCustomerCompanyProfile {
 
 <#
 .SYNOPSIS
-TODO
+This cmdlet is used to create a PowerShell object that can be passed to other cmdlets, such as the the New-PCCustomer cmdlet when creating a new customer.
 .DESCRIPTION
-The New-PCCustomerBillinghProfile cmdlet.
+The New-PCCustomerBillingProfile cmdlet creates a PowerShell object that includes properties for the customer billing profile.
 .PARAMETER SaToken 
-The authentication token you have created with your Partner Center Credentials.
+Specifies an authentication token you have created with your Partner Center credentials.
 .PARAMETER FirstName 
-
+Specifies the first name of the customer company contact.
 .PARAMETER LastName
-
+Specifies the last name of the customer company contact.
 .PARAMETER Email 
-
+Specifies the email address of the customer company contact.
 .PARAMETER Culture 
-
+Specifies the two letter ISO culture of the customer company contact.
 .PARAMETER Language 
-
+Specifies the two letter ISO culture of the customer company contact.
 .PARAMETER CompanyName
-
+Specifies the name of the customer company.
 .PARAMETER Country
-
+Specifies the country for the customer company.
 .PARAMETER Region 
-
+Specifies the three letter region for the customer company.
 .PARAMETER City 
-
+Specifies the city for the customer's company address.
 .PARAMETER State
-
+Specifies the state for the customer's company address.
 .PARAMETER AddressLine1
-
+Specifies the first line of the street address for the customer company's address.
 .PARAMETER PostalCode 
-
+Specifies the postal code for the customer company's address.
 .PARAMETER PhoneNumber 
-
+Specifies the phone number for the customer company's contact.
 .PARAMETER DefaultAddress
-
+Specifies a PowerShell object that contains the default address information for the company.
 .EXAMPLE
-New-PCCustomerBillingProfile
-
+$cBP = New-PCCustomerBillingProfile -FirstName 'Joe' -LastName 'Smith' -Email 'joe@contoso.com' -Country 'US' -City 'Redmond' -State 'WA' -PostalCode 98502 - AddressLine1 '1 Microsoft Way'
+Create an object that has the billing profile information for Joe Smith at Contoso.
 .NOTES
 #>
 function New-PCCustomerBillingProfile {
@@ -673,30 +692,33 @@ function New-PCCustomerBillingProfile {
 
 <#
 .SYNOPSIS
-TODO
+This cmdlet is used to create a PowerShell object that can be passed to other cmdlets, such as the the New-PCCustomerBillingProfile cmdlet.
 .DESCRIPTION
-The New-PCCustomerDefaultAddress cmdlet. 
+The New-PCCustomerDefaultAddress cmdlet returns a PowerShell object with the properties for a default address.
 
-.PARAMETER Country 
-
+.PARAMETER Country
+Specifies the country for the customer company.
 .PARAMETER Region 
+Specifies the three letter region for the customer company.
 
 .PARAMETER City 
-
-.PARAMETER State 
+Specifies the city for the customer's company address.
+.PARAMETER State
+Specifies the state for the customer's company address.
 
 .PARAMETER AddressLine1 
-
+Specifies the first address line for the customer's address.
 .PARAMETER PostalCode 
-
+Specifies the postal code for the customer's address.
 .PARAMETER FirstName 
-
+Specifies the first name for the customer's contact.
 .PARAMETER LastName 
-
+Specifies the last name for the customer's contact.
 .PARAMETER PhoneNumber 
-
+Specifies the phone number for the customer's contact.
 .EXAMPLE
-
+    $cda = New-PCCustomerDefaultAddress -Country 'US' -Region 'USA' -City 'Redmond' -State 'WA' -AddressLine1 '1 Microsoft Way' -PostalCode '98502' -FirstName 'John' -LastName 'Smith' -PhoneNumber '8005551212'
+Create a new PowerShell object that includes the properties for a customer's default address. 
 .NOTES
 #>
 function New-PCCustomerDefaultAddress {
@@ -719,15 +741,15 @@ function New-PCCustomerDefaultAddress {
 
 <#
 .SYNOPSIS
-TODO
+Returns a PowerShell object that includes the properties for the customer's company properties. The object is passed to the New-PCCustomer cmdlet to create a new customer.
 .DESCRIPTION
-The New-PCCustomerCompanyProfile cmdlet.
+The New-PCCustomerCompanyProfile cmdlet returns a PowerShell object that includes the properties for the customer's company properties.
 
 .PARAMETER Domain 
-
+Specifies the domain for the company profile
 .EXAMPLE
-New-PCCustomerCompanyProfile
-
+$ccp = New-PCCustomerCompanyProfile -Domain 'contoso.onmicrosoft.com'
+Create a new customer profile with the contoso.onmicrosoft.com domain and assign it to $ccp variable.
 .NOTES
 #>
 function New-PCCustomerCompanyProfile {   
@@ -744,23 +766,24 @@ function New-PCCustomerCompanyProfile {
 .SYNOPSIS
 TODO
 .DESCRIPTION
-The New-PCAddress cmdlet.
+The New-PCAddress cmdlet returns a PowerShell object with all of address properties.
 .PARAMETER AddressLine1 
-
+Specifies address line 1 for the new address.
 .PARAMETER AddressLine2 
-
+Specifies address line 2 for the new address.
 .PARAMETER City 
-
+Specifies the city name.
 .PARAMETER State 
-
+Specifies the state name.
 .PARAMETER PostalCode 
-
+Specifies the postal code.
 .PARAMETER Country 
-
+Specifies the country
 .PARAMETER Region 
-
+Specifies the region.
 .EXAMPLE
-New-PCAddress
+    $add = New-PCAddress -AddressLine1 '1 Microsoft Way' -City 'Redmond' -State 'WA' -Country 'US' -PostalCode '95802'
+Create a new address object for an address and assign it to the $add variable.
 .NOTES
 #>
 function New-PCAddress {
@@ -782,27 +805,32 @@ function New-PCAddress {
 
 <#
 .SYNOPSIS
-TODO
+Validates the provided address information to determine if it meets the Partner Center validation rules. 
 .DESCRIPTION
-The Test-PCAddress cmdlet.
+The Test-PCAddress cmdlet validates the provided the address information as to whether it conforms to the Partner Center address rules.
 .PARAMETER SaToken 
-
+Specifies an partner center access token.
 .PARAMETER Address 
-
+Specifies a variable object that includes all of the address information. This object can be created by using the New-PCAddress cmdlet.
 .PARAMETER AddressLine1 
-
+Specifies the first address line.
 .PARAMETER AddressLine2 
-
+Specifies the second address line.
 .PARAMETER City 
-
+Specifies the city.
 .PARAMETER State 
-
+Specifies the state.
 .PARAMETER PostalCode 
-
+Specifies the postal code.
 .PARAMETER Country
-
+Specifies a two letter ISO code to define the country.
 .EXAMPLE
-Test-PCAddress
+$address = New-PCAddress -AddressLine1 '<string>' -AddressLine2 '<string>' -City '<string>' -State '<string>' -PostalCode '<string>' -Country 'two digits Country code' -region '<string>'    
+Test-PCAddress -Address $add
+Validate an address by passing an object variable named $add that was created using the New-PCAddress cmdlet.
+.EXAMPLE
+Test-PCAddress -AddressLine1 '1 Microsoft Way' -City 'Redmond' -State 'WA' -Country 'US' -PostalCode '95802'
+Validate an address by passing the address information to the cmdlet.
 .NOTES
 #>
 function Test-PCAddress {

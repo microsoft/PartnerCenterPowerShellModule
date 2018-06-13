@@ -26,7 +26,7 @@ Specifies a security token for authenticating and executing the cmdlet.
 Specifies a onmicrosoft.com domain to check as to whether is available for use for a new tenant.
 
 .EXAMPLE
-Get-PCDomainAvailabilty -Domain contoso.onmicrosoft.com
+Get-PCDomainAvailability -Domain contoso.onmicrosoft.com
 
 Test to see if contoso.onmicrosoft.com is available for a new tenant.
 .NOTES
@@ -142,24 +142,40 @@ function Get-PCCustomerRoleMember
 .SYNOPSIS
 TODO
 .DESCRIPTION
-The Add-PCCustomerRoleMember cmdlet TODO
+The Add-PCCustomerRoleMember cmdlet adds a customer user account into a role.
 
 .PARAMETER SaToken 
 Specifies a security token for authenticating and executing the cmdlet.
 
 .PARAMETER TenantId 
-Specifies the tenant for which to add the role member
+Specifies the tenant for which to add the role member.
 
 .PARAMETER RoleId 
-Specifies the role id for which to add the member
+Specifies the role id for which to add the member.
 
 .PARAMETER CustomerRoleMember 
 Specifies the member to add to the role.
 
 .EXAMPLE
-Add-PCCustomerRoleMember 
+Specify a customer
+    $customer = Get-PCCustomer -TenantId '<Tenant Id Guid>'
+
+Get a role
+
+    $role = Get-PCCustomerRole -TenantId $customer.id | Where-Object name -Contains '<role name>'
+
+Get a User
+
+    $user = Get-PCCustomerUser -TenantId $customer.id -UserId '<User id Guid>'
+
+Add a User to a Role
+
+    $customerRoleMember = [DirectoryRoleMember]::new()
+    $customerRoleMember.id = $user.id
+    Add-PCCustomerRoleMember -TenantId $customer.id -RoleId $role.id -CustomerRoleMember $customerRoleMember
 
 .NOTES
+TODO
 #>
 function Add-PCCustomerRoleMember
 {    
@@ -181,7 +197,7 @@ function Add-PCCustomerRoleMember
     $headers.Add("Authorization", "Bearer $SaToken")
     $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
-    $body = $customerrolemember | ConvertTo-Json -Depth 100
+    $body = $CustomerRoleMember | ConvertTo-Json -Depth 100
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Body $body -Method "POST" #-Debug -Verbose
     $obj += $response.Substring(1) | ConvertFrom-Json
@@ -190,9 +206,9 @@ function Add-PCCustomerRoleMember
 
 <#
 .SYNOPSIS
-TODO
+Removes the specified user id from the specified role id.
 .DESCRIPTION
-The Remove-PCCustomerRoleMember cmdlet
+The Remove-PCCustomerRoleMember cmdlet removes the specified user from the specified role.
 .PARAMETER SaToken 
 Specifies a security token for authenticating and executing the cmdlet.
 
@@ -200,11 +216,26 @@ Specifies a security token for authenticating and executing the cmdlet.
 Specifies the tenant used for scoping this cmdlet.
 
 .PARAMETER RoleId 
-
+Specifies the role guid for which to remove the user.
 .PARAMETER UserId 
-
+Specifies the user id to remove from the role.
 .EXAMPLE
-Remove-PCCustomerRoleMember
+Remove a user from a specified role.
+
+Get a customer
+    $customer = Get-PCCustomer | Where-Object {$_.CompanyProfile.CompanyName -eq 'Wingtip Toys'}
+
+Get a role named Helpdesk Administrator
+
+    $role = Get-PCCustomerRole -TenantId $c.id | Where-Object {$_.Name -eq 'Helpdesk Administrator'}
+
+Get a User
+
+    $user = Get-PCCustomerUser -TenantId $customer.id | Where-Object {$_.userPrincipalName -eq 'John@wingtiptoyscsptest.onmicrosoft.com'}
+
+Remove a user from a role
+
+    Remove-PCCustomerRoleMember -TenantId $customer.id -RoleId $Role.Id -UserId $User.Id
 
 .NOTES
 #>
@@ -242,7 +273,9 @@ The New-PCRelationshipRequest cmdlet.
 Specifies a security token for authenticating and executing the cmdlet.
 
 .EXAMPLE
-New-PCRelationshipRequest
+$inviteUrl = (New-PCRelationshipRequest).Url
+
+Get an invitation Url to send to a new customer.
 #>
 function New-PCRelationshipRequest
 {    

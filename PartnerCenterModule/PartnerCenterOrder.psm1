@@ -17,17 +17,21 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 TODO
 
 .DESCRIPTION
-The Get-PCOrder cmdlet.
+The Get-PCOrder cmdlet returns a list of orders or information about a specific order.
 
 .PARAMETER SaToken 
-The authentication token you have created with your Partner Center Credentials.
+Specifies an authentication token with your Partner Center credentials.
 .PARAMETER TenantId 
 Specifies the tenant used for scoping this cmdlet.
 .PARAMETER OrderId 
+Specifies the order id for which to return information.
+.EXAMPLE
+Return all orders for the specified customer tenant.
+  Get-PCOrder -TenantId 3c762ceb-b839-4b4a-85d8-0e7304c89f62
 
 .EXAMPLE
-Get-PCOrder
-
+Get the specified customer order
+  Get-PCOrder -TenantId -TenantId '3c762ceb-b839-4b4a-85d8-0e7304c89f62' -OrderId '1168c0f1-f0ed-4f9a-9e8c-1dcac072cba8'
 .NOTES
 #>
 function Get-PCOrder {
@@ -68,27 +72,73 @@ function Get-PCOrder {
 
 <#
 .SYNOPSIS
-TODO
+Creates a new order.
 .DESCRIPTION
-The New-PCOrder cmdlet
+The New-PCOrder cmdlet creates a new order.
 .PARAMETER SaToken 
-The authentication token you have created with your Partner Center Credentials.
+Specifies an authentication token with your Partner Center credentials.
 .PARAMETER TenantId 
 Specifies the tenant used for scoping this cmdlet.
 .PARAMETER OrderId 
-
+Specifies the order id if this is an add on order.
 .PARAMETER LineItems 
-
+Specifies line items to include in the order
 .PARAMETER OfferId 
-
+Specifies the offer id guid for the ordered items.
 .PARAMETER Quantity
-The number of licenses for a license-based subscription or instances for an Azure reservation.
+Specifies the number of licenses for a license-based subscription or instances for an Azure reservation.
 .PARAMETER FriendlyName
 Optional. The friendly name for the subscription defined by the partner to help disambiguate.
 .PARAMETER PartnerIdOnRecord 
 When an indirect provider places an order on behalf of an indirect reseller, populate this field with the MPN ID of the indirect reseller only (never the ID of the indirect provider). This ensures proper accounting for incentives.
 .EXAMPLE
-New-PCOrder
+Order a new subscription
+
+Select a customer
+    $customer = Get-PCCustomer -TenantId '<tenant id GUID>'
+ Get offer
+    $offer = Get-PCOffer -CountryId '<Country two digits id>' -OfferId '<offer id GUID>'
+
+Create the OrderLineItem
+    $lineItems = @()
+    $lineItems += [OrderLineItem]::new()
+    $lineItems[0].LineItemNumber = 0
+    $lineItems[0].FriendlyName = '<friendly name>'
+    $lineItems[0].OfferId = $offer.id
+    $lineItems[0].Quantity = <quantity>
+
+Send order
+    New-PCOrder -TenantId $customer.id -LineItems $lineItems
+
+.EXAMPLE
+Order an Add on to an existing subscription
+Get subscription
+    $subscription = Get-PCSubscription -TenantId $customer.id -subscriptionid '<subscription id>'
+
+Get list of addons available for the subscription offer
+    $addons = Get-PCOffer -CountryId '<Country two digits id>' -OfferId $subscription.OfferId -addons
+
+Get addon offer
+    $addon = Get-PCOffer -CountryId 'US' -OfferId '<offer id>'
+
+Get subscription order
+    $order = Get-PCOrder -TenantId $customer.id -OrderId $subscription.OrderId
+
+Get the next OrderLineItem number
+
+    $newLineItemNumber = $order.lineItems.Count
+
+Create the addon OrderLineItem
+    $lineItems = @()
+    $lineItems += [OrderLineItem]::new()
+    $lineItems[0].LineItemNumber = 0
+    $lineItems[0].FriendlyName = '<friendly name>'
+    $lineItems[0].OfferId = $addon.id
+    $lineItems[0].ParentSubscriptionId = $subscription.id
+    $lineItems[0].Quantity = <quantity>
+
+Send order
+    New-PCOrder -TenantId $customer.id -OrderId $order.id -LineItems $lineItems
 
 .NOTES
 #>
@@ -152,7 +202,7 @@ TODO
 .DESCRIPTION
 The New-PCAddonOrder cmdlet creates a new addon order for an already created order.
 .PARAMETER SaToken
-Specifies the authentication token you have created with your Partner Center credentials.
+Specifies an authentication token with your Partner Center credentials.
 .PARAMETER TenantId 
 Specifies the tenant used for scoping this cmdlet.
 .PARAMETER OrderId 
@@ -197,7 +247,7 @@ TODO
 .DESCRIPTION
 The Set-PCOrder cmdlet
 .PARAMETER SaToken 
-Specifies the authentication token you have created with your Partner Center credentials.
+Specifies an authentication token with your Partner Center credentials.
 .PARAMETER Order
 Specifies the order to modify.
 .PARAMETER LineItemNumber
@@ -221,7 +271,9 @@ function Set-PCOrder {
         [Parameter(Mandatory = $false)][string]$FriendlyName,
         [Parameter(Mandatory = $false)][uint16]$Quantity,
         [Parameter(Mandatory = $false)][ValidateSet('Unknown', 'Monthly', 'Annual', 'None')][string]$BillingCycleType,
-        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken)
+        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
+        )
+    
     $obj = @()
     _testTokenContext($SaToken)
     $actualOrder = Get-PCOrder -tenantID $order.referenceCustomerId -orderID $Order.id -SaToken $SaToken
@@ -238,7 +290,8 @@ function Set-PCOrder {
     $body = $actualOrder | ConvertTo-Json -Depth 100
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Body $body -Method "PATCH" #-Debug -Verbose 
-    return $response
+    $obj += $response.Substring(1) | ConvertFrom-Json
+    return $obj
 }
 
 <#
@@ -281,7 +334,7 @@ TODO
 .DESCRIPTION
 The New-PCCart cmdlet creates a new cart.
 .PARAMETER SaToken 
-Specifies the authentication token you have created with your Partner Center credentials.
+Specifies an authentication token with your Partner Center credentials.
 .PARAMETER TenantId 
 Specifies the tenant used for scoping this cmdlet.
 .PARAMETER SubscriptionId
@@ -301,10 +354,6 @@ function New-PCCart {
         [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
     )
     _testTokenContext($SaToken)
-
-
-
-
     
     return $null
 }
@@ -315,7 +364,7 @@ TODO
 .DESCRIPTION
 The Set-PCCart cmdlet modifies the cart.
 .PARAMETER SaToken 
-Specifies the authentication token you have created with your Partner Center credentials.
+Specifies an authentication token with your Partner Center credentials.
 .PARAMETER TenantId 
 Specifies the tenant used for scoping this cmdlet.
 .PARAMETER CartId

@@ -19,7 +19,7 @@ TODO
 .DESCRIPTION
 The Get-PCAuditRecord cmdlet. 
 .PARAMETER SaToken 
-The authentication token you have created with your Partner Center Credentials.
+Specifies an authentication token with your Partner Center credentials.
 .PARAMETER StartDate 
 The date from which you will start retrieving data. Must be formated yyyy-mm-dd.
 
@@ -71,7 +71,7 @@ TODO
 The Get-PCIndirectReseller cmdlet.
 
 .PARAMETER SaToken 
-The authentication token you have created with your Partner Center Credentials.
+Specifies an authentication token with your Partner Center credentials.
 
 .EXAMPLE
 Get-PCIndirectReseller

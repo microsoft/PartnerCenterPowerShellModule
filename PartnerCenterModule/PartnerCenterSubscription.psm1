@@ -16,25 +16,35 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 .SYNOPSIS
 TODO
 .DESCRIPTION
-The Get-PCSubscription cmdlet returns a list of subscriptions for a specified customer tenant based on the specified partner.
+The Get-PCSubscription cmdlet returns a list of subscriptions for a specified customer tenant or MPN partner id.
 .PARAMETER SaToken 
-The authentication token you have created with your Partner Center Credentials.
+Specifies an authentication token with your Partner Center credentials.
 .PARAMETER TenantId 
 Specifies the tenant used for scoping this cmdlet. The tenant must be specified either using this parameter or by using the Select-PCCustomer cmdlet.
 
 .PARAMETER SubscriptionId
 Specifies a subscription id for which to return detailed information.
 .PARAMETER AddOns 
-
+Specifies whether you want to return any addons for the subscription.
 .PARAMETER PartnerId 
-Specifies the partner id for which to list the subscriptions.
+Specifies the Mpn partner id for which to list the subscriptions.
 
-.PARAMETER Limit
-Specifies a limit to the number of records to return. The default limit is 200.
+.PARAMETER ResultSize
+Specifies the maximum number of results to return. The default value is 200.
 .PARAMETER OrderId
 Specifies an order id to for which to return a list of subscriptions.
 .EXAMPLE
-Get-PCSubscription -PartnerId 14ed2a11-a3ed-4e63-baa0-30997e241f37
+    Get-PCSubscription  -PartnerId '46662300'
+Return a list of all subscriptions for the specified partner id
+.EXAMPLE
+    Get-PCSubscription -TenantId 99ed2a33-e3ea-34df-bade-30997e2413e5 -SubscriptionId 335c4cad-b235-4a31-8273-e73da43e7817
+Return information about the specified subscription.
+.EXAMPLE
+    Get-PCSubscription -TenantId 99ed2a33-e3ea-34df-bade-30997e2413e5 -OrderId 335c4cad-b235-4a31-8273-e73da43e7817
+Return a list of subscriptions from an order.
+.EXAMPLE
+    Get-PCSubscription -TenantId 99ed2a33-e3ea-34df-bade-30997e2413e5 -PartnerId '46662300'
+Return a list of customer subscriptions from a reseller (Only available in an Indirect Provider tenant)
 .NOTES
 #>
 function Get-PCSubscription {
@@ -45,7 +55,7 @@ function Get-PCSubscription {
         [Parameter(ParameterSetName = 'SubscriptionId', Mandatory = $false)][String]$SubscriptionId,
         [Parameter(ParameterSetName = 'SubscriptionId', Mandatory = $false)][switch]$AddOns,           
         [Parameter(ParameterSetName = 'PartnerId', Mandatory = $true)][String]$PartnerId,
-        [Parameter(ParameterSetName = 'PartnerId', Mandatory = $false)][int]$Limit = 200,
+        [Parameter(ParameterSetName = 'PartnerId', Mandatory = $false)][int]$ResultSize= 200,
         [Parameter(ParameterSetName = 'OrderId', Mandatory = $false)][string]$OrderId    
     )
     _testTokenContext($SaToken)
@@ -106,9 +116,9 @@ function Get-PCSubscription {
         }
     }
 
-    function Private:Get-SubscriptionPartnerInner ($SaToken, $TenantId, $partnerId, $Limit) {
+    function Private:Get-SubscriptionPartnerInner ($SaToken, $TenantId, $partnerId, $ResultSize) {
         $obj = @()
-        $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/subscriptions?mpn_id={1}&offset=0&size={2}" -f $TenantId, $partnerId, $Limit
+        $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/subscriptions?mpn_id={1}&offset=0&size={2}" -f $TenantId, $partnerId, $ResultSize
 
         $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
         $headers.Add("Authorization", "Bearer $SaToken")
@@ -151,7 +161,7 @@ function Get-PCSubscription {
         return $res
     }
     elseif ($PsCmdlet.ParameterSetName -eq "PartnerId") {
-        $res = Get-SubscriptionPartnerInner -SaToken $SaToken -TenantId $TenantId -partnerId $partnerId -Limit $Limit
+        $res = Get-SubscriptionPartnerInner -SaToken $SaToken -TenantId $TenantId -partnerId $partnerId -ResultSize $ResultSize
         return $res
     }
     elseif ($PsCmdlet.ParameterSetName -eq "OrderId") {
@@ -159,7 +169,7 @@ function Get-PCSubscription {
         return $res
     }
     else {
-        # If no parameter sets were valid, then return all subsccriptions
+        # If no parameter sets were valid, then return all subscriptions
         $res = Get-SubscriptionsInner -SaToken $SaToken -TenantId $TenantId
         return $res
     }
@@ -168,26 +178,82 @@ function Get-PCSubscription {
 
 <#
 .SYNOPSIS
-TODO
+Modifies an existing subscription.
 .DESCRIPTION
-The Set-PCSubscription cmdlet.
+The Set-PCSubscription cmdlet modifies an existing subscription.
 .PARAMETER SaToken 
-The authentication token you have created with your Partner Center Credentials.
+Specifies an authentication token with your Partner Center credentials.
 .PARAMETER TenantId 
 Specifies the tenant used for scoping this cmdlet.
 .PARAMETER Subscription 
 Specifies the subscription object that identifies the subscription you will modified. This object can be retrieved using the Get-PCSubscription cmdlet.
-
 .PARAMETER Status 
 Specifies the status for the subscription. Valid values are: none, active, suspended, and deleted.
 .PARAMETER FriendlyName 
 Specifies a friendly name for the subscription. 
 .PARAMETER AutoRenew
-Specifies as to whether the subscription will autorenew. This is only valid on license-based subscriptions. Valid inpputs are: enabled, disabled. This parameter used to be -AutoRenewEnabled in earlier releases.
+Specifies as to whether the subscription will auto renew. This is only valid on license-based subscriptions. Valid inputs are: enabled, disabled. This parameter used to be -AutoRenewEnabled in earlier releases.
 .PARAMETER Quantity 
-Specifies the number of licences included in the subscription. This is valid only on license-based subscriptions. 
+Specifies the number of licenses included in the subscription. This is valid only on license-based subscriptions. 
 .EXAMPLE
-Set-PCSubscription 
+Update subscription friendly name
+
+Find the tenant information about the customer named Wingtip Toys
+$customer = Get-PCCustomer | Where-Object {$_.CompanyProfile.CompanyName -eq 'Wingtip Toys'}
+
+Find the the customer subscription
+$subscription = Get-PCSubscription -TenantId $customer.id | Where-Object {$_.FriendlyName -eq 'old friendly name'}
+
+Update the subscription with a new friendly name
+$subscription | Set-PCSubscription -TenantId $customer.id -FriendlyName 'New friendly name'
+
+.EXAMPLE
+Update subscription seats (license based only)
+
+Find the tenant information about the customer named Wingtip Toys
+$customer = Get-PCCustomer | Where-Object {$_.CompanyProfile.CompanyName -eq 'Wingtip Toys'}
+
+Find the the customer subscription
+$subscription = Get-PCSubscription -TenantId $customer.id | Where-Object {$_.FriendlyName -eq 'Office 365 Enterprise E1'}
+
+Update the license quantity for the specified subscription
+$subscription | Set-PCSubscription -TenantId $customer.id -quantity 100
+
+.EXAMPLE
+Change the subscription auto renewal
+
+Find the tenant information about the customer named Wingtip Toys
+$customer = Get-PCCustomer | Where-Object {$_.CompanyProfile.CompanyName -eq 'Wingtip Toys'}
+
+Find the the customer subscription
+$subscription = Get-PCSubscription -TenantId $customer.id | Where-Object {$_.FriendlyName -eq 'Office 365 Enterprise E1'}
+
+Modify the AutoRenew option for the subscription
+$subscription | Set-PCSubscription -TenantId $customer.id -AutoRenew disabled
+
+.EXAMPLE
+Suspend a subscription
+
+Find the tenant information about the customer named Wingtip Toys
+$customer = Get-PCCustomer | Where-Object {$_.CompanyProfile.CompanyName -eq 'Wingtip Toys'}
+
+Find the the customer subscription
+$subscription = Get-PCSubscription -TenantId $customer.id | Where-Object {$_.FriendlyName -eq 'Office 365 Enterprise E1'}
+
+Suspend the subscription
+$subscription | Set-PCSubscription -TenantId $customer.id -status suspended
+
+.EXAMPLE
+Activate a subscription
+
+Find the tenant information about the customer named Wingtip Toys
+$customer = Get-PCCustomer | Where-Object {$_.CompanyProfile.CompanyName -eq 'Wingtip Toys'}
+
+Find the the customer subscription
+$subscription = Get-PCSubscription -TenantId $customer.id | Where-Object {$_.FriendlyName -eq 'Office 365 Enterprise E1'}
+
+$subscription | Set-PCSubscription -TenantId $customer.id -Status active
+
 .NOTES
 #>
 function Set-PCSubscription {

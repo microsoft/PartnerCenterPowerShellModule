@@ -40,7 +40,7 @@ if ($x -ne $null) {
 
 # Import the latest version of the module
 Write-Output " Adding in local Partner Center Module for testing"
-Import-Module ..\PartnerCenterModule\PartnerCenterModule.psd1 -Force
+Import-Module C:\github\Partnercenterpowershellmodule\PartnerCenterModule\PartnerCenterModule.psd1 -Force
 
 if ($WebAppAuth) {
     # App Auth

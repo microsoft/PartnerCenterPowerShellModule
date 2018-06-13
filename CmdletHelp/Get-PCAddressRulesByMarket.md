@@ -1,54 +1,57 @@
 # Get-PCAddressRulesByMarket
 
-## SYNOPSIS
-
-Get-PCAddressRulesByMarket [-CountryId] <Object> [[-SaToken] <string>] [<CommonParameters>]
+Retrieves a list of address rules for a specified market.
 
 ## SYNTAX
 
 ```powershell
-syntaxItem
-----------
-
-{@{name=Get-PCAddressRulesByMarket; CommonParameters=True; WorkflowCommonParameters=False; parameter=System.Object[]}}
+Get-PCAddressRulesByMarket [-CountryId] <String> [[-SaToken] <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
 
+The Get-PCAddressRulesByMarket returns a list of rules for the specified market.
+
 ## PARAMETERS
 
-### -CountryId &lt;Object&gt;
+### -CountryId &lt;String&gt;
 
-Specifies the two letter ISO country code.
+Specifies a two-character ISO 2 country code.
 
-```cmd
-Position?                    0
+```
+Required?                    true
+Position?                    1
+Default value
 Accept pipeline input?       false
-Parameter set name           (All)
-Aliases                      None
-Dynamic?                     false
+Accept wildcard characters?  false
 ```
 
-### -SaToken &lt;string&gt;
+### -SaToken &lt;String&gt;
 
-Specifies the authentication token used to execute this command.
+Specifies an authentication token you have created with your Partner Center credentials.
 
-```cmd
-Position?                    1
+```
+Required?                    false
+Position?                    2
+Default value                $GlobalToken
 Accept pipeline input?       false
-Parameter set name           (All)
-Aliases                      None
-Dynamic?                     false
+Accept wildcard characters?  false
 ```
 
 ## INPUTS
 
-None
-
 ## OUTPUTS
-
-System.Object
 
 ## NOTES
 
+You need to have authenticated before running this cmdlet.
+
 ## EXAMPLES
+
+### EXAMPLE 1
+
+Return the address rules for the US.
+
+```powershell
+PS C:\>Get-PCAddressRulesByMarket -CountryId US
+```

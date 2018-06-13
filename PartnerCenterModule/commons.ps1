@@ -8,6 +8,7 @@
     sample scripts or documentation, even if Microsoft has been advised of the possibility of such damages.
 #>
 
+# This variable is used in other cmdlets to identify the REST client.
 $ApplicationName = "Partner Center PowerShell Module v0.10.0.0"
 
 function _applyTypes {
@@ -31,7 +32,15 @@ function _formatResult {
         return $obj
     }
 }
+<#
+.SYNOPSIS
+TODO
 
+.DESCRIPTION
+The _testTenantContext cmdlet
+
+.NOTES
+#>
 function _testTenantContext($TenantId)
 {
     if ($TenantId.Length -lt 1)
@@ -40,11 +49,20 @@ function _testTenantContext($TenantId)
     }
 }
 
+<#
+.SYNOPSIS
+TODO
+
+.DESCRIPTION
+The _testTokenContext cmdlet
+
+.NOTES
+#>
 function _testTokenContext($SaToken)
 {
     if ($SaToken.Length -lt 1)
     {
-        throw ">>> Use Add-PCAuthentication to login to partnercenter or use -SaToken parameter<<<"
+        throw ">>> Use Add-PCAuthentication to login to Partner Center or use -SaToken parameter<<<"
     }
 }
 
@@ -55,14 +73,22 @@ function _unsecureString
     return $tmp_cred.GetNetworkCredential().Password
 }
 
-#Setting Global Token
+<#
+.SYNOPSIS
+TODO
+
+.DESCRIPTION
+The Get-SaToken cmdlet
+
+.NOTES
+#>
 function Get-SAToken
 {
     [CmdletBinding()]
-    param ($aadtoken,[bool]$global)
+    param ($AadToken,[bool]$global)
     $url  = "https://api.partnercenter.microsoft.com/generatetoken"
 	$body = "grant_type=jwt_token"
-	$headers=@{Authorization="Bearer $aadtoken"}
+	$headers=@{Authorization="Bearer $AadToken"}
     
     $response = Invoke-RestMethod -Uri $url -ContentType "application/x-www-form-urlencoded" -Headers $headers -Body $body -method "POST" #-Debug -Verbose
 

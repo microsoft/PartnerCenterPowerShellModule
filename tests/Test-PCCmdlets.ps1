@@ -6,7 +6,7 @@ Tests all of the cmdlets in the PartnerCenterModule.
 This will test all of the cmdlets in the module.
 
 .PARAMETER saToken 
-The authentication token you have created with your Partner Center credentials.
+Specifies an authentication token with your Partner Center credentials.
 
 .EXAMPLE
 Return a list of assigned licenses for the partner.
@@ -37,16 +37,19 @@ Get-PCCustomer -all -Verbose | Format-Table -AutoSize
 $tenant = Get-PCCustomer | Select-Object -Last 1
 Get-PCCustomer -tenantid $tenant.id -Verbose | Format-Table -AutoSize
 
-Get-PCCustomer -startswith p -Limit 2 -Verbose
+Get-PCCustomer -startswith p -ResultSize 2 -Verbose
 
 # Get-PCAddressRulesByMarket
-Get-PCAddressRulesByMarket -countryid US -Verbose
+Get-PCAddressRulesByMarket -CountryId US -Verbose
+
+# Test an invalid country code
+Get-PCAddressRulesByMarket -countryid ZZZ -Verbose
 
 # Get-PCAuditRecord
 Get-PCAuditRecord -startDate 2018-05-10 -Verbose
 
 #Get-PCAzureRateCard
-Get-PCAzureRateCard -currency USD -region US -Verbose
+Get-PCAzureRateCard -Currency USD -Region US -Verbose
 
 Get-PCAzureResourceMonthlyUsageRecord
 Get-PCBillingProfile

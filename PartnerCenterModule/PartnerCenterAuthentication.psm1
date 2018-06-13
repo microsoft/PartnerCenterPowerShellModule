@@ -84,7 +84,7 @@ function Get-GraphAADTokenByApp {
     $body = "grant_type=client_Credentials&"
     $body = $body + "resource=$Resource&"
     $body = $body + "client_id=$ClientId&"
-    $tmp_clientsecret = _unsecureString -string $ClientSecret
+    $tmp_ClientSecret = _unsecureString -string $ClientSecret
     
     # Need to escape the secret because it may contain special chars
     $tmp_ClientSecret = [uri]::EscapeDataString($tmp_ClientSecret)
@@ -116,14 +116,14 @@ You can also create a PSCredential object by using a script or by using the Get-
 
 .EXAMPLE
 $cred = Get-Credential
-Add-PCAuthentication -CspAppId '<native app id GUID>' -CspDomain '<csp partner domain>' -Credential $cred
+Add-PCAuthentication -CspAppId '<native app id Guid>' -CspDomain '<csp partner domain>' -Credential $cred
 
 Set a global token for the script session - App+User authentication
 
 .EXAMPLE
 $clientSecret = '<key code secret>'
 $clientSecretSecure = $clientSecret | ConvertTo-SecureString -AsPlainText -Force
-Add-PCAuthentication -CspAppId '<web app id GUID>' -CspDomain '<csp partner domain>' -CspClientSecret $clientSecretSecure
+Add-PCAuthentication -CspAppId '<web app id Guid>' -CspDomain '<csp partner domain>' -CspClientSecret $clientSecretSecure
 
 Set a global token for the script session - App authentication
 .NOTES
@@ -149,7 +149,7 @@ function Add-PCAuthentication {
         
         # Get SA token
         try {
-            $SaToken = Get-SAToken -aadtoken $AADToken -global $true
+            $SaToken = Get-SAToken -AadToken $AADToken -global $true
             $token = @{"Resource" = $Resource ; "Domain" = $CspDomain; "ClientId" = $CspAppId; "Username" = $CspUserName}
             return $token 
         }
@@ -162,11 +162,11 @@ function Add-PCAuthentication {
 
     function Private:Add-AuthenticationBySecret ($CspAppId, $CspDomain, $CspClientSecret) {
         $resource = 'https://graph.windows.net' 
-        $AADToken = Get-GraphAADTokenByApp -resource $resource -domain $CspDomain -clientid $CspAppId -clientsecret $CspClientSecret
+        $AADToken = Get-GraphAADTokenByApp -Resource $resource -Domain $CspDomain -ClientId $CspAppId -ClientSecret $CspClientSecret
 
         # Get SA token
         try {
-            $SAToken = Get-SAToken -aadtoken $AADToken -global $true
+            $SaToken = Get-SAToken -AadToken $AADToken -Global $true
             $token = @{"Resource" = $resource ; "Domain" = $CspDomain; "ClientId" = $CspAppId}
             return $token 
         }
@@ -190,7 +190,7 @@ function Add-PCAuthentication {
 Creates an access token for the Partner Center API.
 
 .DESCRIPTION
-The New-PCSAToken cmdelet returns a token used the access Partner Center resources.
+The New-PCSaToken cmdlet returns a token used the access Partner Center resources.
 
 .PARAMETER CspAppId
 Specifies a application Id generated for the Partner Center account. The application id must match the authentication type chosen. 
@@ -206,9 +206,21 @@ Specifies the user account credentials to use to perform this task. To specify t
 You can also create a PSCredential object by using a script or by using the Get-Credential cmdlet. You can then set the Credential parameter to the PSCredential object.
 
 .EXAMPLE
+Creates a new token using the specified information.
 $sat = New-PCSaToken -CspAppId 97037612-799c-4fa6-8c40-68be72c6b83c -CspDomain contoso.onmicrosoft.com -CspClientSecret $ClientSecretSecure -Credential $cred
 
-Creates a new token using the specified information
+.EXAMPLE
+Set a specific token for a command/function - user authentication ##
+$cred = Get-Credential
+New-PCSaToken -CspAppId '<native app id GUID>' -CspDomain '<csp partner domain>' -Credential $cred
+
+.EXAMPLE
+Set a specific token for a command/function - app authentication ##
+
+$clientSecret = '<key code secret>'
+$clientSecretSecure = $clientSecret | ConvertTo-SecureString -AsPlainText -Force
+New-PCSaToken -CspAppId '<native app id GUID>' -CspDomain '<csp partner domain>' -CspClientSecret $clientSecretSecure
+
 .NOTES
 $cred = Get-Credential
 clientSecret = 'NQSm6Wjsd7PcDeP5JD6arEWMF3UghEpWmphGrshxzsQ='
@@ -225,11 +237,11 @@ function New-PCSaToken {
 
     function Private:Add-AuthenticationByUser ($CspAppId, $CspDomain, [PSCredential]$Credential) {
         $resource = 'https://api.partnercenter.microsoft.com'
-        $AADToken = Get-GraphAADTokenByUser -resource $resource -domain $CspDomain -clientid $CspAppId -Credential $Credential
+        $AADToken = Get-GraphAADTokenByUser -Resource $resource -Domain $CspDomain -ClientId $CspAppId -Credential $Credential
         $CspUserName = $Credential.UserName
         # Get SA token
         try {
-            $SAToken = Get-SAToken -aadtoken $AADToken -global $false
+            $SAToken = Get-SAToken -AadToken $AADToken -Global $false
             $token = @{"Resource" = $resource ; "Domain" = $CspDomain; "ClientId" = $CspAppId; "Username" = $CspUserName}
             $objToReturn = @($SAToken, $token)
             return $objToReturn 
@@ -242,11 +254,11 @@ function New-PCSaToken {
 
     function Private:Add-AuthenticationBySecret ($CspAppId, $CspDomain, $CspClientSecret) {
         $resource = 'https://graph.windows.net' 
-        $AADToken = Get-GraphAADTokenByApp -resource $resource -domain $CspDomain -clientid $CspAppId -clientsecret $CspClientSecret
+        $AADToken = Get-GraphAADTokenByApp -Resource $resource -Domain $CspDomain -ClientId $CspAppId -ClientSecret $CspClientSecret
 
         # Get SA token
         try {
-            $SAToken = Get-SAToken -aadtoken $AADToken -global $false
+            $SAToken = Get-SAToken -AadToken $AADToken -Global $false
             $token = @{"Resource" = $resource ; "Domain" = $CspDomain; "ClientId" = $CspAppId}
             $objToReturn = @($SAToken, $token)
             return $objToReturn 

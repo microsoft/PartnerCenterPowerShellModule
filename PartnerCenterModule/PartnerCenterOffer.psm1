@@ -16,29 +16,39 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 .SYNOPSIS
 TODO
 .DESCRIPTION
-The Get-PCOffer
-
+The Get-PCOffer cmdlet retrieves a list of offers based on the specified country id
 .PARAMETER SaToken 
-The authentication token you have created with your Partner Center Credentials.
-.PARAMETER CountryId 
-
+Specifies an authentication token you have created with your Partner Center credentials.
+.PARAMETER CountryId
+Specifies a two letter country id
 .PARAMETER OfferId
-
+Specifies the offer id to return.
 .PARAMETER LocaleId
-
-.PARAMETER AddOns 
-
+Specifies a locale as the language and country code. For example, English in the United States is en-us
+.PARAMETER AddOns
+Specifies add on SKUs
 .EXAMPLE
-Get-PCOffer
+Get-PCOffer -CountryId 'US'
+Get all offer details for the US Country Id
+.EXAMPLE
+Get-PCOffer -CountryId 'US' -OfferId '8AA7E78B-B265-4AC6-ADA0-14900A8A3F94'
+Get a specific offer using the offer id and country.
+.EXAMPLE
+Get-PCOffer -CountryId 'US' -localeId 'en-us'
+Get all offer details using the Country Id and Locale Id.
+.EXAMPLE
+Get-PCOffer -CountryId 'US' -OfferId '8AA7E78B-B265-4AC6-ADA0-14900A8A3F94' -addOns
+Get add ons for the specified offer id.
 
 .NOTES
+TODO
 #>
 function Get-PCOffer {
     [CmdletBinding()]
     param(
-        [Parameter(Mandatory = $true)][string]$CountryId,
-        [Parameter(Mandatory = $false)][string]$OfferId,
-        [Parameter(Mandatory = $false)][string]$LocaleId,
+        [Parameter(Mandatory = $true)][ValidatePattern("^(BG|BR|CN|CZ|DE|DK|EE|ES|ES|ES|ES|FI|FR|GR|HR|HU|ID|IL|IN|IT|JP|KR|KZ|LT|LV|MY|NL|NO|PL|PT|RO|RS|RS|RU|SE|SG|SI|SK|TH|TR|TW|UA|US|VN)$")][string]$CountryId,
+        [string]$OfferId,
+        [Parameter(Mandatory = $false)][ValidatePattern("^(bg-bg|pt-br|zh-cn|cs-cz|de-de|da-dk|et-ee|ca-es|es-es|eu-es|gl-es|fi-fi|fr-fr|el-gr|hr-hr|hu-hu|id-id|he-il|hi-in|it-it|ja-jp|ko-kr|kk-kz|lt-lt|lv-lv|ms-my|nl-nl|nb-no|pl-pl|pt-pt|ro-ro|sr-cyrl-rs|sr-latn-rs|ru-ru|sv-se|zh-sg|sl-si|sk-sk|th-th|tr-tr|zh-tw|uk-ua|en-us|vi-vn|)$")][string]$LocaleId,
         [Parameter(Mandatory = $false)][switch]$AddOns,
         [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
     )
@@ -102,9 +112,9 @@ TODO
 The Get-PCOfferCategoriesByMarket cmdlet
 
 .PARAMETER SaToken 
-The authentication token you have created with your Partner Center Credentials.
+Specifies an authentication token you created with your Partner Center credentials.
 .PARAMETER CountryId 
-The two-character ISO alpha-2 Country code.
+Specifies a two-character ISO 2 country code.
 .EXAMPLE
 Get-PCOfferCategoriesByMarket -CountryId US
 
@@ -113,7 +123,7 @@ Get-PCOfferCategoriesByMarket -CountryId US
 function Get-PCOfferCategoriesByMarket {
     [CmdletBinding()]
     param(
-        $CountryId,
+        [ValidatePattern("^(BG|BR|CN|CZ|DE|DK|EE|ES|ES|ES|ES|FI|FR|GR|HR|HU|ID|IL|IN|IT|JP|KR|KZ|LT|LV|MY|NL|NO|PL|PT|RO|RS|RS|RU|SE|SG|SI|SK|TH|TR|TW|UA|US|VN)$")]$CountryId,
         [Parameter(Mandatory = $true)][string]$SaToken = $GlobalToken
     )
     _testTokenContext($SaToken)
@@ -139,10 +149,10 @@ Retrieves a list of address rules for a specified market.
 The Get-PCAddressRulesByMarket returns a list of rules for the specified market.
 
 .PARAMETER SaToken 
-The authentication token you have created with your Partner Center Credentials.
+Specifies an authentication token you have created with your Partner Center Credentials.
 
 .PARAMETER CountryId 
-The two-character ISO alpha-2 Country code.
+Specifies a two-character ISO 2 country code.
 
 .EXAMPLE
 Returns the address rules for the US.
@@ -156,7 +166,7 @@ You need to have a authentication Credential already established before running 
 function Get-PCAddressRulesByMarket {
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory = $true)]$CountryId,         
+        [Parameter(Mandatory = $true)][ValidatePattern("^(BG|BR|CN|CZ|DE|DK|EE|ES|ES|ES|ES|FI|FR|GR|HR|HU|ID|IL|IN|IT|JP|KR|KZ|LT|LV|MY|NL|NO|PL|PT|RO|RS|RS|RU|SE|SG|SI|SK|TH|TR|TW|UA|US|VN)$")][string]$CountryId,         
         [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken)
     _testTokenContext($SaToken)
 
@@ -181,13 +191,13 @@ Retrieves the Azure services rate card for the specified region.
 The Get-PCAzureRateCard returns a list of Azure rates for the specified region.
 
 .PARAMETER SaToken 
-The authentication token you have created with your Partner Center Credentials.
+Specifies an authentication token with your Partner Center credentials.
 
 .PARAMETER Region 
-The two-character ISO alpha-2 Country code.
+Specifies a two-character ISO 2 country code.
 
 .PARAMETER Currency 
-The three-character ISO currency code.
+Specifies a three-character ISO currency code.
 
 .EXAMPLE
 Get-PCAzureRateCard -region US -currency USD
@@ -201,7 +211,7 @@ function Get-PCAzureRateCard {
     [CmdletBinding()]
     param (
         [ValidatePattern("^(NOK|SZL|SEK|CHF|CHE|CHW|SYP|TWD|TJS|TZS|THB|USD|XOF|NZD|TOP|TTD|TND|TRY|TMT|USD|AUD|UGX|UAH|AED|GBP|USD|USD|USN|UYU|UYI|UZS|VUV|VEF|VND|USD|USD|XPF|MAD|YER|ZMW|ZWL|XBA|XBB|XBC|XBD|XTS|XXX|XAU|XPD|XPT|XAG)$")][string]$Currency, 
-        [ValidatePattern("^(AF|AX|AL|DZ|AS|AD|AO|AI|AQ|AG|AR|AM|AW|AU|AT|AZ|BS|BH|BD|BB|BY|BE|BZ|BJ|BM|BT|BO|BQ|BA|BW|BV|BR|IO|BN|BG|BF|BI|KH|CM|CA|CV|KY|CF|TD|CL|CN|CX|CC|CO|KM|CG|CD|CK|CR|CI|HR|CU|CW|CY|CZ|DK|DJ|DM|DO|EC|EG|SV|GQ|ER|EE|ET|FK|FO|FJ|FI|FR|GF|PF|TF|GA|GM|GE|DE|GH|GI|GR|GL|GD|GP|GU|GT|GG|GN|GW|GY|HT|HM|VA|HN|HK|HU|IS|IN|ID|IR|IQ|IE|IM|IL|IT|JM|JP|JE|JO|KZ|KE|KI|KP|KR|KW|KG|LA|LV|LB|LS|LR|LY|LI|LT|LU|MO|MK|MG|MW|MY|MV|ML|MT|MH|MQ|MR|MU|YT|MX|FM|MD|MC|MN|ME|MS|MA|MZ|MM|NA|NR|NP|NL|NC|NZ|NI|NE|NG|NU|NF|MP|NO|OM|PK|PW|PS|PA|PG|PY|PE|PH|PN|PL|PT|PR|QA|RE|RO|RU|RW|BL|SH|KN|LC|MF|PM|VC|WS|SM|ST|SA|SN|RS|SC|SL|SG|SX|SK|SI|SB|SO|ZA|GS|SS|ES|LK|SD|SR|SJ|SZ|SE|CH|SY|TW|TJ|TZ|TH|TL|TG|TK|TO|TT|TN|TR|TM|TC|TV|UG|UA|AE|GB|US|UM|UY|UZ|VU|VE|VN|VG|VI|WF|EH|YE|ZM|ZW)$")][string]$Region,
+        [ValidatePattern("^(BG|BR|CN|CZ|DE|DK|EE|ES|ES|ES|ES|FI|FR|GR|HR|HU|ID|IL|IN|IT|JP|KR|KZ|LT|LV|MY|NL|NO|PL|PT|RO|RS|RS|RU|SE|SG|SI|SK|TH|TR|TW|UA|US|VN)$")][string]$Region,
         [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken)
     _testTokenContext($SaToken)
 

@@ -1,11 +1,11 @@
 # Partner Center PowerShell Module Changelog
 
-## 0.10.0.0 (2018-06-11)
+## 0.10.0.0 (2018-06-12)
 
 ### Features
 
-* Added application id as part of the REST request.
-* Added in framework to support using a cart to create an order.
+* Added an application id to send as part of the REST request to identify the application traffic.
+* Enabled Get-PCUsage to return more than 1000 usage records.
 
 ### Bug Fixes
 
@@ -14,21 +14,22 @@
 * Fixed an issue where Set-PCLegalBusinessProfile could not update the primary contact information.
 * Fixed an issue where Set-PCSupportProfile could not set information, if any of the default properties were missing.
 
-* Added validation for the -currency and -region parameters on Get-PCAzureRatecard
-* Added regex validation for the -startdate and -enddate parameters of Get-PCAuditRecord
+* Added validation for the -Currency and -Region parameters on Get-PCAzureRatecard
+* Added regex validation for the -StartDate and -EndDate parameters of Get-PCAuditRecord
+* Added regex validation for the -CountryId parameter for all cmdlets.
 
 ### Breaking Changes
 
-* Renamed -startTime, -endTime, -showDetails parameters to -startTime, -endTime, and -showDetails respectively for the following cmdlets:
+* Removed the Get-PCUsage2 cmdlet, replaced by Get-PCUsage functionality.
+* Renamed -start_time, -end_time, -show_details parameters to -StartTime, -EndTime, and -ShowDetail respectively for the following cmdlets:
   * Get-PCUsage
-  * Get-PCUsage2
-* Renamed the -Size parameter to -Limit on the following cmdlets:
+* Renamed the -Size parameter to -ResultSize on the following cmdlets:
   * Get-PCUsage
-  * Get-PCUsage2
-* Removed the requirement to specify -All for the following cmdlets:
+* Removed the All parameter from the following cmdlets:
   * Get-PCCustomer
   * Get-PCSR
   * Get-PCSubscription
+  * Get-PCCustomerUser
 * Removed the following cmdlets, instead use the new cmdlet name:
   * Get-PCCustomerLicensesDeployment use Get-PCCustomerLicenseDeployment
   * Get-PCCustomerLicensesUsage use Get-PCCustomerLicenseUsage
@@ -42,3 +43,4 @@
   * Get-PCAuditRecords use Get-PCAuditRecord
   * Get-PCSubscribedSKUs use Get-PCSubscribedSKU
 * Modified the -AutoRenewEnabled parameter for Set-PCSubscription to be -AutoRenew
+* Get-PCCustomerRole, Remove-PCCustomerUser, Set-PCCustomerUser now require the user id to be passed instead of a PowerShell object containing all of the user information. The parameter was also renamed from -User to -UserId to better reflect this change.
