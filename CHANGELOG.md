@@ -1,6 +1,6 @@
 # Partner Center PowerShell Module Changelog
 
-## 0.10.0.0 (2018-06-12)
+## 0.10.0.0 (2018-06-13)
 
 ### Features
 
