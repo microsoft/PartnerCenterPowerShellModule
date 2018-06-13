@@ -12,29 +12,6 @@
 $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 . "$here\commons.ps1"
 
-
-function Get-PCLicensesDeployment
-{
-    [CmdletBinding()]
-    Param(
-        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
-    )
-    _testTokenContext($SaToken)
-
-    Write-Warning "  Get-PCLicensesDeployment is deprecated and will not be available in future releases, use Get-PCLicenseDeployment instead."
-
-
-    $url = "https://api.partnercenter.microsoft.com/v1/analytics/licenses/deployment"
-
-    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
-    $headers.Add("Authorization", "Bearer $SaToken")
-    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
-
-    $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-    $obj = @() + $response.Substring(1) | ConvertFrom-Json
-    return (_formatResult -obj $obj -type "PartnerLicensesDeploymentInsights")      
-}
-
 <#
 .SYNOPSIS
 TODO
@@ -71,27 +48,6 @@ function Get-PCLicenseDeployment
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj = @() + $response.Substring(1) | ConvertFrom-Json
     return (_formatResult -obj $obj -type "PartnerLicensesDeploymentInsights")      
-}
-
-function Get-PCLicensesUsage
-{
-    [CmdletBinding()]
-    Param(
-        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
-    )
-    _testTokenContext($SaToken)
-
-    Write-Warning "  Get-PCLicensesUsage is deprecated and will not be available in future releases, use Get-PCLicenseUsage instead."
- 
-    $url = "https://api.partnercenter.microsoft.com/v1/analytics/licenses/usage"
-    
-    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
-    $headers.Add("Authorization", "Bearer $SaToken")
-    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
-
-    $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-    $obj = @() + $response.Substring(1) | ConvertFrom-Json
-    return (_formatResult -obj $obj -type "PartnerLicensesUsageInsights")      
 }
 
 <#
@@ -132,32 +88,10 @@ function Get-PCLicenseUsage
     return (_formatResult -obj $obj -type "PartnerLicensesUsageInsights")      
 }
 
-function Get-PCCustomerLicensesDeployment
-{
-    [CmdletBinding()]
-    Param(
-        [Parameter(Mandatory = $false)][String]$TenantId = $GlobalCustomerId,
-        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
-    )
-    _testTokenContext($SaToken)
-    _testTenantContext ($TenantId)
-
-    Write-Warning "  Get-PCCustomerLicensesDeployment is deprecated and will not be available in future releases, use Get-PCCustomerLicenseDeployment instead."
-
-    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/analytics/licenses/deployment" -f $TenantId
-
-    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
-    $headers.Add("Authorization", "Bearer $SaToken")
-    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
-
-    $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-    $obj = @() + $response.Substring(1) | ConvertFrom-Json
-    return (_formatResult -obj $obj -type "CustomerLicensesDeploymentInsights")      
-}
-
 <#
 .SYNOPSIS
 TODO
+
 .DESCRIPTION
 The Get-PCCustomerLicenseDeployment cmdlet retrieves a list of licenses deployed by a partner for a specific tenant.
 
@@ -196,32 +130,10 @@ function Get-PCCustomerLicenseDeployment
     return (_formatResult -obj $obj -type "CustomerLicensesDeploymentInsights")      
 }
 
-function Get-PCCustomerLicensesUsage
-{
-    [CmdletBinding()]
-    Param(
-        [Parameter(Mandatory = $false)][String]$TenantId = $GlobalCustomerId,
-        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
-    )
-    _testTokenContext($SaToken)
-    _testTenantContext ($TenantId)
-
-    Write-Warning "  Get-PCCustomerLicensesUsage is deprecated and will not be available in future releases, use Get-PCCustomerLicenseUsage instead."
- 
-    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/analytics/licenses/usage" -f $TenantId
-
-    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
-    $headers.Add("Authorization", "Bearer $SaToken")
-    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
-
-    $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-    $obj = @() + $response.Substring(1) | ConvertFrom-Json
-    return (_formatResult -obj $obj -type "CustomerLicensesUsageInsights")      
-}
-
 <#
 .SYNOPSIS
 TODO
+
 .DESCRIPTION
 The Get-PCCustomerLicenseUsage cmdlet retrieves a list of licenses deployed and assigned by a partner for a specific tenant.
 

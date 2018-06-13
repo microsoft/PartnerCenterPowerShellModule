@@ -104,34 +104,6 @@ function Get-PCInvoice {
                           #>
 }
 
-
-function Get-PCInvoiceLineItems {
-    [CmdletBinding()]
-
-    Param(
-        [Parameter(Mandatory = $true)][String]$InvoiceId,
-        [Parameter(Mandatory = $true)][ValidateSet("Azure", "Office")][string]$BillingProvider,
-        [Parameter(Mandatory = $true)][ValidateSet("BillingLineItems", "UsageLineItems")][string]$InvoiceLineItemType,
-        [Parameter(Mandatory = $false)][int]$Size = 200,
-        [Parameter(Mandatory = $false)][int]$Offset = 0,
-        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
-    )
-    _testTokenContext($SaToken)
-
-    Write-Warning "  Get-PCInvoiceLineItems is deprecated and will not be available in future releases, use Get-PCInvoiceLineItem instead."
-
-    $obj = @()
-    $url = "https://api.partnercenter.microsoft.com/v1/invoices/{0}/lineitems/{1}/{2}?size={3}&offset={4}" -f $InvoiceId, $billingProvider, $invoicelineitemtype, $size, $offset
-
-    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
-    $headers.Add("Authorization", "Bearer $SaToken")
-    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
-
-    $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-    $obj += $response
-    return (_formatResult -obj $obj -type "Invoice") 
-}
-
 <#
 .SYNOPSIS
 TODO
@@ -151,13 +123,8 @@ Specifies either Azure or Office.
 .PARAMETER InvoiceLineItemType 
 Specifies either BillingLineItems for invoiced licence-based services or UsageLineItems for invoiced usage-based services.
 
-<<<<<<< HEAD
 .PARAMETER ResultSize
 Specifies the maximum number of results to return. The default value is 200.
-=======
-.PARAMETER Size
-Specifies a limit to the number of invoice line items to retrieve
->>>>>>> parent of d3de9aa... Removed deprecated cmdlets.
 
 .PARAMETER Offset
 Specifies an offset
@@ -176,22 +143,14 @@ function Get-PCInvoiceLineItem {
         [Parameter(Mandatory = $true)][String]$InvoiceId,
         [Parameter(Mandatory = $true)][ValidateSet("Azure", "Office")][string]$BillingProvider,
         [Parameter(Mandatory = $true)][ValidateSet("BillingLineItems", "UsageLineItems")][string]$InvoiceLineItemType,
-<<<<<<< HEAD
         [Parameter(Mandatory = $false)][int]$ResultSize= 200,
-=======
-        [Parameter(Mandatory = $false)][int]$Size = 200,
->>>>>>> parent of d3de9aa... Removed deprecated cmdlets.
         [Parameter(Mandatory = $false)][int]$Offset = 0,
         [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
     )
     _testTokenContext($SaToken)
 
     $obj = @()
-<<<<<<< HEAD
     $url = "https://api.partnercenter.microsoft.com/v1/invoices/{0}/lineitems/{1}/{2}?size={3}&offset={4}" -f $InvoiceId, $BillingProvider, $InvoiceLineItemType, $ResultSize, $Offset
-=======
-    $url = "https://api.partnercenter.microsoft.com/v1/invoices/{0}/lineitems/{1}/{2}?size={3}&offset={4}" -f $InvoiceId, $BillingProvider, $InvoiceLineItemType, $Size, $Offset
->>>>>>> parent of d3de9aa... Removed deprecated cmdlets.
 
     $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
     $headers.Add("Authorization", "Bearer $SaToken")

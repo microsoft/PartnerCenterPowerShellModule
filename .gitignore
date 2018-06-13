@@ -339,8 +339,5 @@ ASALocalRun/
 !tests/Test-PCCmdlets.ps1
 tests/Get-Markdown.ps1
 tests/Get-HelpByMarkdown.ps1
-<<<<<<< HEAD
 tests/Reset-PCTestsLOCAL.ps1
 CmdletHelp3/*
-=======
->>>>>>> parent of d3de9aa... Removed deprecated cmdlets.

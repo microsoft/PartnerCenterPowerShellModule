@@ -264,15 +264,9 @@ function Set-PCLegalBusinessProfile {
 
 <#
 .SYNOPSIS
-<<<<<<< HEAD
 Updates the partner's organization profile.
 .DESCRIPTION
 The Set-PCOrganizationProfile cmdlet sets information on a partner's organizational profile.
-=======
-
-.DESCRIPTION
-
->>>>>>> parent of d3de9aa... Removed deprecated cmdlets.
 .PARAMETER SaToken 
 Specifies an authentication token with your Partner Center credentials.
 .PARAMETER CompanyName 
@@ -357,15 +351,9 @@ function Set-PCOrganizationProfile {
 
 <#
 .SYNOPSIS
-<<<<<<< HEAD
 Updates a partner's billing profile.
 .DESCRIPTION
 The Set-PCBillingProfile cmdlet updates the partner's billing profile. 
-=======
-
-.DESCRIPTION
-
->>>>>>> parent of d3de9aa... Removed deprecated cmdlets.
 .PARAMETER SaToken 
 Specifies an authentication token with your Partner Center credentials.
 .PARAMETER AddressLine1 
@@ -440,15 +428,9 @@ function Set-PCBillingProfile {
 
 <#
 .SYNOPSIS
-<<<<<<< HEAD
 Modifies the partner's support profile. 
 .DESCRIPTION
 The Set-PCSupportProfile cmdlet update the partner's support profile.
-=======
-
-.DESCRIPTION
-
->>>>>>> parent of d3de9aa... Removed deprecated cmdlets.
 .PARAMETER SaToken 
 Specifies an authentication token with your Partner Center credentials.
 .PARAMETER Website 
@@ -509,25 +491,15 @@ function Set-PCSupportProfile {
 
 <#
 .SYNOPSIS
-<<<<<<< HEAD
 Returns the specified customer's billing profile.
 .DESCRIPTION
 The Get-PCCustomerBillingProfile cmdlet returns the billing profile for the specified tenant.
-=======
-
-.DESCRIPTION
-
->>>>>>> parent of d3de9aa... Removed deprecated cmdlets.
 .PARAMETER SaToken 
 Specifies an authentication token you have created with your Partner Center credentials.
 .PARAMETER TenantId 
 Specifies the tenant used for scoping this cmdlet.
 .EXAMPLE
-<<<<<<< HEAD
 Get-PCCustomerBillingProfile -TenantId <TenantId>
-=======
-
->>>>>>> parent of d3de9aa... Removed deprecated cmdlets.
 .NOTES
 TODO
 #>
@@ -556,15 +528,9 @@ function Get-PCCustomerBillingProfile {
 
 <#
 .SYNOPSIS
-<<<<<<< HEAD
 Updates the specified customer's billing profile. The cmdlet accepts an updated billing profile object to determine the updates to be made. Use either Get-PCCustomerBillingProfile or New-PCCustomerBillingProfile cmdlet to create the updated customer billing profile object. 
 .DESCRIPTION
 The Set-PCCustomerBillingProfile cmdlet updates a customer's billing profile.
-=======
-
-.DESCRIPTION
-
->>>>>>> parent of d3de9aa... Removed deprecated cmdlets.
 .PARAMETER SaToken 
 Specifies an authentication token with your Partner Center credentials.
 .PARAMETER TenantId 
@@ -618,7 +584,6 @@ function Set-PCCustomerBillingProfile {
 
 <#
 .SYNOPSIS
-<<<<<<< HEAD
 Returns the specified customer's company profile.
 .DESCRIPTION
 The Get-PCCustomerCompanyProfile cmdlet returns the customer's company profile.
@@ -626,13 +591,6 @@ The Get-PCCustomerCompanyProfile cmdlet returns the customer's company profile.
 .PARAMETER SaToken 
 Specifies an authentication token with your Partner Center credentials.
 
-=======
-
-.DESCRIPTION
-
-.PARAMETER SaToken 
-The authentication token you have created with your Partner Center Credentials.
->>>>>>> parent of d3de9aa... Removed deprecated cmdlets.
 .PARAMETER TenantId 
 Specifies a tenant id to scope this cmdlet.
 .EXAMPLE
@@ -664,15 +622,9 @@ function Get-PCCustomerCompanyProfile {
 
 <#
 .SYNOPSIS
-<<<<<<< HEAD
 This cmdlet is used to create a PowerShell object that can be passed to other cmdlets, such as the the New-PCCustomer cmdlet when creating a new customer.
 .DESCRIPTION
 The New-PCCustomerBillingProfile cmdlet creates a PowerShell object that includes properties for the customer billing profile.
-=======
-
-.DESCRIPTION
-
->>>>>>> parent of d3de9aa... Removed deprecated cmdlets.
 .PARAMETER SaToken 
 Specifies an authentication token you have created with your Partner Center credentials.
 .PARAMETER FirstName 
@@ -688,44 +640,24 @@ Specifies the two letter ISO culture of the customer company contact.
 .PARAMETER CompanyName
 Specifies the name of the customer company.
 .PARAMETER Country
-<<<<<<< HEAD
 Specifies the country for the customer company.
 .PARAMETER Region 
 Specifies the three letter region for the customer company.
-=======
-
-.PARAMETER region 
-
->>>>>>> parent of d3de9aa... Removed deprecated cmdlets.
 .PARAMETER City 
 Specifies the city for the customer's company address.
 .PARAMETER State
-<<<<<<< HEAD
 Specifies the state for the customer's company address.
 .PARAMETER AddressLine1
 Specifies the first line of the street address for the customer company's address.
-=======
-
-.PARAMETER addressline1
-
->>>>>>> parent of d3de9aa... Removed deprecated cmdlets.
 .PARAMETER PostalCode 
 Specifies the postal code for the customer company's address.
 .PARAMETER PhoneNumber 
-<<<<<<< HEAD
 Specifies the phone number for the customer company's contact.
 .PARAMETER DefaultAddress
 Specifies a PowerShell object that contains the default address information for the company.
 .EXAMPLE
 $cBP = New-PCCustomerBillingProfile -FirstName 'Joe' -LastName 'Smith' -Email 'joe@contoso.com' -Country 'US' -City 'Redmond' -State 'WA' -PostalCode 98502 - AddressLine1 '1 Microsoft Way'
 Create an object that has the billing profile information for Joe Smith at Contoso.
-=======
-
-.PARAMETER defaultAddress
-
-.EXAMPLE
-
->>>>>>> parent of d3de9aa... Removed deprecated cmdlets.
 .NOTES
 #>
 function New-PCCustomerBillingProfile {
@@ -760,16 +692,9 @@ function New-PCCustomerBillingProfile {
 
 <#
 .SYNOPSIS
-<<<<<<< HEAD
 This cmdlet is used to create a PowerShell object that can be passed to other cmdlets, such as the the New-PCCustomerBillingProfile cmdlet.
 .DESCRIPTION
 The New-PCCustomerDefaultAddress cmdlet returns a PowerShell object with the properties for a default address.
-=======
-
-.DESCRIPTION
-
-.PARAMETER Country 
->>>>>>> parent of d3de9aa... Removed deprecated cmdlets.
 
 .PARAMETER Country
 Specifies the country for the customer company.
@@ -816,24 +741,15 @@ function New-PCCustomerDefaultAddress {
 
 <#
 .SYNOPSIS
-<<<<<<< HEAD
 Returns a PowerShell object that includes the properties for the customer's company properties. The object is passed to the New-PCCustomer cmdlet to create a new customer.
 .DESCRIPTION
 The New-PCCustomerCompanyProfile cmdlet returns a PowerShell object that includes the properties for the customer's company properties.
-=======
-
-.DESCRIPTION
->>>>>>> parent of d3de9aa... Removed deprecated cmdlets.
 
 .PARAMETER Domain 
 Specifies the domain for the company profile
 .EXAMPLE
-<<<<<<< HEAD
 $ccp = New-PCCustomerCompanyProfile -Domain 'contoso.onmicrosoft.com'
 Create a new customer profile with the contoso.onmicrosoft.com domain and assign it to $ccp variable.
-=======
-
->>>>>>> parent of d3de9aa... Removed deprecated cmdlets.
 .NOTES
 #>
 function New-PCCustomerCompanyProfile {   
@@ -848,13 +764,9 @@ function New-PCCustomerCompanyProfile {
 
 <#
 .SYNOPSIS
-
+TODO
 .DESCRIPTION
-<<<<<<< HEAD
 The New-PCAddress cmdlet returns a PowerShell object with all of address properties.
-=======
-
->>>>>>> parent of d3de9aa... Removed deprecated cmdlets.
 .PARAMETER AddressLine1 
 Specifies address line 1 for the new address.
 .PARAMETER AddressLine2 
@@ -870,12 +782,8 @@ Specifies the country
 .PARAMETER Region 
 Specifies the region.
 .EXAMPLE
-<<<<<<< HEAD
     $add = New-PCAddress -AddressLine1 '1 Microsoft Way' -City 'Redmond' -State 'WA' -Country 'US' -PostalCode '95802'
 Create a new address object for an address and assign it to the $add variable.
-=======
-
->>>>>>> parent of d3de9aa... Removed deprecated cmdlets.
 .NOTES
 #>
 function New-PCAddress {
@@ -897,15 +805,9 @@ function New-PCAddress {
 
 <#
 .SYNOPSIS
-<<<<<<< HEAD
 Validates the provided address information to determine if it meets the Partner Center validation rules. 
 .DESCRIPTION
 The Test-PCAddress cmdlet validates the provided the address information as to whether it conforms to the Partner Center address rules.
-=======
-
-.DESCRIPTION
-
->>>>>>> parent of d3de9aa... Removed deprecated cmdlets.
 .PARAMETER SaToken 
 Specifies an partner center access token.
 .PARAMETER Address 
@@ -927,12 +829,8 @@ $address = New-PCAddress -AddressLine1 '<string>' -AddressLine2 '<string>' -City
 Test-PCAddress -Address $add
 Validate an address by passing an object variable named $add that was created using the New-PCAddress cmdlet.
 .EXAMPLE
-<<<<<<< HEAD
 Test-PCAddress -AddressLine1 '1 Microsoft Way' -City 'Redmond' -State 'WA' -Country 'US' -PostalCode '95802'
 Validate an address by passing the address information to the cmdlet.
-=======
-
->>>>>>> parent of d3de9aa... Removed deprecated cmdlets.
 .NOTES
 #>
 function Test-PCAddress {

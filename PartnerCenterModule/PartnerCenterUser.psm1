@@ -37,13 +37,9 @@ PS C:\>Get-PCCustomerUser -TenantId 45916f92-e9c3-4ed2-b8c2-d87aa129905f
 Get a customer user
 PS C:\>$user = Get-PCCustomerUser -TenantId 45916f92-e9c3-4ed2-b8c2-d87aa129905f -UserId 'e2e56b09-aac5-4685-947d-29e735ee7ed7'
 
-<<<<<<< HEAD
 .EXAMPLE
 Get a list of user assigned licenses for the specified user id.
 PS C:\>Get-PCCustomerUser -TenantId 45916f92-e9c3-4ed2-b8c2-d87aa129905f -UserId 'e2e56b09-aac5-4685-947d-29e735ee7ed7' -Licenses
-=======
-.PARAMETER Size 
->>>>>>> parent of d3de9aa... Removed deprecated cmdlets.
 
 .EXAMPLE
 Get a list of deleted users for the tenant
@@ -54,7 +50,6 @@ PS C:\>Get-PCCustomerUser -TenantId 45916f92-e9c3-4ed2-b8c2-d87aa129905f -Delete
 function Get-PCCustomerUser {
     [CmdletBinding()]
     Param(
-<<<<<<< HEAD
         [Parameter(ParameterSetName = 'activeUser', Mandatory = $false)]
         [parameter(ParameterSetName = "deletedUser")]
         [parameter(ParameterSetName = "all")]
@@ -64,15 +59,6 @@ function Get-PCCustomerUser {
         [Parameter(ParameterSetName = 'deletedUser', Mandatory = $true)][switch]$Deleted,
         [Parameter(ParameterSetName = 'deletedUser', Mandatory = $false)][int]$ResultSize = 200,
         [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
-=======
-            [Parameter(Mandatory = $false)][String]$TenantId=$GlobalCustomerId,
-            [Parameter(ParameterSetName='all', Mandatory = $false)][switch]$All,
-            [Parameter(ParameterSetName='activeuser', Mandatory = $false)][String]$UserId,
-            [Parameter(ParameterSetName='activeuser', Mandatory = $false)][switch]$Licenses,
-            [Parameter(ParameterSetName='deleteduser', Mandatory = $false)][switch]$Deleted,
-            [Parameter(ParameterSetName='deleteduser', Mandatory = $false)][int]$Size = 200,
-            [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
->>>>>>> parent of d3de9aa... Removed deprecated cmdlets.
     )
     _testTokenContext($SaToken)
     _testTenantContext ($TenantId)
@@ -129,23 +115,13 @@ function Get-PCCustomerUser {
         }
     }
 
-<<<<<<< HEAD
     function Private:Get-DeletedUsersInner ($SaToken, $TenantId, $ResultSize) {
         $obj = @()
-=======
-    function Private:Get-DeletedUsersInner ($SaToken, $TenantId, $Size)
-    {
-       $obj = @()
->>>>>>> parent of d3de9aa... Removed deprecated cmdlets.
         $filter = '{"Field":"UserStatus","Value":"Inactive","Operator":"equals"}'
         [Reflection.Assembly]::LoadWithPartialName("System.Web") | Out-Null
         $Encode = [System.Web.HttpUtility]::UrlEncode($filter)
 
-<<<<<<< HEAD
         $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/users?size={1}&filter={2}" -f $TenantId, $ResultSize, $Encode
-=======
-        $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/users?size={1}&filter={2}" -f $TenantId,$Size,$Encode
->>>>>>> parent of d3de9aa... Removed deprecated cmdlets.
 
         $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
         $headers.Add("Authorization", "Bearer $SaToken")
@@ -156,7 +132,6 @@ function Get-PCCustomerUser {
         return (_formatResult -obj $obj -type "CustomerUser")        
     }
 
-<<<<<<< HEAD
     if ($PsCmdlet.ParameterSetName -eq "activeUser") {
         $res = Get-CustomerUserInner -SaToken $SaToken -TenantId $TenantId -user $UserId -licenses $Licenses
         return $res
@@ -164,19 +139,6 @@ function Get-PCCustomerUser {
     elseif ($PsCmdlet.ParameterSetName -eq "deletedUser") {
         $res = Get-DeletedUsersInner -SaToken $SaToken -TenantId $TenantId -ResultSize $ResultSize
         return $res
-=======
-    switch ($PsCmdlet.ParameterSetName)
-    {
-        "activeuser" {$res = Get-CustomerUserInner -SaToken $SaToken -TenantId $TenantId -user $UserId -licenses $Licenses
-                          return $res}
-
-        "deleteduser"{$res = Get-DeletedUsersInner -SaToken $SaToken -TenantId $TenantId -size $Size
-                          return $res}
-
-        "all"        {$res = Get-CustomerAllUserInner -SaToken $SaToken -TenantId $TenantId 
-                          return $res}
-
->>>>>>> parent of d3de9aa... Removed deprecated cmdlets.
     }
     else {
         $res = Get-CustomerAllUserInner -SaToken $SaToken -TenantId $TenantId 

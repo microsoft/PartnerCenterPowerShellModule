@@ -14,15 +14,9 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 
 <#
 .SYNOPSIS
-<<<<<<< HEAD
 Returns either a list of service requests or a specific service request.
 .DESCRIPTION
 The Get-PCSR cmdlet retrieves either a specific service request or a list of service requests for the tenant or the partner.
-=======
-
-.DESCRIPTION
-
->>>>>>> parent of d3de9aa... Removed deprecated cmdlets.
 .PARAMETER SaToken 
 Specifies an authentication token with your Partner Center credentials.
 .PARAMETER TenantId 
@@ -38,16 +32,11 @@ Get-PCSR -ServiceRequestId '335c4cad-b235-4a31-8273-e73da43e7817'
 Get the specified service request.
 
 .EXAMPLE
-<<<<<<< HEAD
 Get-PCSR -TenantId '3c762ceb-b839-4b4a-85d8-0e7304c89f62'
 Get all customer service requests for the specified tenant id.
 
 .NOTES
 The -All parameter has been removed in this version.
-=======
-
-.NOTES
->>>>>>> parent of d3de9aa... Removed deprecated cmdlets.
 #>
 function Get-PCSR {
     [CmdletBinding()]
@@ -65,7 +54,6 @@ function Get-PCSR {
     $headers.Add("Authorization", "Bearer $SaToken")
     $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
-<<<<<<< HEAD
     if ($TenantId) {
         if ($ServiceRequestId) {
 
@@ -83,14 +71,6 @@ function Get-PCSR {
             
             $url = "https://api.partnercenter.microsoft.com/v1/servicerequests"
         }
-=======
-    switch ($PsCmdlet.ParameterSetName)
-    {
-        "TenantId" {$url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/servicerequests" -f $TenantId}
-        "all"      {$url = "https://api.partnercenter.microsoft.com/v1/servicerequests"}
-        "srid"      {$url = "https://api.partnercenter.microsoft.com/v1/servicerequests/{0}" -f $ServiceRequestId}
-    }
->>>>>>> parent of d3de9aa... Removed deprecated cmdlets.
 
     }
     
@@ -99,42 +79,15 @@ function Get-PCSR {
     return (_formatResult -obj $obj -type "ServiceRequest")
 }
 
-function Get-PCSRTopics
-{
-    [CmdletBinding()]
-    param([Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken)
-    _testTokenContext($SaToken)
-
-    Write-Warning "    Get-PCSRTopics is deprecated and will not be available in future releases, use Get-PCSRTopic instead."
-
-    $obj = @()
-
-    $url = "https://api.partnercenter.microsoft.com/v1/servicerequests/supporttopics"
-    
-    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
-    $headers.Add("Authorization", "Bearer $SaToken")
-    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
-
-    $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-    $obj += $response.Substring(1) | ConvertFrom-Json
-    return (_formatResult -obj $obj -type "ServiceRequestTopics")   
-}
-
 <#
 .SYNOPSIS
-<<<<<<< HEAD
 Returns a list of service request topics.
 .DESCRIPTION
 The Get-PCSRTopic cmdlet retrieves a list of service request topics.
-=======
-
-.DESCRIPTION
-
->>>>>>> parent of d3de9aa... Removed deprecated cmdlets.
 .PARAMETER SaToken 
 Specifies an authentication token with your Partner Center credentials.
 .EXAMPLE
-
+Get-PCSRTopic
 .NOTES
 #>
 function Get-PCSRTopic {

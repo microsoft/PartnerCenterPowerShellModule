@@ -15,6 +15,7 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 <#
 .SYNOPSIS
 Tests to see if the specified onmicrosoft.com is available to be used for a new tenant.
+
 .DESCRIPTION
 The Get-PCDomainAvailability cmdlet tests to see if the specified tenant domain (onmicrosoft.com) is available to create a new tenant.
 
@@ -205,15 +206,9 @@ function Add-PCCustomerRoleMember
 
 <#
 .SYNOPSIS
-<<<<<<< HEAD
 Removes the specified user id from the specified role id.
 .DESCRIPTION
 The Remove-PCCustomerRoleMember cmdlet removes the specified user from the specified role.
-=======
-
-.DESCRIPTION
-
->>>>>>> parent of d3de9aa... Removed deprecated cmdlets.
 .PARAMETER SaToken 
 Specifies a security token for authenticating and executing the cmdlet.
 

@@ -8,12 +8,8 @@
     sample scripts or documentation, even if Microsoft has been advised of the possibility of such damages.
 #>
 
-<<<<<<< HEAD
 # This variable is used in other cmdlets to identify the REST client.
 $ApplicationName = "Partner Center PowerShell Module v0.10.0.0"
-=======
-$ApplicationName = "Partner Center PowerShell Module v0.9.1.0"
->>>>>>> parent of d3de9aa... Removed deprecated cmdlets.
 
 function _applyTypes {
    param($item,$type)
