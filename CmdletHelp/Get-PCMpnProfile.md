@@ -1,6 +1,6 @@
 # Get-PCMpnProfile
 
-TODO
+Returns the Mpn profile for the authenticated partner.
 
 ## SYNTAX
 
@@ -10,7 +10,7 @@ Get-PCMpnProfile [[-MpnId] <String>] [[-SaToken] <String>] [<CommonParameters>]
 
 ## DESCRIPTION
 
-The Get-PCMpnProfile cmdlet
+The Get-PCMpnProfile cmdlet returns the Mpn profile for the authenticated partner or the specified tenant.
 
 ## PARAMETERS
 

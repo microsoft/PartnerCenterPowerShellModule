@@ -12,26 +12,6 @@
 $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 . "$here\commons.ps1"
 
-<#
-.SYNOPSIS
-TODO
-.DESCRIPTION
-The Get-GraphAaDTokenByUser cmdlet
-.PARAMETER Resource 
-Specifies
-
-.PARAMETER Domain 
-Specifies
-.PARAMETER ClientId 
-Specifies
-
-.PARAMETER Credential
-Specifies
-.EXAMPLE
-Returns
-
-Get-GraphAadTokenByUser
-#>
 function Get-GraphAADTokenByUser {
     [CmdletBinding()]
     param (
@@ -56,22 +36,6 @@ function Get-GraphAADTokenByUser {
     return $response.access_token
 }
 
-<#
-.SYNOPSIS
-TODO
-.DESCRIPTION
-The Get-GraphAadTokenByApp cmdlet
-.PARAMETER Resource 
-Specifies
-.PARAMETER Domain 
-Specifies
-.PARAMETER ClientId 
-Specifies
-.PARAMETER ClientSecret
-Specifies
-.EXAMPLE
-Get-GraphAADTokenByApp 
-#>
 function Get-GraphAADTokenByApp {
     [CmdletBinding()]
     param (

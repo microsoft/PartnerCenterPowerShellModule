@@ -14,10 +14,10 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 
 <#
 .SYNOPSIS
-TODO
+Returns a list of customers or a specified customer.
 
 .DESCRIPTION
-The Get-PCCustomer cmdlet retrieves a list of customers, or a specific customer based on the input.
+The Get-PCCustomer cmdlet retrieves a list of customers, or a specified customer.
 
 .PARAMETER SaToken 
 Specifies an authentication token with your Partner Center credentials.
@@ -114,10 +114,10 @@ function Get-PCCustomer {
 
 <#
 .SYNOPSIS
-TODO
+Returns a list of subscribed SKUs.
 
 .DESCRIPTION
-The Get-SubscribedSKU cmdlet. 
+The Get-SubscribedSKU cmdlet retrieves a list of subscribed SKUs. 
 
 .PARAMETER SaToken 
 Specifies an authentication token with your Partner Center credentials.

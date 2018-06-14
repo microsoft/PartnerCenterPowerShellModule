@@ -1,6 +1,6 @@
 # Get-PCCustomerRole
 
-TODO
+Returns a list of customer roles for the specified tenant.
 
 ## SYNTAX
 
@@ -10,7 +10,7 @@ Get-PCCustomerRole [[-TenantId] <String>] [[-SaToken] <String>] [<CommonParamete
 
 ## DESCRIPTION
 
-The Get-PCCustomerRole cmdlet. TODO
+The Get-PCCustomerRole cmdlet returns a list of customer roles created for the specified tenant.
 
 ## PARAMETERS
 

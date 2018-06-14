@@ -1,6 +1,6 @@
 # Get-PCOrder
 
-TODO
+Returns a list of orders or a specified order.
 
 ## SYNTAX
 
@@ -10,7 +10,7 @@ Get-PCOrder [[-TenantId] <String>] [[-OrderId] <String>] [[-SaToken] <String>] [
 
 ## DESCRIPTION
 
-The Get-PCOrder cmdlet.
+The Get-PCOrder cmdlet returns a list of orders for the specified tenant.
 
 ## PARAMETERS
 

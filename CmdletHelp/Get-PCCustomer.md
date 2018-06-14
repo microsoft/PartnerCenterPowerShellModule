@@ -1,6 +1,6 @@
 # Get-PCCustomer
 
-TODO
+Returns a list of customers or a specific customer.
 
 ## SYNTAX
 

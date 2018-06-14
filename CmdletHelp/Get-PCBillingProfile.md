@@ -1,6 +1,6 @@
 # Get-PCBillingProfile
 
-TODO
+Returns the billing profile for the current partner.
 
 ## SYNTAX
 

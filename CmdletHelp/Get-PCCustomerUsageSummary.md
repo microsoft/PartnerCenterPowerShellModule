@@ -1,6 +1,6 @@
 # Get-PCCustomerUsageSummary
 
-TODO
+Returns aa summary of usage for the specified tenant.
 
 ## SYNTAX
 
@@ -43,8 +43,6 @@ Accept wildcard characters?  false
 ## OUTPUTS
 
 ## NOTES
-
-TODO
 
 ## EXAMPLES
 

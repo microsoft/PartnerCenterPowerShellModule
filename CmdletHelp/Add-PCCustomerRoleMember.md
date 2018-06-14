@@ -1,6 +1,6 @@
 # Add-PCCustomerRoleMember
 
-TODO
+Adds a customer user account.
 
 ## SYNTAX
 

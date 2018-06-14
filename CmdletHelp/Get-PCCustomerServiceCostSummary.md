@@ -1,6 +1,6 @@
 # Get-PCCustomerServiceCostSummary
 
-TODO
+Returns a cost summary for the specified billing period.
 
 ## SYNTAX
 
@@ -10,7 +10,7 @@ Get-PCCustomerServiceCostSummary [-BillingPeriod] <String> [[-TenantId] <String>
 
 ## DESCRIPTION
 
-The Get-PCCustomerServiceCostSummary returns a cost summary for the specified billing period
+The Get-PCCustomerServiceCostSummary returns a cost summary for the specified billing period.
 
 ## PARAMETERS
 

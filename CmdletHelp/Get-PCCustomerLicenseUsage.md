@@ -1,6 +1,6 @@
 # Get-PCCustomerLicenseUsage
 
-TODO
+Returns a list of licenses deployed and assigned by a partner for a specified tenant.
 
 ## SYNTAX
 
@@ -10,7 +10,7 @@ Get-PCCustomerLicenseUsage [[-TenantId] <String>] [[-SaToken] <String>] [<Common
 
 ## DESCRIPTION
 
-The Get-PCCustomerLicenseUsage cmdlet retrieves a list of licenses deployed and assigned by a partner for a specifc tenant.
+The Get-PCCustomerLicenseUsage cmdlet retrieves a list of licenses deployed and assigned by a partner for a specified tenant.
 
 ## PARAMETERS
 

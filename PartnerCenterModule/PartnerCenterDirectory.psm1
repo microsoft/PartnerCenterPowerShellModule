@@ -62,9 +62,9 @@ function Get-PCDomainAvailability
 
 <#
 .SYNOPSIS
-TODO
+Returns a list of customer roles.
 .DESCRIPTION
-The Get-PCCustomerRole cmdlet. TODO
+The Get-PCCustomerRole cmdlet retrieves a list of customer roles.
 .PARAMETER SaToken 
 Specifies a security token for authenticating and executing the cmdlet.
 
@@ -98,9 +98,9 @@ function Get-PCCustomerRole
 
 <#
 .SYNOPSIS
-TODO
+Returns a list of members for the specified customer role.
 .DESCRIPTION
-The Get-PCCustomerRoleMember cmdlet TODO
+The Get-PCCustomerRoleMember cmdlet retrieves a list of customer role members.
 
 .PARAMETER SaToken 
 Specifies a security token for authenticating and executing the cmdlet.
@@ -140,7 +140,7 @@ function Get-PCCustomerRoleMember
 
 <#
 .SYNOPSIS
-TODO
+Adds a customer user account to the specified role.
 .DESCRIPTION
 The Add-PCCustomerRoleMember cmdlet adds a customer user account into a role.
 
@@ -173,9 +173,7 @@ Add a User to a Role
     $customerRoleMember = [DirectoryRoleMember]::new()
     $customerRoleMember.id = $user.id
     Add-PCCustomerRoleMember -TenantId $customer.id -RoleId $role.id -CustomerRoleMember $customerRoleMember
-
 .NOTES
-TODO
 #>
 function Add-PCCustomerRoleMember
 {    

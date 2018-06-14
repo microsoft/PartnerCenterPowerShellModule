@@ -14,7 +14,7 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 
 <#
 .SYNOPSIS
-TODO
+Returns aa list of offers based on the specified country id.
 .DESCRIPTION
 The Get-PCOffer cmdlet retrieves a list of offers based on the specified country id
 .PARAMETER SaToken 
@@ -39,9 +39,7 @@ Get all offer details using the Country Id and Locale Id.
 .EXAMPLE
 Get-PCOffer -CountryId 'US' -OfferId '8AA7E78B-B265-4AC6-ADA0-14900A8A3F94' -addOns
 Get add ons for the specified offer id.
-
 .NOTES
-TODO
 #>
 function Get-PCOffer {
     [CmdletBinding()]
@@ -107,9 +105,9 @@ function Get-PCOffer {
 
 <#
 .SYNOPSIS
-TODO
+Returns a list of offer categories based on the specified country id.
 .DESCRIPTION
-The Get-PCOfferCategoriesByMarket cmdlet
+The Get-PCOfferCategoriesByMarket cmdlet retrieves a list of offer categories for the specified country id.
 
 .PARAMETER SaToken 
 Specifies an authentication token you created with your Partner Center credentials.

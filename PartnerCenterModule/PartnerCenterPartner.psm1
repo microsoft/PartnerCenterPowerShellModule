@@ -14,10 +14,10 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 
 <#
 .SYNOPSIS
-TODO
+Returns audit records based on the specified time.
 
 .DESCRIPTION
-The Get-PCAuditRecord cmdlet. 
+The Get-PCAuditRecord cmdlet retrieves a list of audit records for the specified time period.
 .PARAMETER SaToken 
 Specifies an authentication token with your Partner Center credentials.
 .PARAMETER StartDate 
@@ -65,7 +65,7 @@ function Get-PCAuditRecord {
 
 <#
 .SYNOPSIS
-TODO
+Returns a list of indirect resellers.
 
 .DESCRIPTION
 The Get-PCIndirectReseller cmdlet.

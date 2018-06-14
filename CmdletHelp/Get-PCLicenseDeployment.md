@@ -1,6 +1,6 @@
 # Get-PCLicenseDeployment
 
-TODO
+Returns a list of licenses for the authenticated partner.
 
 ## SYNTAX
 

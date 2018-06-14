@@ -1,6 +1,6 @@
 # Get-PCOfferCategoriesByMarket
 
-TODO
+Returns a list of offer categories based on the country id specified.
 
 ## SYNTAX
 
@@ -10,7 +10,7 @@ Get-PCOfferCategoriesByMarket [[-CountryId] <Object>] [-SaToken] <String> [<Comm
 
 ## DESCRIPTION
 
-The Get-PCOfferCategoriesByMarket cmdlet
+The Get-PCOfferCategoriesByMarket cmdlet returns a list of offer categories based on the country id specified.
 
 ## PARAMETERS
 

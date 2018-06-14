@@ -1,6 +1,6 @@
 # Get-PCIndirectReseller (indirect model only)
 
-TODO
+Returns a list of indirect resellers. This only works for a partner that is an indirect provider.
 
 ## SYNTAX
 

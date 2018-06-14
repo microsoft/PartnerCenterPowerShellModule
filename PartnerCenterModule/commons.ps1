@@ -32,15 +32,7 @@ function _formatResult {
         return $obj
     }
 }
-<#
-.SYNOPSIS
-TODO
 
-.DESCRIPTION
-The _testTenantContext cmdlet
-
-.NOTES
-#>
 function _testTenantContext($TenantId)
 {
     if ($TenantId.Length -lt 1)
@@ -49,15 +41,6 @@ function _testTenantContext($TenantId)
     }
 }
 
-<#
-.SYNOPSIS
-TODO
-
-.DESCRIPTION
-The _testTokenContext cmdlet
-
-.NOTES
-#>
 function _testTokenContext($SaToken)
 {
     if ($SaToken.Length -lt 1)
@@ -73,15 +56,6 @@ function _unsecureString
     return $tmp_cred.GetNetworkCredential().Password
 }
 
-<#
-.SYNOPSIS
-TODO
-
-.DESCRIPTION
-The Get-SaToken cmdlet
-
-.NOTES
-#>
 function Get-SAToken
 {
     [CmdletBinding()]

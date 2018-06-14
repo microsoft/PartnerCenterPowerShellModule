@@ -1,6 +1,6 @@
 # Get-PCOrganizationProfile
 
-TODO
+Returns the partner's organization profile.
 
 ## SYNTAX
 
@@ -10,7 +10,7 @@ Get-PCOrganizationProfile [[-SaToken] <String>] [<CommonParameters>]
 
 ## DESCRIPTION
 
-The Get-PCOrganizationProfile cmdlet
+The Get-PCOrganizationProfile cmdlet retrieves the partner's organization profile.
 
 ## PARAMETERS
 

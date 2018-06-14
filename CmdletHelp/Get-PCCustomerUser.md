@@ -1,6 +1,6 @@
 # Get-PCCustomerUser
 
-TODO
+Returns a list of all customer users or a specified user for the tenant.
 
 ## SYNTAX
 

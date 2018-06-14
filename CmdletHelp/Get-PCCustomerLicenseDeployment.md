@@ -1,6 +1,6 @@
 # Get-PCCustomerLicenseDeployment
 
-TODO
+Returns a list of licenses deployed by a partner for a specific tenant.
 
 ## SYNTAX
 
@@ -10,7 +10,7 @@ Get-PCCustomerLicenseDeployment [[-TenantId] <String>] [[-SaToken] <String>] [<C
 
 ## DESCRIPTION
 
-The Get-PCCustomerLicenseDeployment cmdlet retrieves a list of licenses deployed by a partner for a specifc tenant.
+The Get-PCCustomerLicenseDeployment cmdlet retrieves a list of licenses deployed by a partner for a specific tenant.
 
 ## PARAMETERS
 

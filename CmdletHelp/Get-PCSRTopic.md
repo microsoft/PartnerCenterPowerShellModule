@@ -1,6 +1,6 @@
 # Get-PCSRTopic
 
-TODO
+Returns a list of service request topics.
 
 ## SYNTAX
 

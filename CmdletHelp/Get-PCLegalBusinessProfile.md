@@ -1,6 +1,6 @@
 # Get-PCLegalBusinessProfile
 
-TODO
+Returns the legal business profile for the partner.
 
 ## SYNTAX
 
@@ -10,7 +10,7 @@ Get-PCLegalBusinessProfile [[-SaToken] <String>] [<CommonParameters>]
 
 ## DESCRIPTION
 
-The Get-PCLegalBusinessProfile cmdlet
+The Get-PCLegalBusinessProfile cmdlet retrieves the partner's legal business profile.
 
 ## PARAMETERS
 

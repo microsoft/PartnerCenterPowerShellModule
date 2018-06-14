@@ -1,6 +1,6 @@
 # Get-PCCustomerBillingProfile
 
-TODO
+Returns the specified customer's billing profile.
 
 ## SYNTAX
 
@@ -10,7 +10,7 @@ Get-PCCustomerBillingProfile [[-TenantId] <String>] [[-SaToken] <String>] [<Comm
 
 ## DESCRIPTION
 
-The Get-PCCustomerBillingProfile cmdlet.
+The Get-PCCustomerBillingProfile cmdlet returns the specified customer's billing profile.
 
 ## PARAMETERS
 

@@ -1,6 +1,6 @@
 # Get-PCSubscription
 
-TODO
+Returns a list of subscriptions for the specified tenant.
 
 ## SYNTAX
 

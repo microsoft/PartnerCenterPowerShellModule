@@ -1,6 +1,6 @@
 # Get-PCAuditRecord
 
-TODO
+Returns audit records for the specified date range.
 
 ## SYNTAX
 

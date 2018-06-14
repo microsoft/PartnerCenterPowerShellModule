@@ -1,6 +1,6 @@
 # Get-PCCustomerRoleMember
 
-TODO
+Returns a list of members for the specified role.
 
 ## SYNTAX
 
@@ -10,7 +10,7 @@ Get-PCCustomerRoleMember [-RoleId] <String> [[-TenantId] <String>] [[-SaToken] <
 
 ## DESCRIPTION
 
-The Get-PCCustomerRoleMember cmdlet TODO
+The Get-PCCustomerRoleMember cmdlet returns a list of members for the specified role.
 
 ## PARAMETERS
 

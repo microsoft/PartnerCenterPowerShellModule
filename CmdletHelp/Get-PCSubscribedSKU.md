@@ -1,6 +1,6 @@
 # Get-PCSubscribedSKU
 
-TODO
+Returns a list of subscribed SKUs for the specified tenant.
 
 ## SYNTAX
 
@@ -10,7 +10,7 @@ Get-PCSubscribedSKU [[-TenantId] <String>] [[-SaToken] <String>] [<CommonParamet
 
 ## DESCRIPTION
 
-The Get-SusbscribedSKU cmdlet.
+The Get-SusbscribedSKU cmdlet retrieves a list of subscribed SKUs.
 
 ## PARAMETERS
 

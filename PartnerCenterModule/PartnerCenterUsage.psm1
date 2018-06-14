@@ -153,7 +153,7 @@ function Get-PCUsage_implementation {
 
 <#
 .SYNOPSIS
-TODO
+Returns usage records for the specified tenant.
 .DESCRIPTION
 The Get-PCSubscriptionMonthlyUsageRecord returns a usage record for the specified tenant
 .PARAMETER SaToken 
@@ -162,9 +162,8 @@ Specified an authentication token you have created with your Partner Center cred
 Specifies the tenant id for which to return a usage record
 .EXAMPLE
 Get-PCSubscriptionMonthlyUsageRecord
-
 .NOTES
-TODO
+
 #>
 function Get-PCSubscriptionMonthlyUsageRecord {
     [CmdletBinding()]
@@ -190,7 +189,7 @@ function Get-PCSubscriptionMonthlyUsageRecord {
 
 <#
 .SYNOPSIS
-TODO
+Returns monthly Azure usage for the specified tenant.
 .DESCRIPTION
 The Get-PCAzureResourceMonthlyUsageRecord cmdlet returns Azure usage for the specified tenant.
 .PARAMETER SaToken 
@@ -202,7 +201,6 @@ Specifies the subscription id for which to return usage.
 .EXAMPLE
  Get-PCAzureResourceMonthlyUsageRecord 
 .NOTES
-TODO
 #>
 function Get-PCAzureResourceMonthlyUsageRecord {
     [CmdletBinding()]
@@ -229,7 +227,7 @@ function Get-PCAzureResourceMonthlyUsageRecord {
 
 <#
 .SYNOPSIS
-TODO
+Returns a summary of usage for the specified tenant.
 .DESCRIPTION
 The Get-PCCustomerUsageSummary cmdlet returns a summary of usage for the specified tenant.
 .PARAMETER SaToken 
@@ -268,7 +266,7 @@ function Get-PCCustomerUsageSummary {
 
 <#
 .SYNOPSIS
-TODO
+Returns a cost summary for the specified billing period.
 .DESCRIPTION
 The Get-PCCustomerServiceCostSummary returns a cost summary for the specified billing period
 .PARAMETER SaToken 
@@ -280,7 +278,6 @@ Specifies the billing period. The only valid value is MostRecent. Current and No
 .EXAMPLE
 Get-PCCustomerServiceCostSummary
 .NOTES
-TODO
 #>
 function Get-PCCustomerServiceCostSummary {
     [CmdletBinding()]

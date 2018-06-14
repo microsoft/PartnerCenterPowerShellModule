@@ -1,6 +1,6 @@
 # Get-PCCustomerUserRole
 
-TODO
+Returns a list of customer user roles for the specified tenant.
 
 ## SYNTAX
 

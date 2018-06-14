@@ -14,7 +14,7 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 
 <#
 .SYNOPSIS
-TODO
+Retrieves a list of licenses for the authenticated partner.
 
 .DESCRIPTION
 The Get-PCLicenseDeployment cmdlet retrieves a list of licenses for the authenticated partner.
@@ -90,7 +90,7 @@ function Get-PCLicenseUsage
 
 <#
 .SYNOPSIS
-TODO
+Returns a list of licenses deploy by a partner for the specified tenant.
 
 .DESCRIPTION
 The Get-PCCustomerLicenseDeployment cmdlet retrieves a list of licenses deployed by a partner for a specific tenant.
@@ -132,7 +132,7 @@ function Get-PCCustomerLicenseDeployment
 
 <#
 .SYNOPSIS
-TODO
+Returns a list of licenses deployed and assigned by a partner for a specific tenant.
 
 .DESCRIPTION
 The Get-PCCustomerLicenseUsage cmdlet retrieves a list of licenses deployed and assigned by a partner for a specific tenant.

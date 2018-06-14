@@ -1,6 +1,6 @@
 # Get-PCInvoiceLineItem
 
-TODO
+Returns a specified invoice line item. This requires App+User authentication.
 
 ## SYNTAX
 

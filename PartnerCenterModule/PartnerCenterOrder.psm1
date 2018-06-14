@@ -14,7 +14,7 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 
 <#
 .SYNOPSIS
-TODO
+Returns a list of orders or a specific order.
 
 .DESCRIPTION
 The Get-PCOrder cmdlet returns a list of orders or information about a specific order.
@@ -198,7 +198,7 @@ function New-PCOrder {
 
 <#
 .SYNOPSIS
-TODO
+Creates a bew add on order for the specified order.
 .DESCRIPTION
 The New-PCAddonOrder cmdlet creates a new addon order for an already created order.
 .PARAMETER SaToken
@@ -243,9 +243,9 @@ function New-PCAddonOrder {
 
 <#
 .SYNOPSIS
-TODO
+Modifies an existing order.
 .DESCRIPTION
-The Set-PCOrder cmdlet
+The Set-PCOrder cmdlet updates an order.
 .PARAMETER SaToken 
 Specifies an authentication token with your Partner Center credentials.
 .PARAMETER Order
@@ -296,9 +296,9 @@ function Set-PCOrder {
 
 <#
 .SYNOPSIS
-TODO
+Returns a new PC Order line item PowerShell object.
 .DESCRIPTION
-The New-OrderLineItem cmdlet
+The New-PCOrderLineItem cmdlet creates a PowerShell object used to create an order line item.
 .PARAMETER LineItemNumber 
 Specifies the line number of the order to add the line item. Specifying an existing line item will overwrite the current line item.
 .PARAMETER OfferId
@@ -309,11 +309,10 @@ Specifies a quantity of licenses to purchase for this line item.
 Specifies a friendly name for the line item.
 .EXAMPLE
 New-OrderLineItem
-
 .NOTES
-TODO
+
 #>
-function New-OrderLineItem {
+function New-PCOrderLineItem {
     [CmdletBinding()]
     Param (
         [uint16] $LineItemNumber,
@@ -326,64 +325,4 @@ function New-OrderLineItem {
     if ($FriendlyName) {$LineItem.friendlyName = $FriendlyName}
     return $LineItem
 
-}
-
-<#
-.SYNOPSIS
-TODO
-.DESCRIPTION
-The New-PCCart cmdlet creates a new cart.
-.PARAMETER SaToken 
-Specifies an authentication token with your Partner Center credentials.
-.PARAMETER TenantId 
-Specifies the tenant used for scoping this cmdlet.
-.PARAMETER SubscriptionId
-Specifies the subscription 
-
-.EXAMPLE
-New-PCCart -TenantId 97037612-799c-4fa6-8c40-68be72c6b83c
-
-.NOTES
-
-#>
-function New-PCCart {
-    [CmdletBinding()]
-    Param(
-        [Parameter(ParameterSetName = 'TenantId', Mandatory = $true)][String]$TenantId,
-        [Parameter(Mandatory = $true)][string]$SubscriptionId,
-        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
-    )
-    _testTokenContext($SaToken)
-    
-    return $null
-}
-
-<#
-.SYNOPSIS
-TODO
-.DESCRIPTION
-The Set-PCCart cmdlet modifies the cart.
-.PARAMETER SaToken 
-Specifies an authentication token with your Partner Center credentials.
-.PARAMETER TenantId 
-Specifies the tenant used for scoping this cmdlet.
-.PARAMETER CartId
-Specifies the cart id that you will modify.
-
-.EXAMPLE
-New-PCCart -TenantId 97037612-799c-4fa6-8c40-68be72c6b83c
-
-.NOTES
-
-#>
-function Set-PCCart {
-    [CmdletBinding()]
-    Param(
-        [Parameter(ParameterSetName = 'TenantId', Mandatory = $true)][String]$TenantId,
-        [Parameter(Mandatory = $true)][string]$CartId,
-        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
-    )
-    _testTokenContext($SaToken)
-
-    return $null
 }

@@ -15,7 +15,7 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 
 <#
 .SYNOPSIS
-TODO
+Returns a list of all invoices or a specified invoice.
 .DESCRIPTION
 The Get-PCInvoice cmdlet retrieves either a specific invoice or a list of invoices. This cmdlet requires App+User authentication.
 
@@ -106,10 +106,10 @@ function Get-PCInvoice {
 
 <#
 .SYNOPSIS
-TODO
+Returns information about a specified invoice line item. This cmdlet requires App+User authentication.
 
 .DESCRIPTION
-The Get-PCInvoiceLineItem cmdlet. 
+The Get-PCInvoiceLineItem cmdlet retrieves a specified invoice line item.
 
 .PARAMETER SaToken 
 Specifies a security token for authenticating and executing the cmdlet.

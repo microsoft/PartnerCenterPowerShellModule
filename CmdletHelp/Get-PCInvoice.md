@@ -1,6 +1,6 @@
 # Get-PCInvoice
 
-TODO
+Returns all invoices or the specified invoice.
 
 ## SYNTAX
 

@@ -501,7 +501,6 @@ Specifies the tenant used for scoping this cmdlet.
 .EXAMPLE
 Get-PCCustomerBillingProfile -TenantId <TenantId>
 .NOTES
-TODO
 #>
 function Get-PCCustomerBillingProfile {
     [CmdletBinding()]
@@ -764,7 +763,7 @@ function New-PCCustomerCompanyProfile {
 
 <#
 .SYNOPSIS
-TODO
+Returns a PowerShell object with all of the address properties. This is used to create new customers.
 .DESCRIPTION
 The New-PCAddress cmdlet returns a PowerShell object with all of address properties.
 .PARAMETER AddressLine1 

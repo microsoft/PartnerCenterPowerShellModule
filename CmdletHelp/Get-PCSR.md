@@ -1,6 +1,6 @@
 # Get-PCSR
 
-TODO
+Returns a list of service requests or a specified service request.
 
 ## SYNTAX
 
@@ -12,7 +12,7 @@ Get-PCSR [-ServiceRequestId <String>] [-SaToken <String>] [<CommonParameters>]
 
 ## DESCRIPTION
 
-The Get-PCSR cmdlet.
+The Get-PCSR cmdlet retrieves a list of service requests or a specified service request.
 
 ## PARAMETERS
 

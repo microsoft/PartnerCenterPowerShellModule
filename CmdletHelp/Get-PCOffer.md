@@ -1,6 +1,6 @@
 # Get-PCOffer
 
-TODO
+Returns a list of offers based on the specified country id.
 
 ## SYNTAX
 
@@ -10,7 +10,7 @@ Get-PCOffer [-CountryId] <String> [[-OfferId] <String>] [[-LocaleId] <String>] [
 
 ## DESCRIPTION
 
-The Get-PCOffer cmdlet retrives a list of offers based on the specified country id
+The Get-PCOffer cmdlet retrieves a list of offers based on the specified country id
 
 ## PARAMETERS
 
@@ -79,8 +79,6 @@ Accept wildcard characters?  false
 ## OUTPUTS
 
 ## NOTES
-
-TODO
 
 ## EXAMPLES
 

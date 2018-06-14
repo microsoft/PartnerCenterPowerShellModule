@@ -14,7 +14,7 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 
 <#
 .SYNOPSIS
-TODO
+Returns a list of subscriptions for a specified tenant or MPN partner Id.
 .DESCRIPTION
 The Get-PCSubscription cmdlet returns a list of subscriptions for a specified customer tenant or MPN partner id.
 .PARAMETER SaToken 

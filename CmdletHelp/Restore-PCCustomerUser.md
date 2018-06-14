@@ -1,6 +1,6 @@
 # Restore-PCCustomerUser
 
-TODO
+Restores a deleted customer user.
 
 ## SYNTAX
 
@@ -10,7 +10,7 @@ Restore-PCCustomerUser [[-TenantId] <String>] [-UserId] <String> [[-SaToken] <St
 
 ## DESCRIPTION
 
-The Restore-PCCustomerUser cmdlet
+The Restore-PCCustomerUser cmdlet restores a deleted customer user.
 
 ## PARAMETERS
 
