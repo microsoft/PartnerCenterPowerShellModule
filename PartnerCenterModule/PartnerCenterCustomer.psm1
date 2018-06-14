@@ -1,6 +1,6 @@
 ﻿Set-StrictMode -Version latest
 <#
-    © 2017 Microsoft Corporation. All rights reserved. This sample code is not supported under any Microsoft standard support program or service. 
+    © 2018 Microsoft Corporation. All rights reserved. This sample code is not supported under any Microsoft standard support program or service. 
     This sample code is provided AS IS without warranty of any kind. Microsoft disclaims all implied warranties including, without limitation, 
     any implied warranties of merchantability or of fitness for a particular purpose. The entire risk arising out of the use or performance 
     of the sample code and documentation remains with you. In no event shall Microsoft, its authors, or anyone else involved in the creation, 
@@ -12,192 +12,303 @@
 $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 . "$here\commons.ps1"
 
-function Get-PCCustomer
-{
+<#
+.SYNOPSIS
+Returns a list of customers or a specified customer.
+
+.DESCRIPTION
+The Get-PCCustomer cmdlet retrieves a list of customers, or a specified customer.
+
+.PARAMETER SaToken 
+Specifies an authentication token with your Partner Center credentials.
+
+.PARAMETER TenantId 
+The tenant Id assigned to the customer you want to retrieve.
+
+.PARAMETER ResultSize 
+Specifies the maximum number of results to return. The default value is 200.
+
+.PARAMETER StartsWith 
+Specifies a filter for the customer names returned.
+
+.EXAMPLE
+Return a list of customers for a partner.
+
+Get-PCCustomer
+
+.EXAMPLE
+Return a customer by specifying an Id
+
+$customer = Get-PCCustomer -TenantId '<tenant id GUID>'
+
+.EXAMPLE
+Return a customer by specifying part of the company name
+Get-PCCustomer -StartsWith '<company name>'
+
+.NOTES
+You need to have a authentication credential already established before running this cmdlet.
+
+#>
+function Get-PCCustomer {
     [CmdletBinding()]
 
     Param(
-        [Parameter(ParameterSetName='all', Mandatory = $false)][switch]$all,
-        [Parameter(ParameterSetName='tenantid', Mandatory = $false)][String]$tenantid,
-        [Parameter(ParameterSetName='filter', Mandatory = $true)][String]$startswith,
-        [Parameter(ParameterSetName='filter',Mandatory = $false)][int]$size = 200,
-        [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken
+        [Parameter(ParameterSetName = 'TenantId', Mandatory = $false)][String]$TenantId,
+        [Parameter(ParameterSetName = 'filter', Mandatory = $true)][String]$StartsWith,
+        [Parameter(ParameterSetName = 'filter', Mandatory = $false)][int]$ResultSize = 200,
+        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
+
     )
-   _testTokenContext($satoken)
- 
-    function Private:Get-CustomerAllInner ($satoken)
-    {
-        $obj = @()
-        $url = "https://api.partnercenter.microsoft.com/v1/customers"
-        $headers = @{Authorization="Bearer $satoken"}
+    _testTokenContext($SaToken)
 
-        $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-        $obj += $response.Substring(1) | ConvertFrom-Json
-        return (_formatResult -obj $obj -type "Customer")      
-    }
-
-    function Private:Get-CustomerInner ($satoken,$tenantid)
-    {
+    function Private:Get-CustomerInner ($SaToken, $TenantId) {
         $obj = @()
 
-        if ($tenantid)
-        {
-            $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}" -f $tenantid
-            $headers = @{Authorization="Bearer $satoken"}
-
-            $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-            $obj += $response.Substring(1) | ConvertFrom-Json
-            return (_formatResult -obj $obj -type "Customer")  
+        if ($TenantId) {
+            $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}" -f $TenantId
+             
         }
-        else
-        {
+        else {
             $url = "https://api.partnercenter.microsoft.com/v1/customers"
-            $headers = @{Authorization="Bearer $satoken"}
-    
-            $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-            $obj += $response.Substring(1) | ConvertFrom-Json
-            return (_formatResult -obj $obj -type "Customer")  
+            
         }
-    }
 
-    function Private:Search-CustomerInner ($satoken, $startswith, $size)
-    {
-        $obj = @()
+        $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+        $headers.Add("Authorization", "Bearer $SaToken")
+        $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
-        [string]$filter = '{"Field":"CompanyName","Value":"' + $startswith + '","Operator":"starts_with"}'
-        [Reflection.Assembly]::LoadWithPartialName("System.Web") | Out-Null
-        $Encode = [System.Web.HttpUtility]::UrlEncode($filter)
-
-        $url = "https://api.partnercenter.microsoft.com/v1/customers?size={0}&filter={1}" -f $size,$Encode
-        $headers = @{Authorization="Bearer $satoken"}
-
-        $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
+        $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET"
         $obj += $response.Substring(1) | ConvertFrom-Json
         return (_formatResult -obj $obj -type "Customer")  
     }
 
-    switch ($PsCmdlet.ParameterSetName)
-    {
-        "tenantid" {$res = Get-CustomerInner -satoken $satoken -tenantid $tenantid
-                    return $res}
+    function Private:Search-CustomerInner ($SaToken, $StartsWith, $ResultSize) {
+        $obj = @()
 
-        "filter"  {$res = Search-CustomerInner -satoken $satoken -startswith $startswith -size $size
-                   return $res}
-        "all"     {$res = Get-CustomerAllInner -satoken $satoken
-                    return $res}
+        [string]$filter = '{"Field":"CompanyName","Value":"' + $StartsWith + '","Operator":"starts_with"}'
+        [Reflection.Assembly]::LoadWithPartialName("System.Web") | Out-Null
+        $Encode = [System.Web.HttpUtility]::UrlEncode($filter)
+
+        $url = "https://api.partnercenter.microsoft.com/v1/customers?size={0}&filter={1}" -f $ResultSize, $Encode
+
+        $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+        $headers.Add("Authorization", "Bearer $SaToken")
+        $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
+
+        $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" 
+        $obj += $response.Substring(1) | ConvertFrom-Json
+        return (_formatResult -obj $obj -type "Customer")  
     }
+
+    # replace the need to specify -all to retrieve all customers
+    if ($PsCmdlet.ParameterSetName -eq "TenantId") {
+        $res = Get-CustomerInner -SaToken $SaToken -TenantId $TenantId
+        return $res
+    }
+    elseif ($PsCmdlet.ParameterSetName -eq "filter") {
+        $res = Search-CustomerInner -SaToken $SaToken -StartsWith $StartsWith -ResultSize $ResultSize
+        return $res
+    }
+
 }
 
-function Get-PCSubscribedSKUs
-{
-    [CmdletBinding()]
-    param ([Parameter(Mandatory = $false)][String]$tenantid=$GlobalCustomerID,
-           [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
-   _testTokenContext($satoken)
-   _testTenantContext ($tenantid)
+<#
+.SYNOPSIS
+Returns a list of subscribed SKUs.
 
-   Write-Warning "  Get-PCSubscribedSKUs is deprecated and will not be available in future releases, use Get-PCSubscribedSKU instead."
+.DESCRIPTION
+The Get-SubscribedSKU cmdlet retrieves a list of subscribed SKUs. 
+
+.PARAMETER SaToken 
+Specifies an authentication token with your Partner Center credentials.
+
+.PARAMETER TenantId 
+The tenant Id assigned to the customer you want to retrieve.
+
+.EXAMPLE
+Get-SubscribedSKU -TenantId 97037612-799c-4fa6-8c40-68be72c6b83c
+
+Return the subscribed SKUs for the specified TenantId
+#>
+function Get-PCSubscribedSKU {
+    [CmdletBinding()]
+    param ([Parameter(Mandatory = $false)][String]$TenantId = $GlobalCustomerId,
+        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken)
+    _testTokenContext($SaToken)
+    _testTenantContext ($TenantId)
 
     $obj = @()
 
-    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/subscribedskus" -f $tenantid
-    $headers = @{Authorization="Bearer $satoken"}
+    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/subscribedskus" -f $TenantId
+
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj += $response.Substring(1) | ConvertFrom-Json
     return (_formatResult -obj $obj -type "SubscribedSku")  
 }
 
-# Add non-plural version of cmdlet. The plural version will be removed in future releases.
-function Get-PCSubscribedSKU
-{
+<#
+.SYNOPSIS
+Retrieves the spending budget for the specified tenant.
+.DESCRIPTION
+The Get-PCSpendingBudget cmdlet returns the spending budget set for the specified tenant.
+.PARAMETER SaToken 
+Specifies an authentication token with your Partner Center credentials.
+.PARAMETER TenantId 
+Specifies the tenant used for scoping this cmdlet.
+.EXAMPLE
+Get-PCSpendingBudget -TenantId 97037612-799c-4fa6-8c40-68be72c6b83c
+.NOTES
+#>
+function Get-PCSpendingBudget {
     [CmdletBinding()]
-    param ([Parameter(Mandatory = $false)][String]$tenantid=$GlobalCustomerID,
-           [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
-   _testTokenContext($satoken)
-   _testTenantContext ($tenantid)
+    param ([Parameter(Mandatory = $false)][String]$TenantId = $GlobalCustomerId,
+        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken)
+    _testTokenContext($SaToken)
+    _testTenantContext ($TenantId)
 
     $obj = @()
+    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/usagebudget" -f $TenantId
 
-    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/subscribedskus" -f $tenantid
-    $headers = @{Authorization="Bearer $satoken"}
-
-    $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-    $obj += $response.Substring(1) | ConvertFrom-Json
-    return (_formatResult -obj $obj -type "SubscribedSku")  
-}
-
-
-function Get-PCSpendingBudget
-{
-    [CmdletBinding()]
-    param ([Parameter(Mandatory = $false)][String]$tenantid=$GlobalCustomerID,
-           [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
-   _testTokenContext($satoken)
-   _testTenantContext ($tenantid)
-
-    $obj = @()
-    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/usagebudget" -f $tenantid
-    $headers = @{Authorization="Bearer $satoken"}
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj += $response.Substring(1) | ConvertFrom-Json
     return (_formatResult -obj $obj -type "SpendingBudget")  
 }
-function Set-PCSpendingBudget
-{
-    [CmdletBinding()]
-    param ([Parameter(Mandatory = $false)][String]$tenantid=$GlobalCustomerID,
-            $spendingbudget,
-            [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
-    _testTokenContext($satoken)
-   _testTenantContext ($tenantid)
 
-    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/usagebudget" -f $tenantid
-    $headers = @{Authorization="Bearer $satoken"}
-    $spendingbudget_tmp = [SpendingBudget]::new($spendingbudget)
-    $body = $spendingbudget_tmp | ConvertTo-Json -Depth 100
+<#
+.SYNOPSIS
+Updates the spending budget for the specified tenant.
+.DESCRIPTION
+The Set-PCSpendingBudget cmdlet sets a spending budget for the specified tenant.
+.PARAMETER SaToken 
+Specifies an authentication token with your Partner Center credentials.
+.PARAMETER TenantId 
+Specifies the tenant for which to set the spending budget
+.PARAMETER SpendingBudget 
+Specifies the spending budget in the default currency for the partner.
+.EXAMPLE
+Set-PCSpendingBudget -TenantId 97037612-799c-4fa6-8c40-68be72c6b83c -SpendingBudget 3000
+Sets the spending budget to 3000 USD
+.NOTES
+#>
+function Set-PCSpendingBudget {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory = $false)][String]$TenantId = $GlobalCustomerId,
+        [Parameter(Mandatory = $true)][String]$SpendingBudget,
+        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
+    )
+    
+    _testTokenContext($SaToken)
+    _testTenantContext ($TenantId)
+
+    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/usagebudget" -f $TenantId
+    
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
+
+    $spendingBudget_tmp = [SpendingBudget]::new($spendingBudget)
+    $body = $spendingBudget_tmp | ConvertTo-Json -Depth 100
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Body $body -Method "PATCH" #-Debug -Verbose
     $obj += $response.Substring(1) | ConvertFrom-Json
     return  (_formatResult -obj $obj -type "CustomerSpendingBudget")  
 }
 
-function New-PCCustomer
-{
+<#
+.SYNOPSIS
+Creates a new customer.
+.DESCRIPTION
+The New-PCCustomer cmdlet creates a new customer for the current partner.
+
+.PARAMETER SaToken 
+Specifies an authentication token with your Partner Center credentials.
+
+.PARAMETER Email 
+Specifies the contact email address for the new customer.
+.PARAMETER Culture
+Specifies the culture for the new customer as an three letter ISO 3 country code.
+.PARAMETER Language
+Specifies the default language for the new customer.
+
+.PARAMETER CompanyName
+Specifies the company name for the new customer.
+.PARAMETER Country
+Specifies the country name for the new customer. The country must be valid for the current partner.
+.PARAMETER Region
+Specifies the region for the new customer.
+.PARAMETER City
+Specifies the city address for the new customer.
+.PARAMETER State
+Specifies the state address for the new customer.
+.PARAMETER AddressLine1
+Specifies the first line of the address for the new customer.
+.PARAMETER PostalCode
+Specifies the postal code, if needed, for the new customer.
+.PARAMETER FirstName
+Specifies the the new customer's contact's first name.
+.PARAMETER LastName
+Specifies the the new customer's contact's last name.
+.PARAMETER PhoneNumber
+Specifies the the new customer's contact's phone number.
+.PARAMETER BillingProfile
+Specifies the billing profile.
+.PARAMETER CompanyProfile
+Specifies a company profile.
+.PARAMETER Domain
+Specifies the onmicrosoft.com for the new customer tenant.
+.EXAMPLE
+$newDefaultAddress = New-PCCustomerDefaultAddress -Country '<Country code>' -Region '<region>' -City '<City>' -State '<State>' -AddressLine1 '<address1>' -PostalCode '<postal code>' -FirstName '<first name>' -LastName '<last name>' -PhoneNumber '<phone number>'
+$newBillingProfile = New-PCCustomerBillingProfile -FirstName '<first name>' -LastName '<last name>' -Email '<Email>' -Culture '<ex: en.us>' -Language '<ex: en>' -CompanyName '<company name>' -DefaultAddress $newDefaultAddress
+$newCompanyProfile = New-PCCustomerCompanyProfile -Domain '<company name>.onmicrosoft.com'
+$newCustomer = New-PCCustomer -BillingProfile $newBillingProfile -CompanyProfile $newCompanyProfile
+
+Create a new customer.
+.NOTES
+#>
+function New-PCCustomer {
     [CmdletBinding()]
 
-    param ( [Parameter(ParameterSetName='AllDetails',Mandatory = $true)][string]$Email,
-            [Parameter(ParameterSetName='AllDetails',Mandatory = $true)][string] $Culture,
-            [Parameter(ParameterSetName='AllDetails',Mandatory = $true)][string] $Language,
-            [Parameter(ParameterSetName='AllDetails',Mandatory = $true)][string] $CompanyName,
-            [Parameter(ParameterSetName='AllDetails',Mandatory = $true)][string] $Country, 
-            [Parameter(ParameterSetName='AllDetails',Mandatory = $true)][string] $Region, 
-            [Parameter(ParameterSetName='AllDetails',Mandatory = $true)][string] $City, 
-            [Parameter(ParameterSetName='AllDetails',Mandatory = $true)][string] $State, 
-            [Parameter(ParameterSetName='AllDetails',Mandatory = $true)][string] $AddressLine1,
-            [Parameter(ParameterSetName='AllDetails',Mandatory = $true)][string] $PostalCode, 
-            [Parameter(ParameterSetName='AllDetails',Mandatory = $true)][string] $FirstName,
-            [Parameter(ParameterSetName='AllDetails',Mandatory = $true)][string] $LastName, 
-            [Parameter(ParameterSetName='AllDetails',Mandatory = $true)][string] $PhoneNumber,
-            [Parameter(ParameterSetName='AllDetails',Mandatory = $true)][string] $Domain,
-            [Parameter(ParameterSetName='ByProfiles',Mandatory = $true)][BillingProfile] $BillingProfile,
-            [Parameter(ParameterSetName='ByProfiles',Mandatory = $true)][CompanyProfile] $CompanyProfile, 
-            [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
-   _testTokenContext($satoken)
+    param ( [Parameter(ParameterSetName = 'AllDetails', Mandatory = $true)][string]$Email,
+        [Parameter(ParameterSetName = 'AllDetails', Mandatory = $true)][string] $Culture,
+        [Parameter(ParameterSetName = 'AllDetails', Mandatory = $true)][string] $Language,
+        [Parameter(ParameterSetName = 'AllDetails', Mandatory = $true)][string] $CompanyName,
+        [Parameter(ParameterSetName = 'AllDetails', Mandatory = $true)][string] $Country, 
+        [Parameter(ParameterSetName = 'AllDetails', Mandatory = $true)][string] $Region, 
+        [Parameter(ParameterSetName = 'AllDetails', Mandatory = $true)][string] $City, 
+        [Parameter(ParameterSetName = 'AllDetails', Mandatory = $true)][string] $State, 
+        [Parameter(ParameterSetName = 'AllDetails', Mandatory = $true)][string] $AddressLine1,
+        [Parameter(ParameterSetName = 'AllDetails', Mandatory = $true)][string] $PostalCode, 
+        [Parameter(ParameterSetName = 'AllDetails', Mandatory = $true)][string] $FirstName,
+        [Parameter(ParameterSetName = 'AllDetails', Mandatory = $true)][string] $LastName, 
+        [Parameter(ParameterSetName = 'AllDetails', Mandatory = $true)][string] $PhoneNumber,
+        [Parameter(ParameterSetName = 'AllDetails', Mandatory = $true)][string] $Domain,
+        [Parameter(ParameterSetName = 'ByProfiles', Mandatory = $true)][BillingProfile] $BillingProfile,
+        [Parameter(ParameterSetName = 'ByProfiles', Mandatory = $true)][CompanyProfile] $CompanyProfile, 
+        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken)
+    _testTokenContext($SaToken)
 
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers"
-    $headers  = @{"Authorization"="Bearer $satoken"}
-    $headers += @{"MS-Contract-Version"="v1"}
-    $headers += @{"MS-RequestId"=[Guid]::NewGuid()}
-    $headers += @{"MS-CorrelationId"=[Guid]::NewGuid()}
-    
-    switch ($PsCmdlet.ParameterSetName)
-    {
-        'AllDetails' { $customer = [Customer]::new($Email, $Culture, $Language, $CompanyName, $Country, $Region, $City, $State, $AddressLine1, `
-                                                   $PostalCode, $FirstName, $LastName, $PhoneNumber, $Domain) }
+   
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
+  
+    switch ($PsCmdlet.ParameterSetName) {
+        'AllDetails' {
+            $customer = [Customer]::new($Email, $Culture, $Language, $CompanyName, $Country, $region, $City, $State, $AddressLine1, `
+                    $PostalCode, $FirstName, $LastName, $PhoneNumber, $Domain) 
+        }
         'ByProfiles' { $customer = [Customer]::new($BillingProfile, $CompanyProfile)}
     }
         
@@ -208,39 +319,76 @@ function New-PCCustomer
     return (_formatResult -obj $obj -type "Customer")
 }
 
-function Remove-PCCustomer 
-{
+<#
+.SYNOPSIS
+Removes a customer from the Partner Center integration sandbox.
+
+.DESCRIPTION
+The Remove-PCCCustomer cmdlet removes a customer from the integration sandbox.
+
+.PARAMETER SaToken 
+Specifies an authentication token with your Partner Center credentials.
+.PARAMETER TenantId 
+Specifies the tenant used for scoping this cmdlet.
+
+.EXAMPLE
+Remove-PCCustomer -TenantId 97037612-799c-4fa6-8c40-68be72c6b83c
+
+.NOTES
+#>
+function Remove-PCCustomer {
     [CmdletBinding()]
-    param ($tenantid,         [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
-    _testTokenContext($satoken)
+    param (
+        $TenantId, 
+        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
+    )
+    _testTokenContext($SaToken)
 
-    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}" -f $tenantid
-    $headers  = @{"Authorization"="Bearer $satoken"}
+    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}" -f $TenantId
 
-    $response = try
-                {
-                    Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "DELETE" #-Debug -Verbose
-                }
-                catch
-                {
-                    $_.Exception.Response
-                }
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
+
+    $response = try {
+        Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "DELETE" #-Debug -Verbose
+    }
+    catch {
+        $_.Exception.Response
+    }
 
     return ($response)  
 }
 
-function Get-PCManagedServices
-{    
+<#
+.SYNOPSIS
+Returns a list of managed services.
+.DESCRIPTION
+The Get-PCManagedService cmdlet returns a list of managed services for the specified 
+.PARAMETER SaToken 
+Specifies an authentication token with your Partner Center credentials.
+.PARAMETER TenantId 
+Specifies the tenant used for scoping this cmdlet.
+.EXAMPLE
+Get-PCManagedService -TenantId 97037612-799c-4fa6-8c40-68be72c6b83c
+Return a list of managed services for the specified tenant.
+
+.NOTES
+#>
+function Get-PCManagedService {    
     [CmdletBinding()]
-    param ([Parameter(Mandatory = $false)][String]$tenantid=$GlobalCustomerID,
-           [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
-   _testTokenContext($satoken)
-   _testTenantContext ($tenantid)
+    param (
+        [Parameter(Mandatory = $false)][String]$TenantId = $GlobalCustomerId,
+        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
+    )
+    _testTokenContext($SaToken)
+    _testTenantContext ($TenantId)
 
-   Write-Warning "  Get-PCManagedServices is deprecated and will not be available in future releases, use Get-PCManagedService instead."
+    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/managedservices" -f $TenantId
 
-    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/managedservices" -f $tenantid
-    $headers = @{Authorization="Bearer $satoken"}
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
     $obj = @()
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
@@ -248,37 +396,36 @@ function Get-PCManagedServices
     return (_formatResult -obj $obj -type "ManagedServices")  
 }
 
-# Adding non-plural noun version of cmdlet. Plural version of the cmdlet will be removed in future versions.
-function Get-PCManagedService
-{    
-    [CmdletBinding()]
-    param ([Parameter(Mandatory = $false)][String]$tenantid=$GlobalCustomerID,
-           [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
-   _testTokenContext($satoken)
-   _testTenantContext ($tenantid)
 
-    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/managedservices" -f $tenantid
-    $headers = @{Authorization="Bearer $satoken"}
+<#
+.SYNOPSIS
+Selects a customer to be used in other cmdlets.
+.DESCRIPTION
+The Select-PCCustomer cmdlet selects a customer tenant specified by the tenant id.
 
-    $obj = @()
-    $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-    $obj += $response.Substring(1) | ConvertFrom-Json
-    return (_formatResult -obj $obj -type "ManagedServices")  
-}
+.PARAMETER SaToken 
+Specifies an authentication token with your Partner Center credentials.
+.PARAMETER TenantId 
+Specifies the tenant used for scoping this cmdlet.
+.EXAMPLE
+Select-PCCustomer -TenantId 97037612-799c-4fa6-8c40-68be72c6b83c
 
-
-function Select-PCCustomer
-{
+.NOTES
+#>
+function Select-PCCustomer {
     [CmdletBinding()]
     Param(
-        [Parameter(ParameterSetName='tenantid', Mandatory = $true)][String]$tenantid,
-        [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken
+        [Parameter(ParameterSetName = 'TenantId', Mandatory = $true)][String]$TenantId,
+        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
     )
-      _testTokenContext($satoken)
+    _testTokenContext($SaToken)
 
     $obj = @()
-    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}" -f $tenantid
-    $headers = @{Authorization="Bearer $satoken"}
+    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}" -f $TenantId
+
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj += $response.Substring(1) | ConvertFrom-Json
@@ -289,18 +436,34 @@ function Select-PCCustomer
     return (_formatResult -obj $obj -type "Customer") 
 }
 
-function Get-PCCustomerRelationships
-{    
+<#
+.SYNOPSIS
+Returns the type of relationship the specified tenant has with the current partner for an indirect partner.
+.DESCRIPTION
+The Get-PCCustomerRelationship cmdlet returns the relationship the specified customer has with the current partner. This cmdlet can only be used for an indirect partner.
+.PARAMETER SaToken 
+Specifies an authentication token with your Partner Center credentials.
+.PARAMETER TenantId 
+Specifies the tenant used for scoping this cmdlet.
+.EXAMPLE
+Get-PCCustomerRelationship -TenantId 97037612-799c-4fa6-8c40-68be72c6b83c
+.NOTES
+This can only be used in an indirect model.
+#>
+function Get-PCCustomerRelationship {    
     [CmdletBinding()]
-    param ([Parameter(Mandatory = $false)][String]$tenantid=$GlobalCustomerID,
-           [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
-   _testTokenContext($satoken)
-   _testTenantContext ($tenantid)
+    param (
+        [Parameter(Mandatory = $false)][String]$TenantId = $GlobalCustomerId,
+        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
+    )
+    _testTokenContext($SaToken)
+    _testTenantContext ($TenantId)
 
-      Write-Warning "  Get-PCCustomerRelationships is deprecated and will not be available in future releases, use Get-PCCustomerRelationship instead."
+    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/relationships" -f $TenantId
 
-    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/relationships" -f $tenantid
-    $headers = @{Authorization="Bearer $satoken"}
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
     $obj = @()
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
@@ -308,70 +471,45 @@ function Get-PCCustomerRelationships
     return (_formatResult -obj $obj -type "PartnerRelationship")
 }
 
-# Adding non-plural noun version of cmdlet. Plural version of the cmdlet will be removed in future versions.
-function Get-PCCustomerRelationship
-{    
-    [CmdletBinding()]
-    param ([Parameter(Mandatory = $false)][String]$tenantid=$GlobalCustomerID,
-           [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken)
-   _testTokenContext($satoken)
-   _testTenantContext ($tenantid)
 
-    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/relationships" -f $tenantid
-    $headers = @{Authorization="Bearer $satoken"}
+<#
+.SYNOPSIS
+Returns a list of reseller customers for the specified indirect provider.
 
-    $obj = @()
-    $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-    $obj += $response.Substring(1) | ConvertFrom-Json
-    return (_formatResult -obj $obj -type "PartnerRelationship")
-}
-
-function Get-PCResellerCustomers
-{
-    [CmdletBinding()]
-
-    Param(
-        [Parameter(ParameterSetName='filter', Mandatory = $true)][String]$resellerId,
-        [Parameter(ParameterSetName='filter', Mandatory = $false)][int]$size = 200,
-        [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken
-    )
-   _testTokenContext($satoken)
-
-   Write-Warning "  Get-PCResellerCustomers is deprecated and will not be available in future releases, use Get-PCResellerCustomer instead."
-    $obj = @()
-
-    [string]$filter = '{"Field":"IndirectReseller","Value":"' + $resellerId + '","Operator":"starts_with"}'
-    [Reflection.Assembly]::LoadWithPartialName("System.Web") | Out-Null
-    $Encode = [System.Web.HttpUtility]::UrlEncode($filter)
-
-    $url = "https://api.partnercenter.microsoft.com/v1/customers?size={0}&filter={1}" -f $size,$Encode
-    $headers = @{Authorization="Bearer $satoken"}
-
-    $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-    $obj += $response.Substring(1) | ConvertFrom-Json
-    return (_formatResult -obj $obj -type "Customer")  
-}
-
-# Add non-plural noun version of cmdlet. Plural version of the cmdlet will be removed in future versions.
-function Get-PCResellerCustomer
-{
+.DESCRIPTION
+The Get-PCResellerCustomer cmdlet returns a list of reseller customers or a specified reseller for the current indirect provider.
+.PARAMETER SaToken 
+Specifies an authentication token with your Partner Center credentials.
+.PARAMETER ResellerId 
+Specifies the reseller id for which to return customers.
+.PARAMETER ResultSize 
+Specifies the maximum number of results to return. The default value is 200.
+.EXAMPLE
+Get-PCResellerCustomer -ResellerId '86f61a80-23de-4071-ba9f-249254da7e95'
+Return a list of customers for the specified reseller id
+.NOTES
+#>
+function Get-PCResellerCustomer {
     [CmdletBinding()]
 
     Param(
-        [Parameter(ParameterSetName='filter', Mandatory = $true)][String]$resellerId,
-        [Parameter(ParameterSetName='filter', Mandatory = $false)][int]$size = 200,
-        [Parameter(Mandatory = $false)][string]$satoken = $GlobalToken
+        [Parameter(ParameterSetName = 'filter', Mandatory = $true)][String]$ResellerId,
+        [Parameter(ParameterSetName = 'filter', Mandatory = $false)][int]$ResultSize= 200,
+        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
     )
-   _testTokenContext($satoken)
+    _testTokenContext($SaToken)
 
     $obj = @()
 
-    [string]$filter = '{"Field":"IndirectReseller","Value":"' + $resellerId + '","Operator":"starts_with"}'
+    [string]$filter = '{"Field":"IndirectReseller","Value":"' + $ResellerId + '","Operator":"starts_with"}'
     [Reflection.Assembly]::LoadWithPartialName("System.Web") | Out-Null
     $Encode = [System.Web.HttpUtility]::UrlEncode($filter)
 
-    $url = "https://api.partnercenter.microsoft.com/v1/customers?size={0}&filter={1}" -f $size,$Encode
-    $headers = @{Authorization="Bearer $satoken"}
+    $url = "https://api.partnercenter.microsoft.com/v1/customers?size={0}&filter={1}" -f $ResultSize, $Encode
+
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj += $response.Substring(1) | ConvertFrom-Json

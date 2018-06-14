@@ -30,11 +30,13 @@ using module PartnerCenterModule
 
 Just like with AzureRM powershell module, the first step to start using it is to provide authentication. In Partner Center PowerShell Module you use [Add-PCAuthentication](./CmdletHelp/Add-PCAuthentication.md) cmdlet to set your CSP account authentication context.
 
-#### Set user authentication ####
+** Some cmdlets require App+User authentication to function correctly.**
+
+#### Set App+User authentication ####
 
 ```powershell
 $cred = Get-Credential '<username@domain>'
-Add-PCAuthentication -cspappID '<native app id GUID>' -cspDomain '<csp partner domain>' -credential $cred
+Add-PCAuthentication -CspAppId '<native app id GUID>' -CspDomain '<csp partner domain>' -Credential $cred
 ```
 
 or
@@ -45,7 +47,7 @@ or
 $clientSecret = '<key code secret>'
 $clientSecretSecure = $clientSecret | ConvertTo-SecureString -AsPlainText -Force
 
-Add-PCAuthentication -cspappID '<web app id GUID>' -cspDomain '<csp partner domain>' -cspClientSecret $clientSecretSecure
+Add-PCAuthentication -CspAppId '<web app id GUID>' -CspDomain '<csp partner domain>' -CspClientSecret $clientSecretSecure
 ```
 
 You can obtain the Web App ID and the Client Secret from either Partner Center UI or Azure Active Directory
@@ -119,7 +121,7 @@ After completing these steps you are ready to start using the cmdlets for the sc
 | | | |
 | **Place orders** | | |
 | Get offers from the catalog | | |
-| | [Get a list of offer categories by country and locale](https://msdn.microsoft.com/en-us/library/partnercenter/mt634689.aspx) | [Get-PCOfferCategoriesByMarket](./CmdletHelp/Get-PCOfferCategoriesByMarket.md) |
+| | [Get a list of offer categories by Country and locale](https://msdn.microsoft.com/en-us/library/partnercenter/mt634689.aspx) | [Get-PCOfferCategoriesByMarket](./CmdletHelp/Get-PCOfferCategoriesByMarket.md) |
 | | [Get a list of offers for a market](https://msdn.microsoft.com/en-us/library/partnercenter/mt683488.aspx) | [Get-PCOffer](./CmdletHelp/Get-PCOffer.md) |
 | | [Get an offer by ID](https://msdn.microsoft.com/en-us/library/partnercenter/mt634678.aspx) | [Get-PCOffer](./CmdletHelp/Get-PCOffer.md) |
 | | [Get add-ons for an offer ID](https://msdn.microsoft.com/en-us/library/partnercenter/mt634669.aspx) | [Get-PCOffer](./CmdletHelp/Get-PCOffer.md) |

@@ -1,13 +1,55 @@
-# Get-PCMpnProfile #
+# Get-PCMpnProfile
 
-## Get Partner MPN Profile ##
+Returns the Mpn profile for the authenticated partner.
+
+## SYNTAX
 
 ```powershell
-    Get-PCMpnProfile
+Get-PCMpnProfile [[-MpnId] <String>] [[-SaToken] <String>] [<CommonParameters>]
 ```
 
-## Get a Partner MPN Profile by MPNID ##
+## DESCRIPTION
+
+The Get-PCMpnProfile cmdlet returns the Mpn profile for the authenticated partner or the specified tenant.
+
+## PARAMETERS
+
+### -MpnId &lt;String&gt;
+
+Specifies the MPN id used to scope this cmdlet.
+
+```
+Required?                    false
+Position?                    1
+Default value
+Accept pipeline input?       false
+Accept wildcard characters?  false
+```
+
+### -SaToken &lt;String&gt;
+
+Specifies an authentication token with your Partner Center credentials.
+
+```
+Required?                    false
+Position?                    2
+Default value                $GlobalToken
+Accept pipeline input?       false
+Accept wildcard characters?  false
+```
+
+## INPUTS
+
+## OUTPUTS
+
+## NOTES
+
+## EXAMPLES
+
+### EXAMPLE 1
+
+Return the Mpn profile for the current partner.
 
 ```powershell
-    Get-PCMpnProfile -mpnid <MPNId>
+PS C:\>Get-PCMpnProfile
 ```

@@ -5,11 +5,11 @@
 ## Specify a customer ##
 
 ```powershell
-    $customer = Get-PCCustomer -tenantid '<tenant id GUID>'
+    $customer = Get-PCCustomer -TenantId '<tenant id GUID>'
 ```
 
 ## Get all customer subscriptions ##
 
 ```powershell
-    Get-PCCustomerRelationships -tenantid $customer.id
+    Get-PCCustomerRelationships -TenantId $customer.id
 ```

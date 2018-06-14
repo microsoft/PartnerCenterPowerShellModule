@@ -1,16 +1,69 @@
-# Get-PCAzureRateCard #
+# Get-PCAzureRateCard
 
-## Get Azure rate card (meters) for default context ##
+Retrieves the Azure services rate card for the specified region.
+
+## SYNTAX
 
 ```powershell
-    Get-PCAzureRateCard
+Get-PCAzureRateCard [[-Currency] <String>] [[-Region] <String>] [[-SaToken] <String>] [<CommonParameters>]
 ```
 
-- **currency** Optional three letter ISO code for the currency in which the resource rates will be provided (e.g. "EUR"). The default is the currency associated with the market in the partner profile.
-- **region** Optional two-letter ISO country/region code that indicates the market where the offer is purchased (e.g. "FR"). The default is the country/region code set in the partner profile.
+## DESCRIPTION
 
-## Get Azure rate card for specific currency and region ##
+The Get-PCAzureRateCard returns a list of Azure rates for the specified region.
+
+## PARAMETERS
+
+### -Currency &lt;String&gt;
+
+Specifies a three-character ISO currency code.
+
+```
+Required?                    false
+Position?                    1
+Default value
+Accept pipeline input?       false
+Accept wildcard characters?  false
+```
+
+### -Region &lt;String&gt;
+
+Specifies a two-character ISO 2 country code.
+
+```
+Required?                    false
+Position?                    2
+Default value
+Accept pipeline input?       false
+Accept wildcard characters?  false
+```
+
+### -SaToken &lt;String&gt;
+
+Specifies an authentication token with your Partner Center credentials.
+
+```
+Required?                    false
+Position?                    3
+Default value                $GlobalToken
+Accept pipeline input?       false
+Accept wildcard characters?  false
+```
+
+## INPUTS
+
+## OUTPUTS
+
+## NOTES
+
+You need to have a authentication Credential already established before running this cmdlet. The region and the currency must match to return a result.
+
+## EXAMPLES
+
+### EXAMPLE 1
 
 ```powershell
-    Get-PCAzureRateCard -currency '<three digits currency>' -region '<two digits region code>'
+PS C:\>Get-PCAzureRateCard -region US -currency USD
+
+Returns the Azure rate card for the specified region and currency.
 ```

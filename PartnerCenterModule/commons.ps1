@@ -1,5 +1,5 @@
 ﻿<#
-    © 2017 Microsoft Corporation. All rights reserved. This sample code is not supported under any Microsoft standard support program or service. 
+    © 2018 Microsoft Corporation. All rights reserved. This sample code is not supported under any Microsoft standard support program or service. 
     This sample code is provided AS IS without warranty of any kind. Microsoft disclaims all implied warranties including, without limitation, 
     any implied warranties of merchantability or of fitness for a particular purpose. The entire risk arising out of the use or performance 
     of the sample code and documentation remains with you. In no event shall Microsoft, its authors, or anyone else involved in the creation, 
@@ -7,6 +7,9 @@
     profits, business interruption, loss of business information, or other pecuniary loss) arising out of the use of or inability to use the 
     sample scripts or documentation, even if Microsoft has been advised of the possibility of such damages.
 #>
+
+# This variable is used in other cmdlets to identify the REST client.
+$ApplicationName = "Partner Center PowerShell Module v0.10.0.0"
 
 function _applyTypes {
    param($item,$type)
@@ -30,19 +33,19 @@ function _formatResult {
     }
 }
 
-function _testTenantContext($tenantID)
+function _testTenantContext($TenantId)
 {
-    if ($tenantid.Length -lt 1)
+    if ($TenantId.Length -lt 1)
     {
-        throw ">>> Use Select-PCCustomer function to select a specific tenant or use -tenantId parameter<<<"
+        throw ">>> Use Select-PCCustomer to select a specific tenant or use -TenantId parameter<<<"
     }
 }
 
-function _testTokenContext($satoken)
+function _testTokenContext($SaToken)
 {
-    if ($satoken.Length -lt 1)
+    if ($SaToken.Length -lt 1)
     {
-        throw ">>> Use Add-PCAuthentication function to login to partnercenter or use -saToken parameter<<<"
+        throw ">>> Use Add-PCAuthentication to login to Partner Center or use -SaToken parameter<<<"
     }
 }
 
@@ -53,14 +56,13 @@ function _unsecureString
     return $tmp_cred.GetNetworkCredential().Password
 }
 
-#Setting Global Token
 function Get-SAToken
 {
     [CmdletBinding()]
-    param ($aadtoken,[bool]$global)
+    param ($AadToken,[bool]$global)
     $url  = "https://api.partnercenter.microsoft.com/generatetoken"
 	$body = "grant_type=jwt_token"
-	$headers=@{Authorization="Bearer $aadtoken"}
+	$headers=@{Authorization="Bearer $AadToken"}
     
     $response = Invoke-RestMethod -Uri $url -ContentType "application/x-www-form-urlencoded" -Headers $headers -Body $body -method "POST" #-Debug -Verbose
 
@@ -68,7 +70,6 @@ function Get-SAToken
     if ($global){
         Set-Variable -Name "GlobalToken" -Value $response.access_token -Scope Global
     }
-
 
     return $response.access_token
 }

@@ -1,7 +1,6 @@
-﻿# v1.4.0.0
-Set-StrictMode -Version latest
+﻿Set-StrictMode -Version latest
 <#
-    © 2017 Microsoft Corporation. All rights reserved. This sample code is not supported under any Microsoft standard support program or service. 
+    © 2018 Microsoft Corporation. All rights reserved. This sample code is not supported under any Microsoft standard support program or service. 
     This sample code is provided AS IS without warranty of any kind. Microsoft disclaims all implied warranties including, without limitation, 
     any implied warranties of merchantability or of fitness for a particular purpose. The entire risk arising out of the use or performance 
     of the sample code and documentation remains with you. In no event shall Microsoft, its authors, or anyone else involved in the creation, 
@@ -53,7 +52,7 @@ class CompanyProfile
 class DefaultAddress
 {
     [string] $Country
-    [string] $Region
+    [string] $region
     [string] $City
     [string] $State
     [string] $AddressLine1
@@ -64,7 +63,7 @@ class DefaultAddress
     [string] $PhoneNumber
 
     #main constructor
-    DefaultAddress ([string] $Country, [string] $Region, [string] $City, [string] $State, [string] $AddressLine1, `
+    DefaultAddress ([string] $Country, [string] $region, [string] $City, [string] $State, [string] $AddressLine1, `
                 [string] $PostalCode, [string] $FirstName, [string] $LastName, [string] $PhoneNumber)
     {
         $this.Country = $Country
@@ -76,12 +75,12 @@ class DefaultAddress
         $this.LastName = $LastName
         $this.PhoneNumber = $PhoneNumber
 
-        if(-not [string]::IsNullOrEmpty($Region)) {
-            $this.Region = $Region            
+        if(-not [string]::IsNullOrEmpty($region)) {
+            $this.Region = $region            
         }
     }
 
-    DefaultAddress ([string] $Country, [string] $Region, [string] $City, [string] $State, [string] $AddressLine1, `
+    DefaultAddress ([string] $Country, [string] $region, [string] $City, [string] $State, [string] $AddressLine1, `
                 [string] $PostalCode)
     {
         $this.Country = $Country
@@ -90,8 +89,8 @@ class DefaultAddress
         $this.AddressLine1 = $AddressLine1
         $this.PostalCode = $PostalCode
 
-        if(-not [string]::IsNullOrEmpty($Region)) {
-            $this.Region = $Region            
+        if(-not [string]::IsNullOrEmpty($region)) {
+            $this.Region = $region            
         }
     }
 }
@@ -111,14 +110,14 @@ class BillingProfile
     [Attributes] $Attributes
 
     #main constructors
-    BillingProfile ([string] $Email,[string] $Culture,[string] $Language,[string] $CompanyName, [string] $Country, [string] $Region, [string] $City, [string] $State, [string] $AddressLine1,[string] $PostalCode, [string] $FirstName, [string] $LastName, [string] $PhoneNumber)
+    BillingProfile ([string] $Email,[string] $Culture,[string] $Language,[string] $CompanyName, [string] $Country, [string] $region, [string] $City, [string] $State, [string] $AddressLine1,[string] $PostalCode, [string] $FirstName, [string] $LastName, [string] $PhoneNumber)
     {
-        $defaultAddresstmp = [DefaultAddress]::new($Country, $Region, $City,$State,$AddressLine1,$PostalCode,$FirstName,$LastName,$PhoneNumber)
+        $defaultAddressTmp = [DefaultAddress]::new($Country, $region, $City,$State,$AddressLine1,$PostalCode,$FirstName,$LastName,$PhoneNumber)
         $att_tmp = [Attributes]::new('BillingProfile')
 
         $this.FirstName = $FirstName
         $this.LastName = $LastName
-        $this.DefaultAddress = $defaultAddresstmp
+        $this.DefaultAddress = $defaultAddressTmp
         $this.Email = $Email
         $this.Culture = $Culture
         $this.Language = $Language
@@ -160,20 +159,20 @@ class Customer
 
     #main constructors
     Customer ([string] $Email,[string] $Culture,[string] $Language,[string] $CompanyName, `
-                [string] $Country, [string] $Region, [string] $City, [string] $State, [string] $AddressLine1, `
+                [string] $Country, [string] $region, [string] $City, [string] $State, [string] $AddressLine1, `
                 [string] $PostalCode, [string] $FirstName, [string] $LastName, [string] $PhoneNumber, `
                 [string] $Domain)
     {
-        $defaultaddress_tmp = [DefaultAddress]::new($Country,$Region,$City,$State,$AddressLine1, `
+        $defaultAddress_tmp = [DefaultAddress]::new($Country,$region,$City,$State,$AddressLine1, `
                                                         $PostalCode,$FirstName,$LastName,$PhoneNumber)
 
-        $billingprofile_tmp = [BillingProfile]::new($FirstName, $LastName, $Email,$Culture,$Language,$CompanyName,$defaultaddress_tmp)
+        $billingProfile_tmp = [BillingProfile]::new($FirstName, $LastName, $Email,$Culture,$Language,$CompanyName,$defaultAddress_tmp)
 
-        $companyprofile_tmp = [CompanyProfile]::new($Domain)
+        $companyProfile_tmp = [CompanyProfile]::new($Domain)
         $att_tmp = [Attributes]::new('Customer')
 
-        $this.CompanyProfile = $companyprofile_tmp 
-        $this.BillingProfile = $billingprofile_tmp
+        $this.CompanyProfile = $companyProfile_tmp 
+        $this.BillingProfile = $billingProfile_tmp
         $this.Attributes = $att_tmp
     }
 
@@ -193,7 +192,8 @@ class CustomerUserPasswordProfile
     [bool] $forceChangePassword
     CustomerUserPasswordProfile ([SecureString] $password,[bool]$forceChangePassword)
     {
-        $this.password = _unsecureString -string $password
+        $this.password = _
+        String -string $password
         $this.forceChangePassword = $forceChangePassword
     }
 }
@@ -204,33 +204,33 @@ class CustomerUser
     [string] $Id
     [string] $usageLocation
     [string] $userPrincipalName
-    [string] $firstName
-    [string] $lastName
+    [string] $FirstName
+    [string] $LastName
     [string] $displayName
     [CustomerUserPasswordProfile] $passwordProfile
     [Attributes] $Attributes
 
-    CustomerUser ([string]$usageLocation ,[string] $userPrincipalName,[string] $firstName,[string] $lastName,[string] $displayName,[SecureString] $password,[bool] $forceChangePassword)
+    CustomerUser ([string]$usageLocation ,[string] $userPrincipalName,[string] $FirstName,[string] $LastName,[string] $displayName,[SecureString] $password,[bool] $forceChangePassword)
     {
         $passwordProfile_tmp = [CustomerUserPasswordProfile]::new($password,$forceChangePassword)
         $att_tmp = [Attributes]::new('CustomerUser')
         $this.usageLocation = $usageLocation
         $this.userPrincipalName = $userPrincipalName
-        $this.firstName = $firstName
-        $this.lastName = $lastName
+        $this.FirstName = $FirstName
+        $this.LastName = $LastName
         $this.displayName = $displayName
         $this.passwordProfile = $passwordProfile_tmp
         $this.Attributes = $att_tmp
     }
 
     <#
-    CustomerUser([string]$usageLocation ,[string] $userPrincipalName,[string] $firstName,[string] $lastName,[string] $displayName,[CustomerUserPasswordProfile]$CustomerUserPasswordProfile)
+    CustomerUser([string]$usageLocation ,[string] $userPrincipalName,[string] $FirstName,[string] $LastName,[string] $displayName,[CustomerUserPasswordProfile]$CustomerUserPasswordProfile)
     {
         $att_tmp = [Attributes]::new('CustomerUser')
         $this.usageLocation = $usageLocation
         $this.userPrincipalName = $userPrincipalName
-        $this.firstName = $firstName
-        $this.lastName = $lastName
+        $this.FirstName = $FirstName
+        $this.LastName = $LastName
         $this.displayName = $displayName
         $this.passwordProfile = $CustomerUserPasswordProfile
         $this.Attributes = $att_tmp
@@ -280,7 +280,7 @@ class OrderLineItem
     [string] $FriendlyName
     [string] $PartnerIdOnRecord
     [string] $ParentSubscriptionId
-    #[psobject] $Links
+    #[PsObject] $Links
     OrderLineItem ([uint16] $LineItemNumber,[string] $OfferId,[uint16] $Quantity)
     {
         $this.LineItemNumber = $LineItemNumber
@@ -370,7 +370,7 @@ class ServiceRequest
     [ServiceRequestContact]	        $PrimaryContact
     [ServiceRequestContact]	        $LastUpdatedBy
     [ServiceRequestOrganization]	$Organization
-    [validateset('none','open','closed','attention_needed')][string]	$Status
+    [ValidateSet('none','open','closed','attention_needed')][string]	$Status
   
     #main constructor
     ServiceRequest ([string]$Title,[string]$Description,[string]$Severity,[string]$SupportTopicId)
@@ -396,7 +396,7 @@ class _Filter
     [string]$Value
     [string]$Operator
     <#
-    [validateset('CONTAINS','NOT_CONTAINS','IS','IS_NOT','ARE','IN','NOT_IN',
+    [ValidateSet('CONTAINS','NOT_CONTAINS','IS','IS_NOT','ARE','IN','NOT_IN',
 'IN_RANGE','NOT_IN_RANGE','STARTS_WITH','ENDS_WITH','ON_OR_BEFORE','ON_OR_AFTER','BETWEEN',
 'EARLIER_THAN','WITHIN_THE_LAST','GREATER_THAN','LESS_THAN','IS_EMPTY','IS_NOT_EMPTY','INCLUDE'
 'DO_NOT_INCLUDE','IS_APPLIED','IS_NOT_APPLIED',
