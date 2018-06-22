@@ -44,9 +44,9 @@ Get add ons for the specified offer id.
 function Get-PCOffer {
     [CmdletBinding()]
     param(
-        [Parameter(Mandatory = $true)][ValidatePattern("^(BG|BR|CN|CZ|DE|DK|EE|ES|ES|ES|ES|FI|FR|GR|HR|HU|ID|IL|IN|IT|JP|KR|KZ|LT|LV|MY|NL|NO|PL|PT|RO|RS|RS|RU|SE|SG|SI|SK|TH|TR|TW|UA|US|VN)$")][string]$CountryId,
+        [Parameter(Mandatory = $true)][ValidatePattern("^(BG|BR|CN|CZ|DE|DK|EE|ES|ES|ES|ES|FI|FR|GR|HR|HU|ID|IL|IN|IT|JP|KR|KZ|LT|LV|MY|NL|NO|PL|PT|RO|RS|RS|RU|SE|SG|SI|SK|TH|TR|TW|UA|US|VN|GB)$")][string]$CountryId,
         [string]$OfferId,
-        [Parameter(Mandatory = $false)][ValidatePattern("^(bg-bg|pt-br|zh-cn|cs-cz|de-de|da-dk|et-ee|ca-es|es-es|eu-es|gl-es|fi-fi|fr-fr|el-gr|hr-hr|hu-hu|id-id|he-il|hi-in|it-it|ja-jp|ko-kr|kk-kz|lt-lt|lv-lv|ms-my|nl-nl|nb-no|pl-pl|pt-pt|ro-ro|sr-cyrl-rs|sr-latn-rs|ru-ru|sv-se|zh-sg|sl-si|sk-sk|th-th|tr-tr|zh-tw|uk-ua|en-us|vi-vn|)$")][string]$LocaleId,
+        [Parameter(Mandatory = $false)][ValidatePattern("^(bg-bg|pt-br|zh-cn|cs-cz|de-de|da-dk|et-ee|ca-es|es-es|eu-es|gl-es|fi-fi|fr-fr|el-gr|hr-hr|hu-hu|id-id|he-il|hi-in|it-it|ja-jp|ko-kr|kk-kz|lt-lt|lv-lv|ms-my|nl-nl|nb-no|pl-pl|pt-pt|ro-ro|sr-cyrl-rs|sr-latn-rs|ru-ru|sv-se|zh-sg|sl-si|sk-sk|th-th|tr-tr|zh-tw|uk-ua|en-us|vi-vn|en-gb)$")][string]$LocaleId,
         [Parameter(Mandatory = $false)][switch]$AddOns,
         [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
     )
@@ -121,7 +121,7 @@ Get-PCOfferCategoriesByMarket -CountryId US
 function Get-PCOfferCategoriesByMarket {
     [CmdletBinding()]
     param(
-        [ValidatePattern("^(BG|BR|CN|CZ|DE|DK|EE|ES|ES|ES|ES|FI|FR|GR|HR|HU|ID|IL|IN|IT|JP|KR|KZ|LT|LV|MY|NL|NO|PL|PT|RO|RS|RS|RU|SE|SG|SI|SK|TH|TR|TW|UA|US|VN)$")]$CountryId,
+        [ValidatePattern("^(BG|BR|CN|CZ|DE|DK|EE|ES|ES|ES|ES|FI|FR|GR|HR|HU|ID|IL|IN|IT|JP|KR|KZ|LT|LV|MY|NL|NO|PL|PT|RO|RS|RS|RU|SE|SG|SI|SK|TH|TR|TW|UA|US|VN|GB)$")]$CountryId,
         [Parameter(Mandatory = $true)][string]$SaToken = $GlobalToken
     )
     _testTokenContext($SaToken)
@@ -164,7 +164,7 @@ You need to have a authentication Credential already established before running 
 function Get-PCAddressRulesByMarket {
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory = $true)][ValidatePattern("^(BG|BR|CN|CZ|DE|DK|EE|ES|ES|ES|ES|FI|FR|GR|HR|HU|ID|IL|IN|IT|JP|KR|KZ|LT|LV|MY|NL|NO|PL|PT|RO|RS|RS|RU|SE|SG|SI|SK|TH|TR|TW|UA|US|VN)$")][string]$CountryId,         
+        [Parameter(Mandatory = $true)][ValidatePattern("^(BG|BR|CN|CZ|DE|DK|EE|ES|ES|ES|ES|FI|FR|GR|HR|HU|ID|IL|IN|IT|JP|KR|KZ|LT|LV|MY|NL|NO|PL|PT|RO|RS|RS|RU|SE|SG|SI|SK|TH|TR|TW|UA|US|VN|GB)$")][string]$CountryId,         
         [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken)
     _testTokenContext($SaToken)
 
@@ -208,8 +208,8 @@ You need to have a authentication Credential already established before running 
 function Get-PCAzureRateCard {
     [CmdletBinding()]
     param (
-        [ValidatePattern("^(NOK|SZL|SEK|CHF|CHE|CHW|SYP|TWD|TJS|TZS|THB|USD|XOF|NZD|TOP|TTD|TND|TRY|TMT|USD|AUD|UGX|UAH|AED|GBP|USD|USD|USN|UYU|UYI|UZS|VUV|VEF|VND|USD|USD|XPF|MAD|YER|ZMW|ZWL|XBA|XBB|XBC|XBD|XTS|XXX|XAU|XPD|XPT|XAG)$")][string]$Currency, 
-        [ValidatePattern("^(BG|BR|CN|CZ|DE|DK|EE|ES|ES|ES|ES|FI|FR|GR|HR|HU|ID|IL|IN|IT|JP|KR|KZ|LT|LV|MY|NL|NO|PL|PT|RO|RS|RS|RU|SE|SG|SI|SK|TH|TR|TW|UA|US|VN)$")][string]$Region,
+        [ValidatePattern("^(NOK|SZL|SEK|CHF|CHE|CHW|SYP|TWD|TJS|TZS|THB|USD|XOF|NZD|TOP|TTD|TND|TRY|TMT|USD|AUD|UGX|UAH|AED|GBP|USD|USD|USN|UYU|UYI|UZS|VUV|VEF|VND|USD|USD|XPF|MAD|YER|ZMW|ZWL|XBA|XBB|XBC|XBD|XTS|XXX|XAU|XPD|XPT|XAG|EUR)$")][string]$Currency, 
+        [ValidatePattern("^(BG|BR|CN|CZ|DE|DK|EE|ES|ES|ES|ES|FI|FR|GR|HR|HU|ID|IL|IN|IT|JP|KR|KZ|LT|LV|MY|NL|NO|PL|PT|RO|RS|RS|RU|SE|SG|SI|SK|TH|TR|TW|UA|US|VN|GB)$")][string]$Region,
         [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken)
     _testTokenContext($SaToken)
 
