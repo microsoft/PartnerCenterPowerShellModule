@@ -44,9 +44,9 @@ Get add ons for the specified offer id.
 function Get-PCOffer {
     [CmdletBinding()]
     param(
-        [ValidatePattern("^(AR|AU|AT|BE|BG|BR|CA|CH|CL|CN|CZ|DE|DK|EE|ES|FI|FR|GR|HR|HK|HU|ID|IL|IN|IT|JP|KR|KZ|LT|LV|MY|MX|NL|NO|NZ|PH|PL|PT|RO|RS|RS|RU|SA|SE|SG|SI|SK|TH|TR|TW|UA|US|VN|GB|ZA)$")][string]$CountryId,
+        [Parameter(Mandatory = $true)][ValidatePattern("^(AR|AU|AT|BE|BG|BR|CA|CH|CL|CN|CZ|DE|DK|EE|ES|FI|FR|GR|HR|HK|HU|ID|IL|IN|IT|JP|KR|KZ|LT|LV|MY|MX|NL|NO|NZ|PH|PL|PT|RO|RS|RS|RU|SA|SE|SG|SI|SK|TH|TR|TW|UA|US|VN|GB|ZA)$")][string]$CountryId,
         [Parameter(Mandatory = $false)][string]$OfferId,
-        [Parameter(Mandatory = $false)][ValidatePattern("^(es-US|en-za|en-ph|no-no|en-nz|en-in|en-ID|es-AR|en-AU|en-my|de-AT|nl-BE|zh-hk|fr-BE|es-cl|es-mx|bg-bg|pt-br|zh-cn|cs-cz|de-de|da-dk|et-ee|ca-es|es-es|eu-es|gl-es|fi-fi|fr-fr|el-gr|hr-hr|hu-hu|id-id|he-il|hi-in|it-it|ja-jp|ko-kr|kk-kz|lt-lt|lv-lv|ms-my|nl-nl|nb-no|pl-pl|pt-pt|ro-ro|sr-cyrl-rs|sr-latn-rs|ru-ru|sv-se|zh-sg|sl-si|sk-sk|th-th|tr-tr|zh-tw|uk-ua|en-us|vi-vn|en-gb|en-CA|fr-CH|de-CH|it-CH)$")][string]$LocaleId,
+        [Parameter(Mandatory = $true)][ValidatePattern("^(es-US|en-ZA|en-PH|no-NO|en-NZ|en-IN|en-ID|es-AR|en-AU|en-MY|de-AT|nl-BE|zh-HK|fr-BE|es-CL|es-MX|bg-BG|pt-BR|zh-CN|cs-CZ|de-DE|da-DK|et-EE|ca-ES|es-ES|eu-ES|gl-ES|fi-FI|fr-FR|el-GR|hr-HR|hu-HU|id-ID|he-IL|hi-IN|it-IT|ja-JP|ko-KR|kk-KZ|lt-LT|lv-LV|ms-MY|nl-NL|nb-NO|pl-PL|pt-PT|ro-RO|sr-cyrl-rs|sr-latn-rs|ru-RU|sv-SE|zh-SG|sl-SI|sk-SK|th-TH|tr-TR|zh-TW|uk-UA|en-US|vi-VN|en-GB|en-CA|fr-CH|de-CH|it-CH|uz-UZ)$")][string]$LocaleId="en-US",
         [Parameter(Mandatory = $false)][switch]$AddOns,
         [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
     )
@@ -54,23 +54,26 @@ function Get-PCOffer {
 
     $obj = @()
     if ($OfferId) {
+
         if ($addons) {
             $url = "https://api.partnercenter.microsoft.com/v1/offers/{0}/addons?Country={1}" -f $OfferId, $CountryId
 
             $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
             $headers.Add("Authorization", "Bearer $SaToken")
             $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
+            $headers.Add("X-Locale",$LocaleId)
 
             $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
             $obj += $response.Substring(1) | ConvertFrom-Json
             return (_formatResult -obj $obj -type "OfferAddons")   
         }
         else {
-            $url = "https://api.partnercenter.microsoft.com/v1/offers/{0}?Country={1}&locale={2}" -f $OfferId, $CountryId, $LocaleId
+            $url = "https://api.partnercenter.microsoft.com/v1/offers/{0}?Country={1}" -f $OfferId, $CountryId
 
             $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
             $headers.Add("Authorization", "Bearer $SaToken")
             $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
+            $headers.Add("X-Locale",$LocaleId)
 
             $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
             $obj += $response.Substring(1) | ConvertFrom-Json
@@ -78,30 +81,19 @@ function Get-PCOffer {
         }
     }
     else {
-        if ($LocaleId) {
-            $url = "https://api.partnercenter.microsoft.com/v1/offers?Country={0}&locale={1}" -f $CountryId, $LocaleId
 
-            $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
-            $headers.Add("Authorization", "Bearer $SaToken")
-            $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
-
-            $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-            $obj += $response.Substring(1) | ConvertFrom-Json
-            return (_formatResult -obj $obj -type "Offer")
-        }
-        else {
             $url = "https://api.partnercenter.microsoft.com/v1/offers?Country={0}" -f $CountryId
 
             $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
             $headers.Add("Authorization", "Bearer $SaToken")
             $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
-            
+            $headers.Add("X-Locale",$LocaleId)
+
             $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
             $obj += $response.Substring(1) | ConvertFrom-Json
             return (_formatResult -obj $obj -type "Offer")
         }
     }
-}
 
 <#
 .SYNOPSIS

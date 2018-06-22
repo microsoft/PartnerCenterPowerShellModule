@@ -8,7 +8,7 @@
 
 ### Bug Fixes
 
-* None
+* Updated Get-PCOffer to include the X-Locale header.
 
 ### Breaking Changes
 
