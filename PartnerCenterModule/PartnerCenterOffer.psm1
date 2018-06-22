@@ -225,3 +225,87 @@ function Get-PCAzureRateCard {
     $obj += $response.Substring(1) | ConvertFrom-Json
     return (_formatResult -obj $obj -type "AzureRateCard")   
 }
+
+
+<#
+.SYNOPSIS
+Retrieves the products available for the specified country Id and target view.
+
+.DESCRIPTION
+The Get-PCProduct returns a list of products available.
+
+.PARAMETER SaToken 
+Specifies an authentication token with your Partner Center credentials.
+
+.PARAMETER CountryId 
+Required. Specifies a two-character ISO 2 country code.
+
+.PARAMETER ProductId
+Optional. Specifies a product id for which to retrieve details.
+
+.PARAMETER ShowSKUs
+Optional when product Id is specified. This returns a list of SKUs for the specified product id.
+
+
+.PARAMETER TargetView
+Required if product Id is not specified. Specifies a target catalog to view. Valid options are Azure, OnlineServices, and Software
+
+.PARAMETER TargetSegment
+Optional. Specifies a target segment to view. Valid options are commercial, education, government, and nonprofit
+
+.EXAMPLE
+Get-PCProduct -CountryId US -TargetView Azure
+
+Returns the products available in the country Id for the Azure catalog.
+
+.NOTES
+You must have an authentication credential already established before running this cmdlet. The partner must be authorized for the specified country id.
+
+#>
+function Get-PCProduct {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory = $true)][ValidatePattern("^(AR|AU|AT|BE|BG|BR|CA|CH|CL|CN|CZ|DE|DK|EE|ES|FI|FR|GR|HR|HK|HU|ID|IL|IN|IT|JP|KR|KZ|LT|LV|MY|MX|NL|NO|NZ|PH|PL|PT|RO|RS|RS|RU|SA|SE|SG|SI|SK|TH|TR|TW|UA|US|VN|GB|ZA)$")][string]$CountryId,
+        [Parameter(Mandatory = $false, ParameterSetName = 'ProductId')][string]$ProductId,
+        [Parameter(Mandatory = $false, ParameterSetName = 'ProductId')][switch]$ShowSKUs,
+        [Parameter(Mandatory = $true, ParameterSetName = 'noProductId')][ValidateSet("Azure", "OnlineServices", "Software")][string]$TargetView,
+        [Parameter(Mandatory = $false, ParameterSetName = 'noProductId')][ValidateSet("commercial", "education", "government", "nonprofit")][string]$TargetSegment,
+        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
+    )
+    _testTokenContext($SaToken)
+
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
+
+    $obj = @()
+    if ($ProductId) {
+
+        if ($ShowSKUs) {
+            $url = "https://api.partnercenter.microsoft.com/v1/products/{0}/skus?Country={1}" -f $ProductId, $CountryId
+            $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
+            $obj += $response # | ConvertFrom-Json
+            return (_formatResult -obj $obj -type "ProductSku")    
+        }
+        else {
+            $url = "https://api.partnercenter.microsoft.com/v1/products/{0}?Country={1}" -f $ProductId, $CountryId
+        }
+     
+        $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
+        $obj += $response # | ConvertFrom-Json
+        return (_formatResult -obj $obj -type "Product")     
+    }
+    else {
+        if ($TargetSegment) {
+            $url = "https://api.partnercenter.microsoft.com/v1/products?Country={0}&targetView={1}&targetSegment{2}" -f $CountryId, $TargetView, $TargetSegment
+        }
+        else {
+            $url = "https://api.partnercenter.microsoft.com/v1/products?Country={0}&targetView={1}" -f $CountryId, $TargetView
+        }
+
+        $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
+        $obj += $response # | ConvertFrom-Json
+        return (_formatResult -obj $obj -type "Product")
+        
+    }
+}

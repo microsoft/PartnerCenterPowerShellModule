@@ -3,7 +3,7 @@
 RootModule = 'PartnerCenterModule.psm1'
 
 # Version number of this module.
-ModuleVersion = '0.10.0.1'
+ModuleVersion = '0.10.0.2'
 
 # ID used to uniquely identify this module
 GUID = '4a0bfb55-926c-4c31-8d05-50813b31c712'
@@ -91,7 +91,8 @@ FunctionsToExport = @('Add-PCAuthentication',
                     'Set-PCSR',
                     'Set-PCSubscription',
                     'Set-PCSupportProfile',
-                    'Test-PCAddress'
+                    'Test-PCAddress',
+                    'Get-PCProduct'
                     )
 
 # Private data to pass to the module specified in RootModule/ModuleToProcess. This may also contain a PSData hashtable with additional module metadata used by PowerShell.
