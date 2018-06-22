@@ -9,7 +9,7 @@
 #>
 
 # This variable is used in other cmdlets to identify the REST client.
-$ApplicationName = "Partner Center PowerShell Module v0.10.0.0"
+$ApplicationName = "Partner Center PowerShell Module v0.10.0.1"
 
 function _applyTypes {
    param($item,$type)
