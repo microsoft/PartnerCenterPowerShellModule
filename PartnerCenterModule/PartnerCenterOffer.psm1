@@ -121,7 +121,7 @@ Get-PCOfferCategoriesByMarket -CountryId US
 function Get-PCOfferCategoriesByMarket {
     [CmdletBinding()]
     param(
-        [ValidatePattern("^(BG|BR|CN|CZ|DE|DK|EE|ES|ES|ES|ES|FI|FR|GR|HR|HU|ID|IL|IN|IT|JP|KR|KZ|LT|LV|MY|NL|NO|PL|PT|RO|RS|RS|RU|SE|SG|SI|SK|TH|TR|TW|UA|US|VN)$")]$CountryId,
+        [ValidatePattern("^(BG|BR|CN|CZ|DE|DK|EE|ES|ES|ES|ES|FI|FR|GR|HR|HU|ID|IL|IN|IT|JP|KR|KZ|LT|LV|MY|NL|NO|PL|PT|RO|RS|RS|RU|SE|SG|SI|SK|TH|TR|TW|UA|US|VN|GB)$")]$CountryId,
         [Parameter(Mandatory = $true)][string]$SaToken = $GlobalToken
     )
     _testTokenContext($SaToken)
@@ -164,7 +164,7 @@ You need to have a authentication Credential already established before running 
 function Get-PCAddressRulesByMarket {
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory = $true)][ValidatePattern("^(BG|BR|CN|CZ|DE|DK|EE|ES|ES|ES|ES|FI|FR|GR|HR|HU|ID|IL|IN|IT|JP|KR|KZ|LT|LV|MY|NL|NO|PL|PT|RO|RS|RS|RU|SE|SG|SI|SK|TH|TR|TW|UA|US|VN)$")][string]$CountryId,         
+        [Parameter(Mandatory = $true)][ValidatePattern("^(BG|BR|CN|CZ|DE|DK|EE|ES|ES|ES|ES|FI|FR|GR|HR|HU|ID|IL|IN|IT|JP|KR|KZ|LT|LV|MY|NL|NO|PL|PT|RO|RS|RS|RU|SE|SG|SI|SK|TH|TR|TW|UA|US|VN|GB)$")][string]$CountryId,         
         [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken)
     _testTokenContext($SaToken)
 
@@ -209,7 +209,7 @@ function Get-PCAzureRateCard {
     [CmdletBinding()]
     param (
         [ValidatePattern("^(NOK|SZL|SEK|CHF|CHE|CHW|SYP|TWD|TJS|TZS|THB|USD|XOF|NZD|TOP|TTD|TND|TRY|TMT|USD|AUD|UGX|UAH|AED|GBP|USD|USD|USN|UYU|UYI|UZS|VUV|VEF|VND|USD|USD|XPF|MAD|YER|ZMW|ZWL|XBA|XBB|XBC|XBD|XTS|XXX|XAU|XPD|XPT|XAG)$")][string]$Currency, 
-        [ValidatePattern("^(BG|BR|CN|CZ|DE|DK|EE|ES|ES|ES|ES|FI|FR|GR|HR|HU|ID|IL|IN|IT|JP|KR|KZ|LT|LV|MY|NL|NO|PL|PT|RO|RS|RS|RU|SE|SG|SI|SK|TH|TR|TW|UA|US|VN)$")][string]$Region,
+        [ValidatePattern("^(BG|BR|CN|CZ|DE|DK|EE|ES|ES|ES|ES|FI|FR|GR|HR|HU|ID|IL|IN|IT|JP|KR|KZ|LT|LV|MY|NL|NO|PL|PT|RO|RS|RS|RU|SE|SG|SI|SK|TH|TR|TW|UA|US|VN|GB)$")][string]$Region,
         [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken)
     _testTokenContext($SaToken)
 
