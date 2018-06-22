@@ -44,9 +44,9 @@ Get add ons for the specified offer id.
 function Get-PCOffer {
     [CmdletBinding()]
     param(
-        [Parameter(Mandatory = $true)][ValidatePattern("^(BG|BR|CN|CZ|DE|DK|EE|ES|ES|ES|ES|FI|FR|GR|HR|HU|ID|IL|IN|IT|JP|KR|KZ|LT|LV|MY|NL|NO|PL|PT|RO|RS|RS|RU|SE|SG|SI|SK|TH|TR|TW|UA|US|VN|GB)$")][string]$CountryId,
-        [string]$OfferId,
-        [Parameter(Mandatory = $false)][ValidatePattern("^(bg-bg|pt-br|zh-cn|cs-cz|de-de|da-dk|et-ee|ca-es|es-es|eu-es|gl-es|fi-fi|fr-fr|el-gr|hr-hr|hu-hu|id-id|he-il|hi-in|it-it|ja-jp|ko-kr|kk-kz|lt-lt|lv-lv|ms-my|nl-nl|nb-no|pl-pl|pt-pt|ro-ro|sr-cyrl-rs|sr-latn-rs|ru-ru|sv-se|zh-sg|sl-si|sk-sk|th-th|tr-tr|zh-tw|uk-ua|en-us|vi-vn|en-gb)$")][string]$LocaleId,
+        [ValidatePattern("^(AR|AU|AT|BE|BG|BR|CA|CH|CL|CN|CZ|DE|DK|EE|ES|FI|FR|GR|HR|HK|HU|ID|IL|IN|IT|JP|KR|KZ|LT|LV|MY|MX|NL|NO|NZ|PH|PL|PT|RO|RS|RS|RU|SA|SE|SG|SI|SK|TH|TR|TW|UA|US|VN|GB|ZA)$")][string]$CountryId,
+        [Parameter(Mandatory = $false)][string]$OfferId,
+        [Parameter(Mandatory = $false)][ValidatePattern("^(es-US|en-za|en-ph|no-no|en-nz|en-in|en-ID|es-AR|en-AU|en-my|de-AT|nl-BE|zh-hk|fr-BE|es-cl|es-mx|bg-bg|pt-br|zh-cn|cs-cz|de-de|da-dk|et-ee|ca-es|es-es|eu-es|gl-es|fi-fi|fr-fr|el-gr|hr-hr|hu-hu|id-id|he-il|hi-in|it-it|ja-jp|ko-kr|kk-kz|lt-lt|lv-lv|ms-my|nl-nl|nb-no|pl-pl|pt-pt|ro-ro|sr-cyrl-rs|sr-latn-rs|ru-ru|sv-se|zh-sg|sl-si|sk-sk|th-th|tr-tr|zh-tw|uk-ua|en-us|vi-vn|en-gb|en-CA|fr-CH|de-CH|it-CH)$")][string]$LocaleId,
         [Parameter(Mandatory = $false)][switch]$AddOns,
         [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
     )
@@ -121,7 +121,7 @@ Get-PCOfferCategoriesByMarket -CountryId US
 function Get-PCOfferCategoriesByMarket {
     [CmdletBinding()]
     param(
-        [ValidatePattern("^(BG|BR|CN|CZ|DE|DK|EE|ES|ES|ES|ES|FI|FR|GR|HR|HU|ID|IL|IN|IT|JP|KR|KZ|LT|LV|MY|NL|NO|PL|PT|RO|RS|RS|RU|SE|SG|SI|SK|TH|TR|TW|UA|US|VN|GB)$")]$CountryId,
+        [Parameter(Mandatory = $true)][ValidatePattern("^(AR|AU|AT|BE|BG|BR|CA|CH|CL|CN|CZ|DE|DK|EE|ES|FI|FR|GR|HR|HK|HU|ID|IL|IN|IT|JP|KR|KZ|LT|LV|MY|MX|NL|NO|NZ|PH|PL|PT|RO|RS|RS|RU|SA|SE|SG|SI|SK|TH|TR|TW|UA|US|VN|GB|ZA)$")][string]$CountryId,
         [Parameter(Mandatory = $true)][string]$SaToken = $GlobalToken
     )
     _testTokenContext($SaToken)
@@ -164,7 +164,7 @@ You need to have a authentication Credential already established before running 
 function Get-PCAddressRulesByMarket {
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory = $true)][ValidatePattern("^(BG|BR|CN|CZ|DE|DK|EE|ES|ES|ES|ES|FI|FR|GR|HR|HU|ID|IL|IN|IT|JP|KR|KZ|LT|LV|MY|NL|NO|PL|PT|RO|RS|RS|RU|SE|SG|SI|SK|TH|TR|TW|UA|US|VN|GB)$")][string]$CountryId,         
+        [Parameter(Mandatory = $true)][ValidatePattern("^(AR|AU|AT|BE|BG|BR|CA|CH|CL|CN|CZ|DE|DK|EE|ES|FI|FR|GR|HR|HK|HU|ID|IL|IN|IT|JP|KR|KZ|LT|LV|MY|MX|NL|NO|NZ|PH|PL|PT|RO|RS|RS|RU|SA|SE|SG|SI|SK|TH|TR|TW|UA|US|VN|GB|ZA)$")][string]$CountryId,         
         [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken)
     _testTokenContext($SaToken)
 
@@ -208,12 +208,11 @@ You need to have a authentication Credential already established before running 
 function Get-PCAzureRateCard {
     [CmdletBinding()]
     param (
-        [ValidatePattern("^(NOK|SZL|SEK|CHF|CHE|CHW|SYP|TWD|TJS|TZS|THB|USD|XOF|NZD|TOP|TTD|TND|TRY|TMT|USD|AUD|UGX|UAH|AED|GBP|USD|USD|USN|UYU|UYI|UZS|VUV|VEF|VND|USD|USD|XPF|MAD|YER|ZMW|ZWL|XBA|XBB|XBC|XBD|XTS|XXX|XAU|XPD|XPT|XAG|EUR)$")][string]$Currency, 
-        [ValidatePattern("^(BG|BR|CN|CZ|DE|DK|EE|ES|ES|ES|ES|FI|FR|GR|HR|HU|ID|IL|IN|IT|JP|KR|KZ|LT|LV|MY|NL|NO|PL|PT|RO|RS|RS|RU|SE|SG|SI|SK|TH|TR|TW|UA|US|VN|GB)$")][string]$Region,
+        [ValidatePattern("^(USD|AUD|CAD|CHF|DKK|EUR|GBP|INR|JPY|KRW|NOK|NZD|RUB|TWD|CNY|TRY|BRL|SEK|MXN|ZAR|IDR|HKD|MYR)$")][string]$Currency, 
+        [ValidatePattern("^(AR|AU|AT|BE|BG|BR|CA|CH|CL|CN|CZ|DE|DK|EE|ES|FI|FR|GR|HR|HK|HU|ID|IL|IN|IT|JP|KR|KZ|LT|LV|MY|MX|NL|NO|NZ|PH|PL|PT|RO|RS|RS|RU|SA|SE|SG|SI|SK|TH|TR|TW|UA|US|VN|GB|ZA)$")][string]$Region,
         [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken)
     _testTokenContext($SaToken)
 
-   
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/ratecards/azure?&currency={0}&region={1}" -f $Currency, $Region
@@ -225,4 +224,88 @@ function Get-PCAzureRateCard {
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj += $response.Substring(1) | ConvertFrom-Json
     return (_formatResult -obj $obj -type "AzureRateCard")   
+}
+
+
+<#
+.SYNOPSIS
+Retrieves the products available for the specified country Id and target view.
+
+.DESCRIPTION
+The Get-PCProduct returns a list of products available.
+
+.PARAMETER SaToken 
+Specifies an authentication token with your Partner Center credentials.
+
+.PARAMETER CountryId 
+Required. Specifies a two-character ISO 2 country code.
+
+.PARAMETER ProductId
+Optional. Specifies a product id for which to retrieve details.
+
+.PARAMETER ShowSKUs
+Optional when product Id is specified. This returns a list of SKUs for the specified product id.
+
+
+.PARAMETER TargetView
+Required if product Id is not specified. Specifies a target catalog to view. Valid options are Azure, OnlineServices, and Software
+
+.PARAMETER TargetSegment
+Optional. Specifies a target segment to view. Valid options are commercial, education, government, and nonprofit
+
+.EXAMPLE
+Get-PCProduct -CountryId US -TargetView Azure
+
+Returns the products available in the country Id for the Azure catalog.
+
+.NOTES
+You must have an authentication credential already established before running this cmdlet. The partner must be authorized for the specified country id.
+
+#>
+function Get-PCProduct {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory = $true)][ValidatePattern("^(AR|AU|AT|BE|BG|BR|CA|CH|CL|CN|CZ|DE|DK|EE|ES|FI|FR|GR|HR|HK|HU|ID|IL|IN|IT|JP|KR|KZ|LT|LV|MY|MX|NL|NO|NZ|PH|PL|PT|RO|RS|RS|RU|SA|SE|SG|SI|SK|TH|TR|TW|UA|US|VN|GB|ZA)$")][string]$CountryId,
+        [Parameter(Mandatory = $false, ParameterSetName = 'ProductId')][string]$ProductId,
+        [Parameter(Mandatory = $false, ParameterSetName = 'ProductId')][switch]$ShowSKUs,
+        [Parameter(Mandatory = $true, ParameterSetName = 'noProductId')][ValidateSet("Azure", "OnlineServices", "Software")][string]$TargetView,
+        [Parameter(Mandatory = $false, ParameterSetName = 'noProductId')][ValidateSet("commercial", "education", "government", "nonprofit")][string]$TargetSegment,
+        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
+    )
+    _testTokenContext($SaToken)
+
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
+
+    $obj = @()
+    if ($ProductId) {
+
+        if ($ShowSKUs) {
+            $url = "https://api.partnercenter.microsoft.com/v1/products/{0}/skus?Country={1}" -f $ProductId, $CountryId
+            $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
+            $obj += $response # | ConvertFrom-Json
+            return (_formatResult -obj $obj -type "ProductSku")    
+        }
+        else {
+            $url = "https://api.partnercenter.microsoft.com/v1/products/{0}?Country={1}" -f $ProductId, $CountryId
+        }
+     
+        $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
+        $obj += $response # | ConvertFrom-Json
+        return (_formatResult -obj $obj -type "Product")     
+    }
+    else {
+        if ($TargetSegment) {
+            $url = "https://api.partnercenter.microsoft.com/v1/products?Country={0}&targetView={1}&targetSegment{2}" -f $CountryId, $TargetView, $TargetSegment
+        }
+        else {
+            $url = "https://api.partnercenter.microsoft.com/v1/products?Country={0}&targetView={1}" -f $CountryId, $TargetView
+        }
+
+        $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
+        $obj += $response # | ConvertFrom-Json
+        return (_formatResult -obj $obj -type "Product")
+        
+    }
 }
