@@ -2,15 +2,17 @@
 .SYNOPSIS
 Removes and readds the PartnerCenterModule for testing
 
-.PARAMETER webAppAuth 
+.PARAMETER WebAppAuth 
 Authenticates using the Web App authentication information provided.
 
-.PARAMETER appUserAuth 
+.PARAMETER AppUserAuth 
 Authenticates using App+User authentication information provided.
 
-.PARAMETER credentials 
+.PARAMETER Credentials 
 This is a credential object created using Get-Credential.
 
+.PARAMETER Path 
+Specifies the path to the partnercenter module
 .EXAMPLE
 .\Reset-PCTest.ps1 -AppUserAuth -credentials $creds -CspDomain ContosoCsp.OnMicrosoft.com -CspAppId $CspApppId
 
@@ -28,9 +30,13 @@ Param(
     [Parameter(Mandatory = $true)][string]$CspDomain,
     [Parameter(Mandatory = $false)][string]$CspClientSecret,
     [Parameter(Mandatory = $false)][string]$CspAppId,
-    [Parameter(Mandatory = $false)][string]$CspWebAppId
+    [Parameter(Mandatory = $false)][string]$CspWebAppId,
+    [Parameter(Mandatory = $false)][string]$Path
 )
 
+if($Path -eq $null){
+    $Path = (Get-Location).Path
+}
 # If the module is already imported, remove it.
 $x = Get-Module -Name PartnerCenterModule
 if ($x -ne $null) {
@@ -40,7 +46,7 @@ if ($x -ne $null) {
 
 # Import the latest version of the module
 Write-Output " Adding in local Partner Center Module for testing"
-Import-Module C:\github\Partnercenterpowershellmodule\PartnerCenterModule\PartnerCenterModule.psd1 -Force
+Import-Module $Path`PartnerCenterModule\PartnerCenterModule.psd1 -Force
 
 if ($WebAppAuth) {
     # App Auth

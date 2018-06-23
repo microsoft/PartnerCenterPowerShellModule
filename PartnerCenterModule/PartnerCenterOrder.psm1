@@ -26,12 +26,13 @@ Specifies the tenant used for scoping this cmdlet.
 .PARAMETER OrderId 
 Specifies the order id for which to return information.
 .EXAMPLE
-Return all orders for the specified customer tenant.
   Get-PCOrder -TenantId 3c762ceb-b839-4b4a-85d8-0e7304c89f62
 
+  Return all orders for the specified customer tenant.
 .EXAMPLE
-Get the specified customer order
   Get-PCOrder -TenantId -TenantId '3c762ceb-b839-4b4a-85d8-0e7304c89f62' -OrderId '1168c0f1-f0ed-4f9a-9e8c-1dcac072cba8'
+Get the specified customer order
+
 .NOTES
 #>
 function Get-PCOrder {
@@ -266,7 +267,7 @@ Set-PCOrder
 #>
 function Set-PCOrder {
     [CmdletBinding()]
-    param  ([Parameter(Mandatory = $true, ValueFromPipeline = $True, ValueFromPipelineByPropertyName = $True)][PSCustomObject]$order,
+    param  ([Parameter(Mandatory = $true, ValueFromPipeline = $True, ValueFromPipelineByPropertyName = $True)][PSCustomObject]$Order,
         [Parameter(Mandatory = $true)][uint16]$LineItemNumber,
         [Parameter(Mandatory = $false)][string]$FriendlyName,
         [Parameter(Mandatory = $false)][uint16]$Quantity,
@@ -298,7 +299,7 @@ function Set-PCOrder {
 .SYNOPSIS
 Returns a new PC Order line item PowerShell object.
 .DESCRIPTION
-The New-PCOrderLineItem cmdlet creates a PowerShell object used to create an order line item.
+The New-PCOrderLineItem cmdlet creates a PowerShell object used to create an order line item. This object is used to pass to another cmdlet to create the order.
 .PARAMETER LineItemNumber 
 Specifies the line number of the order to add the line item. Specifying an existing line item will overwrite the current line item.
 .PARAMETER OfferId
@@ -310,7 +311,7 @@ Specifies a friendly name for the line item.
 .EXAMPLE
 New-OrderLineItem
 .NOTES
-
+You must pass the result of this cmdlet to a variable and use it with other cmdlets.
 #>
 function New-PCOrderLineItem {
     [CmdletBinding()]
