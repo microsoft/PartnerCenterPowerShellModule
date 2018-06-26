@@ -324,7 +324,7 @@ function New-PCCustomer {
 Removes a customer from the Partner Center integration sandbox.
 
 .DESCRIPTION
-The Remove-PCCCustomer cmdlet removes a customer from the integration sandbox.
+The Remove-PCCustomer cmdlet removes a customer from the integration sandbox.
 
 .PARAMETER SaToken 
 Specifies an authentication token with your Partner Center credentials.
@@ -352,6 +352,47 @@ function Remove-PCCustomer {
 
     $response = try {
         Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "DELETE" #-Debug -Verbose
+    }
+    catch {
+        $_.Exception.Response
+    }
+
+    return ($response)  
+}
+
+<#
+.SYNOPSIS
+Removes reseller relationship from a customer domain in the CSP Portal.
+.DESCRIPTION
+The Remove-PCCustomerRelationship cmdlet removes reseller relationship from a customer domain in the CSP Portal.
+.PARAMETER SaToken 
+Specifies an authentication token with your Partner Center credentials.
+.PARAMETER TenantId 
+Specifies the tenant used for scoping this cmdlet.
+.EXAMPLE
+Remove-PCCustomerRelationship -TenantId 97037612-799c-4fa6-8c40-68be72c6b83c
+.NOTES
+.LINK
+https://docs.microsoft.com/en-us/partner-center/develop/remove-a-reseller-relationship-with-a-customer
+#>
+function Remove-PCCustomerRelationship {
+    [CmdletBinding()]
+    param (
+        $TenantId, 
+        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
+    )
+    _testTokenContext($SaToken)
+
+    $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}" -f $TenantId
+
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
+    $headers.Add("Authorization", "Bearer $SaToken")
+    $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
+
+    $body = '{"relationshipToPartner":"none","attributes":{"objectType":"Customer"}}' #| ConvertTo-Json
+
+    $response = try {
+        Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Body $body -Method "PATCH"  #-Debug -Verbose
     }
     catch {
         $_.Exception.Response
@@ -390,7 +431,7 @@ function Get-PCManagedService {
     $headers.Add("Authorization", "Bearer $SaToken")
     $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
-    $obj = @()
+    $obj = @();
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj += $response.Substring(1) | ConvertFrom-Json
     return (_formatResult -obj $obj -type "ManagedServices")  
