@@ -55,7 +55,7 @@ function Get-PCInvoice {
     _testTokenContext($SaToken)
 
     function Private:Get-InvoiceSummaryInner($SaToken) {
-        $offset_tempbj = @()
+        $obj = @()
         $url = "https://api.partnercenter.microsoft.com/v1/invoices/summary"
         
         $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
@@ -63,12 +63,12 @@ function Get-PCInvoice {
         $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
         $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-        $offset_tempbj += $response
-        return (_formatResult -obj $offset_tempbj -type "Invoice")   
+        $obj += $response
+        return (_formatResult -obj $obj -type "Invoice")   
     }
 
     function Private:Get-InvoiceByIdInner($SaToken, $InvoiceId) {
-        $offset_tempbj = @()
+        $obj = @()
         if ($InvoiceId -ne $null) {
             $url = "https://api.partnercenter.microsoft.com/v1/invoices/{0}" -f $InvoiceId
         }
@@ -82,8 +82,8 @@ function Get-PCInvoice {
         $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
  
         $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-        $offset_tempbj += $response
-        return (_formatResult -obj $offset_tempbj -type "Invoice") 
+        $obj += $response
+        return (_formatResult -obj $obj -type "Invoice") 
     }
 
     If ($Summary) {
@@ -144,7 +144,7 @@ function Get-PCInvoiceLineItem {
         [Parameter(Mandatory = $true)][ValidateSet("Azure", "Office")][string]$BillingProvider,
         [Parameter(Mandatory = $true)][ValidateSet("BillingLineItems", "UsageLineItems")][string]$InvoiceLineItemType,
         [Parameter(Mandatory = $false)][int]$ResultSize = 2000,
-        [Parameter(Mandatory = $false)][int]$offset_tempffset = 0,
+        [Parameter(Mandatory = $false)][int]$Offset = 0,
         [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
     )
     _testTokenContext($SaToken)
@@ -179,35 +179,35 @@ function Get-PCInvoiceLineItem_implementation {
         [Parameter(Mandatory = $true)][ValidateSet("Azure", "Office")][string]$BillingProvider,
         [Parameter(Mandatory = $true)][ValidateSet("BillingLineItems", "UsageLineItems")][string]$InvoiceLineItemType,
         [Parameter(Mandatory = $false)][int]$ResultSize = 200,
-        [Parameter(Mandatory = $false)][int]$offset_tempffset = 0,
+        [Parameter(Mandatory = $false)][int]$Offset = 0,
         [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
     )
     _testTokenContext($SaToken)
-    $offset_tempbj = @()
+    $obj = @()
  
     
-    $url = "https://api.partnercenter.microsoft.com/v1/invoices/{0}/lineitems/{1}/{2}?size={3}&offset={4}" -f $InvoiceId, $BillingProvider, $InvoiceLineItemType, $ResultSize, $offset_tempffset
+    $url = "https://api.partnercenter.microsoft.com/v1/invoices/{0}/lineitems/{1}/{2}?size={3}&offset={4}" -f $InvoiceId, $BillingProvider, $InvoiceLineItemType, $ResultSize, $Offset
 
     $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
     $headers.Add("Authorization", "Bearer $SaToken")
     $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" # -Debug -Verbose
-    $offset_tempbj += $response
+    $obj += $response
 
     if ($InvoiceLineItemType -eq "BillingLineItems") {
 
         $properties = @{
-            'Count' = $offset_tempbj.totalCount;
-            'Items' = _formatResult -obj $offset_tempbj -type "BillingLineItems";
-            'Links' = $offset_tempbj.Links;
+            'Count' = $obj.totalCount;
+            'Items' = _formatResult -obj $obj -type "BillingLineItems";
+            'Links' = $obj.Links;
         }
     }
     else {
         $properties = @{
-            'Count' = $offset_tempbj.totalCount;
-            'Items' = _formatResult -obj $offset_tempbj -type "UsageLineItems";
-            'Links' = $offset_tempbj.Links;
+            'Count' = $obj.totalCount;
+            'Items' = _formatResult -obj $obj -type "UsageLineItems";
+            'Links' = $obj.Links;
         }
     }
 
