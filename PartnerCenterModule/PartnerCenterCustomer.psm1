@@ -53,23 +53,25 @@ function Get-PCCustomer {
     [CmdletBinding()]
 
     Param(
-        [Parameter(ParameterSetName = 'TenantId', Mandatory = $false)][String]$TenantId,
-        [Parameter(ParameterSetName = 'filter', Mandatory = $true)][String]$StartsWith,
-        [Parameter(ParameterSetName = 'filter', Mandatory = $false)][int]$ResultSize = 200,
+        [Parameter(Mandatory = $false)][String]$TenantId,
+        [Parameter(Mandatory = $false)][String]$StartsWith,
+        [Parameter(Mandatory = $false)][int]$ResultSize = 200,
         [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
 
     )
     _testTokenContext($SaToken)
 
-    function Private:Get-CustomerInner ($SaToken, $TenantId) {
+    function Private:Get-CustomerInner ($SaToken, $TenantId, $ResultSize) {
         $obj = @()
 
         if ($TenantId) {
+            
             $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}" -f $TenantId
              
         }
         else {
-            $url = "https://api.partnercenter.microsoft.com/v1/customers"
+            
+            $url = "https://api.partnercenter.microsoft.com/v1/customers?size={0}" -f $ResultSize
             
         }
 
@@ -101,12 +103,14 @@ function Get-PCCustomer {
     }
 
     # replace the need to specify -all to retrieve all customers
-    if ($PsCmdlet.ParameterSetName -eq "TenantId") {
-        $res = Get-CustomerInner -SaToken $SaToken -TenantId $TenantId
+    if ($StartsWith) {
+        $res = Search-CustomerInner -SaToken $SaToken -StartsWith $StartsWith -ResultSize $ResultSize
+        #if ($res.)
         return $res
     }
-    elseif ($PsCmdlet.ParameterSetName -eq "filter") {
-        $res = Search-CustomerInner -SaToken $SaToken -StartsWith $StartsWith -ResultSize $ResultSize
+    else {
+
+        $res = Get-CustomerInner -SaToken $SaToken -TenantId $TenantId -ResultSize $ResultSize
         return $res
     }
 
