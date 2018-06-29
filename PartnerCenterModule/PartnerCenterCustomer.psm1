@@ -26,7 +26,7 @@ Specifies an authentication token with your Partner Center credentials.
 The tenant Id assigned to the customer you want to retrieve.
 
 .PARAMETER ResultSize 
-Specifies the maximum number of results to return. The default value is 200.
+Specifies the maximum number of results to return. The default value is 200, the maximum value is 500.
 
 .PARAMETER StartsWith 
 Specifies a filter for the customer names returned.
@@ -55,7 +55,7 @@ function Get-PCCustomer {
     Param(
         [Parameter(Mandatory = $false)][String]$TenantId,
         [Parameter(Mandatory = $false)][String]$StartsWith,
-        [Parameter(Mandatory = $false)][int]$ResultSize = 200,
+        [Parameter(Mandatory = $false)][ValidateRange(1, 500)][int]$ResultSize = 200,
         [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
 
     )
@@ -70,7 +70,7 @@ function Get-PCCustomer {
              
         }
         else {
-            
+
             $url = "https://api.partnercenter.microsoft.com/v1/customers?size={0}" -f $ResultSize
             
         }
@@ -79,7 +79,10 @@ function Get-PCCustomer {
         $headers.Add("Authorization", "Bearer $SaToken")
         $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
+        
         $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET"
+
+
         $obj += $response.Substring(1) | ConvertFrom-Json
         return (_formatResult -obj $obj -type "Customer")  
     }
@@ -102,18 +105,14 @@ function Get-PCCustomer {
         return (_formatResult -obj $obj -type "Customer")  
     }
 
-    # replace the need to specify -all to retrieve all customers
     if ($StartsWith) {
         $res = Search-CustomerInner -SaToken $SaToken -StartsWith $StartsWith -ResultSize $ResultSize
-        #if ($res.)
         return $res
     }
     else {
-
         $res = Get-CustomerInner -SaToken $SaToken -TenantId $TenantId -ResultSize $ResultSize
         return $res
     }
-
 }
 
 <#
@@ -527,7 +526,7 @@ Specifies an authentication token with your Partner Center credentials.
 .PARAMETER ResellerId 
 Specifies the reseller id for which to return customers.
 .PARAMETER ResultSize 
-Specifies the maximum number of results to return. The default value is 200.
+Specifies the maximum number of results to return. The default value is 200, the maximum value is 500.
 .EXAMPLE
 Get-PCResellerCustomer -ResellerId '86f61a80-23de-4071-ba9f-249254da7e95'
 Return a list of customers for the specified reseller id
@@ -538,7 +537,7 @@ function Get-PCResellerCustomer {
 
     Param(
         [Parameter(ParameterSetName = 'filter', Mandatory = $true)][String]$ResellerId,
-        [Parameter(ParameterSetName = 'filter', Mandatory = $false)][int]$ResultSize = 200,
+        [Parameter(ParameterSetName = 'filter', Mandatory = $false)][ValidateRange(1, 500)][int]$ResultSize = 200,
         [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
     )
     _testTokenContext($SaToken)

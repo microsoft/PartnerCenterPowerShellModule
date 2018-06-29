@@ -55,7 +55,7 @@ function Get-PCInvoice {
     _testTokenContext($SaToken)
 
     function Private:Get-InvoiceSummaryInner($SaToken) {
-        $obj = @()
+        $offset_tempbj = @()
         $url = "https://api.partnercenter.microsoft.com/v1/invoices/summary"
         
         $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
@@ -63,12 +63,12 @@ function Get-PCInvoice {
         $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
         $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-        $obj += $response
-        return (_formatResult -obj $obj -type "Invoice")   
+        $offset_tempbj += $response
+        return (_formatResult -obj $offset_tempbj -type "Invoice")   
     }
 
     function Private:Get-InvoiceByIdInner($SaToken, $InvoiceId) {
-        $obj = @()
+        $offset_tempbj = @()
         if ($InvoiceId -ne $null) {
             $url = "https://api.partnercenter.microsoft.com/v1/invoices/{0}" -f $InvoiceId
         }
@@ -82,8 +82,8 @@ function Get-PCInvoice {
         $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
  
         $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-        $obj += $response
-        return (_formatResult -obj $obj -type "Invoice") 
+        $offset_tempbj += $response
+        return (_formatResult -obj $offset_tempbj -type "Invoice") 
     }
 
     If ($Summary) {
@@ -124,15 +124,15 @@ Specifies either Azure or Office.
 Specifies either BillingLineItems for invoiced licence-based services or UsageLineItems for invoiced usage-based services.
 
 .PARAMETER ResultSize
-Specifies the maximum number of results to return. The default value is 200.
+Specifies the maximum number of results to return. The default value is 2000.
 
 .PARAMETER Offset
 Specifies an offset
 
 .EXAMPLE
-Get-PCInvoiceLineItem -InvoiceId 12345678 -BillingProvider Azure -InvoiceLineItemType UsageLineItems
+Get-PCInvoiceLineItem -InvoiceId D12345678 -BillingProvider Azure -InvoiceLineItemType UsageLineItems
 
-Retrieve a list of Azure usage from invoice 12345678.
+Retrieve a list of Azure usage from invoice D12345678.
 
 .NOTES
 #>
@@ -143,20 +143,75 @@ function Get-PCInvoiceLineItem {
         [Parameter(Mandatory = $true)][String]$InvoiceId,
         [Parameter(Mandatory = $true)][ValidateSet("Azure", "Office")][string]$BillingProvider,
         [Parameter(Mandatory = $true)][ValidateSet("BillingLineItems", "UsageLineItems")][string]$InvoiceLineItemType,
-        [Parameter(Mandatory = $false)][int]$ResultSize= 200,
-        [Parameter(Mandatory = $false)][int]$Offset = 0,
+        [Parameter(Mandatory = $false)][int]$ResultSize = 2000,
+        [Parameter(Mandatory = $false)][int]$offset_tempffset = 0,
         [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
     )
     _testTokenContext($SaToken)
 
-    $obj = @()
-    $url = "https://api.partnercenter.microsoft.com/v1/invoices/{0}/lineitems/{1}/{2}?size={3}&offset={4}" -f $InvoiceId, $BillingProvider, $InvoiceLineItemType, $ResultSize, $Offset
+    if ($ResultSize -gt 2000) {
+        $retObject = Get-PCInvoiceLineItem_implementation -InvoiceId $InvoiceId -BillingProvider $BillingProvider -ResultSize 2000 -SaToken $SaToken -InvoiceLineItemType $InvoiceLineItemType
+        $returnItems = $retObject.Items
+
+        if ($returnItems.Count -ge 2000) {
+            $offset_temp = 2000
+            do {
+               
+                $r = Get-PCInvoiceLineItem_implementation -Offset $offset_temp -InvoiceId $InvoiceId -BillingProvider $BillingProvider -ResultSize 2000 -SaToken $SaToken -InvoiceLineItemType $InvoiceLineItemType
+                $returnItems += $r.Items
+                $offset_temp += 2000
+            }
+            until(!($r.links.PsObject.Properties.Name -match 'next'))
+        }
+    }
+    else {
+        $retObject = Get-PCInvoiceLineItem_implementation -InvoiceId $InvoiceId -BillingProvider $BillingProvider -ResultSize $ResultSize -SaToken $SaToken -InvoiceLineItemType $InvoiceLineItemType
+        $returnItems = $retObject.Items
+    }
+    return $returnItems
+}
+
+function Get-PCInvoiceLineItem_implementation {
+    [CmdletBinding()]
+
+    Param(
+        [Parameter(Mandatory = $true)][String]$InvoiceId,
+        [Parameter(Mandatory = $true)][ValidateSet("Azure", "Office")][string]$BillingProvider,
+        [Parameter(Mandatory = $true)][ValidateSet("BillingLineItems", "UsageLineItems")][string]$InvoiceLineItemType,
+        [Parameter(Mandatory = $false)][int]$ResultSize = 200,
+        [Parameter(Mandatory = $false)][int]$offset_tempffset = 0,
+        [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
+    )
+    _testTokenContext($SaToken)
+    $offset_tempbj = @()
+ 
+    
+    $url = "https://api.partnercenter.microsoft.com/v1/invoices/{0}/lineitems/{1}/{2}?size={3}&offset={4}" -f $InvoiceId, $BillingProvider, $InvoiceLineItemType, $ResultSize, $offset_tempffset
 
     $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
     $headers.Add("Authorization", "Bearer $SaToken")
     $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
-    $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-    $obj += $response
-    return (_formatResult -obj $obj -type "Invoice") 
+    $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" # -Debug -Verbose
+    $offset_tempbj += $response
+
+    if ($InvoiceLineItemType -eq "BillingLineItems") {
+
+        $properties = @{
+            'Count' = $offset_tempbj.totalCount;
+            'Items' = _formatResult -obj $offset_tempbj -type "BillingLineItems";
+            'Links' = $offset_tempbj.Links;
+        }
+    }
+    else {
+        $properties = @{
+            'Count' = $offset_tempbj.totalCount;
+            'Items' = _formatResult -obj $offset_tempbj -type "UsageLineItems";
+            'Links' = $offset_tempbj.Links;
+        }
+    }
+
+    $retObject = New-Object –TypeName PSObject –Prop $properties
+    return $retObject
+    
 }

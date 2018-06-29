@@ -42,7 +42,7 @@ Accept wildcard characters?  false
 
 ### -ResultSize &lt;Int32&gt;
 
-Specifies the maximum number of results to return. The default value is 200.
+Specifies the maximum number of results to return. The default value is 200, the maximum allowed value is 500.
 
 ```
 Required?                    false
