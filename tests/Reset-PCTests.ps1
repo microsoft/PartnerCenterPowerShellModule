@@ -12,9 +12,9 @@ Authenticates using App+User authentication information provided.
 This is a credential object created using Get-Credential.
 
 .PARAMETER Path 
-Specifies the path to the partnercenter module
+Specifies the path to the Partner Center PowerShell Module
 .EXAMPLE
-.\Reset-PCTest.ps1 -AppUserAuth -credentials $creds -CspDomain ContosoCsp.OnMicrosoft.com -CspAppId $CspApppId
+.\Reset-PCTest.ps1 -AppUserAuth -credentials $Creds -CspDomain ContosoCsp.OnMicrosoft.com -CspAppId $CspAppId
 
 Resets the test using AppUser Authentication.
 .NOTES

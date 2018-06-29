@@ -3,7 +3,7 @@
 RootModule = 'PartnerCenterModule.psm1'
 
 # Version number of this module.
-ModuleVersion = '0.10.0.2'
+ModuleVersion = '0.10.0.3'
 
 # ID used to uniquely identify this module
 GUID = '4a0bfb55-926c-4c31-8d05-50813b31c712'
@@ -78,6 +78,7 @@ FunctionsToExport = @('Add-PCAuthentication',
                     'Remove-PCCustomer',
                     'Remove-PCCustomerUser',
                     'Remove-PCCustomerRoleMember',
+                    'Remove-PCCustomerRelationship'
                     'Restore-PCCustomerUser',
                     'Select-PCCustomer',
                     'Set-PCBillingProfile',
@@ -95,7 +96,7 @@ FunctionsToExport = @('Add-PCAuthentication',
                     'Get-PCProduct'
                     )
 
-# Private data to pass to the module specified in RootModule/ModuleToProcess. This may also contain a PSData hashtable with additional module metadata used by PowerShell.
+# Private data to pass to the module specified in RootModule/ModuleToProcess. This may also contain a PSData hash table with additional module metadata used by PowerShell.
 PrivateData = @{
 
     PSData = @{
@@ -112,8 +113,8 @@ PrivateData = @{
         # A URL to an icon representing this module.
         # IconUri = ''
 
-        # ReleaseNotes of this module
-        ReleaseNotes = '* Fixed issues with missing locales, countries, and currencies for Get-PCAzureRateCard, Get-PCOffer, Get-PCAddressRulesByMarket, and Get-PCOfferCategoriesByMarket'
+        # Release notes for this module
+        ReleaseNotes = '* Added Remove-PCCustomerRelationship cmdlet. Miscellaneous other fixes.'
 
         # Prerelease string of this module
         # Prerelease = ''
@@ -124,9 +125,9 @@ PrivateData = @{
         # External dependent modules of this module
         # ExternalModuleDependencies = @()
 
-    } # End of PSData hashtable
+    } # End of PSData hash table
     
- } # End of PrivateData hashtable
+ } # End of PrivateData hash table
 
 # HelpInfo URI of this module
 HelpInfoURI = 'http://aka.ms/PartnerCenterModule'

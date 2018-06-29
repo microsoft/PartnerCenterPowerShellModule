@@ -1,5 +1,19 @@
 # Partner Center PowerShell Module Changelog
 
+## 0.10.0.3 (2018-06-29)
+
+### Features
+
+* Added Remove-PCCustomerRelationship cmdlet.
+
+### Bug Fixes
+
+* None
+
+### Breaking Changes
+
+* None
+
 ## 0.10.0.2 (2018-06-22)
 
 ### Features

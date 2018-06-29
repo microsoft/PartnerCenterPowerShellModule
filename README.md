@@ -14,7 +14,7 @@ Install-Module -Name PartnerCenterModule
 
 ## Import Classes ##
 
-To Import Classes so that you can use fuctions like New-PCOrder.
+To Import Classes so that you can use functions like New-PCOrder.
 
 ```powershell
 using module PartnerCenterModule
@@ -36,7 +36,7 @@ Just like with AzureRM powershell module, the first step to start using it is to
 
 ```powershell
 $cred = Get-Credential '<username@domain>'
-Add-PCAuthentication -CspAppId '<native app id GUID>' -CspDomain '<csp partner domain>' -Credential $cred
+Add-PCAuthentication -CspAppId '<Native app Id GUID>' -CspDomain '<Csp partner domain>' -Credential $cred
 ```
 
 or
@@ -47,7 +47,7 @@ or
 $clientSecret = '<key code secret>'
 $clientSecretSecure = $clientSecret | ConvertTo-SecureString -AsPlainText -Force
 
-Add-PCAuthentication -CspAppId '<web app id GUID>' -CspDomain '<csp partner domain>' -CspClientSecret $clientSecretSecure
+Add-PCAuthentication -CspAppId '<Web app Id GUID>' -CspDomain '<Csp partner domain>' -CspClientSecret $clientSecretSecure
 ```
 
 You can obtain the Web App ID and the Client Secret from either Partner Center UI or Azure Active Directory
@@ -91,6 +91,8 @@ After completing these steps you are ready to start using the cmdlets for the sc
 | | [Get a customer by ID](https://msdn.microsoft.com/en-us/library/partnercenter/mt634680.aspx) | [Get-PCCustomer](./CmdletHelp/Get-PCCustomer.md) |
 | | [Get a customer by company name or domain](https://msdn.microsoft.com/en-us/library/partnercenter/mt634681.aspx) | [Get-PCCustomer](./CmdletHelp/Get-PCCustomer.md) |
 | | [Get a list of customers](https://msdn.microsoft.com/en-us/library/partnercenter/mt634685.aspx) | [Get-PCCustomer](./CmdletHelp/Get-PCCustomer.md) |
+| | [Delete a customer account from the integration sandbox](https://msdn.microsoft.com/en-us/library/partnercenter/mt712728.aspx) | [Remove-PCCustomer](./CmdletHelp/Remove-PCCustomer.md) |
+| | [Remove a customer relationship](https://docs.microsoft.com/en-us/partner-center/develop/remove-a-reseller-relationship-with-a-customer) | [Remove-PCCustomerRelationship](./CmdletHelp/Remove-PCCustomerRelationship.md) |
 | Manage customer orders and subscriptions | | |
 | | [Get all of a customer's orders](https://msdn.microsoft.com/en-us/library/partnercenter/mt634671.aspx) | [Get-PCOrder](./CmdletHelp/Get-PCOrder.md) |
 | | [Get all of a customer's subscriptions](https://msdn.microsoft.com/en-us/library/partnercenter/mt634673.aspx) | [Get-PCSubscription](./CmdletHelp/Get-PCSubscription.md) |
@@ -125,7 +127,7 @@ After completing these steps you are ready to start using the cmdlets for the sc
 | | [Get a list of offers for a market](https://msdn.microsoft.com/en-us/library/partnercenter/mt683488.aspx) | [Get-PCOffer](./CmdletHelp/Get-PCOffer.md) |
 | | [Get an offer by ID](https://msdn.microsoft.com/en-us/library/partnercenter/mt634678.aspx) | [Get-PCOffer](./CmdletHelp/Get-PCOffer.md) |
 | | [Get add-ons for an offer ID](https://msdn.microsoft.com/en-us/library/partnercenter/mt634669.aspx) | [Get-PCOffer](./CmdletHelp/Get-PCOffer.md) |
-| | [Get a list of products](https://docs.microsoft.com/en-us/partner-center/develop/get-a-list-of-products) | [NA](.CmdletHelp/NA.md) |
+| | [Get a list of products](https://docs.microsoft.com/en-us/partner-center/develop/get-a-list-of-products) | [Get-PCProduct](.CmdletHelp/Get-PCProduct.md) |
 | | [Create an order](https://msdn.microsoft.com/en-us/library/partnercenter/mt634667.aspx) | [New-PCOrder](./CmdletHelp/New-PCOrder.md) |
 | | [Create an order for a customer of an indirect reseller](https://msdn.microsoft.com/en-us/library/partnercenter/mt808071.aspx) | [NA](./CmdletHelp/NA.md) |
 | | [Get an order by ID](https://msdn.microsoft.com/en-us/library/partnercenter/mt634679.aspx) | [Get-PCOffer](./CmdletHelp/Get-PCOffer.md) |
@@ -198,7 +200,6 @@ After completing these steps you are ready to start using the cmdlets for the sc
 | | [Validate address format](https://msdn.microsoft.com/en-us/library/partnercenter/mt797658.aspx) | [Test-PCAddress](./CmdletHelp/Test-PCAddress.md) |
 | | [Get address formatting rules by market](https://msdn.microsoft.com/en-us/library/partnercenter/mt683490.aspx) | [Get-PCAddressRulesByMarket](./CmdletHelp/Get-PCAddressRulesByMarket.md) |
 | | [Verify domain availability](https://msdn.microsoft.com/en-us/library/partnercenter/mt644396.aspx) | [Get-PCDomainAvailability](./CmdletHelp/Get-PCDomainAvailability.md) |
-| | [Delete a customer account from the integration sandbox](https://msdn.microsoft.com/en-us/library/partnercenter/mt712728.aspx) | [Remove-PCCustomer](./CmdletHelp/Remove-PCCustomer.md) |
 | | [Get a record of Partner Center activity by user](https://msdn.microsoft.com/en-us/library/partnercenter/mt725332.aspx) | [Get-PCAuditRecords](./CmdletHelp/Get-PCAuditRecords.md) |
 | | | |
 | **Authentication** | | |
