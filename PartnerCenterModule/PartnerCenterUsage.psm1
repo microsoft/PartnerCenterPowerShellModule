@@ -32,7 +32,7 @@ Specifies the granularity of the data to return. Valid values are: daily or hour
 .PARAMETER ShowDetail 
 Default this is set to $true. If set to $true, the utilization records will be split by the resource instance levels. If set to false, the utilization records will be aggregated on the resource level.
 .PARAMETER ResultSize 
-Specifies the maximum number of results to return. The default value and the maximum value is 1000. To retrieve more than 1000 records you must use the continuation link. 
+Specifies the maximum number of results to return. The default value is 1000.
 .PARAMETER ContinuationLink 
 Specifies a variable to save the URL to retrieve additional results.
 .EXAMPLE
@@ -65,12 +65,8 @@ function Get-PCUsage {
             do {
             
                 $r = Get-PCUsage_implementation -SaToken $SaToken -ContinuationLink $retObject.links
-                #foreach ($i in $r)
-                #{
                 $returnItems += $r.Items
 
-                #}    
-                #$retObject += $retObject2
             }
             until(!($r.links.PsObject.Properties.Name -match 'next'))
         }
@@ -80,8 +76,6 @@ function Get-PCUsage {
         $retObject = Get-PCUsage_implementation -SubscriptionId $SubscriptionId -StartTime $startTime -EndTime $endTime -Granularity $granularity -ShowDetail $ShowDetail -ResultSize $ResultSize -TenantId $TenantId -SaToken $SaToken
         $returnItems = $retObject.Items
     }
-             
-    ##        $retObject = Get-PCUsage_implementation -SaToken $SaToken -ContinuationLink $continuationLink
 
     return $returnItems
 }

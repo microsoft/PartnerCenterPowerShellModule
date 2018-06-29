@@ -78,18 +78,6 @@ Accept pipeline input?       false
 Accept wildcard characters?  false
 ```
 
-### -ResultSize &lt;Int32&gt;
-
-Specifies the maximum number of results to return. The default value is 200.
-
-```
-Required?                    false
-Position?                    named
-Default value                200
-Accept pipeline input?       false
-Accept wildcard characters?  false
-```
-
 ### -OrderId &lt;String&gt;
 
 Specifies an order id to for which to return a list of subscriptions.

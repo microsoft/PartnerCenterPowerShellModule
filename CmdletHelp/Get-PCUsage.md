@@ -76,7 +76,7 @@ Accept wildcard characters?  false
 
 ### -ResultSize &lt;Int32&gt;
 
-Specifies the maximum number of results to return. The default value and the maximum value is 1000. To retrieve more than 1000 records you must use the continuation link.
+Specifies the maximum number of results to return. The default value is 1000.
 
 ```
 Required?                    false

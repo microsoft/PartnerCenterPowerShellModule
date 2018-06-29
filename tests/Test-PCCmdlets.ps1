@@ -32,21 +32,21 @@ You need to have a authentication credential already established before running 
 # Get-PCCustomerTests
 
 Get-PCCustomer -Verbose | Format-Table -AutoSize
-Get-PCCustomer -all -Verbose | Format-Table -AutoSize
+Get-PCCustomer -Verbose -ResultSize 2 | Format-Table -AutoSize
 
 $tenant = Get-PCCustomer | Select-Object -Last 1
-Get-PCCustomer -tenantid $tenant.id -Verbose | Format-Table -AutoSize
+Get-PCCustomer -TenantId $tenant.id -Verbose | Format-Table -AutoSize
 
-Get-PCCustomer -startswith p -ResultSize 2 -Verbose
+Get-PCCustomer -StartsWith p -ResultSize 2 -Verbose
 
 # Get-PCAddressRulesByMarket
 Get-PCAddressRulesByMarket -CountryId US -Verbose
 
 # Test an invalid country code
-Get-PCAddressRulesByMarket -countryid ZZZ -Verbose
+Get-PCAddressRulesByMarket -CountryId ZZZ -Verbose
 
 # Get-PCAuditRecord
-Get-PCAuditRecord -startDate 2018-05-10 -Verbose
+Get-PCAuditRecord -startDate 2018-06-10 -Verbose
 
 #Get-PCAzureRateCard
 Get-PCAzureRateCard -Currency USD -Region US -Verbose
@@ -85,7 +85,6 @@ Get-PCSubscribedSKU
 Get-PCSubscription
 Get-PCSupportProfile
 Get-PCUsage
-Get-PCUsage2
 Get-PCManagedServices
 Get-PCSRTopics
 Get-PCIndirectReseller
@@ -93,6 +92,7 @@ Get-PCResellerCustomer
 
 # Deprecated and no longer tested Get- cmdlets
 <#
+Get-PCUsage2
 Get-PCCustomerLicensesDeployment
 Get-PCCustomerLicensesUsage
 Get-PCInvoiceLineItems
@@ -125,6 +125,7 @@ New-PCSR
 
 New-PCCustomer
 Remove-PCCustomer
+Remove-PCCustomerRelationship
 
 New-PCCustomerUser
 Remove-PCCustomerUser

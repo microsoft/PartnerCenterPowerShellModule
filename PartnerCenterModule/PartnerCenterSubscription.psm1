@@ -28,9 +28,6 @@ Specifies a subscription id for which to return detailed information.
 Specifies whether you want to return any addons for the subscription.
 .PARAMETER PartnerId 
 Specifies the Mpn partner id for which to list the subscriptions.
-
-.PARAMETER ResultSize
-Specifies the maximum number of results to return. The default value is 200.
 .PARAMETER OrderId
 Specifies an order id to for which to return a list of subscriptions.
 .EXAMPLE
@@ -54,28 +51,11 @@ function Get-PCSubscription {
         [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken,
         [Parameter(ParameterSetName = 'SubscriptionId', Mandatory = $false)][String]$SubscriptionId,
         [Parameter(ParameterSetName = 'SubscriptionId', Mandatory = $false)][switch]$AddOns,           
-        [Parameter(ParameterSetName = 'PartnerId', Mandatory = $true)][String]$PartnerId,
-        [Parameter(ParameterSetName = 'PartnerId', Mandatory = $false)][int]$ResultSize= 200,
+        [Parameter(ParameterSetName = 'PartnerId', Mandatory = $false)][String]$PartnerId,
         [Parameter(ParameterSetName = 'OrderId', Mandatory = $false)][string]$OrderId    
     )
     _testTokenContext($SaToken)
     _testTenantContext ($TenantId)
-
-    <#
-    function Private:Get-SubscriptionsAllInner ($SaToken, $TenantId)
-    {
-        $obj = @()
-        $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/subscriptions" -f $TenantId
-
-        $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
-        $headers.Add("Authorization", "Bearer $SaToken")
-        $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
-
-        $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
-        $obj += $response.Substring(1) | ConvertFrom-Json
-        return (_formatResult -obj $obj -type "Subscription") 
-    }
-    #>
 
     function Private:Get-SubscriptionInner ($SaToken, $TenantId, $SubscriptionId, $AddOns) {
         $obj = @()
@@ -116,9 +96,9 @@ function Get-PCSubscription {
         }
     }
 
-    function Private:Get-SubscriptionPartnerInner ($SaToken, $TenantId, $partnerId, $ResultSize) {
+    function Private:Get-SubscriptionPartnerInner ($SaToken, $TenantId, $partnerId) {
         $obj = @()
-        $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/subscriptions?mpn_id={1}&offset=0&size={2}" -f $TenantId, $partnerId, $ResultSize
+        $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/subscriptions?mpn_id={1}&offset=0" -f $TenantId, $partnerId
 
         $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
         $headers.Add("Authorization", "Bearer $SaToken")
@@ -143,7 +123,7 @@ function Get-PCSubscription {
             return (_formatResult -obj $obj -type "Subscription") 
         }
         else {
-            $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/subscriptions" -f $TenantId
+            $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/subscriptions/" -f $TenantId
 
             $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
             $headers.Add("Authorization", "Bearer $SaToken")
@@ -161,11 +141,11 @@ function Get-PCSubscription {
         return $res
     }
     elseif ($PsCmdlet.ParameterSetName -eq "PartnerId") {
-        $res = Get-SubscriptionPartnerInner -SaToken $SaToken -TenantId $TenantId -partnerId $partnerId -ResultSize $ResultSize
+        $res = Get-SubscriptionPartnerInner -SaToken $SaToken -TenantId $TenantId -partnerId $PartnerId
         return $res
     }
     elseif ($PsCmdlet.ParameterSetName -eq "OrderId") {
-        $res = Get-SubscriptionByOrderInner -SaToken $SaToken -TenantId $TenantId -OrderId $OrderId
+        $res = Get-SubscriptionByOrderInner -SaToken $SaToken -TenantId $TenantId -OrderId $OrderId 
         return $res
     }
     else {

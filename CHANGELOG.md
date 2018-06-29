@@ -5,10 +5,12 @@
 ### Features
 
 * Added Remove-PCCustomerRelationship cmdlet.
+* Enabled Get-PCInvoiceLineItem to return more than 2000 records.
 
 ### Bug Fixes
 
-* None
+* Fixed issue with parameter set logic and ResultSize on Get-PCCustomer and Get-PCCustomerUser
+* Removed ResultSize parameter from Get-PCSubscription
 
 ### Breaking Changes
 

@@ -22,7 +22,7 @@ Specifies an authentication token with your Partner Center credentials.
 .PARAMETER TenantId 
 Specifies the tenant used for scoping this cmdlet.
 .PARAMETER UserId 
-Specifies the user id.
+Specifies a user id for which to return.
 .PARAMETER Licenses 
 Specifies whether to return the licenses assigned to the specified user.
 .PARAMETER Deleted
@@ -52,20 +52,19 @@ function Get-PCCustomerUser {
     Param(
         [Parameter(ParameterSetName = 'activeUser', Mandatory = $false)]
         [parameter(ParameterSetName = "deletedUser")]
-        [parameter(ParameterSetName = "all")]
-        [string]$TenantId = $GlobalCustomerId,
+        [parameter(ParameterSetName = "all")][string]$TenantId = $GlobalCustomerId,
         [Parameter(ParameterSetName = 'activeUser', Mandatory = $true)][string]$UserId,
         [Parameter(ParameterSetName = 'activeUser', Mandatory = $false)][switch]$Licenses,
         [Parameter(ParameterSetName = 'deletedUser', Mandatory = $true)][switch]$Deleted,
-        [Parameter(ParameterSetName = 'deletedUser', Mandatory = $false)][int]$ResultSize = 200,
+        [Parameter(Mandatory = $false)][ValidateRange(1, 500)][int]$ResultSize = 200,
         [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
     )
     _testTokenContext($SaToken)
     _testTenantContext ($TenantId)
 
-    function Private:Get-CustomerAllUserInner ($SaToken, $TenantId) {
+    function Private:Get-CustomerAllUserInner ($SaToken, $TenantId, $ResultSize) {
         $obj = @()
-        $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/users" -f $TenantId
+        $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/users?size={1}" -f $TenantId, $ResultSize
 
         $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
         $headers.Add("Authorization", "Bearer $SaToken")
@@ -76,7 +75,7 @@ function Get-PCCustomerUser {
         return (_formatResult -obj $obj -type "CustomerUser")       
     }
 
-    function Private:Get-CustomerUserInner ($SaToken, $TenantId, $UserId, $Licenses) {
+    function Private:Get-CustomerUserInner ($SaToken, $TenantId, $UserId, $Licenses, $ResultSize) {
         $obj = @()
         if ($UserId) {
             if ($Licenses) {
@@ -103,7 +102,7 @@ function Get-PCCustomerUser {
             }
         }
         else {
-            $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/users" -f $TenantId
+            $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/users?size={1}" -f $TenantId, $ResultSize
             
             $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
             $headers.Add("Authorization", "Bearer $SaToken")
@@ -133,7 +132,7 @@ function Get-PCCustomerUser {
     }
 
     if ($PsCmdlet.ParameterSetName -eq "activeUser") {
-        $res = Get-CustomerUserInner -SaToken $SaToken -TenantId $TenantId -user $UserId -licenses $Licenses
+        $res = Get-CustomerUserInner -SaToken $SaToken -TenantId $TenantId -user $UserId -licenses $Licenses -ResultSize $ResultSize
         return $res
     }
     elseif ($PsCmdlet.ParameterSetName -eq "deletedUser") {
@@ -141,7 +140,7 @@ function Get-PCCustomerUser {
         return $res
     }
     else {
-        $res = Get-CustomerAllUserInner -SaToken $SaToken -TenantId $TenantId 
+        $res = Get-CustomerAllUserInner -SaToken $SaToken -TenantId $TenantId -ResultSize $ResultSize
         return $res
     }
 
