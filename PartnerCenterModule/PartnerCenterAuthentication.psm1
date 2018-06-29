@@ -171,7 +171,7 @@ You can also create a PSCredential object by using a script or by using the Get-
 
 .EXAMPLE
 Creates a new token using the specified information.
-$sat = New-PCSaToken -CspAppId 97037612-799c-4fa6-8c40-68be72c6b83c -CspDomain contoso.onmicrosoft.com -CspClientSecret $ClientSecretSecure -Credential $cred
+$sat = New-PCSaToken -CspAppId 97037612-799c-4fa6-8c40-68be72c6b83c -CspDomain ContosoCsp.onmicrosoft.com -CspClientSecret $ClientSecretSecure -Credential $cred
 
 .EXAMPLE
 Set a specific token for a command/function - user authentication ##

@@ -114,16 +114,16 @@ Send order
 .EXAMPLE
 Order an Add on to an existing subscription
 Get subscription
-    $subscription = Get-PCSubscription -TenantId $customer.id -subscriptionid '<subscription id>'
+    $subscription = Get-PCSubscription -TenantId $Customer.id -Subscriptionid '<Subscription Id>'
 
 Get list of addons available for the subscription offer
-    $addons = Get-PCOffer -CountryId '<Country two digits id>' -OfferId $subscription.OfferId -addons
+    $addons = Get-PCOffer -CountryId '<Country two digits id>' -OfferId $subscription.OfferId -Addons
 
 Get addon offer
     $addon = Get-PCOffer -CountryId 'US' -OfferId '<offer id>'
 
 Get subscription order
-    $order = Get-PCOrder -TenantId $customer.id -OrderId $subscription.OrderId
+    $order = Get-PCOrder -TenantId $Customer.id -OrderId $Subscription.OrderId
 
 Get the next OrderLineItem number
 
@@ -257,7 +257,6 @@ Specifies a line item number to modify
 Specifies a friendly name for the order.
 .PARAMETER Quantity
 Specifies the quantity of items on the specified order line item.
-
 .PARAMETER BillingCycleType
 Specifies the billing cycle type. Valid values are: unknown, monthly, annual, none.
 .EXAMPLE

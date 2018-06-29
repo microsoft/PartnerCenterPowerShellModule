@@ -26,9 +26,9 @@ Specifies a security token for authenticating and executing the cmdlet.
 Specifies a onmicrosoft.com domain to check as to whether is available for use for a new tenant.
 
 .EXAMPLE
-Get-PCDomainAvailability -Domain contoso.onmicrosoft.com
+Get-PCDomainAvailability -Domain ContosoCsp.onmicrosoft.com
 
-Test to see if contoso.onmicrosoft.com is available for a new tenant.
+Test to see if ContosoCsp.onmicrosoft.com is available for a new tenant.
 .NOTES
 #>
 function Get-PCDomainAvailability
@@ -223,17 +223,17 @@ Remove a user from a specified role.
 Get a customer
     $customer = Get-PCCustomer | Where-Object {$_.CompanyProfile.CompanyName -eq 'Wingtip Toys'}
 
-Get a role named Helpdesk Administrator
+Get a role named 'Helpdesk Administrator'
 
-    $role = Get-PCCustomerRole -TenantId $c.id | Where-Object {$_.Name -eq 'Helpdesk Administrator'}
+    $role = Get-PCCustomerRole -TenantId $C.id | Where-Object {$_.Name -eq 'Helpdesk Administrator'}
 
 Get a User
 
-    $user = Get-PCCustomerUser -TenantId $customer.id | Where-Object {$_.userPrincipalName -eq 'John@wingtiptoyscsptest.onmicrosoft.com'}
+    $user = Get-PCCustomerUser -TenantId $Customer.Id | Where-Object {$_.userPrincipalName -eq 'John@wingtiptoyscsptest.onmicrosoft.com'}
 
 Remove a user from a role
 
-    Remove-PCCustomerRoleMember -TenantId $customer.id -RoleId $Role.Id -UserId $User.Id
+    Remove-PCCustomerRoleMember -TenantId $Customer.Id -RoleId $Role.Id -UserId $User.Id
 
 .NOTES
 #>

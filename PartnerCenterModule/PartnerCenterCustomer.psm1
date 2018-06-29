@@ -512,7 +512,6 @@ function Get-PCCustomerRelationship {
     return (_formatResult -obj $obj -type "PartnerRelationship")
 }
 
-
 <#
 .SYNOPSIS
 Returns a list of reseller customers for the specified indirect provider.
@@ -535,7 +534,7 @@ function Get-PCResellerCustomer {
 
     Param(
         [Parameter(ParameterSetName = 'filter', Mandatory = $true)][String]$ResellerId,
-        [Parameter(ParameterSetName = 'filter', Mandatory = $false)][int]$ResultSize= 200,
+        [Parameter(ParameterSetName = 'filter', Mandatory = $false)][int]$ResultSize = 200,
         [Parameter(Mandatory = $false)][string]$SaToken = $GlobalToken
     )
     _testTokenContext($SaToken)

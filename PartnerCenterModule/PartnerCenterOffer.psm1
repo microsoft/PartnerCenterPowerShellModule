@@ -34,10 +34,10 @@ Get all offer details for the US Country Id
 Get-PCOffer -CountryId 'US' -OfferId '8AA7E78B-B265-4AC6-ADA0-14900A8A3F94'
 Get a specific offer using the offer id and country.
 .EXAMPLE
-Get-PCOffer -CountryId 'US' -localeId 'en-us'
+Get-PCOffer -CountryId 'US' -LocaleId 'en-us'
 Get all offer details using the Country Id and Locale Id.
 .EXAMPLE
-Get-PCOffer -CountryId 'US' -OfferId '8AA7E78B-B265-4AC6-ADA0-14900A8A3F94' -addOns
+Get-PCOffer -CountryId 'US' -OfferId '8AA7E78B-B265-4AC6-ADA0-14900A8A3F94' -AddOns
 Get add ons for the specified offer id.
 .NOTES
 #>
