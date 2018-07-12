@@ -65,7 +65,8 @@ function Get-PCUsage {
             do {
             
                 $r = Get-PCUsage_implementation -SaToken $SaToken -ContinuationLink $retObject.links
-                $returnItems += $r.Items
+				$retObject = $r
+				$returnItems += $r.Items
 
             }
             until(!($r.links.PsObject.Properties.Name -match 'next'))
