@@ -192,8 +192,7 @@ class CustomerUserPasswordProfile
     [bool] $forceChangePassword
     CustomerUserPasswordProfile ([SecureString] $password,[bool]$forceChangePassword)
     {
-        $this.password = _
-        String -string $password
+        $this.password = _unsecureString String -string $password
         $this.forceChangePassword = $forceChangePassword
     }
 }

@@ -9,7 +9,7 @@
 #>
 
 # This variable is used in other cmdlets to identify the REST client.
-$ApplicationName = "Partner Center PowerShell Module v0.10.0.3"
+$ApplicationName = "Partner Center PowerShell Module v0.10.0.4"
 
 function _applyTypes {
    param($item,$type)
@@ -28,7 +28,7 @@ function _formatResult {
     }
     catch
     {
-        _applyTypes -item $obj -type $type        
+        _applyTypes -item $obj -type $type
         return $obj
     }
 }
@@ -63,7 +63,7 @@ function Get-SAToken
     $url  = "https://api.partnercenter.microsoft.com/generatetoken"
 	$body = "grant_type=jwt_token"
 	$headers=@{Authorization="Bearer $AadToken"}
-    
+
     $response = Invoke-RestMethod -Uri $url -ContentType "application/x-www-form-urlencoded" -Headers $headers -Body $body -method "POST" #-Debug -Verbose
 
     #setting SAToken variable as global
@@ -73,4 +73,3 @@ function Get-SAToken
 
     return $response.access_token
 }
-

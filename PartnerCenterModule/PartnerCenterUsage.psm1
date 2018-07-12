@@ -37,7 +37,7 @@ Specifies the maximum number of results to return. The default value is 1000.
 Specifies a variable to save the URL to retrieve additional results.
 .EXAMPLE
      Get-PCUsage -TenantId 2a14b164-f983-4048-92e1-4f9591b87445 -SubscriptionId b027a4b3-5487-413b-aa48-ec8733c874d6 -StartTime '06-12-2018 00:00:00' -EndTime '06-31-2018 23:59:59' -Granularity hourly -ResultSize 2000
-Return up to 2000 hourly usage records for the specified date range. 
+Return up to 2000 hourly usage records for the specified date range.
 .NOTES
 #>
 function Get-PCUsage {
@@ -54,26 +54,25 @@ function Get-PCUsage {
     )
     _testTokenContext($SaToken)
     _testTenantContext ($TenantId)
-    
-    if ($ResultSize -ge 1000) {
-   
+
+    if ($ResultSize -ge 1000)
+    {
         $retObject = Get-PCUsage_implementation -SubscriptionId $SubscriptionId -StartTime $startTime -EndTime $endTime -Granularity $granularity -ShowDetail $ShowDetail -ResultSize 1000 -TenantId $TenantId -SaToken $SaToken
         $returnItems = $retObject.Items
 
-        if ($retObject.Count -ge 1000) {
-            
-            do {
-            
+        if ($retObject.Count -ge 1000)
+        {
+            do
+            {
                 $r = Get-PCUsage_implementation -SaToken $SaToken -ContinuationLink $retObject.links
-				$retObject = $r
-				$returnItems += $r.Items
-
+                $retObject = $r
+                $returnItems += $retObject.Items
             }
             until(!($r.links.PsObject.Properties.Name -match 'next'))
         }
     }
-    else {
-        
+    else
+    {
         $retObject = Get-PCUsage_implementation -SubscriptionId $SubscriptionId -StartTime $startTime -EndTime $endTime -Granularity $granularity -ShowDetail $ShowDetail -ResultSize $ResultSize -TenantId $TenantId -SaToken $SaToken
         $returnItems = $retObject.Items
     }
@@ -92,7 +91,7 @@ function Get-PCUsage_implementation {
         [String]$TenantId,
         [string]$SaToken,
         $ContinuationLink)
-    
+
     $obj = @()
 
     $urlParts = @("https://api.partnercenter.microsoft.com/v1/")
@@ -101,19 +100,19 @@ function Get-PCUsage_implementation {
     $headers.Add("Authorization", "Bearer $SaToken")
     $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
-    if ($ContinuationLink -eq $null) {
+    if ($null -eq $ContinuationLink) {
         try {
-            $s_time = get-date $StartTime -Format s
+            $s_time = Get-Date $StartTime -Format s
         }
         catch {
-            "Start time is not in a valid format. Use '01-06-2018 00:00:00' format"
+           Write-Error "Start time is not in a valid format. Use '01-06-2018 00:00:00' format"
         }
-    
+
         try {
-            $e_time = get-date $EndTime -Format s
+            $e_time = Get-Date $EndTime -Format s
         }
         catch {
-            "End time is not in a valid format. Use '01-06-2018 23:59:00' format"
+           Write-Error "End time is not in a valid format. Use '01-06-2018 23:59:00' format"
         }
 
         $urlParts += "Customers/{0}/Subscriptions/{1}/Utilizations/azure?start_time={2}Z&end_time={3}Z&show_details={4}&granularity={5}&size={6}" -f $TenantId, $SubscriptionId, $s_time, $e_time, $ShowDetail, $granularity, $ResultSize
@@ -121,9 +120,9 @@ function Get-PCUsage_implementation {
     else {
         if (Get-Member -InputObject $continuationLink -name "next" -MemberType Properties) {
             $urlParts += $continuationLink.next.uri
-            
+
             foreach ($i in $continuationLink.next.headers) {
-                $headers.Add($i.Key, $i.Value) 
+                $headers.Add($i.Key, $i.Value)
             }
         }
         else {
@@ -131,9 +130,9 @@ function Get-PCUsage_implementation {
         }
     }
 
-    $url = -join $urlParts    
+    $url = -join $urlParts
 
-    $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
+    $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET"
 
     $obj += $response.Substring(1) | ConvertFrom-Json
 
@@ -288,12 +287,12 @@ function Get-PCCustomerServiceCostSummary {
     $obj = @()
 
     $url = "https://api.partnercenter.microsoft.com/v1/customers/{0}/servicecosts/{1}" -f $TenantId, $BillingPeriod
-    
+
     $headers = New-Object 'System.Collections.Generic.Dictionary[[string],[string]]'
     $headers.Add("Authorization", "Bearer $SaToken")
     $headers.Add("MS-PartnerCenter-Application", $ApplicationName)
 
     $response = Invoke-RestMethod -Uri $url -Headers $headers -ContentType "application/json" -Method "GET" #-Debug -Verbose
     $obj += $response.Substring(1) | ConvertFrom-Json
-    return (_formatResult -obj $obj -type "ServiceCostsSummary") 
+    return (_formatResult -obj $obj -type "ServiceCostsSummary")
 }
