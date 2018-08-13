@@ -4,6 +4,10 @@
 
 Partner Center Powershell Module is the PowerShell implementation of the Partner Center API available scenarios. You can manage your customers, offers, subscriptions, usage, etc. The objective is to keep this module close to the Partner Center SDK functionality.
 
+## Announcement ##
+
+We have released a preview version of a new PowerShell module that will be replacing this one. This new module was developed using the Partner Center .NET SDK. This change in architecture will allow us to more rapidly add new functionality that behaves in a consistent manner. If you are writing new scripts or updating existing ones, please leverage the new module. You can find more information at [Partner-Center-PowerShell](https://github.com/Microsoft/Partner-Center-PowerShell).
+
 ## How to install ##
 
 This module is published via [PowerShell Gallery](https://www.powershellgallery.com/) and can be installed using Install-Module.
