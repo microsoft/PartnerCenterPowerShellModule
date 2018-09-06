@@ -1,12 +1,20 @@
-# Partner Center PowerShell Module #
+# Important Project Status Update #
+
+**The PartnerCenterPowerShellModule (this module) is being _replaced with a new project_ [Partner-Center-PowerShell](https://github.com/Microsoft/Partner-Center-PowerShell).**
+
+**The new module, [Partner-Center-PowerShell](https://github.com/Microsoft/Partner-Center-PowerShell) is developed using the Partner Center .NET SDK, which greatly simplifies the development and maintenance of the module. If you are writing new scripts or updating existing ones, please start using the new module.**
+
+**IMPORTANT:** _PartnerCenterPowerShellModule (this project) will receive no enhancements after September 3, 2018. Start using [Partner-Center-PowerShell](https://github.com/Microsoft/Partner-Center-PowerShell) now._
+
+* * *
+
+## Legacy PartnerCenterPowerShell Information ##
 
 ## Introduction ##
 
 Partner Center Powershell Module is the PowerShell implementation of the Partner Center API available scenarios. You can manage your customers, offers, subscriptions, usage, etc. The objective is to keep this module close to the Partner Center SDK functionality.
 
-## Announcement ##
 
-We have released a preview version of a new PowerShell module that will be replacing this one. This new module was developed using the Partner Center .NET SDK. This change in architecture will allow us to more rapidly add new functionality that behaves in a consistent manner. If you are writing new scripts or updating existing ones, please leverage the new module. You can find more information at [Partner-Center-PowerShell](https://github.com/Microsoft/Partner-Center-PowerShell).
 
 ## How to install ##
 
