@@ -1,6 +1,6 @@
 # Important Project Status Update #
 
-**This project is being _replaced with a new project_ [Partner-Center-PowerShell](https://github.com/Microsoft/Partner-Center-PowerShell).**
+**This project has been _replaced with a new project_ [Partner-Center-PowerShell](https://github.com/Microsoft/Partner-Center-PowerShell).**
 
 The new module, [Partner-Center-PowerShell](https://github.com/Microsoft/Partner-Center-PowerShell) is developed using the Partner Center .NET SDK, which greatly simplifies the development and maintenance of the module. If you are writing new scripts or updating existing ones, please start using the new module.
 
